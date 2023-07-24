@@ -1,0 +1,23 @@
+package oops;
+
+public class program3 {
+	//single inheritance
+	static class one{
+		public void one() {
+			System.out.println("one");
+		}
+	}
+	
+	static class two extends one{
+		public void two() {
+			System.out.println("two");
+		}
+	}
+
+	public static void main(String[] args) {
+		two t = new two();
+		t.two();
+        t.one();
+	}
+
+}

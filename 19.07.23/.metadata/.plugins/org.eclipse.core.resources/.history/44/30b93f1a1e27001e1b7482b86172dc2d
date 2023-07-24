@@ -1,0 +1,55 @@
+package datatypes;
+
+public class Loops {
+//	public static int fact(int n) {
+//		 if(n==1 || n==0) {
+//			 return 1;
+//		 }
+//		 return n*fact(n-1);
+//		}
+	
+	public static int sum(int n) {
+		if(n==0) {
+			return 0;
+		}
+		return n+sum(n-1);
+	}
+	public static void main(String[] args) {
+		/*<--------------------------Program 1------------------------->*/
+
+//    int a = 8;
+//    for(int i=1;i<=10;i++) {
+//    	System.out.println(a+" * "+i+" "+"="+" "+a*i);
+//    }
+		
+		/*<--------------------------Program 1------------------------->*/
+		
+		
+//		System.out.println("Factorial");
+//		int ans= fact(5);
+//		System.out.println(ans);
+		
+		/*<--------------------------Program 1------------------------->*/
+		
+//		System.out.println("Sum");
+//		int ans= sum(5);
+//		System.out.println(ans);
+		
+		/*<--------------------------Program 1------------------------->*/
+		
+		int sum=0;
+        int N =123;
+        while(N>0){
+            int t=N%10;
+            N=N/10;
+            int sqr=t*t*t;
+            sum+=sqr;
+        }
+        if(N==sum) {
+        	System.out.println("Armstrong Num");
+        }
+        else {
+        	System.out.println("Not a Armstrong Num");
+        }
+	}
+}

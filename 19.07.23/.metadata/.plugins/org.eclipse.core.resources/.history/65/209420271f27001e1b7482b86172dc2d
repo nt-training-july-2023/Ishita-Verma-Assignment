@@ -1,0 +1,10 @@
+package datatypes;
+import java.util.Arrays;
+
+public class Arrays {
+  public static void main(String[] args){
+	  int[] arr = {2,4,6,34,7,98,6,90,34,12,62};
+	  Arrays.sort(arr);
+	  System.out.println(arr[n-1]);
+  }
+}

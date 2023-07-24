@@ -1,0 +1,30 @@
+package datatypes;
+
+public class str {
+	 public static void main(String[] args){
+//		 <-----------------------Program1-------------------->
+		    String s = "ISHITA VERMA";
+	        System.out.println(s.length());
+
+	        
+	        String s1 = "John";
+	        String s2 = "Doe";
+	        System.out.println(s1 + " " + s2);
+
+	        
+	        char ch = s.charAt(7);
+	        System.out.println(ch);
+
+	       
+	        boolean startsWithHello = s.startsWith("I");
+	        System.out.println(startsWithHello);
+
+	        
+	        int indexOfComma = s.indexOf("e");
+	        System.out.println(indexOfComma);
+
+	        
+	        String replacedString = s.replace("ish", "ura");
+	        System.out.println(replacedString);
+	 }
+}

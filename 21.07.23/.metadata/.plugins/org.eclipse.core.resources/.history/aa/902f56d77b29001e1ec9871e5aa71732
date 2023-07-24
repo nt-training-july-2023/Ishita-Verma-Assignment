@@ -1,0 +1,36 @@
+package Javadoc;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class FileDataReader {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the file path: ");
+        String filePath = scanner.nextLine();
+
+        try {
+            // Open the file using FileReader and BufferedReader
+            FileReader fileReader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+            System.out.println("Contents of the file:");
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            // Close the resources
+            bufferedReader.close();
+            fileReader.close();
+        } catch (java.io.FileNotFoundException e) {
+            System.err.println("Error: File not found. Please provide a valid file path.");
+        
+        } catch (java.io.IOException e) {
+            System.err.println("Error: An I/O error occurred while reading the file.");
+        }
+    }
+}

@@ -1,0 +1,61 @@
+package datatypes;
+import java.util.*;
+
+
+public class array {
+  public static void main(String[] args){
+	  
+//	  <-------------------Program 1------------------------>
+	  
+//	  int[] arr = {2,4,6,34,7,98,6,90,34,12,62};
+//	  int n = arr.length;
+//	  Arrays.sort(arr);
+//	  System.out.println(arr[n-1]);
+//	  
+//	  <-------------------Program 2------------------------>
+	  
+//	  int[] arr = {2,4,6,34,7,98,6,90,34,12,62};
+//	  int n = arr.length,sum=0;
+//	  for(int i=0;i<n;i++){	  
+//		  sum+=arr[i];
+//	  }
+//	  System.out.println(sum/n);
+	  
+//	  <-------------------Program 3------------------------>
+	  Scanner sc = new sc(System.in);
+      int rows = sc.nextInt();
+      int columns = sc.nextInt();
+
+      int[][] matrix1 = new int[rows][columns];
+      int[][] matrix2 = new int[rows][columns];
+      int[][] resultMatrix = new int[rows][columns];
+
+      System.out.println("M1");
+      for (int i = 0; i < rows; i++) {
+          for (int j = 0; j < columns; j++) {
+              matrix1[i][j] = sc.nextInt();
+          }
+      }
+
+      System.out.println("M2");
+      for (int i = 0; i < rows; i++) {
+          for (int j = 0; j < columns; j++) {
+              matrix2[i][j] = sc.nextInt();
+          }
+      }
+      
+      for (int i = 0; i < rows; i++) {
+          for (int j = 0; j < columns; j++) {
+              resultMatrix[i][j] = matrix1[i][j] + matrix2[i][j];
+          }
+      }
+
+
+      for (int i = 0; i < rows; i++) {
+          for (int j = 0; j < columns; j++) {
+              System.out.print(resultMatrix[i][j] + " ");
+          }
+          System.out.println();
+      }
+  }
+}

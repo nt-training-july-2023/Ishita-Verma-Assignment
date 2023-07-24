@@ -1,0 +1,47 @@
+package datatypes;
+
+public class dataTypes {
+
+	public static void main(String[] args) {
+		int i = 10;
+		long l = 340000L;
+		float f = 2.15f;
+		double d = 4.6754d;
+		byte b = 90;
+		short s = 6000;
+	    char c = 'I';
+        boolean B = true;
+        
+        System.out.println(i);
+        System.out.println(l);
+        System.out.println(f);
+        System.out.println(d);
+        System.out.println(b);
+        System.out.println(s);
+        System.out.println(c);
+        System.out.println(B);
+        
+        System.out.println(Modified Values);
+        
+        //Modify Values
+        i=20;
+        l=345L;
+        f=5.81f;
+        d=9.1234d;
+        b=20;
+        s=560;
+        c='S';
+        B=false;
+        
+        System.out.println(i);
+        System.out.println(l);
+        System.out.println(f);
+        System.out.println(d);
+        System.out.println(b);
+        System.out.println(s);
+        System.out.println(c);
+        System.out.println(B);
+        
+	}
+
+}

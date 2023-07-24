@@ -1,0 +1,41 @@
+package oops;
+
+public class program7 {
+
+	//local class
+	public void one(){
+		class inner{
+			public void two() {
+				System.out.println("local one two");
+			}
+		}
+		inner in = new inner();
+		in.two();
+	}
+	
+	//static class
+	 static class ones{
+		public void twos(){
+			System.out.println("static one's twos");
+		}
+	}
+	 
+	//non static
+	 class oness{
+		 public void twoss() {
+			 System.out.println("non static oness twoss");
+		 }
+	 }
+	public static void main(String[] args) {
+		program7 all = new program7();
+		//local
+		all.one();
+		
+		//static
+		program7.ones ans = new program7.ones();
+		ans.twos();
+		
+
+	}
+
+}

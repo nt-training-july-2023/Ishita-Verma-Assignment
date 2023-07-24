@@ -1,0 +1,61 @@
+package oops;
+
+public class program3 {
+	//single inheritance
+	static class one{
+		public void one() {
+			System.out.println("one");
+		}
+	}
+	
+	static class two extends one{
+		public void two() {
+			System.out.println("two");
+		}
+	}
+	
+	//multilevel
+	static class A{
+		public void A() {
+			System.out.println("A");
+		}
+	}
+	
+	static class B extends A{
+		public void B() {
+			System.out.println("B");
+		}
+	}
+	
+	static class C extends B{
+		public void C(){
+			System.out.println("C");
+		}
+	}
+	
+	//Multiple 
+	interface Class{
+		void students();
+	}
+
+	interface School{
+		void students();
+	}
+	
+	class City implements Class,School{
+		public void students() {
+			System.out.println("Students");
+		}
+	}
+	public static void main(String[] args) {
+//		two t = new two();
+//		t.one();
+//		t.two();
+		
+		C c = new C();
+		c.A();
+		c.B();
+		c.C();
+	}
+
+}

@@ -1,0 +1,38 @@
+package oops;
+
+public class program2 {
+	//method overloading
+//	public static int sum(int a,int b ,int c) {
+//		return a+b+c;
+//	}
+//	
+//	public static int sum(int a, int b) {
+//		return a+b;
+//	}
+//	
+	//method overriding
+	static class animal{
+		 public void eats() {
+			 System.out.println("Animals eat");
+		 }
+	}
+	
+	static class monkey extends animal{
+		public void eats() {
+			System.out.println("Monkey eats");
+		}
+	}
+	
+	static class ant extends animal{
+		public void eats() {
+			System.out.println("ant eats");
+		}
+	}
+	public static void main(String[] args) {
+//		System.out.println(sum(3,2));
+//		System.out.println(sum(5,4,1));
+		
+		animal a = new ant();
+		a.eats();
+	}
+}

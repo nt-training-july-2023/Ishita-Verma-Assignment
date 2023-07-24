@@ -1,0 +1,30 @@
+package datatypes;
+
+public class str {
+	 public static void main(String[] args){
+//		 <-----------------------Program1-------------------->
+		    String s = "ISHITA VERMA";
+	        System.out.println(s.length());
+
+	        // String concatenation
+	        String s1 = "John";
+	        String s2 = "Doe";
+	        System.out.println(s1 + " " + s2);
+
+	        // Get character at a given position from String
+	        char character = str.charAt(7);
+	        System.out.println("Character at position 7: " + character);
+
+	        // Check if a String starts with a given character or String
+	        boolean startsWithHello = str.startsWith("Hello");
+	        System.out.println("Starts with 'Hello': " + startsWithHello);
+
+	        // Find index of a given character or string from a String
+	        int indexOfComma = str.indexOf(",");
+	        System.out.println("Index of ',' in the string: " + indexOfComma);
+
+	        // Replace a character from a String
+	        String replacedString = str.replace("World", "Universe");
+	        System.out.println("Replaced string: " + replacedString);
+	 }
+}

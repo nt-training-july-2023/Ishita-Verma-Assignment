@@ -1,0 +1,13 @@
+package oops;
+
+public class Program11 {
+
+	public static void main(String[] args) {
+ 
+		int a;
+		public program11(int b){
+			 this.a=b;
+		 }
+	}
+
+}

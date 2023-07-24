@@ -1,0 +1,29 @@
+package oops;
+
+public class program08 {
+
+	interface Game{
+		void play();
+	}
+	
+	public static void main(String[] args) {
+		
+		Game hockey = new Game() {
+		@Override
+		public void play() {
+			System.out.println("Plays Hockey");
+		}
+		}; 
+		
+		hockey.play();
+		
+		Game cricket = new Game() {
+			@Override
+			public void play() {
+				System.out.println("Plays cricket");
+			}
+		};
+		cricket.play();
+	}
+
+}

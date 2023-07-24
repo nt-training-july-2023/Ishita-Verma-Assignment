@@ -1,0 +1,18 @@
+package oops;
+
+public class program9 {
+
+	static int i=0;
+	public program9() {
+		i++; //for every object creation will increment
+	}
+	public static void main(String[] args) {
+		program9 ans  = new program9();
+		program9 ans1 = new program9();
+		program9 ans2 = new program9();
+		program9 ans3 = new program9();
+
+		System.out.println(i);
+	}
+
+}

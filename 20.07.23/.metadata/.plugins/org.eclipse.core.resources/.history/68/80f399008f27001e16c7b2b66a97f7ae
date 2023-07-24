@@ -1,0 +1,29 @@
+package oops;
+
+public class program5 {
+ abstract class animal{
+	 public abstract void eats();
+	 
+	 public void sleep() {
+		 System.out.println("sleep");
+	 }
+	 
+	 public void display() {
+		 System.out.println("Animal");
+	 }
+ }
+ 
+  public class Monkey extends animal{
+	  @Override
+	  public void eats() {
+		  System.out.println("eats");
+	  }
+  }
+	public static void main(String[] args) {
+		Monkey m = new Monkey();
+		m.eats();
+		m.sleep();
+		m.display();
+	}
+
+}
