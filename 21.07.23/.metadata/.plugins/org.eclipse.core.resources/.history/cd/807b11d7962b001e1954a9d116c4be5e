@@ -1,0 +1,35 @@
+package Javadoc;
+import java.util.*;
+
+class InvalidPasswordException extends Exception{
+	public InvalidPasswordException(String prompt) {
+		super(prompt);
+	}
+}
+public class Program10 {
+
+	 
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter ");
+		String pass = sc.nextLine();
+		
+		try {
+			passCheck(pass);
+			System.out.println("valid ");
+		}
+		
+		catch(InvalidPasswordException e){
+			 System.out.println("Invalid password: " + e.getMessage());
+        
+		}
+	}
+		
+		public static void passCheck(String pass) throws InvalidPasswordException{
+			if(pass.length()<8 || !pass.matches(".*[a-zA-Z].*") || !pass.matches("[.*\\d*.]")) {
+				throw new InvalidPasswordException("Incorrect ");
+			}
+		}
+	}
+
+

@@ -1,0 +1,14 @@
+package Javadoc;
+import java.io.File;
+
+public class Program08 {
+ public static void main(String[] args) {
+	 File myfile = new File("ishi.txt");
+	 if(myfile.exists()) {
+		 System.out.println("Already exists");
+	 }
+	 else {
+		 System.out.println("Doesnot");
+	 }
+ }
+}

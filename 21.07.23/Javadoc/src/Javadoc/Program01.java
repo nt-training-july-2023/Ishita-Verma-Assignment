@@ -2,11 +2,13 @@ package Javadoc;
 
 public class Program01 {
 
-	/*@param length
+	/**
+	 *@param length
 	 *@param width
+	 *@return area
 	 */
 	public static int area(int length,int width) {
-		return length*width;
+	return length*width;
 	}
 	public static void main(String[] args) {
 
