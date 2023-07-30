@@ -20,8 +20,9 @@ public class Program09 {
 				throw new NotEvenNumberException("Not Even");
 			}
 		}
-		catch(NumberFormatException e) {
-			System.out.println("Invalid " + e.getMessage());
+		
+		catch(InputMismatchException e) {
+			System.out.println("Invalid abc " + e.getMessage());
 		}
 		catch(NotEvenNumberException e) {
 			System.out.println("Invalid " + e.getMessage());
