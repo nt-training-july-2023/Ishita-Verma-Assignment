@@ -15,7 +15,13 @@ public class Program02 {
     }	
 
 	public static void main(String[] args) {
+//		threads t1 = new threads();
+//		threads t2 = new threads();
+//		threads t3 = new threads();
+		
+		
 		myThread t = new myThread();
+		
 		Thread t1  = new Thread(t, "t1");
 		Thread t2  = new Thread(t, "t2");
 		Thread t3  = new Thread(t, "t3");

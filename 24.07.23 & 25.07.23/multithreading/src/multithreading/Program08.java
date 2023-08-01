@@ -1,39 +1,58 @@
 package multithreading;
-import java.util.concurrent.atomic.AtomicInteger;
+
+import java.util.Scanner;
 
 public class Program08 {
-	public int balance;
-	public Program08(int t ) {
-			this.balance=t;
-	}
 	
-	 public synchronized void deposit(int amt) {
-	        balance += amt;
-	        System.out.println(Thread.currentThread().getName() + " deposited " + amt + ". New balance: " + balance);
-	 }
-	 
-	 public synchronized void take(int amt) {
-		 if(balance>=amt) {
-			 balance-=amt;
-			 System.out.println(Thread.currentThread().getName() + " withdrew " + amt + ". New balance: " + balance);
-	        } else {
-	            System.out.println(Thread.currentThread().getName() + " cannot withdraw " + amt + " (Insufficient balance). Current balance: " + balance);
-	        }
-	 }
+	private int balance=1000;
 
-	  public int getBalance() {
-	        return balance;
-	    }
-	  
-	public static class balance extends Thread{
-		public int balance;
-		public balance(int b){
-			this.balance=b;
-		}
+	public int getBalance() {
+		return balance;
+	}
+
+	public synchronized void setBalance(int balance) {
+		this.balance = balance;
 	}
 	
-	public static void main(String[] args) {
+	public synchronized void withdraw()
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter amount to withdraw");
+		int amount = sc.nextInt();
+		if(this.balance<amount)
+		{
+			System.out.println("Insufficient balance");
+			System.out.println("Waiting for deposit");
+			try {
+				wait();
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 		
+		
+		this.balance-=amount;
+		System.out.println("Withdraw complete");
+	}
+	
+	public synchronized void deposit()
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter amount to deposit");
+		int amount = sc.nextInt();
+		if(amount<0)
+		{
+			System.out.println("Invalid Amount");
+		}
+		else
+		{
+			this.balance+=amount;
+			System.out.println("Deposit complete");
+			notify();
+		}
 	}
 
 }

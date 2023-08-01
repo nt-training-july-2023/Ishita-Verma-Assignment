@@ -6,7 +6,8 @@ public class Program05 {
 	        Thread thread = new Thread(() -> {
 	            try {
 	                Thread.sleep(2000);
-	            } catch (InterruptedException e) {
+	            } 
+	            catch (InterruptedException e) {
 	                e.printStackTrace();
 	            }
 	        });
