@@ -12,32 +12,32 @@ const Registration = () => {
 
         <div className="reg_card_form">
           <Form className="reg_card_form_field">
-            <Form.Group className="">
+            <Form.Group >
               <Form.Label>Full Name</Form.Label>
               <Form.Control type="email" placeholder="Enter Your Name"  className="reg_input"/>
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group >
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" placeholder="Enter Your Email " className="reg_input" />
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group >
               <Form.Label>Username</Form.Label>
               <Form.Control type="email" placeholder="Enter Your Username "  className="reg_input"/>
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            <Form.Group >
               <Form.Label>Phone Number</Form.Label>
               <Form.Control type="email" placeholder="Enter Your Phone Number " className="reg_input"/>
             </Form.Group>
 
-            <Form.Group className="mb-3" >
+            <Form.Group >
               <Form.Label>Password</Form.Label>
               <Form.Control type="email" placeholder="Enter Your Password " className="reg_input"/>
             </Form.Group>
 
-            <Form.Group className="mb-3" >
+            <Form.Group >
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control type="email" placeholder="Enter Your Confirm Password" className="reg_input"/>
             </Form.Group>

@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.reg_body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: linear-gradient(to right, #71b7e6, #9b59b6);
+    font-family: 'Poppins', sans-serif;
+}
+
+.reg_form {
+    background-color: white;
+    width: 40%;
+    height: 75%;
+    border-radius: 0.5rem;
+    padding: 2rem;
+}
+
+.reg_heading {
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+
+.reg_fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.reg_field {
+    width: calc(50% - 0.5rem);
+    display: flex;
+    flex-direction: column;
+}
+
+.reg_detail {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.reg_input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+
+.reg_gender {
+    margin-top: 2rem !important;
+    margin-right: 3rem;
+    display: flex;
+    font-weight: bolder;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.reg_gender_category {
+    display: flex;
+    justify-content: space-around !important;
+    margin-bottom: 1rem;
+    margin-right: 8rem;
+}
+
+button {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to right, #71b7e6, #9b59b6);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+    .reg_form {
+        width: 50%;
+    }
+}
+
+@media (max-width: 600px) {
+    .reg_form {
+        padding: 1rem;
+    }
+    
+    .reg_gender {
+        margin-top: 0.5rem;
+    }
+    
+    .reg_gender_category {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0;
+    }
+}
