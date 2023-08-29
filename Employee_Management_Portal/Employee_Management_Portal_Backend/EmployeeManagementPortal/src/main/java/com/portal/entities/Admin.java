@@ -9,41 +9,77 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+/**
+ * Entity class representing an Admin.
+ */
 @Entity
 @Table(name = "admin")
 @Data
 public class Admin {
-	    @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private long adminId; 
+    /**
+     * Unique identifier for the admin.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long adminId;
 
-	    @Column(nullable = false)  
-	    private String empId;
+    /**
+     * Employee ID of the admin.
+     */
+    @Column
+    private String empId;
 
-	    @Column(nullable = false)
-	    private String name;
+    /**
+     * Name of the admin.
+     */
+    @Column
+    private String name;
 
-	    @Column(nullable = false, unique = true)  
-	    private String email;
+    /**
+     * Email address of the admin.
+     */
+    @Column(nullable = false, unique = true)
+    private String email;
 
-	    @Column
-	    private String dob; 
+    /**
+     * Date of birth of the admin.
+     */
+    @Column
+    private String dob;
 
-	    @Column
-	    private String doj; 
+    /**
+     * Date of joining of the admin.
+     */
+    @Column
+    private String doj;
 
-	    @Column
-	    private String location;
+    /**
+     * Location where the admin is based.
+     */
+    @Column
+    private String location;
 
-	    @Column
-	    private String designation;
+    /**
+     * Designation of the admin.
+     */
+    @Column
+    private String designation;
 
-	    @Column
-	    private long contactNumber; 
-	    
-	    @Column(nullable = false)
-	    private String password;
+    /**
+     * Contact number of the admin.
+     */
+    @Column
+    private long contactNumber;
 
-	    @Column(nullable = false)
-	    private String confirmPassword;
+    /**
+     * Password of the admin.
+     */
+    @Column
+    private String password;
+
+    /**
+     * Confirm password of the admin.
+     */
+    @Column
+    private String confirmPassword;
 }

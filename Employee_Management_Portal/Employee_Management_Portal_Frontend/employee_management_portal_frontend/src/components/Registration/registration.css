@@ -1,0 +1,179 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to right, #3b1592, #992c94);
+    height: 100vh;
+    width: 100vw;
+}
+
+.reg_heading {
+    display: flex;
+    justify-items: center;
+    align-items: flex-start;
+    padding: 1rem;
+    color: white;
+    font-size: 2rem;
+    font-weight: bolder;
+    /* margin-top:-5rem; */
+}
+
+.reg_plant_img {
+    height: 2rem;
+    width: 3rem;
+}
+
+
+.reg_page {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.reg_form {
+    /* flex-grow: wrap; */
+    padding: 1rem 5rem 0rem 5rem;
+    color: white;
+    position: relative;
+    max-height: calc(100vh - 9rem);
+    overflow-y:auto;
+    margin-right: 6rem;
+}
+
+.reg_form::-webkit-scrollbar {
+    width: 0.5em; /* Set the width of the invisible scrollbar */
+    display: none; /* Hide the scrollbar */
+}
+
+/* Track */
+.reg_form::-webkit-scrollbar-track {
+    background-color: transparent; /* Color of the track behind the scrollbar */
+}
+
+/* Handle */
+.reg_form::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar handle */
+}
+
+/* On hover, display the scrollbar handle */
+.reg_form:hover::-webkit-scrollbar-thumb {
+    background-color: #555;
+}
+
+.reg_form_field {
+    color: rgb(255, 255, 255);
+    margin-bottom: 0.2rem;
+
+    & .reg_form_input::placeholder {
+        color: rgb(255, 255, 255);
+        padding: 9px;
+        font-size: 1rem;
+    }
+}
+.reg_form_field_label{
+    /* margin:2rem; */
+}
+.reg_form_input {
+    height: 2rem;
+    border: 0.5rem;
+    width: 22rem;
+    border-radius: 0.2rem;
+    background-color: transparent;
+    border: solid 1px black;
+    color: white;
+    padding: auto;
+    /* font-weight: 200 !important; */
+}
+.select{
+    background-color: rgb(31, 29, 29);
+}
+.button {
+    display: flex;
+    justify-content: center; /* Center the button horizontally */
+    position: relative; /* Change to relative positioning */
+    /* margin-top: 2rem; Add some top margin to separate from the form */
+    /* padding: 2rem 0 ;  */
+    gap:9rem;
+    margin-right: 2rem;
+ 
+}
+
+
+.btn {
+    height: 2rem; 
+    width: auto;
+    background-color: #992c94;
+    font-size: 1rem;
+    border: none;
+    border-radius: 1rem;
+    color: white;
+    cursor: pointer;
+    /* margin-top: -1rem; */
+    
+}
+
+.btn-text {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 100%; 
+    font-weight: bold;
+    
+  }
+.error-message{
+    color: rgb(95, 18, 18);
+    font-weight: 500;
+}
+.reg_side_img {
+    width: 28rem;
+    height: 23rem;
+
+}
+@media (max-width: 992px) {
+    .reg_heading {
+        font-size: 1.5rem;
+    }
+
+    .reg_form_input {
+        height: 2.2rem;
+    }
+
+    .reg_side_img {
+        width: 100%; /* Make image take full width on small screens */
+        height: auto;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .reg_form {
+        padding: 1rem;
+    }
+}
+
+/* Add responsive styling for small screens */
+@media (max-width: 768px) {
+    .container{
+        height: 100%;
+    }
+    .reg_heading {
+        font-size: 1.2rem;
+    }
+
+    .reg_form_input {
+        height: 2rem;
+    }
+
+    .reg_side_img {
+       display: none;
+    }
+
+    .button {
+        flex-direction: column; /* Stack buttons on small screens */
+        gap: 0.5rem; /* Add space between buttons */
+        margin-top: 1rem;
+    }
+}

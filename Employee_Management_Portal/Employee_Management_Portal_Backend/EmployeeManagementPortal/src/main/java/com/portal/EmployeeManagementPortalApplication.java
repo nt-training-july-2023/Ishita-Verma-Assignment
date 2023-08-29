@@ -1,21 +1,21 @@
 package com.portal;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-@SpringBootApplication 
+/**
+ *@Target(value={TYPE})
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan.
+ */
+@SpringBootApplication
 public class EmployeeManagementPortalApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EmployeeManagementPortalApplication.class, args);
-	}
-
-	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+/**
+*Entry point of the program.
+*@param args The command-line arguments passed to the program.
+*/
+final public static void main(final String[] args) {
+     SpringApplication.run(EmployeeManagementPortalApplication.class, args);
 }
+}
+
