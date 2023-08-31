@@ -67,12 +67,9 @@ public class AdminService {
         Admin registeredUser = adminRepository.findByEmail(loginUser.getEmail())
                 .orElseThrow(() ->
                 new ResourceNotFoundException("Username not found"));
-        System.out.println(loginUser);
+        
 
-        if (registeredUser != null
-        &&
-        passwordEncoder.matches(loginUser.getPassword(),
-          registeredUser.getPassword())) {
+        if (registeredUser != null && loginUser.getPassword().equals(registeredUser.getPassword())) {
             return registeredUser;
         }
         return null;

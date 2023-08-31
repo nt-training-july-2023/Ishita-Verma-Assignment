@@ -6,14 +6,19 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.portal.entities.Designation;
+import com.portal.entities.Location;
+import com.portal.entities.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Data Transfer Object (DTO) representing admin registration information.
  */
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class AdminDTO {
 
     /**
@@ -62,12 +67,12 @@ public class AdminDTO {
     /**
      * The location of the admin.
      */
-    private String location;
+    private Location location;
 
     /**
      * The designation of the admin.
      */
-    private String designation;
+    private Designation designation;
 
     /**
      * The contact number of the admin.
@@ -93,6 +98,9 @@ public class AdminDTO {
      * Password matching with confirm password field.
      * @return confirmPassword
      */
+    
+    private Role role;
+    
    final @AssertTrue(message = "Passwords do not match")
     public boolean isPasswordsMatch() {
         return password.equals(confirmPassword);

@@ -19,13 +19,15 @@ const Registration = () => {
   const [contactNumber, setContactNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
- 
 
+  //for validations
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [empIdError, setEmpIdError] = useState("");
   const [dobError, setDobError] = useState("");
   const [dojError, setDojError] = useState("");
+  const [locationError, setLocationError] = useState("");
+  const [designationError, setDesignationError]  = useState("");
   const [contactNumberError, setContactNumberError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -37,8 +39,9 @@ const Registration = () => {
     e.preventDefault();
 
     // Perform onBlur validations for each input field
-    const alphabeticRegex = /^[A-Za-z]+$/;
-    const emailRegex = /^[A-Za-z0-9._%+-]+@nucleusteq\.com$/;
+    const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
+    // const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
     const empIdRegex = /^[Nn]\d{4}$/;
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     const today = new Date();
@@ -63,6 +66,7 @@ const Registration = () => {
       setEmailError("");
     }
 
+    
     if (!empIdRegex.test(empId)) {
       setEmpIdError("Employee ID should be in pattern NXXXX");
       isValid = false;
@@ -71,7 +75,7 @@ const Registration = () => {
     }
 
     const dobDate = new Date(dob);
-    const dojDate = new Date(doj); 
+    const dojDate = new Date(doj);
 
     if (isNaN(dobDate) || dobDate > minDate) {
       setDobError("You must be at least 18 years old.");
@@ -89,7 +93,7 @@ const Registration = () => {
 
 
     if (!dateRegex.test(doj)) {
-      setDojError("Date should have a pattern like YYYY-MM-DD");
+      setDojError("Date should have a pattern like  DD-MM-YY");
       isValid = false;
     } else if (isNaN(dojDate) || dojDate > today) {
       setDojError("Date of Joining cannot be in the future.");
@@ -97,7 +101,14 @@ const Registration = () => {
     } else {
       setDojError("");
     }
-  
+
+    if(location === ""){
+     setLocationError("Required can't be empty.")
+    }
+
+    if (designation === ""){
+      setDesignationError("Required can't be empty.")
+    }
 
     if (!/^\d{10}$/.test(cleanedContactNumber)) {
       setContactNumberError("Contact no should have 10 digits only");
@@ -139,23 +150,36 @@ const Registration = () => {
           console.log(response.data);
           setDuplicateEmailError("");
           setErrorMessage("Registered Successfully");
-          navigate("/register");
+
+          setEmpId("");
+          setName("");
+          setEmail("");
+          setDob("");
+          setDoj("");
+          setLocation("");
+          setDesignation("");
+          setContactNumber("");
+          setPassword("");
+          setConfirmPassword("");
+
+          // navigate("/register");
         })
         .catch((error) => {
           console.log(error);
-          if (error.response && error.response.status === 400) {
-            setErrorMessage("An admin with this email already exists.");
-            console.log("error");
-          } else {
-            setErrorMessage("An error occurred while registering.");
-          }
+
+          // if (error.response && error.response.status === 400) {
+          //   setErrorMessage("An admin with this email already exists.");
+          //   console.log("error");
+          // } else {
+          //   setErrorMessage("An error occurred while registering.");
+          // }
         });
     }
   };
 
   const handleNameBlur = (e) => {
     const inputValue = e.target.value;
-    const alphabeticRegex = /^[A-Za-z]+$/;
+    const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
     if (!alphabeticRegex.test(inputValue)) {
       setNameError("Name must contain alphabetic characters only");
     } else {
@@ -165,7 +189,8 @@ const Registration = () => {
 
   const handleEmailBlur = (e) => {
     const inputValue = e.target.value;
-    const emailRegex = /^[A-Za-z0-9._%+-]+@nucleusteq\.com$/;
+    // const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
 
     if (!emailRegex.test(inputValue)) {
       setEmailError("Email must be a company email (@nucleusteq.com)");
@@ -190,7 +215,7 @@ const Registration = () => {
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
     if (!dateRegex.test(inputValue)) {
-      setDobError("Date should have a pattern like YYYY-MM-DD");
+      setDobError("Date should have a pattern like DD-MM-YY");
     } else {
       setDobError("");
     }
@@ -201,7 +226,7 @@ const Registration = () => {
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
     if (!dateRegex.test(inputValue)) {
-      setDojError("Date should have a pattern like YYYY-MM-DD");
+      setDojError("Date should have a pattern like  DD-MM-YY");
     } else {
       setDojError("");
     }
@@ -350,9 +375,9 @@ const Registration = () => {
                 })}
               </select>
             </div>
-            {/* {location === "" && (
-  <div className="error-message">Location is required.</div>
-)} */}
+            {locationError && (
+                <div className="error-message">{locationError}</div>
+            )}
 
             <div className=" reg_form_field">
               {/* <div> <label className="reg_form_field_label">Designation :</label></div>  */}
@@ -373,9 +398,9 @@ const Registration = () => {
                 })}
               </select>
             </div>
-            {/* {designation === "" && (
-  <div className="error-message">Designation is required.</div>
-)} */}
+            {designationError && (
+  <div className="error-message">{designationError}</div>
+)}
 
             <div className=" reg_form_field">
               {/* <div> <label className="reg_form_field_label">Contact Number :</label></div>  */}
@@ -442,6 +467,6 @@ const Registration = () => {
       </div>
     </div>
   );
- }
+}
 
 export default Registration;

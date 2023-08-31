@@ -9,7 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-  // const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
  
@@ -41,15 +41,25 @@ const Login = () => {
 
       AdminService.loginAdmin(formData)
         .then((response) => {
-          console.log(response.data);
-          console.log(response.data.message);
-          console.log(response.data.status);
-          // navigate("/dashboard");
+          if (response.data.status === 200) {
+            alert("Login Successful");
+            setMessage("Login Successful");
+            console.log(response.data);
+            navigate("/dashboard");
+            setEmail('');
+            setPassword('');
+            setMessage('');
+          }
+          else{
+            alert("Wrong Credentials");
+            setMessage("Login Failed");
+            console.log(response.data);
+          }
           
         })
         .catch((error) => {
           console.log(error);
-          setPasswordError("Incorrectttttttt Password");
+          setPasswordError("Incorrect Password");
         });
         
   };
@@ -115,7 +125,7 @@ const Login = () => {
               />
               {passwordError && <div className="error-message">{passwordError}</div>}
             </div>
-            {/* {errorMessage && <div className="error-message">{errorMessage}</div>} */}
+            {message && <div className="error-message">{message}</div>}
             <div className="login_form_field">
               <span>
                 Not a user?

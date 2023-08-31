@@ -2,6 +2,8 @@ package com.portal.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +28,7 @@ public class Admin {
     /**
      * Employee ID of the admin.
      */
-    @Column
+    @Column(unique = true)
     private String empId;
 
     /**
@@ -56,20 +58,23 @@ public class Admin {
     /**
      * Location where the admin is based.
      */
-    @Column
-    private String location;
+    @Enumerated(EnumType.STRING)
+    private Location location;
 
     /**
      * Designation of the admin.
      */
-    @Column
-    private String designation;
+    @Enumerated(EnumType.STRING)
+    private Designation designation;
 
     /**
      * Contact number of the admin.
      */
     @Column
     private long contactNumber;
+    
+    @Column
+    private Role role;
 
     /**
      * Password of the admin.
@@ -82,4 +87,7 @@ public class Admin {
      */
     @Column
     private String confirmPassword;
+    
+    
+
 }
