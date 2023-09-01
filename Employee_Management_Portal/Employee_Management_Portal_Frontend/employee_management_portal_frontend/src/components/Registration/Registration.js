@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import "./registration.css";
 import { useNavigate, Link } from "react-router-dom";
+import bcrypt from 'bcryptjs';
 import AdminService from "../service/AdminService";
 import reg_plant_img from "../../Assests/Images/reg_plant_img.png";
 import reg_side_img from "../../Assests/Images/reg_side_img.png";
@@ -35,6 +36,10 @@ const Registration = () => {
   const [duplicateEmailError, setDuplicateEmailError] = useState("");
   const navigate = useNavigate();
 
+  const hashPassword = (password) => {
+    return bcrypt.hashSync(password, 10);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -50,8 +55,9 @@ const Registration = () => {
     const passwordRegex =
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~]).{8,}$/;
 
+    
     let isValid = true;
-
+    const hashedPassword = hashPassword(password);
     if (!alphabeticRegex.test(name)) {
       setNameError("Name must contain alphabetic characters only");
       isValid = false;
@@ -124,6 +130,7 @@ const Registration = () => {
     } else {
       setPasswordError("");
     }
+    
 
     if (confirmPassword !== password) {
       setConfirmPasswordError("Password and confirm password do not match");
@@ -143,8 +150,8 @@ const Registration = () => {
         location,
         designation,
         contactNumber,
-        password,
-        confirmPassword,
+        password: hashedPassword, 
+      confirmPassword: hashedPassword,
       }; AdminService.registerAdmin(formData)
         .then((response) => {
           console.log(response.data);
@@ -167,12 +174,13 @@ const Registration = () => {
         .catch((error) => {
           console.log(error);
 
-          // if (error.response && error.response.status === 400) {
-          //   setErrorMessage("An admin with this email already exists.");
-          //   console.log("error");
-          // } else {
-          //   setErrorMessage("An error occurred while registering.");
-          // }
+          if (error.response && error.response.status === 400) {
+            setErrorMessage("An admin with this email already exists.");
+            console.log("error");
+          } else {
+            setErrorMessage("An error occurred while registering.");
+            console.log(error.response.status);
+          }
         });
     }
   };

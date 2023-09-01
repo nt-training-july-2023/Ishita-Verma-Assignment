@@ -10,13 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Entity class representing an Admin.
  */
 @Entity
-@Table(name = "admin")
-@Data
+@Table(name = "employee")
+@Getter
+@Setter
 public class Admin {
     /**
      * Unique identifier for the admin.

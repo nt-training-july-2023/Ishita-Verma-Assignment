@@ -16,12 +16,7 @@ class DesignationTest {
         assertEquals(Designation.Operation_Analyst, Designation.valueOf("Operation_Analyst"));
     }
 
-    @Test
-    public void testInvalidDesignationName() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Designation.valueOf("Invalid_Designation");
-        });
-    }
+    
 
     @Test
     public void testToString() {

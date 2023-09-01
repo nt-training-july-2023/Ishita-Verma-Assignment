@@ -12,12 +12,15 @@ import com.portal.entities.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Data Transfer Object (DTO) representing admin registration information.
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class AdminDTO {
 

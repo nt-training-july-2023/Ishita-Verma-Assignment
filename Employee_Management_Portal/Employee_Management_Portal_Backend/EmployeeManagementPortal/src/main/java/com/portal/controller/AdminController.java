@@ -2,16 +2,18 @@ package com.portal.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.portal.DTO.AdminDTO;
 import com.portal.DTO.LoginDTO;
 import com.portal.DTO.ResponseDTO;
@@ -30,11 +32,11 @@ public class AdminController { /**
      */
     @Autowired
     private AdminService adminService;
-    /**
+    /** 
      * Autowired for password encoder.
      */
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     /**
      * Registers a new admin.
@@ -44,14 +46,14 @@ public class AdminController { /**
      * @throws DuplicateEntryException If the admin already exists.
      */
     final @PostMapping("/register")
-    public String registerAdmin(final @RequestBody AdminDTO admin)
-    throws DuplicateEntryException {
-         /**
-         * DuplicateEntryException.
-         */
-        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
-        adminService.registerAdmin(admin);
-        return "Admin registered with ID: " + admin.getAdminId();
+    public ResponseEntity<String> registerAdmin(@RequestBody @Valid AdminDTO admin) {
+        try {
+            admin.setPassword(admin.getPassword());
+            adminService.registerAdmin(admin, null);
+            return ResponseEntity.ok("Admin registered with ID: " + admin.getAdminId());
+        } catch (DuplicateEntryException e) {
+            return ResponseEntity.badRequest().body("An admin with this email already exists.");
+        }
     }
 
     /**

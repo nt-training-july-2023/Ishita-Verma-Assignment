@@ -12,7 +12,7 @@ function App() {
           <Route path="/" Component={EmployeeManagementPage}/>
           <Route path="/register" Component={Registration} />
           <Route path="/login" Component={Login} />
-          {/* <Route path="/admindashboard" Component={AdminDashboard} /> */}
+          <Route path="/admindashboard" Component={AdminDashboard} />
           <Route path="/dashboard" Component={dashboard}/>
         </Routes>
       </Router>

@@ -1,42 +1,32 @@
 import React, { useState } from "react";
 import "./login.css";
-import { useAuth } from "../service/AuthenticationContext";
-import { Link,useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AdminService from "../service/AdminService";
 import login_img from "../../Assests/Images/login_img.png";
+import { Base64 } from "js-base64";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [message, setMessage] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
- 
 
-  
-  // const { setIsLoggedIn } = useAuth();
+  const encryptedPassword= Base64.encode(password);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    
-    // let isValid = true;
-    // if (!email.endsWith("admin@nucleusteq.com")) {
-    //   setEmailError("Please enter correct credentials.");
-    //   isValid = false;
-    // } else {
-    //   setEmailError("");
-    // }
-
-    if(email==="" || password===""){
+    if (email === "" || password === "") {
       setEmailError("Incorrect Email");
-      setPasswordError("Incorrect Password")
-    }
+      setPasswordError("Incorrect Password");
+    } else {
+      
 
-      else{const formData = {
+      const formData = {
         email,
-        password,
+        password: encryptedPassword,
       };
 
       AdminService.loginAdmin(formData)
@@ -46,43 +36,28 @@ const Login = () => {
             setMessage("Login Successful");
             console.log(response.data);
             navigate("/dashboard");
-            setEmail('');
-            setPassword('');
-            setMessage('');
-          }
-          else{
+            setEmail("");
+            setPassword("");
+            setMessage("");
+          } else {
             alert("Wrong Credentials");
             setMessage("Login Failed");
             console.log(response.data);
+            console.log(formData.password);
           }
-          
         })
         .catch((error) => {
           console.log(error);
           setPasswordError("Incorrect Password");
         });
-        
+    }
   };
-}
 
   const handleEmailBlur = () => {
-    if (!email.endsWith("@nucleusteq.com") || email==="") {
+    if (!email.endsWith("@nucleusteq.com") || email === "") {
       setEmailError("Please enter correct credentials.");
-    } 
+    }
   };
-
-  // const handlePasswordBlur = (e) => {
-  //   const inputValue = e.target.value;
-  //   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~]).{8,}$/;
-
-  //   if (!passwordRegex.test(inputValue)) {
-  //     setPasswordError(
-  //       "Use uppercase lowercase number special character."
-  //     );
-  //   } else {
-  //     setPasswordError("");
-  //   }
-  // };
 
   return (
     <div className="container">
@@ -119,9 +94,7 @@ const Login = () => {
                 onChange={(e) => {
                   setPassword(e.target.value)
                   setPasswordError("")
-                }
-                  }
-                // onBlur={handlePasswordBlur}
+                }}
               />
               {passwordError && <div className="error-message">{passwordError}</div>}
             </div>
@@ -134,7 +107,7 @@ const Login = () => {
                 </Link>
               </span>
             </div>
-            <div class="button_container">
+            <div className="button_container">
               <div
                 variant="primary"
                 type="submit"

@@ -1,11 +1,14 @@
 package com.portal.DTO;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Data Transfer Object (DTO) representing login credentials.
  */
-@Data
+@Getter
+@Setter
 public class LoginDTO {
     /**
      * The email address associated with the user's account.

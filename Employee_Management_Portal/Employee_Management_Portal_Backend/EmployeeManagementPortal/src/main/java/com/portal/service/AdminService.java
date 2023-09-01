@@ -1,13 +1,19 @@
 package com.portal.service;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import com.portal.DTO.AdminDTO;
 import com.portal.DTO.LoginDTO;
+import com.portal.configuration.DecryptPassword;
 import com.portal.entities.Admin;
 import com.portal.exception.DuplicateEntryException;
 import com.portal.exception.ResourceNotFoundException;
@@ -27,7 +33,10 @@ public class AdminService {
      */
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    public static String decodeData(String encodedData) {
+        byte[] decodedBytes = Base64.getDecoder().decode(encodedData); 
+        return new String(decodedBytes, StandardCharsets.UTF_8);
+    }
     /**
      * Registers a new admin.
      *
@@ -36,8 +45,10 @@ public class AdminService {
      * @throws DuplicateEntryException if an admin with
      * the same email already exists.
      */
-    public final Admin registerAdmin(final AdminDTO adminDTO)
+    public final Admin registerAdmin(@Valid final AdminDTO adminDTO,BindingResult bindingResult)
     throws DuplicateEntryException {
+    	
+    	
         Admin admin = new Admin();
         admin.setEmpId(adminDTO.getEmpId());
         admin.setName(adminDTO.getName());
@@ -45,13 +56,13 @@ public class AdminService {
         admin.setDob(adminDTO.getDob());
         admin.setDoj(adminDTO.getDoj());
         admin.setLocation(adminDTO.getLocation());
-        admin.setDesignation(adminDTO.getDesignation());
+        admin.setDesignation(adminDTO.getDesignation()) ;
         admin.setContactNumber(adminDTO.getContactNumber());
         admin.setPassword(adminDTO.getPassword());
         admin.setConfirmPassword(adminDTO.getConfirmPassword());
 
         if (adminRepository.existsByEmail(adminDTO.getEmail())) {
-            throw new DuplicateEntryException("An admin with this "
+            throw new DuplicateEntryException("An admin with this"
             + "email already exists.");
         }
             return adminRepository.save(admin);
@@ -67,9 +78,10 @@ public class AdminService {
         Admin registeredUser = adminRepository.findByEmail(loginUser.getEmail())
                 .orElseThrow(() ->
                 new ResourceNotFoundException("Username not found"));
-        
 
-        if (registeredUser != null && loginUser.getPassword().equals(registeredUser.getPassword())) {
+//        String decryptedPassword = DecryptPassword.decodeData(registeredUser.getPassword());
+
+        if (registeredUser != null && passwordEncoder.matches(decodeData(loginUser.getPassword()),registeredUser.getPassword())) {
             return registeredUser;
         }
         return null;
