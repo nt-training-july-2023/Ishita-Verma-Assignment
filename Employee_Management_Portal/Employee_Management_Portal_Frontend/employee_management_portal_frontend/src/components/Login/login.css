@@ -69,6 +69,28 @@
     gap: 10rem;
 
 }
+
+.popup {
+  position: fixed;
+  top: 10%;
+  left: 90%;
+  width: 16rem;
+  transform: translate(-50%, -50%);
+  background-color: gray;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  border-radius: 0.5rem;
+}
+.popup button {
+  margin-top: 10px;
+  background-color: blueviolet;
+  color: white;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 10%;
+}
 @media (max-width: 768px) {
     .login_heading {
         font-size: 2rem; /* Adjust heading font size */

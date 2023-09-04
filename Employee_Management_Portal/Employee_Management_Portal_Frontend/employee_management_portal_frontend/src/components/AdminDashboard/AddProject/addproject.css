@@ -1,0 +1,48 @@
+.input_form_field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    color: black;
+  }
+  
+  .input_form_field input[type="text"],
+  .input_form_field input[type="date"],
+  .input_form_field textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    /* color: black; */
+    font-size: 14px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .startDate{
+    color: white;
+    font-weight: bolder;
+    font-size: 1.2rem;
+  }
+  .btn_submit {
+    background-color: blueviolet;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+  }
+  
+  .cancel_btn{
+    width: 15rem;
+    height: 2rem;
+    background-color: blueviolet;
+    border-radius: 1rem;
+    margin-top: 0.5rem;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }

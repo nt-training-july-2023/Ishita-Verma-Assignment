@@ -1,8 +1,14 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
-.admin_heading{
+
+.main_container {
+    background-color: black;
+}
+
+.admin_heading {
+    margin: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -11,19 +17,150 @@
     font-weight: bold;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-.admin_tabs{
+
+.admin_tabs {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 4rem;
-    padding: 1rem;
+    padding: 0.5rem;
     color: white;
+    border: 0.1rem solid gray;
+    border-radius: 2rem;
 }
-.admin_employee,.admin_manager,.admin_project{
+
+.admin_employee, .admin_manager, .admin_project, .admin_add_employee {
     background-color: rgb(183, 0, 255);
     height: 2.5rem;
     width: auto;
     padding: 0.5rem 1rem;
     border-radius: 0.8rem;
+    color: white;
+    cursor: pointer;
 }
+
+.admin_add_employee {
+   margin-left: 66rem;
+   font-weight: bold;
+   border: none;
+   cursor: pointer;
+   margin-bottom: 1rem;
+}
+
+.admin_employee.active {
+    border: 2px solid #000; /* Add a 2px solid black border to the active tab */
+  }
+.admin_manager.active {
+    border: 2px solid #000; /* Add a 2px solid black border to the active tab */
+  }
+.admin_project.active {
+    border: 2px solid #000; /* Add a 2px solid black border to the active tab */
+  }
+  
+.add_employee_form {
+    position: absolute;
+    top: 10%;
+    left: 30%;
+    right: 30%;
+    background-color: gray;
+    padding:0.5rem;
+    z-index: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.buttons{
+    display: flex;
+    gap: 1rem;
+    /* margin-left: 6rem; */
+}
+.btn_submit,.btn_cancel{
+    background-color: blueviolet;
+    border-radius: 1rem;
+    margin-top: 0.5rem;
+    padding:0.5rem;
+    cursor: pointer;
+    width: 15rem !important ;
+    /* margin-left: 1.5rem; */
+}
+.btn_cancel{
+    border: none;
+    margin-left: 5rem;
+    color: white;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+.card_container {
+
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    /* max-width: 1200px; */
+    margin: 0 auto;
+    overflow-x: auto;
+    /* Add horizontal scrollbar when necessary */
+    scrollbar-width: thin;
+    /* Add scrollbar for Firefox */
+    scrollbar-color: transparent gray;
+    /* Color settings for Firefox */
+}
+
+.card_container::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.card_container::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
+
+.card_container::-webkit-scrollbar-thumb:hover {
+    background-color: gray;
+}
+
+.card_container::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.card {
+    display: flex;
+    border: 0.2rem solid #ccc;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    padding: 0.8rem;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: scale(1.05);
+    /* Add a hover effect for scaling the card */
+}
+
+.column {
+    flex: 1;
+    padding: 10px;
+}
+
+.column h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.column p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+@media (max-width: 768px) {
+    .admin_add_employee {
+      position: static;
+      margin-left: 0;
+      width: 100%;
+      margin-top: 1rem;
+    }
+  }

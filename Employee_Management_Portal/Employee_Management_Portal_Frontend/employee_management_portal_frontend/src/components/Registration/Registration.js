@@ -34,6 +34,7 @@ const Registration = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [duplicateEmailError, setDuplicateEmailError] = useState("");
+  
   const navigate = useNavigate();
 
   const hashPassword = (password) => {
@@ -43,7 +44,7 @@ const Registration = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // Perform onBlur validations for each input field
+    // onBlur validations for each input field
     const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
     // const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
@@ -71,7 +72,6 @@ const Registration = () => {
     } else {
       setEmailError("");
     }
-
     
     if (!empIdRegex.test(empId)) {
       setEmpIdError("Employee ID should be in pattern NXXXX");
@@ -83,19 +83,25 @@ const Registration = () => {
     const dobDate = new Date(dob);
     const dojDate = new Date(doj);
 
-    if (isNaN(dobDate) || dobDate > minDate) {
+    if (isNaN(dobDate)) {
+      setDobError("Invalid date format.");
+      isValid = false;
+    } else if (dobDate > today) {
+      setDobError("Date of Birth cannot be in the future.");
+      isValid = false;
+    } else if (dobDate > minDate) {
       setDobError("You must be at least 18 years old.");
       isValid = false;
     } else {
       setDobError("");
     }
 
-    if (isNaN(dojDate) || dojDate > today) {
-      setDojError("Date of Joining cannot be in the future.");
-      isValid = false;
-    } else {
-      setDojError("");
-    }
+    // if (isNaN(dojDate) || dojDate > today) {
+    //   setDojError("Date of Joining cannot be in the future.");
+    //   isValid = false;
+    // } else {
+    //   setDojError("");
+    // }
 
 
     if (!dateRegex.test(doj)) {
@@ -174,7 +180,7 @@ const Registration = () => {
         .catch((error) => {
           console.log(error);
 
-          if (error.response && error.response.status === 400) {
+          if (error.response && error.response.status === 400) {  
             setErrorMessage("An admin with this email already exists.");
             console.log("error");
           } else {
@@ -331,8 +337,8 @@ const Registration = () => {
 
             <div className=" reg_form_field">
               <div>
-                {" "}
                 <label className="reg_form_field_label">DOB :</label>
+                {" "}
               </div>
               <input
                 type="date"

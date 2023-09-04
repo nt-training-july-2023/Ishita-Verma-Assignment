@@ -22,7 +22,7 @@ import com.portal.repository.AdminRepository;
  * This is a package for java docs for service.
  */
 @Service
-public class AdminService {
+public class AdminService { 
 /**
  * This is for adminrepositories.
  */
@@ -74,7 +74,7 @@ public class AdminService {
      * @return The authenticated Admin.
      * @throws ResourceNotFoundException if the username is not found.
      */
-    public final Admin login(final LoginDTO loginUser) {
+        public final Admin login(final LoginDTO loginUser) {
         Admin registeredUser = adminRepository.findByEmail(loginUser.getEmail())
                 .orElseThrow(() ->
                 new ResourceNotFoundException("Username not found"));

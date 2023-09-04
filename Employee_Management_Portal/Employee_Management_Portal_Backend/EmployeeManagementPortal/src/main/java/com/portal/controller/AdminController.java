@@ -75,7 +75,7 @@ public class AdminController { /**
      */
     final @PostMapping("/login")
     public ResponseDTO login(@RequestBody final LoginDTO loginDto) {
-     try {
+//     try {
              if (adminService.login(loginDto) == null) {
                  ResponseDTO response = new ResponseDTO("Wrong credentials",
                          null, HttpStatus.BAD_REQUEST.value());
@@ -85,10 +85,10 @@ public class AdminController { /**
                          loginDto, HttpStatus.OK.value());
                  return response;
              }
-         } catch (Exception e) {
-             ResponseDTO response = new ResponseDTO(e.getMessage(),
-                     null, HttpStatus.BAD_REQUEST.value());
-             return response;
-         }
+//         } catch (Exception e) {
+//             ResponseDTO response = new ResponseDTO(e.getMessage(),
+//                     null, HttpStatus.BAD_REQUEST.value());
+//             return response;
+//         }
     }
 }
