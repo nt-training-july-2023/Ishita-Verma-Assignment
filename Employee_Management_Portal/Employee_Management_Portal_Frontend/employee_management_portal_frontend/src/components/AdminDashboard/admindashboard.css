@@ -3,109 +3,164 @@
     padding: 0;
 }
 
-.table-container {
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    overflow: hidden;
-    padding: 2rem;
-    background: linear-gradient(to right, #3b1592, #992c94);
+.main_container {
+    background-color: black;
 }
 
-.table_heading {
+.admin_heading {
+    margin: 1rem;
     display: flex;
+    flex-direction: row;
     justify-content: center;
+    color: white;
     font-size: 2rem;
     font-weight: bold;
-    color:beige ;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.table-header,
-.table-row {
+.admin_tabs {
     display: flex;
-    padding: 1rem;
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-.table-row:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.table-header>div:nth-child(1),
-.table-row>div:nth-child(1) {
-    flex: 0.5;
-}
-
-.table-header>div:nth-child(6) {
-    flex: 0.9;
-}
-
-.table-header>div:nth-child(5) {
-    flex: 1;
-}
-
-.table-header>div:nth-child(3) {
-    flex: 1.2;
-}
-
-.table-header>div:nth-child(4) {
-    flex: 1;
-}
-
-.table-header>div:nth-child(7) {
-    flex: 1;
-}
-
-.table-header>div:nth-child(8) {
-    flex: 1.6;
-}
-
-.table-header>div:nth-child(9) {
-    flex: 1.3;
-}
-
-.table-header>div:nth-child(10) {
-    flex: 1.1;
-}
-
-.table-header>div,
-.table-row>div {
-    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
     padding: 0.5rem;
+    color: white;
+    border: 0.1rem solid gray;
+    border-radius: 2rem;
 }
 
-/* Add vertical lines to separate columns */
-
-.table-row {
-    border-right: 1px solid #ccc;
-    font-weight: 400;
+.admin_employee, .admin_manager, .admin_project, .admin_add_employee {
+    background-color: rgb(183, 0, 255);
+    height: 2.5rem;
+    width: auto;
+    padding: 0.5rem 1rem;
+    border-radius: 0.8rem;
+    color: white;
+    cursor: pointer;
 }
 
-/* Add responsive styling */
+.admin_add_employee {
+   margin-left: 66rem;
+   font-weight: bold;
+   border: none;
+   cursor: pointer;
+   margin-bottom: 1rem;
+}
+
+.admin_employee.active {
+    border: 2px solid #000; /* Add a 2px solid black border to the active tab */
+  }
+.admin_manager.active {
+    border: 2px solid #000; /* Add a 2px solid black border to the active tab */
+  }
+.admin_project.active {
+    border: 2px solid #000; /* Add a 2px solid black border to the active tab */
+  }
+  
+.add_employee_form {
+    position: absolute;
+    top: 10%;
+    left: 30%;
+    right: 30%;
+    background-color: gray;
+    padding:0.5rem;
+    z-index: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.buttons{
+    display: flex;
+    gap: 1rem;
+    /* margin-left: 6rem; */
+}
+.btn_submit,.btn_cancel{
+    background-color: blueviolet;
+    border-radius: 1rem;
+    margin-top: 0.5rem;
+    padding:0.5rem;
+    cursor: pointer;
+    width: 15rem !important ;
+    /* margin-left: 1.5rem; */
+}
+.btn_cancel{
+    border: none;
+    margin-left: 5rem;
+    color: white;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+.card_container {
+
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    /* max-width: 1200px; */
+    margin: 0 auto;
+    overflow-x: auto;
+    /* Add horizontal scrollbar when necessary */
+    scrollbar-width: thin;
+    /* Add scrollbar for Firefox */
+    scrollbar-color: transparent gray;
+    /* Color settings for Firefox */
+}
+
+.card_container::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.card_container::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
+
+.card_container::-webkit-scrollbar-thumb:hover {
+    background-color: gray;
+}
+
+.card_container::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.card {
+    display: flex;
+    border: 0.2rem solid #ccc;
+    border-radius: 0.5rem;
+    margin: 1rem;
+    padding: 0.8rem;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: scale(1.05);
+    /* Add a hover effect for scaling the card */
+}
+
+.column {
+    flex: 1;
+    padding: 10px;
+}
+
+.column h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.column p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
 @media (max-width: 768px) {
-
-    .table-header,
-    .table-row {
-        flex-direction: column;
-        border-bottom: 1px solid #ccc;
-        /* Add bottom border to header */
+    .admin_add_employee {
+      position: static;
+      margin-left: 0;
+      width: 100%;
+      margin-top: 1rem;
     }
-
-    .table-header>div,
-    .table-row>div {
-        padding: 5px;
-        text-align: left;
-    }
-
-    .table-row {
-        border-left: 1px solid #ccc;
-        border-right: 1px solid #ccc;
-    }
-
-    /* Remove vertical lines in responsive mode */
-    .table-header>div:not(:last-child),
-    .table-row>div:not(:last-child) {
-        border-right: none;
-    }
-}
+  }

@@ -1,172 +1,100 @@
-import React from "react";
-import "./admindashboard.css";
-import { useNavigate } from "react-router-dom";
+import {React,useState} from 'react'
+import './admindashboard.css'
+import AddEmployee from './AddEmployee/AddEmployee'
+import EmployeeTab from './EmployeeTab/EmployeeTab'
+import ManagerTab from './ManagerTab/ManagerTab'
+import ProjectTab from './ProjectTab/ProjectTab'
+import AddProject from './AddProject/AddProject'
+
 
 const AdminDashboard = () => {
-  const navigate = useNavigate();
-  const employees = [
-    {
-      id: 1,
-      name: "John Doe",
-      employeeId: "E12345",
-      dob: "1990-05-15",
-      doj: "2020-01-10",
-      doe: "2023-01-10",
-      location: "New York",
-      designation: "Software Engineer",
-      contact: "johndoe@example.com",
-      manager: "Jane Smith",
-      project: "Project X",
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      employeeId: "E12345",
-      dob: "1990-05-15",
-      doj: "2020-01-10",
-      doe: "2023-01-10",
-      location: "New York",
-      designation: "Software Engineer",
-      contact: "johndoe@example.com",
-      manager: "Jane Smith",
-      project: "Project X",
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      employeeId: "E12345",
-      dob: "1990-05-15",
-      doj: "2020-01-10",
-      doe: "2023-01-10",
-      location: "New York",
-      designation: "Software Engineer",
-      contact: "johndoe@example.com",
-      manager: "Jane Smith",
-      project: "Project X",
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      employeeId: "E12345",
-      dob: "1990-05-15",
-      doj: "2020-01-10",
-      doe: "2023-01-10",
-      location: "New York",
-      designation: "Software Engineer",
-      contact: "johndoe@example.com",
-      manager: "Jane Smith",
-      project: "Project X",
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      employeeId: "E12345",
-      dob: "1990-05-15",
-      doj: "2020-01-10",
-      doe: "2023-01-10",
-      location: "New York",
-      designation: "Software Engineer",
-      contact: "johndoe@example.com",
-      manager: "Jane Smith",
-      project: "Project X",
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      employeeId: "E12345",
-      dob: "1990-05-15",
-      doj: "2020-01-10",
-      doe: "2023-01-10",
-      location: "New York",
-      designation: "Software Engineer",
-      contact: "johndoe@example.com",
-      manager: "Jane Smith",
-      project: "Project X",
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      employeeId: "E12345",
-      dob: "1990-05-15",
-      doj: "2020-01-10",
-      doe: "2023-01-10",
-      location: "New York",
-      designation: "Software Engineer",
-      contact: "johndoe@example.com",
-      manager: "Jane Smith",
-      project: "Project X",
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      employeeId: "E12345",
-      dob: "1990-05-15",
-      doj: "2020-01-10",
-      doe: "2023-01-10",
-      location: "New York",
-      designation: "Software Engineer",
-      contact: "johndoe@example.com",
-      manager: "Jane Smith",
-      project: "Project X",
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      employeeId: "E12345",
-      dob: "1990-05-15",
-      doj: "2020-01-10",
-      doe: "2023-01-10",
-      location: "New York",
-      designation: "Software Engineer",
-      contact: "johndoe@example.com",
-      manager: "Jane Smith",
-      project: "Project X",
-    },
-  ];
-  return (
-    <div className="table-container">
-      <div className="table_heading">Admin Dashboard</div>
-      <div class="button">
-        <div className="btn" type="submit">
-          <span className="btn-text"> Employee</span>
-        </div>
-        <div className="btn">
-          <span className="btn-text">Manager</span>
-        </div>
-        <div className="btn">
-          <span className="btn-text">Project</span>
-        </div>
-      </div>
-      <div className="table-header">
-        <div className="id">ID</div>
-        <div className="name">Name</div>
-        <div className="employee_id">Emp ID</div>
-        <div className="dob">DOB</div>
-        <div className="doj">DOJ</div>
-        <div className="doe">DOE</div>
-        <div className="location">Location</div>
-        <div className="designation">Designation</div>
-        <div className="contact"> Contact</div>
-        <div className="manager">Manager</div>
-        <div className="project">Project</div>
-      </div>
-      {employees.map((employee) => (
-        <div className="table-row" key={employee.id}>
-          <div>{employee.id}</div>
-          <div>{employee.name}</div>
-          <div>{employee.employeeId}</div>
-          <div>{employee.dob}</div>
-          <div>{employee.doj}</div>
-          <div>{employee.doe}</div>
-          <div>{employee.location}</div>
-          <div>{employee.designation}</div>
-          <div>{employee.contact}</div>
-          <div>{employee.manager}</div>
-          <div>{employee.project}</div>
-        </div>
-      ))}
-    </div>
-  );
-};
 
-export default AdminDashboard;
+  const [showAddEmployee, setShowAddEmployee] = useState(false);
+  const [showAddProject, setShowAddProject] = useState(false);
+  const [activeTab, setActiveTab] = useState('employee');
+
+  const toggleAddEmployee = () => {
+    setShowAddEmployee(!showAddEmployee);
+  };
+
+  const cancelAddEmployee = () => {
+    setShowAddEmployee(false);
+  };
+
+  const toggleAddProject = () =>{
+    setShowAddProject(!showAddProject);
+  }
+
+  const cancelAddProject = () => {
+    setShowAddProject(false);
+  }
+  const switchToEmployeeTab = () => {
+    setActiveTab('employee');
+  };
+
+  const switchToManagerTab = () => {
+    setActiveTab('manager');
+  };
+
+  const switchToProjectTab = () => {
+    setActiveTab('project')
+  }
+
+  return (
+    <div className='container'>
+        <div className='admin_heading'>Admin Dashboard</div>
+      <div className='admin_tabs'>
+      <div className={`admin_employee ${activeTab === 'employee' ? 'active' : ''}`} onClick={switchToEmployeeTab}>
+          Employee
+        </div>
+        <div className={`admin_manager ${activeTab === 'manager' ? 'active' : ''}`} onClick={switchToManagerTab}>
+          Manager
+        </div>
+        <div className={`admin_project ${activeTab === 'project' ? 'active' : ''}`} onClick={switchToProjectTab}>
+          Project
+        </div>
+      </div>
+      {showAddEmployee && (
+        <div className='add_employee_form'>
+          <AddEmployee />
+          <button onClick={cancelAddEmployee} className='btn_cancel'>Cancel</button>
+        </div>
+      )}
+      {showAddProject && (
+        <div className='add_employee_form'>
+          <AddProject />
+          <button onClick={cancelAddProject} className='cancel_btn'>Cancel</button>
+        </div>
+      )}
+      <div>
+        {activeTab=== 'employee' && !showAddEmployee && (
+          <button className='admin_add_employee' onClick={toggleAddEmployee}>Add Employee</button>
+        )}
+      </div>
+      <div>
+        {activeTab=== 'project' && !showAddProject && (
+          <button className='admin_add_employee' onClick={toggleAddProject}>Add Project</button>
+        )}
+      </div>
+      <div className='card_container'>
+      {activeTab === 'employee' && (
+          <div>
+           <EmployeeTab/>
+          </div>
+        )}
+         {activeTab === 'manager' && (
+          <div >
+           <ManagerTab/>
+          </div>
+        )}
+        {activeTab === 'project' && (
+          <div >
+           <ProjectTab/>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default AdminDashboard

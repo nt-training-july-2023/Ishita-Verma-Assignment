@@ -2,19 +2,24 @@ package com.portal.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Entity class representing an Admin.
  */
 @Entity
-@Table(name = "admin")
-@Data
+@Table(name = "employee")
+@Getter
+@Setter
 public class Admin {
     /**
      * Unique identifier for the admin.
@@ -26,7 +31,7 @@ public class Admin {
     /**
      * Employee ID of the admin.
      */
-    @Column
+    @Column(unique = true)
     private String empId;
 
     /**
@@ -56,20 +61,23 @@ public class Admin {
     /**
      * Location where the admin is based.
      */
-    @Column
-    private String location;
+    @Enumerated(EnumType.STRING)
+    private Location location;
 
     /**
      * Designation of the admin.
      */
-    @Column
-    private String designation;
+    @Enumerated(EnumType.STRING)
+    private Designation designation;
 
     /**
      * Contact number of the admin.
      */
     @Column
     private long contactNumber;
+    
+    @Column
+    private Role role;
 
     /**
      * Password of the admin.
@@ -82,4 +90,7 @@ public class Admin {
      */
     @Column
     private String confirmPassword;
+    
+    
+
 }

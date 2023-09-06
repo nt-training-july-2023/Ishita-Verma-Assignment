@@ -6,7 +6,7 @@
 .container {
     display: flex;
     justify-content: center;
-    background: linear-gradient(to right, #3b1592, #992c94);
+    background: linear-gradient(to right, #1f0a50, #992c94);
     height: 100vh;
     width: 100vw;
 }
@@ -45,51 +45,55 @@
 }
 
 .reg_form::-webkit-scrollbar {
-    width: 0.5em; /* Set the width of the invisible scrollbar */
+    width: 0.5em; /*  width of the invisible scrollbar */
     display: none; /* Hide the scrollbar */
 }
 
-/* Track */
+
 .reg_form::-webkit-scrollbar-track {
     background-color: transparent; /* Color of the track behind the scrollbar */
 }
 
-/* Handle */
+
 .reg_form::-webkit-scrollbar-thumb {
     background-color: #888; /* Color of the scrollbar handle */
 }
 
-/* On hover, display the scrollbar handle */
-.reg_form:hover::-webkit-scrollbar-thumb {
-    background-color: #555;
-}
+
+/* .reg_form:hover::-webkit-scrollbar-thumb {
+    background-color: #555; 
+} */
 
 .reg_form_field {
-    color: rgb(255, 255, 255);
+    color: rgb(230, 222, 222);
     margin-bottom: 0.2rem;
 
     & .reg_form_input::placeholder {
-        color: rgb(255, 255, 255);
+        color: black;
         padding: 9px;
         font-size: 1rem;
+        font-weight: 500;
     }
 }
 .reg_form_field_label{
     /* margin:2rem; */
+    color: white;
+    font-weight: bold;
 }
 .reg_form_input {
     height: 2rem;
     border: 0.5rem;
     width: 22rem;
+    /* font-weight: bold; */
     border-radius: 0.2rem;
-    background-color: transparent;
-    border: solid 1px black;
-    color: white;
+    background-color: rgb(224, 221, 221);
+    border: solid 1px blueviolet;
+    color: black;
     padding: auto;
     /* font-weight: 200 !important; */
 }
 .select{
-    background-color: rgb(31, 29, 29);
+    background-color: rgb(255, 254, 254);
 }
 .button {
     display: flex;
@@ -125,8 +129,9 @@
     
   }
 .error-message{
-    color: rgb(95, 18, 18);
+    color: black;
     font-weight: 500;
+    padding-bottom: 0.5rem;
 }
 .reg_side_img {
     width: 28rem;

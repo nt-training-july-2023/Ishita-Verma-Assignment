@@ -1,78 +1,64 @@
 import React, { useState } from "react";
 import "./login.css";
-import { useAuth } from "../service/AuthenticationContext";
-import { Link,useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AdminService from "../service/AdminService";
 import login_img from "../../Assests/Images/login_img.png";
+import { Base64 } from "js-base64";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-  // const [errorMessage, setErrorMessage] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const navigate = useNavigate();
- 
+  const [message, setMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
-  
-  // const { setIsLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const encryptedPassword = Base64.encode(password);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    
-    // let isValid = true;
-    // if (!email.endsWith("admin@nucleusteq.com")) {
-    //   setEmailError("Please enter correct credentials.");
-    //   isValid = false;
-    // } else {
-    //   setEmailError("");
-    // }
-
-    if(email==="" || password===""){
-      setEmailError("Incorrect Email");
-      setPasswordError("Incorrect Password")
-    }
-
-      else{const formData = {
+    if (email === "" || password === "") {
+      setEmailError("Please enter an Email");
+      setPasswordError("Please enter a Password");
+    } else {
+      const formData = {
         email,
-        password,
+        password: encryptedPassword,
       };
 
       AdminService.loginAdmin(formData)
         .then((response) => {
-          console.log(response.data);
-          console.log(response.data.message);
-          console.log(response.data.status);
-          // navigate("/dashboard");
-          
+          if (response.data.status === 200) {
+            setShowAlert(true);
+            setMessage("Login Successful");
+            console.log(response.data);
+            // navigate("/dashboard")
+            setEmail("");
+            setPassword("");
+            
+          } else {
+            // Display an alert for "Wrong Credentials"
+            setShowAlert(true);
+            setMessage("Wrong Credentials");
+            console.log(response.data);
+            console.log(formData.password);
+          }
         })
         .catch((error) => {
           console.log(error);
-          setPasswordError("Incorrectttttttt Password");
+          setPasswordError("Incorrect Password");
         });
-        
+    }
   };
-}
 
   const handleEmailBlur = () => {
-    if (!email.endsWith("@nucleusteq.com") || email==="") {
-      setEmailError("Please enter correct credentials.");
-    } 
+    if (!email.endsWith("@nucleusteq.com") || email === "") {
+      setEmailError("Please enter correct email.");
+    }
   };
-
-  // const handlePasswordBlur = (e) => {
-  //   const inputValue = e.target.value;
-  //   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~]).{8,}$/;
-
-  //   if (!passwordRegex.test(inputValue)) {
-  //     setPasswordError(
-  //       "Use uppercase lowercase number special character."
-  //     );
-  //   } else {
-  //     setPasswordError("");
-  //   }
-  // };
 
   return (
     <div className="container">
@@ -107,15 +93,15 @@ const Login = () => {
                 autoComplete="off"
                 value={password}
                 onChange={(e) => {
-                  setPassword(e.target.value)
-                  setPasswordError("")
-                }
-                  }
-                // onBlur={handlePasswordBlur}
+                  setPassword(e.target.value);
+                  setPasswordError("");
+                }}
               />
-              {passwordError && <div className="error-message">{passwordError}</div>}
+              {passwordError && (
+                <div className="error-message">{passwordError}</div>
+              )}
             </div>
-            {/* {errorMessage && <div className="error-message">{errorMessage}</div>} */}
+            {message && <div className="error-message">{message}</div>}
             <div className="login_form_field">
               <span>
                 Not a user?
@@ -124,14 +110,14 @@ const Login = () => {
                 </Link>
               </span>
             </div>
-            <div class="button_container">
+            <div className="button_container">
               <div
                 variant="primary"
                 type="submit"
                 className="btn btn-primary"
                 onClick={onSubmit}
               >
-                <span className="btn-text">Submit</span>
+                <span className="btn-text">Login</span>
               </div>
             </div>
           </div>
@@ -140,6 +126,12 @@ const Login = () => {
           <img src={login_img} className="login_img" alt="Login" />
         </div>
       </div>
+      {showAlert && (
+        <div className="popup">
+          <p>{message}</p>
+          <button onClick={() => setShowAlert(false)}>Close</button>
+        </div>
+      )}
     </div>
   );
 };
