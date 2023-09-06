@@ -2,7 +2,7 @@ package com.portal.exception;
 /**
  * Custom exception class to handle wrong username password.
  */
-public class WrongCredentials {
+public class WrongCredentialsException extends RuntimeException {
 
 
     /**
@@ -11,7 +11,7 @@ public class WrongCredentials {
      *
      * @param message The detail message.
      */
-    public WrongCredentials(final String message) {
+    public WrongCredentialsException(String message) {
         super();
     }
 }

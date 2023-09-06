@@ -31,9 +31,10 @@ const Login = () => {
 
       AdminService.loginAdmin(formData)
         .then((response) => {
-          if (response.data.status === 200) {
+          if (response.status === 200) {
             setShowAlert(true);
             setMessage("Login Successful");
+            console.log(response.status);
             console.log(response.data);
             // navigate("/dashboard")
             setEmail("");
@@ -103,7 +104,7 @@ const Login = () => {
             </div>
             {message && <div className="error-message">{message}</div>}
             <div className="login_form_field">
-              <span>
+              <span className="login_text">
                 Not a user?
                 <Link to="/register" className="login_reg">
                   Register

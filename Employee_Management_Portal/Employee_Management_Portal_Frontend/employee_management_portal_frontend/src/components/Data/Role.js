@@ -1,6 +1,6 @@
 const Role = [
-    "Employee",
-    "Manager",
+    "EMPLOYEE",
+    "MANAGER",
 ]
 
 export default Role;

@@ -19,6 +19,7 @@ import com.portal.DTO.LoginDTO;
 import com.portal.DTO.ResponseDTO;
 import com.portal.entities.Admin;
 import com.portal.exception.DuplicateEntryException;
+import com.portal.exception.WrongCredentialsException;
 import com.portal.service.AdminService;
 
 /**
@@ -46,13 +47,15 @@ public class AdminController { /**
      * @throws DuplicateEntryException If the admin already exists.
      */
     final @PostMapping("/register")
-    public ResponseEntity<String> registerAdmin(@RequestBody @Valid AdminDTO admin) {
-        try {
-            admin.setPassword(admin.getPassword());
-            adminService.registerAdmin(admin, null);
-            return ResponseEntity.ok("Admin registered with ID: " + admin.getAdminId());
-        } catch (DuplicateEntryException e) {
-            return ResponseEntity.badRequest().body("An admin with this email already exists.");
+    public ResponseDTO registerAdmin(@RequestBody final AdminDTO adminDTO) {
+    	AdminDTO createUser = adminService.registerAdmin(adminDTO);
+    	if(createUser!=null) {
+    		ResponseDTO response = new ResponseDTO("Admin Added succesfully");
+        return response;
+        }
+        else {
+        	ResponseDTO response = new ResponseDTO("Invalid Credentials");
+            return response;
         }
     }
 
@@ -75,20 +78,10 @@ public class AdminController { /**
      */
     final @PostMapping("/login")
     public ResponseDTO login(@RequestBody final LoginDTO loginDto) {
-//     try {
-             if (adminService.login(loginDto) == null) {
-                 ResponseDTO response = new ResponseDTO("Wrong credentials",
-                         null, HttpStatus.BAD_REQUEST.value());
-                 return response;
-             } else {
-                 ResponseDTO response = new ResponseDTO("Login successful",
-                         loginDto, HttpStatus.OK.value());
-                 return response;
-             }
-//         } catch (Exception e) {
-//             ResponseDTO response = new ResponseDTO(e.getMessage(),
-//                     null, HttpStatus.BAD_REQUEST.value());
-//             return response;
-//         }
+    	 if (adminService.login(loginDto) == null) {
+             throw new WrongCredentialsException("Wrong credentials");
+         } else {
+             return new ResponseDTO("Login Succesfully");
+         }
     }
 }

@@ -1,5 +1,8 @@
 package com.portal.DTO;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 /**
  * Data Transfer Object (DTO) class representing
  * a response from the application.
@@ -18,20 +21,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class ResponseDTO {
 
     /**
      * The message associated with the response.
      */
     private String message;
-
-    /**
-     * The data associated with the response.
-     */
-    private Object data;
-
-    /**
-     * The status code of the response.
-     */
-    private int status;
+   
 }

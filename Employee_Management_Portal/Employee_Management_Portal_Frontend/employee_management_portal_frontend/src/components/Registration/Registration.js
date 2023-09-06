@@ -9,7 +9,7 @@ import Location from "../Data/Location";
 import Designation from "../Data/Designation";
 
 const Registration = () => {
-  const [adminId, setAdminId] = useState("");
+  const [Id, setId] = useState("");
   const [empId, setEmpId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -46,8 +46,8 @@ const Registration = () => {
 
     // onBlur validations for each input field
     const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-    // const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
+    const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;
+    // const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
     const empIdRegex = /^[Nn]\d{4}$/;
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     const today = new Date();
@@ -147,7 +147,7 @@ const Registration = () => {
 
     if (isValid) {
       const formData = {
-        adminId,
+        Id,
         empId,
         name,
         email,

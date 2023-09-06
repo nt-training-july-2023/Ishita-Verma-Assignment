@@ -23,8 +23,9 @@
 }
 
 .login_img {
-    width: 35rem;
-    height: 18rem;
+    margin-left: 4rem;
+    width: 33rem;
+    height: 15rem;
 
 }
 
@@ -69,7 +70,10 @@
     gap: 10rem;
 
 }
-
+.login_text{
+    color: white;
+    font-weight: bold;
+}
 .popup {
   position: fixed;
   top: 10%;

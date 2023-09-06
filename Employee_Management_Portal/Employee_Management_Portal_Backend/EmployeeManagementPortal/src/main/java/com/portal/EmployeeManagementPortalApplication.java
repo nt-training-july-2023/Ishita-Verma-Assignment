@@ -1,6 +1,8 @@
 package com.portal;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 /**
  *@Target(value={TYPE})
 @SpringBootConfiguration
@@ -16,6 +18,23 @@ public class EmployeeManagementPortalApplication {
 */
 final public static void main(final String[] args) {
      SpringApplication.run(EmployeeManagementPortalApplication.class, args);
+}
+/**.
+ * model mapper method
+ * @return instance of model mapper
+ */
+@Bean
+public ModelMapper dtoToEntityMapper() {
+    return new ModelMapper();
+}
+
+@Bean
+public ModelMapper entityToDtoMapper() {
+    return new ModelMapper();
+}
+@Bean
+public ModelMapper modelMapper() {
+    return new ModelMapper();
 }
 }
 

@@ -1,102 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import './projecttab.css'
 
 const ProjectTab = () => {
+  const [projects, setProjects]  = useState([]);
+
+   useEffect(() => {
+    getAllProjects();
+  },[]);
+
+  const getAllProjects = async () => {
+    try{
+       const response = await axios.get(
+        "http://localhost:8080/api/admin/projects"
+        );
+         console.log(response.data);
+         setProjects(response.data);
+    }
+    catch(error){
+       console.error("Error fetching data:", error);
+    }
+  }
   return (
-    <div className="project-card">
-      <div className="project-info">
-        <div className="column">
-          <p><strong>Project Name:</strong> Project X</p>
-          <p><strong>Manager:</strong> John Doe</p>
-          <p><strong>Description:</strong> Lorem ipsum dolor sit amet.</p>
-          <p><strong>Team:</strong> Development</p>
-          <p><strong>Skills:</strong> JavaScript, React</p>
+    <div className="card_container">
+      {projects.map((project) => (
+        <div className="project-info" key={project.projectId}>
+          <div className="column">
+            <p><strong>Project Name:</strong> {project.name}</p>
+            <p><strong>Manager:</strong> {project.managerId}</p>
+            <p><strong>Description:</strong> {project.description}</p>
+            {/* <p><strong>Team:</strong> {project.team}</p> */}
+            <p><strong>Skills:</strong> {project.skills}</p>
+          </div>
+          <div className="column">
+            <p><strong>Project ID:</strong> {project.projectId}</p>
+            <p><strong>Start Date:</strong> {project.startDate}</p>
+          </div>
         </div>
-        <div className="column">
-          <p><strong>Project ID:</strong> 12345</p>
-          <p><strong>Start Date:</strong> 2023-09-01</p>
-        </div>
-      </div>
-      <div className="project-info">
-        <div className="column">
-          <p><strong>Project Name:</strong> Project X</p>
-          <p><strong>Manager:</strong> John Doe</p>
-          <p><strong>Description:</strong> Lorem ipsum dolor sit amet.</p>
-          <p><strong>Team:</strong> Development</p>
-          <p><strong>Skills:</strong> JavaScript, React</p>
-        </div>
-        <div className="column">
-          <p><strong>Project ID:</strong> 12345</p>
-          <p><strong>Start Date:</strong> 2023-09-01</p>
-        </div>
-      </div>
-      <div className="project-info">
-        <div className="column">
-          <p><strong>Project Name:</strong> Project X</p>
-          <p><strong>Manager:</strong> John Doe</p>
-          <p><strong>Description:</strong> Lorem ipsum dolor sit amet.</p>
-          <p><strong>Team:</strong> Development</p>
-          <p><strong>Skills:</strong> JavaScript, React</p>
-        </div>
-        <div className="column">
-          <p><strong>Project ID:</strong> 12345</p>
-          <p><strong>Start Date:</strong> 2023-09-01</p>
-        </div>
-      </div>
-      <div className="project-info">
-        <div className="column">
-          <p><strong>Project Name:</strong> Project X</p>
-          <p><strong>Manager:</strong> John Doe</p>
-          <p><strong>Description:</strong> Lorem ipsum dolor sit amet.</p>
-          <p><strong>Team:</strong> Development</p>
-          <p><strong>Skills:</strong> JavaScript, React</p>
-        </div>
-        <div className="column">
-          <p><strong>Project ID:</strong> 12345</p>
-          <p><strong>Start Date:</strong> 2023-09-01</p>
-        </div>
-      </div>
-      <div className="project-info">
-        <div className="column">
-          <p><strong>Project Name:</strong> Project X</p>
-          <p><strong>Manager:</strong> John Doe</p>
-          <p><strong>Description:</strong> Lorem ipsum dolor sit amet.</p>
-          <p><strong>Team:</strong> Development</p>
-          <p><strong>Skills:</strong> JavaScript, React</p>
-        </div>
-        <div className="column">
-          <p><strong>Project ID:</strong> 12345</p>
-          <p><strong>Start Date:</strong> 2023-09-01</p>
-        </div>
-      </div>
-      <div className="project-info">
-        <div className="column">
-          <p><strong>Project Name:</strong> Project X</p>
-          <p><strong>Manager:</strong> John Doe</p>
-          <p><strong>Description:</strong> Lorem ipsum dolor sit amet.</p>
-          <p><strong>Team:</strong> Development</p>
-          <p><strong>Skills:</strong> JavaScript, React</p>
-        </div>
-        <div className="column">
-          <p><strong>Project ID:</strong> 12345</p>
-          <p><strong>Start Date:</strong> 2023-09-01</p>
-        </div>
-      </div>
-      <div className="project-info">
-        <div className="column">
-          <p><strong>Project Name:</strong> Project X</p>
-          <p><strong>Manager:</strong> John Doe</p>
-          <p><strong>Description:</strong> Lorem ipsum dolor sit amet.</p>
-          <p><strong>Team:</strong> Development</p>
-          <p><strong>Skills:</strong> JavaScript, React</p>
-        </div>
-        <div className="column">
-          <p><strong>Project ID:</strong> 12345</p>
-          <p><strong>Start Date:</strong> 2023-09-01</p>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };
 
-export default ProjectTab
+export default ProjectTab;

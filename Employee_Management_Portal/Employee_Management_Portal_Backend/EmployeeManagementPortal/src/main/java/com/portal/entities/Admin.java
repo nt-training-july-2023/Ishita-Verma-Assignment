@@ -1,6 +1,9 @@
 package com.portal.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -26,7 +29,7 @@ public class Admin {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long adminId;
+    private long Id;
 
     /**
      * Employee ID of the admin.
@@ -37,7 +40,7 @@ public class Admin {
     /**
      * Name of the admin.
      */
-    @Column
+    @Column(nullable = false)
     private String name;
 
     /**
@@ -74,11 +77,18 @@ public class Admin {
      * Contact number of the admin.
      */
     @Column
-    private long contactNumber;
-    
-    @Column
+    private String contactNumber;
+    /**
+     * role of  user
+     */
+    @Enumerated(EnumType.STRING)
     private Role role;
 
+    /**
+     * project of user
+     */
+    @Column
+    private String project;
     /**
      * Password of the admin.
      */
@@ -91,6 +101,7 @@ public class Admin {
     @Column
     private String confirmPassword;
     
-    
+    @Column
+    private String skills;
 
 }

@@ -1,5 +1,7 @@
 package com.portal.DTO;
 
+import java.util.List;
+
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -27,44 +29,31 @@ public class AdminDTO {
     /**
      * The unique ID of the admin.
      */
-    private long adminId;
+    private long Id;
 
     /**
      * The employee ID of the admin.
      */
-    @Pattern(regexp = "[Nn]\\d{4}",
-    message = "Employee ID should be in pattern NXXXX or nXXXX")
     private String empId;
 
     /**
      * The name of the admin.
      */
-    @NotBlank(message = "Name is required")
-    @Pattern(regexp = "^[A-Za-z]+$",
-    message = "Name must contain alphabetic characters only")
-    private String name;
+   private String name;
 
     /**
      * The email address of the admin.
      */
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email must be in a valid format")
-    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@nucleusteq\\.com$",
-    message = "Email must be a company email (@nucleusteq.com)")
-    private String email;
+   private String email;
 
     /**
      * The date of birth of the admin.
      */
-    @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{2}$",
-    message = "DOB should have a pattern like dd/mm/yy")
-    private String dob;
+   private String dob;
 
     /**
      * The date of joining of the admin.
      */
-    @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{2}$",
-    message = "DOJ should have a pattern like dd/mm/yy")
     private String doj;
 
     /**
@@ -80,17 +69,11 @@ public class AdminDTO {
     /**
      * The contact number of the admin.
      */
-    @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{2}$",
-    message = "DOB should have a pattern like dd/mm/yy")
-    private long contactNumber;
+    private String contactNumber;
 
     /**
      * The password for the admin's account.
      */
-    @Size(min = 8, message = "Password should have at least 8 characters")
-    @Pattern(regexp =
-    "^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+{}\\[\\]:;<>,.?~]).{8,}$",
-    message = "Incorrect")
     private String password;
 
     /**
@@ -104,8 +87,7 @@ public class AdminDTO {
     
     private Role role;
     
-   final @AssertTrue(message = "Passwords do not match")
-    public boolean isPasswordsMatch() {
-        return password.equals(confirmPassword);
-    }
+    private String Project;
+    
+    private List<String> skills;
 }

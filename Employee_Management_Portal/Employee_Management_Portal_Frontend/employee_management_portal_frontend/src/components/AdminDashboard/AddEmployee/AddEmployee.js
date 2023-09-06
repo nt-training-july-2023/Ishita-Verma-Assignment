@@ -1,24 +1,38 @@
-import {React,useState} from "react";
-import './addemployee.css'
+import { React, useState } from "react";
+import "./addemployee.css";
+import Select from 'react-select';
 import Designation from "../../Data/Designation";
 import Location from "../../Data/Location";
 import Role from "../../Data/Role";
-import { useNavigate, Link } from "react-router-dom";
-import bcrypt from 'bcryptjs';
+import { useNavigate } from "react-router-dom";
+import AdminService from "../../service/AdminService";
+import Skills from "../../Data/Skills";
+
 
 const AddEmployee = () => {
-    const [adminId, setAdminId] = useState("");
-    const [empId, setEmpId] = useState("");
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [dob, setDob] = useState("");
-    const [doj, setDoj] = useState("");
-    const [location, setLocation] = useState("");
-    const [designation, setDesignation] = useState("");
-    const [contactNumber, setContactNumber] = useState("");
-    const [role, setRole] = useState("");
-   
-    //for validations
+  const navigate = useNavigate();
+
+  const [skills, setSkills] = useState([]);
+
+  const handleSkillChange = (selectedOptions) => {
+    const selectedSkillsValues = selectedOptions.map((option) => option.value);
+    setSkills(selectedSkillsValues);
+  };
+
+  const [empId, setEmpId] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [dob, setDob] = useState("");
+  const [doj, setDoj] = useState("");
+  const [location, setLocation] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [role, setRole] = useState("");
+
+ 
+   const [selectedSkills, setSelectedSkills] = useState([]);
+
+  //for validations
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [empIdError, setEmpIdError] = useState("");
@@ -29,12 +43,13 @@ const AddEmployee = () => {
   const [contactNumberError, setContactNumberError] = useState("");
   const [roleError, setRoleError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [formVisible, setFormVisible] = useState(true);
+
   
   const onSubmit = (e) => {
+    e.preventDefault();
 
-    if(role===""){
-        setRoleError("Required")
+    if (role === "") {
+      setRoleError("Required");
     }
     const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
     // const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;
@@ -48,9 +63,9 @@ const AddEmployee = () => {
       today.getDate()
     );
     const cleanedContactNumber = contactNumber.replace(/[^0-9]/g, "");
-    
+
     let isValid = true;
-   
+
     if (!alphabeticRegex.test(name)) {
       setNameError("Name must contain alphabetic characters only");
       isValid = false;
@@ -113,75 +128,98 @@ const AddEmployee = () => {
       setContactNumber(cleanedContactNumber);
       setContactNumberError("");
     }
-  }
-    const handleNameBlur = (e) => {
-      const inputValue = e.target.value;
-      const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-      if (!alphabeticRegex.test(inputValue)) {
-        setNameError("Name must contain alphabetic characters only");
-      } else {
-        setNameError("");
-      }
+    
+
+    const employee = {
+      name,
+      email,
+      empId,
+      dob,
+      doj,
+      location,
+      designation,
+      contactNumber,
+      role,
+      skills
     };
+    AdminService.addEmployee(employee)
+      .then((response) => {
+        console.log(response.data);
+        setErrorMessage("Successfully added.");
 
-    const handleEmailBlur = (e) => {
-      const inputValue = e.target.value;
-      // const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;;
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
+        navigate("");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleNameBlur = (e) => {
+    const inputValue = e.target.value;
+    const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
+    if (!alphabeticRegex.test(inputValue)) {
+      setNameError("Name must contain alphabetic characters only");
+    } else {
+      setNameError("");
+    }
+  };
 
-      if (!emailRegex.test(inputValue)) {
-        setEmailError("Email must be a company email (@nucleusteq.com)");
-      } else {
-        setEmailError("");
-      }
-    };
+  const handleEmailBlur = (e) => {
+    const inputValue = e.target.value;
+    // const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
 
-    const handleEmpIdBlur = (e) => {
-      const inputValue = e.target.value;
-      const empIdRegex = /^[Nn]\d{4}$/;
+    if (!emailRegex.test(inputValue)) {
+      setEmailError("Email must be a company email (@nucleusteq.com)");
+    } else {
+      setEmailError("");
+    }
+  };
 
-      if (!empIdRegex.test(inputValue)) {
-        setEmpIdError("Employee ID should be in pattern NXXXX");
-      } else {
-        setEmpIdError("");
-      }
-    };
+  const handleEmpIdBlur = (e) => {
+    const inputValue = e.target.value;
+    const empIdRegex = /^[Nn]\d{4}$/;
 
-    const handleDobBlur = (e) => {
-      const inputValue = e.target.value;
-      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!empIdRegex.test(inputValue)) {
+      setEmpIdError("Employee ID should be in pattern NXXXX");
+    } else {
+      setEmpIdError("");
+    }
+  };
 
-      if (!dateRegex.test(inputValue)) {
-        setDobError("Date should have a pattern like DD-MM-YY");
-      } else {
-        setDobError("");
-      }
-    };
+  const handleDobBlur = (e) => {
+    const inputValue = e.target.value;
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
-    const handleDojBlur = (e) => {
-      const inputValue = e.target.value;
-      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(inputValue)) {
+      setDobError("Date should have a pattern like DD-MM-YY");
+    } else {
+      setDobError("");
+    }
+  };
 
-      if (!dateRegex.test(inputValue)) {
-        setDojError("Date should have a pattern like  DD-MM-YY");
-      } else {
-        setDojError("");
-      }
-    };
+  const handleDojBlur = (e) => {
+    const inputValue = e.target.value;
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
-    const handleContactNumberBlur = (e) => {
-      const inputValue = e.target.value;
-      const cleanedContactNumber = inputValue.replace(/[^0-9]/g, "");
+    if (!dateRegex.test(inputValue)) {
+      setDojError("Date should have a pattern like  DD-MM-YY");
+    } else {
+      setDojError("");
+    }
+  };
 
-      if (!/^\d{10}$/.test(cleanedContactNumber)) {
-        setContactNumberError("Contact no should have 10 digits only");
-      } else {
-        setContactNumber(cleanedContactNumber);
-        setContactNumberError("");
-      }
-    };
+  const handleContactNumberBlur = (e) => {
+    const inputValue = e.target.value;
+    const cleanedContactNumber = inputValue.replace(/[^0-9]/g, "");
 
-  
+    if (!/^\d{10}$/.test(cleanedContactNumber)) {
+      setContactNumberError("Contact no should have 10 digits only");
+    } else {
+      setContactNumber(cleanedContactNumber);
+      setContactNumberError("");
+    }
+  };
+
   return (
     <div className="reg_form">
       <div>
@@ -244,7 +282,7 @@ const AddEmployee = () => {
         {contactNumberError && (
           <div className="error-message">{contactNumberError}</div>
         )}
-        
+
         <div className=" reg_form_field">
           <div>
             {/* <label className="reg_form_field_label">Location :</label> */}
@@ -295,8 +333,7 @@ const AddEmployee = () => {
           <div className="error-message">{designationError}</div>
         )}
 
-
-       <div className=" reg_form_field">
+        <div className=" reg_form_field">
           <div>
             {/* <label className="reg_form_field_label">Location :</label> */}
           </div>
@@ -351,18 +388,22 @@ const AddEmployee = () => {
         </div>
         {dojError && <div className="error-message">{dojError}</div>}
 
-
-
         <div className=" reg_form_field">
           {/* <div> <label className="reg_form_field_label">Confirm Password :</label></div>  */}
-          <input
-            type="text"
-            placeholder="Skills"
-            className="reg_form_input"
-            required
-          />
+          <Select
+                options={Skills.map((skill) => ({
+                  value: skill,
+                  label: skill,
+                }))}
+                isMulti={true}
+                placeholder="Select skills"
+                className="skills_select"
+                onChange={handleSkillChange}
+                value={skills.map((skill) => ({ value: skill, label: skill }))}
+              />
         </div>
       </div>
+
       {errorMessage && <div className="error-message">{errorMessage}</div>}
       <div class="buttons">
         <div className="btn_submit" onClick={onSubmit} type="submit">
@@ -372,5 +413,5 @@ const AddEmployee = () => {
     </div>
   );
 };
-
+// const addEmployee = new AddEmployee();
 export default AddEmployee;
