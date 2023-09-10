@@ -11,21 +11,11 @@ import com.portal.entities.Role;
 
 class AdminDTOTest {
 
-    @Test
-    public void testIsPasswordsMatch() {
-        AdminDTO adminDTO = new AdminDTO();
-        adminDTO.setPassword("Test1234");
-        adminDTO.setConfirmPassword("Test1234");
-        assertTrue(adminDTO.isPasswordsMatch());
-
-        adminDTO.setConfirmPassword("DifferentPassword");
-        assertFalse(adminDTO.isPasswordsMatch());
-    }
 
     @Test
     public void testGettersAndSetters() {
         AdminDTO adminDTO = new AdminDTO();
-        adminDTO.setAdminId(1);
+       
         adminDTO.setEmpId("N0001");
         adminDTO.setName("Ankita Sharma");
         adminDTO.setEmail("ankita.sharma@nucleusteq.com");
@@ -33,12 +23,12 @@ class AdminDTOTest {
         adminDTO.setDoj("02-01-2023");
         adminDTO.setLocation(Location.Raipur);
         adminDTO.setDesignation(Designation.Recruiter);
-        adminDTO.setContactNumber(987654321);
+        adminDTO.setContactNumber("987654321");
         adminDTO.setPassword("Ankita@123");
-        adminDTO.setConfirmPassword("Ankita@123");
+       
         adminDTO.setRole(Role.ADMIN);
 
-        assertEquals(1, adminDTO.getAdminId());
+    
         assertEquals("N0001", adminDTO.getEmpId());
         assertEquals("Ankita Sharma", adminDTO.getName());
         assertEquals("ankita.sharma@nucleusteq.com", adminDTO.getEmail());
@@ -46,34 +36,13 @@ class AdminDTOTest {
         assertEquals("02-01-2023", adminDTO.getDoj());
         assertEquals(Location.Raipur, adminDTO.getLocation());
         assertEquals(Designation.Recruiter, adminDTO.getDesignation());
-        assertEquals(987654321, adminDTO.getContactNumber());
+        assertEquals("987654321", adminDTO.getContactNumber());
         assertEquals("Ankita@123", adminDTO.getPassword());
-        assertEquals("Ankita@123", adminDTO.getConfirmPassword());
         assertEquals(Role.ADMIN, adminDTO.getRole());
     }
 
-    @Test
-    public void testPasswordsNotMatching() {
-        AdminDTO adminDTO = new AdminDTO();
-        adminDTO.setPassword("Password123");
-        adminDTO.setConfirmPassword("DifferentPassword");
-        assertFalse(adminDTO.isPasswordsMatch());
-    }
-
-    @Test
-    public void testEmptyPasswordConfirmation() {
-        AdminDTO adminDTO = new AdminDTO();
-        adminDTO.setPassword("Password123");
-        assertFalse(adminDTO.isPasswordsMatch());
-    }
-
-    @Test
-    public void testEmptyFields() {
-        AdminDTO adminDTO = new AdminDTO();
-        adminDTO.setPassword("Password123@");
-        adminDTO.setConfirmPassword("Password123");
-        assertFalse(adminDTO.isPasswordsMatch());
-    }
+   
+    
 
     @Test
     public void testValidEmail() {
@@ -133,16 +102,16 @@ class AdminDTOTest {
     @Test
     public void testInvalidContactNumber() {
         AdminDTO adminDTO = new AdminDTO();
-        adminDTO.setContactNumber(1234567890L); // Corrected format with 'L' for long
-        assertEquals(1234567890L, adminDTO.getContactNumber());
+        adminDTO.setContactNumber("1234567890");
+        assertEquals("1234567890", adminDTO.getContactNumber());
     }
 
 
     @Test
     public void testValidContactNumber() {
         AdminDTO adminDTO = new AdminDTO();
-        adminDTO.setContactNumber(9876543210L); // Valid format
-        assertTrue(adminDTO.getContactNumber() == 9876543210L);
+        adminDTO.setContactNumber("9876543210"); // Valid format
+        assertTrue(adminDTO.getContactNumber() == "9876543210");
     }
 
   

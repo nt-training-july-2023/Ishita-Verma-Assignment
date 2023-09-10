@@ -118,7 +118,7 @@
     }
 }
 /* Add responsive styling for medium screens */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .login_heading {
         font-size: 2rem;
     }
@@ -131,13 +131,13 @@
     .login_form_input {
         max-width: 100%;
     }
-}
+} */
 
 /* Add more responsive styling for small screens */
 @media (max-width: 576px) {
     .login_heading {
         font-size: 1.5rem;
-        margin-left:2rem;
+        /* margin-left:rem; */
     }
 
     .login_input_field {
@@ -147,4 +147,8 @@
     .button_container {
         gap: 1rem;
     }
+
+    .login_img {
+       display: none;}
+
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,14 +46,14 @@ public class AdminController { /**
      * @throws DuplicateEntryException If the admin already exists.
      */
     final @PostMapping("/register")
-    public ResponseDTO registerAdmin(@RequestBody final AdminDTO adminDTO) {
-    	AdminDTO createUser = adminService.registerAdmin(adminDTO);
-    	if(createUser!=null) {
-    		ResponseDTO response = new ResponseDTO("Admin Added succesfully");
+    public ResponseDTO registerAdmin(@Valid @RequestBody final AdminDTO adminDTO) {
+        AdminDTO createUser = adminService.registerAdmin(adminDTO);
+        if(createUser != null) {
+        ResponseDTO response = new ResponseDTO("Admin Added succesfully","");
         return response;
         }
         else {
-        	ResponseDTO response = new ResponseDTO("Invalid Credentials");
+        	ResponseDTO response = new ResponseDTO("Invalid Credentials","");
             return response;
         }
     }
@@ -76,12 +75,32 @@ public class AdminController { /**
      * @param loginDto The LoginDTO containing login credentials.
      * @return A ResponseEntity indicating login status.
      */
+//  final @PostMapping("/login")
+//  public Map<String, String> login(@RequestBody final LoginDTO loginDto) {
+////  	 if (adminService.login(loginDto) == null) {
+////           throw new WrongCredentialsException("Wrong credentials");
+////       } else {
+////           return new ResponseDTO("Login Succesfully");
+////       }
+//	  return adminService.login(loginDto);
+//  }
+
+
     final @PostMapping("/login")
-    public ResponseDTO login(@RequestBody final LoginDTO loginDto) {
-    	 if (adminService.login(loginDto) == null) {
-             throw new WrongCredentialsException("Wrong credentials");
-         } else {
-             return new ResponseDTO("Login Succesfully");
-         }
+    public ResponseDTO login(@Valid @RequestBody final LoginDTO loginDto) {
+        AdminDTO adminDTO = adminService.login(loginDto);
+ 
+        if (adminDTO == null) {
+            throw new WrongCredentialsException("Wrong credentials");
+        } else {
+            // Fetch the user's role based on their email or identifier
+            String userRole = adminService.getUserRoleByEmail(loginDto.getEmail());
+
+            // Create a new ResponseDTO that includes the role
+            ResponseDTO ResponseDTO = new ResponseDTO("Login Successfully", userRole);
+
+            return ResponseDTO;
+        }
     }
+   
 }

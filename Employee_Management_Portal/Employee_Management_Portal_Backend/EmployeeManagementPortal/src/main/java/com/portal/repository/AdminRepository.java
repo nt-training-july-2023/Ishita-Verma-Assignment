@@ -29,5 +29,7 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
      * @return True if an admin with the email exists, false otherwise.
      */
 //    boolean existsByEmail(String email);
+	boolean existsByEmail(String email);
+	boolean existsByEmpId(String empId);
 	
 }

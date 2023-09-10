@@ -10,7 +10,7 @@ class RoleTest {
 	    public void testEnumValues() {
 	        assertEquals(Role.ADMIN, Role.valueOf("ADMIN"));
 	        assertEquals(Role.MANAGER, Role.valueOf("MANAGER"));
-	        assertEquals(Role.USER, Role.valueOf("USER"));
+	        assertEquals(Role.EMPLOYEE, Role.valueOf("EMPLOYEE"));
 	    }
 
 	    @Test
@@ -23,14 +23,14 @@ class RoleTest {
 	    public void testEnumToString() {
 	        assertEquals("ADMIN", Role.ADMIN.toString());
 	        assertEquals("MANAGER", Role.MANAGER.toString());
-	        assertEquals("USER", Role.USER.toString());
+	        assertEquals("EMPLOYEE", Role.EMPLOYEE.toString());
 	    }
 
 	    @Test
 	    public void testEnumOrdinal() {
 	        assertEquals(0, Role.ADMIN.ordinal());
 	        assertEquals(1, Role.MANAGER.ordinal());
-	        assertEquals(2, Role.USER.ordinal());
+	        assertEquals(2, Role.EMPLOYEE.ordinal());
 	    }
 
 	    @Test

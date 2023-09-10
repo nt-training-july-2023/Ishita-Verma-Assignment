@@ -26,7 +26,7 @@ const ProjectTab = () => {
       {projects.map((project) => (
         <div className="project-info" key={project.projectId}>
           <div className="column">
-            <p><strong>Project Name:</strong> {project.name}</p>
+            <h2 style={{fontSize:"1.5rem"}}>{project.name}</h2> 
             <p><strong>Manager:</strong> {project.managerId}</p>
             <p><strong>Description:</strong> {project.description}</p>
             {/* <p><strong>Team:</strong> {project.team}</p> */}

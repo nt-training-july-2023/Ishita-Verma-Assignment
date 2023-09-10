@@ -157,6 +157,12 @@
     font-size: 14px;
     color: #333;
 }
+
+.exit_btn{
+background-color: transparent;
+border: none;
+cursor: pointer;
+}
 @media (max-width: 768px) {
     .admin_add_employee {
       position: static;

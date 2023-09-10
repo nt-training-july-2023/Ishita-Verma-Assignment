@@ -4,6 +4,9 @@ import com.portal.DTO.ProjectDTO;
 import com.portal.entities.Project;
 import com.portal.repository.ProjectRepository;
 import com.portal.validations.Validation;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,5 +44,18 @@ public class AddProjectService {
         projectRepository.save(project);
         return project.getName();
     }
+    
+    public List<String> getSkillsForProject(String name) {
+        Project project = projectRepository.findByName(name);
+        if (project != null) {
+            // Assuming 'skills' is a comma-separated string, split it into a list
+            String[] skillArray = project.getSkills().split(",");
+            return Arrays.asList(skillArray);
+        }
+        return Collections.emptyList(); // Project not found or no skills
+    }
+    
+    
+	
 }
 

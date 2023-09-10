@@ -2,6 +2,8 @@ package com.portal.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.support.BeanDefinitionDsl.Role;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,8 +23,7 @@ import com.portal.entities.Role;
 @CrossOrigin("*")
 @RequestMapping("/api/admin")
 @RestController
-public class AddEmployeeController {
-
+public class EmployeeController {
 	@Autowired
 	private AdminRepository userRepository;
 	/**
@@ -32,7 +33,7 @@ public class AddEmployeeController {
 	private AddEmployeeService addEmployeeService;
 
 	@PostMapping(path = "/addEmployee")
-	public final String saveEmployee(@RequestBody final AdminDTO userDTO) {
+	public final String saveEmployee(@RequestBody @Valid final AdminDTO userDTO) {
 		{
 			return addEmployeeService.addEmployee(userDTO);
 		}

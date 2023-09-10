@@ -5,13 +5,14 @@ import AdminService from "../service/AdminService";
 import login_img from "../../Assests/Images/login_img.png";
 import { Base64 } from "js-base64";
 
-const Login = () => {
+const Login = ({setIsLoggedIn ,login}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [message, setMessage] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  // const [showAlert, setShowAlert] = useState(false);
 
   const navigate = useNavigate();
 
@@ -31,24 +32,17 @@ const Login = () => {
 
       AdminService.loginAdmin(formData)
         .then((response) => {
-          if (response.status === 200) {
-            setShowAlert(true);
-            setMessage("Login Successful");
-            console.log(response.status);
-            console.log(response.data);
-            // navigate("/dashboard")
-            setEmail("");
-            setPassword("");
-            
-          } else {
-            // Display an alert for "Wrong Credentials"
-            setShowAlert(true);
-            setMessage("Wrong Credentials");
-            console.log(response.data);
-            console.log(formData.password);
-          }
+          console.log(response.data);
+          setPasswordError("Login Successful")
+          console.log("role "+ response.data.role);
+          // localStorage.setItem("role",response.data.role)
+          login();
+            // Redirect to the "admindashboard" route
+            navigate("/admindashboard");
+
         })
         .catch((error) => {
+          setMessage("Wrong Credentials");
           console.log(error);
           setPasswordError("Incorrect Password");
         });
@@ -127,12 +121,12 @@ const Login = () => {
           <img src={login_img} className="login_img" alt="Login" />
         </div>
       </div>
-      {showAlert && (
+      {/* {showAlert && (
         <div className="popup">
           <p>{message}</p>
           <button onClick={() => setShowAlert(false)}>Close</button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

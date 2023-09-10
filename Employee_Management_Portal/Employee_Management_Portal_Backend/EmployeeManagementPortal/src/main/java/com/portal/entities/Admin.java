@@ -32,7 +32,7 @@ public class Admin {
     private long Id;
 
     /**
-     * Employee ID of the admin.
+     * EmployeeController ID of the admin.
      */
     @Column(unique = true)
     private String empId;
@@ -88,20 +88,22 @@ public class Admin {
      * project of user
      */
     @Column
-    private String project;
+    private long projectId;
     /**
-     * Password of the admin.
+     * Password of the user.
      */
     @Column
     private String password;
 
     /**
-     * Confirm password of the admin.
+     * Skills of the user.
      */
     @Column
-    private String confirmPassword;
-    
-    @Column
     private String skills;
+    /**
+     * Manager of the user.
+     */
+    @Column
+    private String managerId;
 
 }

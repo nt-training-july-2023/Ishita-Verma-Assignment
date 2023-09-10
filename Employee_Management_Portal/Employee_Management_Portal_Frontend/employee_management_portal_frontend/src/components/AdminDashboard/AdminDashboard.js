@@ -1,18 +1,25 @@
-import {React,useState} from 'react'
+import {React,useEffect,useState} from 'react'
 import './admindashboard.css'
 import AddEmployee from './AddEmployee/AddEmployee'
 import EmployeeTab from './EmployeeTab/EmployeeTab'
 import ManagerTab from './ManagerTab/ManagerTab'
 import ProjectTab from './ProjectTab/ProjectTab'
 import AddProject from './AddProject/AddProject'
+import { useNavigate } from 'react-router-dom'
 
 
-const AdminDashboard = () => {
+const AdminDashboard = ({isLoggedIn}) => {
 
   const [showAddEmployee, setShowAddEmployee] = useState(false);
   const [showAddProject, setShowAddProject] = useState(false);
   const [activeTab, setActiveTab] = useState('employee');
+  const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   if(!isLoggedIn){
+  //     navigate("/login")
+  //   }
+  // },[isLoggedIn])
   const toggleAddEmployee = () => {
     setShowAddEmployee(!showAddEmployee);
   };
@@ -57,13 +64,13 @@ const AdminDashboard = () => {
       {showAddEmployee && (
         <div className='add_employee_form'>
           <AddEmployee />
-          <button onClick={cancelAddEmployee} className='btn_cancel'>Cancel</button>
+          <button onClick={cancelAddEmployee} className='exit_btn'>Exit</button>
         </div>
       )}
       {showAddProject && (
         <div className='add_employee_form'>
           <AddProject />
-          <button onClick={cancelAddProject} className='cancel_btn'>Cancel</button>
+          <button onClick={cancelAddProject} className='exit_btn'>Exit</button>
         </div>
       )}
       <div>

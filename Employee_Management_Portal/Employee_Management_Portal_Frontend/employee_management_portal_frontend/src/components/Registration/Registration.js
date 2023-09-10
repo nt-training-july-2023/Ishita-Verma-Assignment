@@ -96,14 +96,6 @@ const Registration = () => {
       setDobError("");
     }
 
-    // if (isNaN(dojDate) || dojDate > today) {
-    //   setDojError("Date of Joining cannot be in the future.");
-    //   isValid = false;
-    // } else {
-    //   setDojError("");
-    // }
-
-
     if (!dateRegex.test(doj)) {
       setDojError("Date should have a pattern like  DD-MM-YY");
       isValid = false;
@@ -180,8 +172,8 @@ const Registration = () => {
         .catch((error) => {
           console.log(error);
 
-          if (error.response && error.response.status === 400) {  
-            setErrorMessage("An admin with this email already exists.");
+          if (error.response && error.response.data && error.response.data.message) {  
+            setErrorMessage(error.response.data.message);
             console.log("error");
           } else {
             setErrorMessage("An error occurred while registering.");

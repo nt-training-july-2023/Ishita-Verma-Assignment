@@ -8,7 +8,7 @@ class AdminTest {
 
 	@Test
     public void testAdminEntity() {
-        long adminId = 1L;
+       
         String empId = "N001";
         String name = "Ankita Sharma";
         String email = "ankita.sharma@example.com";
@@ -16,13 +16,12 @@ class AdminTest {
         String doj = "2023-01-01";
         Location location = Location.Raipur;
         Designation designation = Designation.Recruiter;
-        long contactNumber = 9876543210L;
+        String contactNumber = "9876543210";
         Role role = Role.ADMIN;
         String password = "password123";
-        String confirmPassword = "password123";
-
+      
         Admin admin = new Admin();
-        admin.setAdminId(adminId);
+       
         admin.setEmpId(empId);
         admin.setName(name);
         admin.setEmail(email);
@@ -33,9 +32,7 @@ class AdminTest {
         admin.setContactNumber(contactNumber);
         admin.setRole(role);
         admin.setPassword(password);
-        admin.setConfirmPassword(confirmPassword);
-
-        assertEquals(adminId, admin.getAdminId());
+       
         assertEquals(empId, admin.getEmpId());
         assertEquals(name, admin.getName());
         assertEquals(email, admin.getEmail());
@@ -46,15 +43,10 @@ class AdminTest {
         assertEquals(contactNumber, admin.getContactNumber());
         assertEquals(role, admin.getRole());
         assertEquals(password, admin.getPassword());
-        assertEquals(confirmPassword, admin.getConfirmPassword());
+       
     }
 	
-	 @Test
-	    public void testAdminId() {
-	        Admin admin = new Admin();
-	        admin.setAdminId(2L);
-	        assertEquals(2L, admin.getAdminId());
-	    }
+	
 
 	    @Test
 	    public void testEmpId() {
@@ -96,16 +88,16 @@ class AdminTest {
 	    @Test
 	    public void testRole() {
 	        Admin admin = new Admin();
-	        admin.setRole(Role.USER);
-	        assertEquals(Role.USER, admin.getRole());
+	        admin.setRole(Role.ADMIN);
+	        assertEquals(Role.ADMIN, admin.getRole());
 	    }
 
 	   
 	    @Test
 	    public void testContactNumber() {
 	        Admin admin = new Admin();
-	        admin.setContactNumber(1234567890L);
-	        assertEquals(1234567890L, admin.getContactNumber());
+	        admin.setContactNumber("1234567890");
+	        assertEquals("1234567890", admin.getContactNumber());
 	    }
 	    
 	    @Test
@@ -130,13 +122,7 @@ class AdminTest {
 	        assertEquals("securePassword", admin.getPassword());
 	    }
 
-	    @Test
-	    public void testConfirmPassword() {
-	        Admin admin = new Admin();
-	        admin.setConfirmPassword("securePassword");
-	        assertEquals("securePassword", admin.getConfirmPassword());
-	    }
-
+	   
 	   
 
 	    

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Select from 'react-select';
 import './addproject.css';
+import axios from "axios";
 import Skills from "../../Data/Skills";
 import AdminService from '../../service/AdminService';
 
@@ -12,6 +13,7 @@ const AddProject = () => {
   const [skills, setSkills] = useState([]);
   const [description, setDescription] = useState('');
   const [errorMessage, setErrorMessage] = useState("");
+  const [managerList, setManagerList] = useState([]);
  
   const [nameError, setNameError] = useState('');
   const [managerIdError, setManagerIdError] = useState('');
@@ -72,6 +74,21 @@ const AddProject = () => {
     }
   };
 
+  useEffect(() => {
+    getManagerList();
+},[]) 
+
+  async function getManagerList() {
+    try {
+      const res = await axios.get("http://localhost:8080/api/admin/all/MANAGER");
+      // console.log("manager list", res.data);
+      setManagerList(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -94,11 +111,16 @@ const AddProject = () => {
       skills,
       description,
     };
- console.log(project);
     AdminService.addProject(project)
       .then((response) => {
-        console.log(response.data);
         setErrorMessage("Successfully added.");
+        setName("")
+        setManagerId("")
+        setStartDate("")
+        setSkills("")
+        setDescription("")
+        console.log("added");
+        // console.log(response.data);
 
         // navigate("");
       })
@@ -109,29 +131,39 @@ const AddProject = () => {
 
   return (
     <div className='add_project'>
-      <form onSubmit={handleSubmit}>
+      <form autoComplete="off" onSubmit={handleSubmit}>
         <div className="input_form_field">
           <input
             type="text"
             id="projectName"
+            className="custom-placeholder"
             value={name}
             placeholder='Project Name'
             onChange={(e) => setName(e.target.value)}
             onBlur={() => validateField('name', name)}
-            
           />
           {nameError && <div className="error-message">{nameError}</div>}
         </div>
         <div className="input_form_field">
-          <input
-            type="text"
-            id="managerId"
-            value={managerId}
-            placeholder='Manager ID'
-            onChange={(e) => setManagerId(e.target.value)}
-            onBlur={() => validateField('managerId', managerId)}
-            
-          />
+        <select
+  type="text"
+  name="managerId"
+  className="project_input_box"
+  onChange={(e) => {
+    setManagerId(e.target.value);
+  }}
+  onBlur={() => validateField('managerId', managerId)}
+>
+  <option value="">Select Manager</option>
+  {managerList.map((manager) => {
+    return (
+      <option key={manager.empId} value={manager.empId}>
+        {manager.empId} - {manager.name}
+      </option>
+    );
+  })}
+</select>
+
           {managerIdError && <div className="error-message">{managerIdError}</div>}
         </div>
         <div className="input_form_field">
@@ -139,6 +171,7 @@ const AddProject = () => {
           <input
             type="date"
             id="startDate"
+            className="custom-placeholder"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             onBlur={() => validateField('startDate', startDate)}
@@ -149,28 +182,32 @@ const AddProject = () => {
         <div className=" input_form_field">
           {/* <div> <label className="reg_form_field_label">Confirm Password :</label></div>  */}
           <Select
+          
                 options={Skills.map((skill) => ({
                   value: skill,
                   label: skill,
                 }))}
                 isMulti={true}
                 placeholder="Select skills"
-                className="skills_select"
+                className="custom-placeholder"
                 onChange={handleSkillChange}
                 value={skills.map((skill) => ({ value: skill, label: skill }))}
               />
+               {skillsError && <div className="error-message">{skillsError}</div>}
         </div>
         <div className="input_form_field">
           <textarea
             id="description"
             value={description}
             placeholder='Description'
+            className="custom-placeholder"
             onChange={(e) => setDescription(e.target.value)}
             onBlur={() => validateField('description', description)}
             rows="4"
             
           />
           {descriptionError && <div className="error-message">{descriptionError}</div>}
+          {errorMessage && <div className="error-message"> {errorMessage}</div>}
         </div>
         <button className="btn_submit" type="submit">Add Project</button>
       </form>

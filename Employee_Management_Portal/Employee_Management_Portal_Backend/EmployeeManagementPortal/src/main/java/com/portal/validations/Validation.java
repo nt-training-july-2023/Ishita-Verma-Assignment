@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Validation {
 
-	/**.
+	/**
      * pattern to check data
      */
 	private String pattern;
@@ -28,7 +28,7 @@ public class Validation {
      * @return boolean
      */
 	 public final boolean validCharacter(final String data) {
-	        pattern = "^[A-Za-z\s]+$";
+	        pattern = "^[A-Za-z]+$";
 	        return Pattern.matches(pattern, data);
 	    }
 	 
@@ -83,7 +83,7 @@ public class Validation {
 	    // confirm password
 	    /**
 	     * @param confirmPassword confirm password of user
-	     * @param password        password of user
+	     * @param password of user
 	     * @return boolean
 	     */
 	    public final boolean validConfirmPassword(
