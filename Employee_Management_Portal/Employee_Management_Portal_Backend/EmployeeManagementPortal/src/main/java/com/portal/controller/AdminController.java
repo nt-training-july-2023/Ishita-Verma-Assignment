@@ -17,7 +17,6 @@ import com.portal.DTO.AdminDTO;
 import com.portal.DTO.LoginDTO;
 import com.portal.DTO.ResponseDTO;
 import com.portal.entities.Admin;
-import com.portal.exception.DuplicateEntryException;
 import com.portal.exception.WrongCredentialsException;
 import com.portal.service.AdminService;
 
@@ -27,37 +26,31 @@ import com.portal.service.AdminService;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/admin")
-public class AdminController { /**
+public class AdminController {
+    /**
      * Autowired for admin services.
      */
     @Autowired
     private AdminService adminService;
-    /** 
-     * Autowired for password encoder.
-     */
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     /**
      * Registers a new admin.
-     *
-     * @param admin The AdminDTO containing admin details.
      * @return A success message with the admin's ID.
      * @throws DuplicateEntryException If the admin already exists.
+     * @param adminDTO admin
      */
-    final @PostMapping("/register")
-    public ResponseDTO registerAdmin(@Valid @RequestBody final AdminDTO adminDTO) {
+    final @PostMapping("/register") public ResponseDTO registerAdmin(
+            @Valid @RequestBody final AdminDTO adminDTO) {
         AdminDTO createUser = adminService.registerAdmin(adminDTO);
-        if(createUser != null) {
-        ResponseDTO response = new ResponseDTO("Admin Added succesfully","");
-        return response;
-        }
-        else {
-        	ResponseDTO response = new ResponseDTO("Invalid Credentials","");
+        if (createUser != null) {
+            ResponseDTO response = new ResponseDTO(
+                    "Admin Added succesfully", "");
+            return response;
+        } else {
+            ResponseDTO response = new ResponseDTO("Invalid Credentials",
+                    "");
             return response;
         }
     }
-
     /**
      * Retrieves a list of all admins.
      *
@@ -68,7 +61,6 @@ public class AdminController { /**
         List<Admin> admins = adminService.getAllAdmin();
         return ResponseEntity.ok(admins);
     }
-
     /**
      * Handles admin login.
      *
@@ -77,30 +69,26 @@ public class AdminController { /**
      */
 //  final @PostMapping("/login")
 //  public Map<String, String> login(@RequestBody final LoginDTO loginDto) {
-////  	 if (adminService.login(loginDto) == null) {
+////   if (adminService.login(loginDto) == null) {
 ////           throw new WrongCredentialsException("Wrong credentials");
 ////       } else {
 ////           return new ResponseDTO("Login Succesfully");
 ////       }
-//	  return adminService.login(loginDto);
+//  return adminService.login(loginDto);
 //  }
-
-
-    final @PostMapping("/login")
-    public ResponseDTO login(@Valid @RequestBody final LoginDTO loginDto) {
+    final @PostMapping("/login") public ResponseDTO login(
+            @Valid @RequestBody final LoginDTO loginDto) {
         AdminDTO adminDTO = adminService.login(loginDto);
- 
         if (adminDTO == null) {
             throw new WrongCredentialsException("Wrong credentials");
         } else {
             // Fetch the user's role based on their email or identifier
-            String userRole = adminService.getUserRoleByEmail(loginDto.getEmail());
-
+            String userRole = adminService
+                    .getUserRoleByEmail(loginDto.getEmail());
             // Create a new ResponseDTO that includes the role
-            ResponseDTO ResponseDTO = new ResponseDTO("Login Successfully", userRole);
-
+            ResponseDTO ResponseDTO = new ResponseDTO("Login Successfully",
+                    userRole);
             return ResponseDTO;
         }
     }
-   
 }

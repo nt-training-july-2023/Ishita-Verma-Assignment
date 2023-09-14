@@ -78,7 +78,7 @@ const ManagerTab = () => {
             </div>
             <div className="column">
               <p className="employee_id" style={{ marginBottom: "1.3rem", fontSize: "1rem" }}><span style={{ fontWeight: "bold" }}>Employee ID:</span> {employee.empId}</p>
-              <p><span style={{ fontWeight: "bold", fontSize: "1rem" }}>Skills :</span> {selectedProjectSkills[employee.id] || 'No skills available'}</p>
+              <p><span style={{ fontWeight: "bold", fontSize: "1rem" }}>Project Skills :</span> {selectedProjectSkills[employee.id] || 'No skills available'}</p>
               <p><span style={{ fontWeight: "bold", fontSize: "1rem" }}>Team :</span> </p>
             </div>
           </div>

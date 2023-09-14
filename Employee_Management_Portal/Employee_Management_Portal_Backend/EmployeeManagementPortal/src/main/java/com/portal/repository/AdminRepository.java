@@ -12,24 +12,35 @@ import com.portal.entities.Role;
  */
 @EnableJpaRepositories
 public interface AdminRepository extends JpaRepository<Admin, Long> {
-
     /**
      * Finds an admin by email.
-     *
      * @param email The email of the admin.
      * @return An Optional containing the admin with the specified email.
      */
     Optional<Admin> findByEmail(String email);
+    /**
+     * Find By EmpId.
+     * @param empId empId
+     * @return employee
+     */
     Optional<Admin> findByEmpId(String empId);
-    List<Admin> findByRole( Role role);
+    /**
+     * Find By Role.
+     * @param role Role
+     * @return Admin
+     */
+    List<Admin> findByRole(Role role);
     /**
      * Checks if an admin exists with the given email.
-     *
      * @param email The email to check.
      * @return True if an admin with the email exists, false otherwise.
      */
 //    boolean existsByEmail(String email);
-	boolean existsByEmail(String email);
-	boolean existsByEmpId(String empId);
-	
+    boolean existsByEmail(String email);
+    /**
+     * Checks if an admin exists with the given empId.
+     * @param empId empID
+     * @return truw if exist and false if not
+     */
+    boolean existsByEmpId(String empId);
 }

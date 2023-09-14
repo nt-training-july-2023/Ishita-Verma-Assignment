@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./login.css";
 import { useNavigate, Link } from "react-router-dom";
-import AdminService from "../service/AdminService";
+import AdminService from "../../components/service/AdminService";
 import login_img from "../../Assests/Images/login_img.png";
 import { Base64 } from "js-base64";
 
@@ -36,9 +36,14 @@ const Login = ({setIsLoggedIn ,login}) => {
           setPasswordError("Login Successful")
           console.log("role "+ response.data.role);
           // localStorage.setItem("role",response.data.role)
-          login();
+          // login();
             // Redirect to the "admindashboard" route
-            navigate("/admindashboard");
+            if(response.data.role === "ADMIN") navigate('/admindashboard');
+            if(response.data.role === "EMPLOYEE") navigate('/employeedashboard');
+  
+            localStorage.setItem("userRole", response.data.role);
+            localStorage.setItem("isLoggedIn", response.status);
+            localStorage.setItem("email",email);
 
         })
         .catch((error) => {
@@ -75,8 +80,8 @@ const Login = ({setIsLoggedIn ,login}) => {
                 }}
                 onBlur={handleEmailBlur}
                 required
-              />
-              {emailError && <div className="error-message">{emailError}</div>}
+                />
+                {emailError && <div className="error-message">{emailError}</div>}
             </div>
 
             <div className="login_form_field">

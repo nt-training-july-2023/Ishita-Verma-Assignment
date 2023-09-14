@@ -6,6 +6,8 @@ import Skills from "../../Data/Skills";
 import Designation from "../../Data/Designation";
 import AdminService from "../../service/AdminService";
 import Location from "../../Data/Location";
+import bcrypt from 'bcryptjs';
+import MultiSelectDropdown from "../../MultiSelectDropdown/MultiSelectDropdown";
 
 const AddEmployee = () => {
   // Define state variables for each form field
@@ -19,6 +21,7 @@ const AddEmployee = () => {
   const [contactNumber, setContactNumber] = useState("");
   const [role, setRole] = useState("");
   const [skills, setSkills] = useState([]);
+  const [selectedSkills] = useState([])
   const [errorMessage, setErrorMessage] = useState("");
 
   // Define state variables for validation errors
@@ -34,10 +37,11 @@ const AddEmployee = () => {
   const [roleError, setRoleError] = useState("");
 
   // Handle skill selection changes
-  const handleSkillChange = (selectedOptions) => {
-    const selectedSkillsValues = selectedOptions.map((option) => option.value);
-    setSkills(selectedSkillsValues);
-  };
+    const handleSkillChange = (selectedOptions) => {
+      console.log(selectedOptions);
+      const selectedSkillsValues = selectedOptions.map((option) => option.value);
+      setSkills(selectedSkillsValues);
+    };
 
 
   // Handle form submission
@@ -130,10 +134,14 @@ const AddEmployee = () => {
     // If any field is invalid, return and don't submit
 
     // Create an employee object with form data
+    const replaceDob = dob.replaceAll("-","");
+    const pwd = empId + "@" + replaceDob;
+    const password = bcrypt.hashSync(pwd, 10);
     if(isValid){
     const employee = {
       name,
       email,
+      empId,
       dob,
       doj,
       location,
@@ -141,6 +149,7 @@ const AddEmployee = () => {
       contactNumber,
       role,
       skills,
+      password,
     };
 
    
@@ -155,7 +164,7 @@ const AddEmployee = () => {
        
         console.log(error);
         if (error.response && error.response.data) {
-          if (error.response.data.message === "Duplicate email error message") {
+          if (error.response.data.message === "Email id already exists") {
             setErrorMessage(
               "Email is already in use. Please use a different email."
             );
@@ -436,27 +445,30 @@ const handleNameBlur = (e) => {
         </div>
 
         <div className="input_form_field">
-          <Select
+          <MultiSelectDropdown
             options={Skills.map((skill) => ({
               value: skill,
               label: skill,
             }))}
-            isMulti={true}
-            placeholder="Select skills"
-            className="custom-placeholder"
+            selectedOptions={selectedSkills.map((skill) => ({
+              value: skill,
+              label: skill,
+            }))}
             onChange={handleSkillChange}
-            value={skills.map((skill) => ({ value: skill, label: skill }))}
+            placeholder="Select Skills"
+            // onBlur={validateSkillsRequired}
           />
           {skillsError && <div className="error-message">{skillsError}</div>}
         </div>
+       {/* Display error message if there is one */}
+       {errorMessage && <div className="error-message">{errorMessage}</div>}
 
         {/* Submit button */}
         <button className="btn_submit" type="submit">
           Add Employee
         </button>
 
-        {/* Display error message if there is one */}
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
+       
       </form>
     </div>
     </div>

@@ -49,6 +49,7 @@ const AdminDashboard = ({isLoggedIn}) => {
 
   return (
     <div className='container'>
+      <div className='admindashboard_header'>
         <div className='admin_heading'>Admin Dashboard</div>
       <div className='admin_tabs'>
       <div className={`admin_employee ${activeTab === 'employee' ? 'active' : ''}`} onClick={switchToEmployeeTab}>
@@ -60,6 +61,8 @@ const AdminDashboard = ({isLoggedIn}) => {
         <div className={`admin_project ${activeTab === 'project' ? 'active' : ''}`} onClick={switchToProjectTab}>
           Project
         </div>
+      </div>
+      
       </div>
       {showAddEmployee && (
         <div className='add_employee_form'>
@@ -78,11 +81,15 @@ const AdminDashboard = ({isLoggedIn}) => {
           <button className='admin_add_employee' onClick={toggleAddEmployee}>Add Employee</button>
         )}
       </div>
+      
       <div>
         {activeTab=== 'project' && !showAddProject && (
           <button className='admin_add_employee' onClick={toggleAddProject}>Add Project</button>
         )}
       </div>
+
+      <div className='logout' ><p style={{marginLeft:"0.5rem"}}>Logout</p></div>
+
       <div className='card_container'>
       {activeTab === 'employee' && (
           <div>

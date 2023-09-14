@@ -2,11 +2,11 @@ import { React, useState } from "react";
 import "./registration.css";
 import { useNavigate, Link } from "react-router-dom";
 import bcrypt from 'bcryptjs';
-import AdminService from "../service/AdminService";
+import AdminService from "../../components/service/AdminService";
 import reg_plant_img from "../../Assests/Images/reg_plant_img.png";
 import reg_side_img from "../../Assests/Images/reg_side_img.png";
-import Location from "../Data/Location";
-import Designation from "../Data/Designation";
+import Location from "../../components/Data/Location";
+import Designation from "../../components/Data/Designation";
 
 const Registration = () => {
   const [Id, setId] = useState("");
@@ -175,7 +175,8 @@ const Registration = () => {
           if (error.response && error.response.data && error.response.data.message) {  
             setErrorMessage(error.response.data.message);
             console.log("error");
-          } else {
+          }
+          else {
             setErrorMessage("An error occurred while registering.");
             console.log(error.response.status);
           }
@@ -284,7 +285,7 @@ const Registration = () => {
         <div className="reg_form">
           <div>
             <div className=" reg_form_field">
-              {/* <div><label className="reg_form_field_label">Name :</label></div>  */}
+            <label className="reg_form_field_label">Name :</label>
               <input
                 type="text"
                 placeholder="Name "
@@ -295,10 +296,10 @@ const Registration = () => {
                 onBlur={handleNameBlur}
               />
             </div>
-            {nameError && <div className="error-message">{nameError}</div>}
+            {nameError && <div className="error-message reg_error">{nameError}</div>}
 
             <div className=" reg_form_field">
-              {/* <div><label className="reg_form_field_label">Email :</label></div>  */}
+              <label className="reg_form_field_label" >Email :</label>
               <input
                 type="email"
                 placeholder="Email"
@@ -310,10 +311,10 @@ const Registration = () => {
                 required
               />
             </div>
-            {emailError && <div className="error-message">{emailError}</div>}
+            {emailError && <div className="error-message reg_error">{emailError}</div>}
 
             <div className=" reg_form_field">
-              {/* <div> <label className="reg_form_field_label">Employee ID :</label></div>  */}
+      <label className="reg_form_field_label">Employee ID :</label>
               <input
                 type="text"
                 placeholder="Employee ID"
@@ -325,13 +326,12 @@ const Registration = () => {
                 required
               />
             </div>
-            {empIdError && <div className="error-message">{empIdError}</div>}
+            {empIdError && <div className="error-message reg_error">{empIdError}</div>}
 
             <div className=" reg_form_field">
-              <div>
+             
                 <label className="reg_form_field_label">DOB :</label>
-                {" "}
-              </div>
+               
               <input
                 type="date"
                 className="reg_form_input"
@@ -341,13 +341,12 @@ const Registration = () => {
                 required
               />
             </div>
-            {dobError && <div className="error-message">{dobError}</div>}
+            {dobError && <div className="error-message reg_error">{dobError}</div>}
 
             <div className=" reg_form_field" controlId="formBasicEmail">
-              <div>
-                {" "}
+
                 <label className="reg_form_field_label">DOJ :</label>
-              </div>
+              
               <input
                 type="date"
                 className="reg_form_input"
@@ -357,13 +356,10 @@ const Registration = () => {
                 required
               />
             </div>
-            {dojError && <div className="error-message">{dojError}</div>}
+            {dojError && <div className="error-message reg_error">{dojError}</div>}
 
             <div className=" reg_form_field">
-              <div>
-
-                {/* <label className="reg_form_field_label">Location :</label> */}
-              </div>
+               <label className="reg_form_field_label">Location :</label>
               <select
                 className="reg_form_input"
                 type="text"
@@ -382,11 +378,11 @@ const Registration = () => {
               </select>
             </div>
             {locationError && (
-                <div className="error-message">{locationError}</div>
+                <div className="error-message reg_error">{locationError}</div>
             )}
 
             <div className=" reg_form_field">
-              {/* <div> <label className="reg_form_field_label">Designation :</label></div>  */}
+              <label className="reg_form_field_label">Designation :</label>
               <select
                 className="reg_form_input"
                 type="text"
@@ -405,11 +401,11 @@ const Registration = () => {
               </select>
             </div>
             {designationError && (
-  <div className="error-message">{designationError}</div>
+  <div className="error-message reg_error">{designationError}</div>
 )}
 
             <div className=" reg_form_field">
-              {/* <div> <label className="reg_form_field_label">Contact Number :</label></div>  */}
+               <label className="reg_form_field_label">Contact Number :</label>
               <input
                 type="tel"
                 placeholder="Contact Number"
@@ -421,11 +417,11 @@ const Registration = () => {
               />
             </div>
             {contactNumberError && (
-              <div className="error-message">{contactNumberError}</div>
+              <div className="error-message reg_error">{contactNumberError}</div>
             )}
 
             <div className=" reg_form_field">
-              {/* <div> <label className="reg_form_field_label">Password :</label></div>  */}
+              <label className="reg_form_field_label">Password :</label>
               <input
                 type="password"
                 placeholder="Password"
@@ -437,11 +433,11 @@ const Registration = () => {
               />
             </div>
             {passwordError && (
-              <div className="error-message">{passwordError}</div>
+              <div className="error-message reg_error">{passwordError}</div>
             )}
 
             <div className=" reg_form_field">
-              {/* <div> <label className="reg_form_field_label">Confirm Password :</label></div>  */}
+              <label className="reg_form_field_label">Confirm Password :</label>
               <input
                 type="password"
                 placeholder="Confirm Password"
@@ -453,7 +449,7 @@ const Registration = () => {
               />
             </div>
             {confirmPasswordError && (
-              <div className="error-message">{confirmPasswordError}</div>
+              <div className="error-message reg_error">{confirmPasswordError}</div>
             )}
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}

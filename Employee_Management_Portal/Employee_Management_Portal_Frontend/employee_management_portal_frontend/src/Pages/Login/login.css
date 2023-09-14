@@ -64,6 +64,7 @@
     margin-top: 1rem;
     cursor: pointer;
     margin-top: 1rem;
+    padding: 1rem;
 }
 .button_container{
     display: flex;
@@ -97,47 +98,33 @@
 }
 @media (max-width: 768px) {
     .login_heading {
-        font-size: 2rem; /* Adjust heading font size */
+        font-size: 2rem; 
+        text-align: center;
+        /* margin-left: 9rem; */
     }
 
     .login_img {
-        width: 100%; /* Make image take full width */
-        height: auto; /* Maintain aspect ratio */
+        width: 70%; 
+        height: auto; 
     }
 
     .login_form {
-        align-items: stretch; /* Stretch form fields to full width */
+        align-items: stretch; 
     }
 
     .login_input_field {
-        max-width: 100%; /* Take full width of the form */
+        max-width: 100%;
     }
 
     .button_container {
-        gap: 1rem; /* Reduce gap between buttons */
+        gap: 1rem; 
     }
 }
-/* Add responsive styling for medium screens */
-/* @media (max-width: 768px) {
-    .login_heading {
-        font-size: 2rem;
-    }
 
-    .login_img {
-        width: 100%;
-        height: auto;
-    }
 
-    .login_form_input {
-        max-width: 100%;
-    }
-} */
-
-/* Add more responsive styling for small screens */
 @media (max-width: 576px) {
     .login_heading {
         font-size: 1.5rem;
-        /* margin-left:rem; */
     }
 
     .login_input_field {
@@ -150,5 +137,38 @@
 
     .login_img {
        display: none;}
+
+}
+
+@media (max-width: 318px) {
+    .container{
+        min-height: 100vh;
+        width: 100% !important;
+        
+    }
+    .login_heading {
+        font-size: 1rem;
+        text-align: center; 
+    }
+
+    .login_img {
+        display: none; 
+    }
+
+    .login_form {
+        justify-content: center; 
+    }
+
+    .login_input_field {
+        max-width: 75%; 
+        font-size: 0.8rem; 
+        margin-left: 2rem;
+    }
+    .login_text{
+       margin-left:2rem;
+    }
+    .btn{
+        margin-left:2rem
+    }
 
 }

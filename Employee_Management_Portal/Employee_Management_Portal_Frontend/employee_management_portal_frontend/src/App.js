@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes,Navigate } from "react-router-dom";
 // import ProtectedRoute from "../src/components/Routes/ProtectedRoutes";
-import Login from "../src/components/Login/Login";
+import Login from "../src/Pages/Login/Login";
 import AdminDashboard from "../src/components/AdminDashboard/AdminDashboard";
-import Registration from "../src/components/Registration/Registration"
+import Registration from "./Pages/Registration/Registration"
 import EmployeeManagementPage from "../src/components/EmployeeMangementPage/EmployeeManagementPage";
 import EmployeeDashboard from "../src/components/EmployeeDashboard/EmployeeDashboard";
 import ManagerDashboard from "./components/ManagerDashboard/ManagerDashboard";

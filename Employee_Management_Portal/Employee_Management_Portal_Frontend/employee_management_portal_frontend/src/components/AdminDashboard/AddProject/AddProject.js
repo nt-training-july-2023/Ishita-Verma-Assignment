@@ -4,13 +4,15 @@ import './addproject.css';
 import axios from "axios";
 import Skills from "../../Data/Skills";
 import AdminService from '../../service/AdminService';
+import MultiSelectDropdown from "../../MultiSelectDropdown/MultiSelectDropdown"
 
 const AddProject = () => {
   
   const [name, setName] = useState('');
+  const [selectedSkills] = useState([])
   const [managerId, setManagerId] = useState('');
   const [startDate, setStartDate] = useState('');
-  const [skills, setSkills] = useState([]);
+  // const [skills, setSkills] = useState([]);
   const [description, setDescription] = useState('');
   const [errorMessage, setErrorMessage] = useState("");
   const [managerList, setManagerList] = useState([]);
@@ -19,13 +21,16 @@ const AddProject = () => {
   const [managerIdError, setManagerIdError] = useState('');
   const [startDateError, setStartDateError] = useState('');
   const [skillsError, setSkillsError] = useState('');
+  const [skills, setSkills] = useState([]);
   const [descriptionError, setDescriptionError] = useState('');
+  
 
   const handleSkillChange = (selectedOptions) => {
-    const selectedSkillsValues = selectedOptions.map((option) => option.value);
-    setSkills(selectedSkillsValues);
-  };
-  
+      console.log(selectedOptions);
+      const selectedSkillsValues = selectedOptions.map((option) => option.value);
+      setSkills(selectedSkillsValues);
+    };
+
   // Function to validate if a field is empty
   const validateField = (field, value) => {
     if (value.trim() === '') {
@@ -83,6 +88,7 @@ const AddProject = () => {
       const res = await axios.get("http://localhost:8080/api/admin/all/MANAGER");
       // console.log("manager list", res.data);
       setManagerList(res.data);
+      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -117,7 +123,7 @@ const AddProject = () => {
         setName("")
         setManagerId("")
         setStartDate("")
-        setSkills("")
+        setSkills([])
         setDescription("")
         console.log("added");
         // console.log(response.data);
@@ -132,6 +138,7 @@ const AddProject = () => {
   return (
     <div className='add_project'>
       <form autoComplete="off" onSubmit={handleSubmit}>
+        <h2 style={{marginLeft:"0.3rem", color:"white"}}>Add Project</h2>
         <div className="input_form_field">
           <input
             type="text"
@@ -181,9 +188,9 @@ const AddProject = () => {
         </div>
         <div className=" input_form_field">
           {/* <div> <label className="reg_form_field_label">Confirm Password :</label></div>  */}
-          <Select
-          
-                options={Skills.map((skill) => ({
+          {/* <Select
+
+                options={(Skills).map((skill) => ({
                   value: skill,
                   label: skill,
                 }))}
@@ -192,7 +199,20 @@ const AddProject = () => {
                 className="custom-placeholder"
                 onChange={handleSkillChange}
                 value={skills.map((skill) => ({ value: skill, label: skill }))}
-              />
+              /> */}
+              <MultiSelectDropdown
+            options={Skills.map((skill) => ({
+              value: skill,
+              label: skill,
+            }))}
+            selectedOptions={selectedSkills.map((skill) => ({
+              value: skill,
+              label: skill,
+            }))}
+            onChange={handleSkillChange}
+            placeholder="Select Skills"
+            // onBlur={validateSkillsRequired}
+          />
                {skillsError && <div className="error-message">{skillsError}</div>}
         </div>
         <div className="input_form_field">

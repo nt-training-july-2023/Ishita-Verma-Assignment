@@ -17,6 +17,7 @@
 }
 .custom-placeholder{
     border: none;
+    margin-left: 0.2rem;
 }
 .add_employee_container {
     height: 80vh; 

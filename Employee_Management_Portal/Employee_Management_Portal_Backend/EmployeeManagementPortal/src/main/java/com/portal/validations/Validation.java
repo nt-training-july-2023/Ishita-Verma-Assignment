@@ -1,97 +1,84 @@
 package com.portal.validations;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import org.springframework.stereotype.Component;
+
+import com.portal.DTO.AdminDTO;
+import com.portal.DTO.LoginDTO;
+import com.portal.exception.WrongCredentialsException;
+
 /**
- * This is class for validation.
+ * This class provides validation methods for various data inputs.
  */
 @Component
 public class Validation {
-
-	/**
-     * pattern to check data
+    /**
+     * Checks if the provided name is valid.
+     * @param name The name to be validated.
+     * @return true if the name is valid, false otherwise.
      */
-	private String pattern;
-	
-	  /**
-     * @param data user data
-     * @return boolean
+    public final boolean checkName(final String name) {
+        if (!name.isEmpty() && name.matches("^[A-Za-z ]+$")) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the provided email is valid.
+     * @param email The email to be validated.
+     * @return true if the email is valid, false otherwise.
      */
-	//check for empty fields
-	public final boolean validEmptyData(final String data) {
-	    return data == null || data.isEmpty();
-	}
+    public final boolean checkEmail(final String email) {
+        if (!email.isEmpty() && email.matches(".*@nucleusteq\\.com$")) {
+            return true;
+        }
+        return false;
+    }
 
-	   /**
-     * @param data user data
-     * @return boolean
+    /**
+     * Checks if the provided employee ID (empId) is valid.
+     * @param empId The employee ID (empId) to be validated.
+     * @return true if the employee ID (empId) is valid, false otherwise.
      */
-	 public final boolean validCharacter(final String data) {
-	        pattern = "^[A-Za-z]+$";
-	        return Pattern.matches(pattern, data);
-	    }
-	 
-	//valid employee id
-	    /**
-	     * @param empId user employee id
-	     * @return boolean
-	     */
-	    public final boolean validEmpId(final String empId) {
-	        pattern = "N\\d{4}$";
-	        return Pattern.matches(pattern, empId);
-	    }
-	  //for email id
-	    /**
-	     * @param email user email
-	     * @return boolean
-	     */
-	    public final boolean validEmail(final String email) {
-	        pattern = ".*@nucleusteq\\.com$";
-	        return Pattern.matches(pattern, email);
-	    }
+    public final boolean checkempId(final String empId) {
+        if (!empId.isEmpty() && empId.matches("N\\d{4}$")) {
+            return true;
+        }
+        return false;
+    }
 
-	//for data format\
-	    /**
-	     * @param date user date of birth/date of joining
-	     * @return boolean
-	     */
-	    public final boolean validDate(final String date) {
-	        pattern = "\\d{4}-\\d{2}-\\d{2}";
-	        return Pattern.matches(pattern, date);
-	    }
+    /**
+     * Validates a user's registration information.
+     * @param userDto The AdminDTO containing user registration details.
+     * @return true if the user registration information is valid.
+     * @throws WrongCredentialsException if any details are invalid.
+     */
+    public final boolean checkUser(final AdminDTO userDto) {
+        if (!checkName(userDto.getName())) {
+            throw new WrongCredentialsException(
+                    "Please provide a valid name.");
+        }
+        if (!checkEmail(userDto.getEmail())) {
+            throw new WrongCredentialsException(
+                    "Please provide a valid email address.");
+        }
+        if (!checkempId(userDto.getEmpId())) {
+            throw new WrongCredentialsException(
+                    "Please provide a valid employee ID.");
+        }
+        return true;
+    }
 
-
-	    /**
-	     * @param phoneNo phone no of user
-	     * @return boolean value
-	     */
-	    public final boolean validContactNumber(final String contactNumber) {
-	        pattern = "^[0-9]{10}$";
-	        return Pattern.matches(pattern, contactNumber);
-	    }
-
-	//passsword
-	    /**
-	     * @param password user password
-	     * @return boolean.
-	     */
-	    public final boolean validPassword(final String password) {
-	        pattern = "^[a-zA-Z0-9]{8}+$";
-	        return Pattern.matches(pattern, password);
-	    }
-	    // confirm password
-	    /**
-	     * @param confirmPassword confirm password of user
-	     * @param password of user
-	     * @return boolean
-	     */
-	    public final boolean validConfirmPassword(
-	            final String confirmPassword, final String password) {
-	        return (confirmPassword.equals(password));
-	    }
-
-		public boolean validEmptySkills(List<String> skills) {
-			return skills == null || skills.isEmpty();
-		}
+    /**
+     * Validates a user's login credentials.
+     * @param loginDto The LoginDTO containing login credentials.
+     * @return true if the login credentials are valid.
+     * @throws WrongCredentialsException if the provided email is invalid.
+     */
+    public final boolean checkLoginDto(final LoginDTO loginDto) {
+        if (!checkName(loginDto.getEmail())) {
+            throw new WrongCredentialsException(
+                    "Please provide a valid email address.");
+        }
+        return true;
+    }
 }

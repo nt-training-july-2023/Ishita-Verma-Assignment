@@ -6,9 +6,13 @@
 .main_container {
     background-color: black;
 }
-
+.admindashboard_header{
+    /* position: fixed; */
+    /* margin-top: 10rem; */
+    /* margin-bottom: 38rem; */
+}
 .admin_heading {
-    margin: 1rem;
+    /* margin: 1rem; */
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -39,9 +43,14 @@
     color: white;
     cursor: pointer;
 }
+.admin_add_employee{
+margin-left: 66rem;
+background-color: rgb(17, 100, 168);
+font-weight: bold;
+}
 
 .admin_add_employee {
-   margin-left: 66rem;
+    
    font-weight: bold;
    border: none;
    cursor: pointer;
@@ -64,7 +73,7 @@
     left: 30%;
     right: 30%;
     background-color: gray;
-    padding:0.5rem;
+    /* padding:0.5rem; */
     z-index: 1;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -78,7 +87,7 @@
 .btn_submit,.btn_cancel{
     background-color: blueviolet;
     border-radius: 1rem;
-    margin-top: 0.5rem;
+    /* margin-top: 0.5rem; */
     padding:0.5rem;
     cursor: pointer;
     width: 15rem !important ;
@@ -86,27 +95,29 @@
 }
 .btn_cancel{
     border: none;
-    margin-left: 5rem;
+    /* margin-left: 5rem; */
     color: white;
     font-size: 1rem;
     font-weight: bolder;
 }
 
+
 .card_container {
 
-    margin-top: 30px;
+    /* margin-top: rem !important; */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: space-evenly;
+    align-items: center;
     /* max-width: 1200px; */
-    margin: 0 auto;
+    /* margin: 0 auto; */
     overflow-x: auto;
     /* Add horizontal scrollbar when necessary */
     scrollbar-width: thin;
     /* Add scrollbar for Firefox */
     scrollbar-color: transparent gray;
+    /* margin-top: 3rem; */
     /* Color settings for Firefox */
 }
 
@@ -130,11 +141,12 @@
     display: flex;
     border: 0.2rem solid #ccc;
     border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
     margin: 1rem;
-    padding: 0.8rem;
+    /* padding: 0.8rem; */
     background-color: #f8f8f8;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width:25rem;
+    width:32rem;
 }
 
 .card:hover {
@@ -144,7 +156,7 @@
 
 .column {
     flex: 1;
-    padding: 10px;
+    /* padding: 10px; */
 }
 
 .column h2 {
@@ -153,7 +165,7 @@
 }
 
 .column p {
-    margin: 5px 0;
+    /* margin: 5px 0; */
     font-size: 14px;
     color: #333;
 }
@@ -166,8 +178,17 @@ cursor: pointer;
 @media (max-width: 768px) {
     .admin_add_employee {
       position: static;
-      margin-left: 0;
       width: 100%;
       margin-top: 1rem;
     }
   }
+.logout{
+    background-color: rgb(17, 100, 168);
+    margin-bottom: 1rem;
+    margin-left: 68rem;
+    padding: 0.5rem;
+    color: white;
+    width: 5rem;
+    border-radius: 0.5rem;
+    cursor :pointer;
+}

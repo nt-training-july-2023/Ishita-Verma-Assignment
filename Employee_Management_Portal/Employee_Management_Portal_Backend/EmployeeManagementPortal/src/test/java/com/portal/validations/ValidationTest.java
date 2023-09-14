@@ -33,10 +33,6 @@
 //        assertFalse(validation.validEmptyData("Hello"));
 //    }
 //
-//    @Test
-//    public void testValidCharacter_ValidString() {
-//        assertTrue(validation.validCharacter("John Doe"));
-//    }
 //
 //    @Test
 //    public void testValidCharacter_InvalidString() {

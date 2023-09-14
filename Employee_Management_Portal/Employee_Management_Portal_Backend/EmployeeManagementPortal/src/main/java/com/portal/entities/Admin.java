@@ -1,9 +1,6 @@
 package com.portal.entities;
 
-import java.util.List;
-
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,7 +42,7 @@ public class Admin {
     /**
      * Email address of the admin.
      */
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
     /**
@@ -78,14 +74,15 @@ public class Admin {
      */
     @Column
     private String contactNumber;
+
     /**
-     * role of  user
+     * role of user.
      */
     @Enumerated(EnumType.STRING)
     private Role role;
 
     /**
-     * project of user
+     * project of user.
      */
     @Column
     private long projectId;
