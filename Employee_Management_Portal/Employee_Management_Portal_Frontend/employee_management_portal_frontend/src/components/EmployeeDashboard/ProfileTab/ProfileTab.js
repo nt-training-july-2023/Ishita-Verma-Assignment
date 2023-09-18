@@ -47,13 +47,14 @@ const ProfileTab = () => {
     <div className="main">
       {employeeDetails ? (
         <div>
+          
             <p style={{color:"white", marginLeft:"0.8rem",fontSize:"1.5rem"}}>Emp ID: {employeeDetails.empId}</p>
           <div className="details-container">
             <div className="column01 grid-container">
 
             <div className="column01">
               {/* <h2>Column 1</h2> */}
-
+              <p style={{fontSize:"1.2rem",fontWeight:"bold"}}>Welcome {employeeDetails.name}</p>
               <strong>Name</strong>
               <p className="field_input">{employeeDetails.name}</p>
 
