@@ -32,7 +32,7 @@ const Login = ({setIsLoggedIn ,login}) => {
 
       AdminService.loginAdmin(formData)
         .then((response) => {
-          console.log(response.data);
+          console.log(response.message);
           setPasswordError("Login Successful")
           console.log("role "+ response.data.role);
           // localStorage.setItem("role",response.data.role)

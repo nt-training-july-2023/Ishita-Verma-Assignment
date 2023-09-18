@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './managertab.css'
+import "./managertab.css";
 
 const ManagerTab = () => {
   const [employees, setEmployees] = useState([]);
@@ -56,7 +56,7 @@ const ManagerTab = () => {
       <div className="card_container">
         {employees.map((employee) => (
           <div className="card" key={employee.id}>
-            <div className="column">
+            <div className="column1">
               <h2 className="employee_name">{employee.name}</h2>
               <p style={{ marginTop: "-0.2rem" }}>{employee.designation}</p>
               <select
@@ -73,19 +73,46 @@ const ManagerTab = () => {
                   </option>
                 ))}
               </select>
-              <p><span style={{ fontWeight: "bold", fontSize: "1rem" }}>Contact :</span> {employee.contactNumber}</p>
-              <p><span style={{ fontWeight: "bold", fontSize: "1rem" }}>Email : </span> {employee.email}</p>
+              <p>
+                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                  Contact :
+                </span>{" "}
+                {employee.contactNumber}
+              </p>
+              <p>
+                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                  Email :{" "}
+                </span>{" "}
+                {employee.email}
+              </p>
             </div>
-            <div className="column">
-              <p className="employee_id" style={{ marginBottom: "1.3rem", fontSize: "1rem" }}><span style={{ fontWeight: "bold" }}>Employee ID:</span> {employee.empId}</p>
-              <p><span style={{ fontWeight: "bold", fontSize: "1rem" }}>Project Skills :</span> {selectedProjectSkills[employee.id] || 'No skills available'}</p>
-              <p><span style={{ fontWeight: "bold", fontSize: "1rem" }}>Team :</span> </p>
+            <div className="column2">
+              <p
+                className="employee_id"
+                style={{ marginBottom: "1.3rem", fontSize: "1rem" }}
+              >
+                <span style={{ fontWeight: "bold" }}>Employee ID:</span>{" "}
+                {employee.empId}
+              </p>
+              <p>
+                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                  Project Skills :
+                </span>{" "}
+                {selectedProjectSkills[employee.id]
+                  ? selectedProjectSkills[employee.id].join(", ")
+                  : "No skills available"}
+              </p>
+              <p>
+                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                  Team :
+                </span>{" "}
+              </p>
             </div>
           </div>
         ))}
       </div>
     </div>
   );
-}
+};
 
 export default ManagerTab;

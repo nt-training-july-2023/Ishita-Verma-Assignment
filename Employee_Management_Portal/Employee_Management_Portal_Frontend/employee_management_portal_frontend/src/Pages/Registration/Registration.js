@@ -9,7 +9,7 @@ import Location from "../../components/Data/Location";
 import Designation from "../../components/Data/Designation";
 
 const Registration = () => {
-  const [Id, setId] = useState("");
+  const [id, setId] = useState("");
   const [empId, setEmpId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -48,7 +48,7 @@ const Registration = () => {
     const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
     const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;
     // const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
-    const empIdRegex = /^[Nn]\d{4}$/;
+    const empIdRegex = /^[Nn][1-9][0-9]{3}$/;
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     const today = new Date();
     const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
@@ -139,7 +139,7 @@ const Registration = () => {
 
     if (isValid) {
       const formData = {
-        Id,
+        id,
         empId,
         name,
         email,
@@ -178,7 +178,7 @@ const Registration = () => {
           }
           else {
             setErrorMessage("An error occurred while registering.");
-            console.log(error.response.status);
+            // console.log(error.response.status);
           }
         });
     }

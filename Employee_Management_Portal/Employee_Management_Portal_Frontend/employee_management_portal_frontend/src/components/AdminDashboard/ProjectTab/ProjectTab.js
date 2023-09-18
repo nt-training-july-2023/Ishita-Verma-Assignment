@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./projecttab.css";
-import Popup from '../ProjectTab/Popup'
+import Popup from "../ProjectTab/Popup";
 
 const ProjectTab = () => {
   const [projects, setProjects] = useState([]);
@@ -21,12 +21,13 @@ const ProjectTab = () => {
 
   const getAllProjects = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/admin/projects");
+      const response = await axios.get(
+        "http://localhost:8080/api/admin/projects"
+      );
       console.log(response.data);
       setProjects(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
-      
     }
   };
 
@@ -34,7 +35,7 @@ const ProjectTab = () => {
     const managerNamePromises = projects.map(async (project) => {
       try {
         const res = await axios.get(
-          `http://localhost:8080/api/admin/employee/${project.managerId}`
+          `http://localhost:8080/api/admin/all/employee/${project.managerId}`
         );
         return { Id: project.projectId, managerName: res.data.name };
       } catch (error) {
@@ -49,13 +50,13 @@ const ProjectTab = () => {
     const managerNameResults = await Promise.all(managerNamePromises);
     const managerNameMap = {};
     managerNameResults.forEach((result) => {
-      console.log("Project ID:", result.projectId);
-      console.log("Manager Name:", result.managerName);
+      // console.log("Project ID:", result.projectId);
+      // console.log("Manager Name:", result.managerName);
       managerNameMap[result.Id] = result.managerName;
     });
-    console.log("manager name map", managerNameMap);
-    console.log("Projects:", projects);
-    console.log("Manager Name Results:", managerNameResults);
+    // console.log("manager name map", managerNameMap);
+    // console.log("Projects:", projects);
+    // console.log("Manager Name Results:", managerNameResults);
     setManagerNames(managerNameMap);
   }
 
@@ -71,7 +72,7 @@ const ProjectTab = () => {
     <div className="card_container">
       {projects.map((project) => (
         <div className="project-info" key={project.projectId}>
-          <div className="column">
+          <div className="column1">
             <h2 style={{ fontSize: "1.5rem" }}>{project.name}</h2>
             <p>
               <span style={{ fontWeight: "bold" }}>Head :</span>
@@ -92,7 +93,11 @@ const ProjectTab = () => {
                 <p>
                   {project.description.slice(0, 40)}{" "}
                   <span
-                    style={{ color: "blue", textDecorationLine: "underline", cursor:"pointer" }}
+                    style={{
+                      color: "blue",
+                      textDecorationLine: "underline",
+                      cursor: "pointer",
+                    }}
                     onClick={() => handleReadMoreClick(project.description)}
                   >
                     Read More
@@ -102,22 +107,37 @@ const ProjectTab = () => {
                 <p>{project.description}</p>
               )}
             </p>
-            {/* <p><strong>Team:</strong> {project.team}</p> */}
-            
           </div>
-          <div className="column">
+          <div className="column2">
             <p>
               <strong>Project ID:</strong> {project.projectId}
             </p>
             <p>
               <strong>Start Date:</strong> {project.startDate}
             </p>
+            <p style={{ fontSize: "1rem" }} className="project_skills">
+              
+              <span
+              className="project_skills"
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "1rem",
+                  marginTop: "2rem",
+                }}
+              >
+                Skills:
+              </span>{" "}
+              {project.skills.join(", ")}
+            </p>
             <p>
-              <strong>Skills:</strong> {project.skills}
+              <strong>Team:</strong> {project.team}
             </p>
             {showPopup && (
-        <Popup description={selectedDescription} onClose={handlePopupClose} />
-      )}
+              <Popup
+                description={selectedDescription}
+                onClose={handlePopupClose}
+              />
+            )}
           </div>
         </div>
       ))}

@@ -152,10 +152,10 @@ const AddEmployee = () => {
       password,
     };
 
-   
+  //  console.log(employee);
     AdminService.addEmployee(employee)
       .then((response) => {
-       
+       console.log(response);
         setErrorMessage("Successfully added.");
         
         clearFormFields();

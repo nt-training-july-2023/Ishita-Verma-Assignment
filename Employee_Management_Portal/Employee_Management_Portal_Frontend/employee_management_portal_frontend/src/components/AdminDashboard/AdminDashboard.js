@@ -49,6 +49,7 @@ const AdminDashboard = ({isLoggedIn}) => {
 
   return (
     <div className='container'>
+      
       <div className='admindashboard_header'>
         <div className='admin_heading'>Admin Dashboard</div>
       <div className='admin_tabs'>
@@ -62,7 +63,8 @@ const AdminDashboard = ({isLoggedIn}) => {
           Project
         </div>
       </div>
-      
+      <div className='logout' ><p style={{marginLeft:"0.5rem"}}>Logout</p></div>
+
       </div>
       {showAddEmployee && (
         <div className='add_employee_form'>
@@ -88,8 +90,7 @@ const AdminDashboard = ({isLoggedIn}) => {
         )}
       </div>
 
-      <div className='logout' ><p style={{marginLeft:"0.5rem"}}>Logout</p></div>
-
+     
       <div className='card_container'>
       {activeTab === 'employee' && (
           <div>

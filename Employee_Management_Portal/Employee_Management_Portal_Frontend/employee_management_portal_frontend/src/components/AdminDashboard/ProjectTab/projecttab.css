@@ -13,6 +13,7 @@
   scrollbar-color: transparent gray;
   /* width: 28rem; */
   height: 15rem;
+ 
 }
 
 .project-info {
@@ -22,16 +23,16 @@
   border: 0.3rem solid gray;
   background-color: #f8f8f8;
   border-radius: 5px;
-  padding: 10px;
+  /* padding: 10px; */
   margin: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 25rem;
-  height: 12rem;
+  width: 30rem !important;
+  height: 14rem;
+  overflow-x: scroll;
 }
 
 .column {
   flex: 1;
-  padding: 10px; /* Add padding to each column */
 }
 
 .column p {
