@@ -11,6 +11,6 @@ public class WrongCredentialsException extends RuntimeException {
      * @param message The detail message.
      */
     public WrongCredentialsException(final String message) {
-        super();
+        super(message);
     }
 }

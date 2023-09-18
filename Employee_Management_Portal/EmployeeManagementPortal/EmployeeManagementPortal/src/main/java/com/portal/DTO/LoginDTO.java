@@ -1,5 +1,7 @@
 package com.portal.DTO;
 
+import java.util.Objects;
+
 /**
  * Data Transfer Object (DTO) representing login credentials.
  */
@@ -30,5 +32,27 @@ public class LoginDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, password);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LoginDTO other = (LoginDTO) obj;
+		return Objects.equals(email, other.email) && Objects.equals(password, other.password);
+	}
+
+	@Override
+	public String toString() {
+		return "LoginDTO [email=" + email + ", password=" + password + "]";
+	}
     
 }

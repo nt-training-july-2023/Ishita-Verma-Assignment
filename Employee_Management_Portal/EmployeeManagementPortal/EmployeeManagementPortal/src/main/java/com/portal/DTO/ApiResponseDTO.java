@@ -1,5 +1,7 @@
 package com.portal.DTO;
 
+import java.util.Objects;
+
 public class ApiResponseDTO {
 
 	  private String message;
@@ -33,4 +35,27 @@ public class ApiResponseDTO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(message);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ApiResponseDTO other = (ApiResponseDTO) obj;
+		return Objects.equals(message, other.message);
+	}
+
+	@Override
+	public String toString() {
+		return "ApiResponseDTO [message=" + message + "]";
+	}
+	
 }

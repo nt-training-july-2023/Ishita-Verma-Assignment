@@ -39,17 +39,6 @@ public class EmployeeService {
      */
     @Autowired
     private ModelMapper modelMapper;
-
-    /**
-     * Validation utility for performing data validation.
-     */
-    @Autowired
-    private Validation validation;
-    /**
-     * Validation utility for performing data validation.
-     */
-    @Autowired
-    private AdminDTO adminDTO;
     /**
      * Validation utility for performing data validation.
      */

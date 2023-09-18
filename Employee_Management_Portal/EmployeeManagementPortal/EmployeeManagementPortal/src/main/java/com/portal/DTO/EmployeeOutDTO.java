@@ -1,12 +1,11 @@
-	package com.portal.DTO;
-	
-	import java.util.ArrayList;
-	import java.util.List;
+package com.portal.DTO;
+		
+import java.util.List;
 import java.util.Objects;
 
 import com.portal.entities.Designation;
-	import com.portal.entities.Location;
-	import com.portal.entities.Role;
+import com.portal.entities.Location;
+import com.portal.entities.Role;
 	
 	public class EmployeeOutDTO {
 		 /**
