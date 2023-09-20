@@ -2,6 +2,7 @@ package com.portal.service;
 
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,12 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.portal.DTO.AdminDTO;
+import com.portal.DTO.EmployeeOutDTO;
 import com.portal.DTO.LoginDTO;
 import com.portal.entities.Employee;
+import com.portal.entities.Project;
 import com.portal.entities.Role;
 import com.portal.exceptions.DuplicateEntryException;
 import com.portal.exceptions.ResourceNotFoundException;
 import com.portal.repository.AdminRepository;
+import com.portal.repository.ProjectRepository;
 
 /**
  * Service class for managing admin-related operations.
@@ -31,6 +35,11 @@ public class AdminService {
      */
     @Autowired
     private AdminRepository adminRepository;
+    /**
+     * The repository for project entities.
+     */
+    @Autowired
+    private ProjectRepository projectRepository;
 
     /**
      * The ModelMapper instance for mapping DTOs to entities and vice versa.
@@ -116,17 +125,41 @@ public class AdminService {
      *
      * @return A list containing all admins.
      */
-    public final List<Employee> getAllAdmin() {
-        List<Employee> allAdmins = adminRepository.findAll();
-        LOGGER.error("List all employees");
-        // Filter the admins to exclude "Ankita Sharma" and keep only "manager" and "employee"
-        List<Employee> filteredAdmins = allAdmins.stream()
-                .filter(admin -> !admin.getName().equals("Ankita Sharma"))
-                .filter(admin -> admin.getRole().equals(Role.EMPLOYEE) || admin.getRole().equals(Role.MANAGER))
-                .collect(Collectors.toList());
-
-        return filteredAdmins;
-    }
+    public final List<EmployeeOutDTO> getAllAdmin() {
+    	 List<Employee> allEmployee = adminRepository.findAll();
+         List<Employee> filteredEmployees = allEmployee.stream().filter(
+                 employee -> employee.getRole().equals(Role.EMPLOYEE)
+                         || employee.getRole().equals(Role.MANAGER))
+                 .collect(Collectors.toList());
+         List<EmployeeOutDTO> employeeDTOList = new ArrayList<EmployeeOutDTO>();
+         for (Employee employee : filteredEmployees) {
+             EmployeeOutDTO empDto = new EmployeeOutDTO();
+             empDto.setId(employee.getId());
+             empDto.setName(employee.getName());
+             empDto.setEmail(employee.getEmail());
+             empDto.setEmpId(employee.getEmpId());
+             empDto.setDesignation(employee.getDesignation());
+             empDto.setContactNumber(employee.getContactNumber());
+             empDto.setDob(employee.getDob());
+             empDto.setDoj(employee.getDoj());
+             empDto.setLocation(employee.getLocation());
+             if (employee.getProjectId() == 0) {
+                 empDto.setProjectId(null);
+             } else {
+                 Project project = projectRepository
+                         .findById(employee.getProjectId()).get();
+                 empDto.setProjectId(project.getName());
+             }
+             Employee manager = adminRepository
+                     .findById(employee.getManagerId()).get();
+             empDto.setManager(manager.getName());
+             empDto.setManagerId(employee.getManagerId());
+             empDto.setSkills(employee.getSkills());
+             employeeDTOList.add(empDto);
+         }
+         return employeeDTOList;
+     }
+    
 
     /**
      * Retrieves the role of an admin by email.

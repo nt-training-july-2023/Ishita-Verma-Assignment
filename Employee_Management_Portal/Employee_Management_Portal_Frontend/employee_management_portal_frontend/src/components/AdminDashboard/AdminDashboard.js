@@ -6,13 +6,16 @@ import ManagerTab from './ManagerTab/ManagerTab'
 import ProjectTab from './ProjectTab/ProjectTab'
 import AddProject from './AddProject/AddProject'
 import { useNavigate } from 'react-router-dom'
+import Assign from './EmployeeTab/AssignButton/Assign'
 
 
-const AdminDashboard = ({isLoggedIn}) => {
+const AdminDashboard = () => {
 
   const [showAddEmployee, setShowAddEmployee] = useState(false);
   const [showAddProject, setShowAddProject] = useState(false);
   const [activeTab, setActiveTab] = useState('employee');
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("email"));
+ 
   const navigate = useNavigate();
 
   // useEffect(() => {
@@ -47,9 +50,15 @@ const AdminDashboard = ({isLoggedIn}) => {
     setActiveTab('project')
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("email");
+    localStorage.removeItem("userRole");
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
+
   return (
     <div className='container'>
-      
       <div className='admindashboard_header'>
         <div className='admin_heading'>Admin Dashboard</div>
       <div className='admin_tabs'>
@@ -63,7 +72,7 @@ const AdminDashboard = ({isLoggedIn}) => {
           Project
         </div>
       </div>
-      <div className='logout' ><p style={{marginLeft:"0.5rem"}}>Logout</p></div>
+      <div className='logout' ><p style={{marginLeft:"0.5rem"}} onClick={handleLogout}>Logout</p></div>
 
       </div>
       {showAddEmployee && (
@@ -81,13 +90,13 @@ const AdminDashboard = ({isLoggedIn}) => {
       <div>
         {activeTab=== 'employee' && !showAddEmployee && (
           <button className='admin_add_employee' onClick={toggleAddEmployee}>Add Employee</button>
-        )}
+          )}
       </div>
       
       <div>
         {activeTab=== 'project' && !showAddProject && (
           <button className='admin_add_employee' onClick={toggleAddProject}>Add Project</button>
-        )}
+          )}
       </div>
 
      
@@ -98,7 +107,7 @@ const AdminDashboard = ({isLoggedIn}) => {
           </div>
         )}
          {activeTab === 'manager' && (
-          <div >
+           <div >
            <ManagerTab/>
           </div>
         )}

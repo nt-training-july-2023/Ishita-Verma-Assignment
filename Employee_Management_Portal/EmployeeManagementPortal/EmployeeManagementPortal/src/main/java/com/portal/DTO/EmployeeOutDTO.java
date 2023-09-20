@@ -63,6 +63,10 @@ import com.portal.entities.Role;
 	     */
 	    private String projectId;
 	    /**
+	     * project name
+	     */
+	    private String projectName;
+	    /**
 	     * skills of employee.
 	     */
 	    private List<String> skills;
@@ -75,7 +79,7 @@ import com.portal.entities.Role;
 	     * manager of employee.
 	     */
 	    
-	    private String managerId;
+	    private Long managerId;
 		/**
 		 * @return the id
 		 */
@@ -235,13 +239,13 @@ import com.portal.entities.Role;
 		/**
 		 * @return the managerId
 		 */
-		public String getManagerId() {
+		public Long getManagerId() {
 			return managerId;
 		}
 		/**
 		 * @param managerId the managerId to set
 		 */
-		public void setManagerId(String managerId) {
+		public void setManagerId(Long managerId) {
 			this.managerId = managerId;
 		}
 		@Override
@@ -291,7 +295,7 @@ import com.portal.entities.Role;
 		 */
 		public EmployeeOutDTO(long id, String empId, String name, String email, String dob, String doj,
 				Location location, Designation designation, String contactNumber, Role role, String projectId,
-				List<String> skills, String manager, String managerId) {
+				List<String> skills, String manager, Long managerId) {
 			super();
 			Id = id;
 			this.empId = empId;
@@ -314,6 +318,18 @@ import com.portal.entities.Role;
 		public EmployeeOutDTO() {
 			super();
 			// TODO Auto-generated constructor stub
+		}
+		/**
+		 * @return the projectName
+		 */
+		public String getProjectName() {
+			return projectName;
+		}
+		/**
+		 * @param projectName the projectName to set
+		 */
+		public void setProjectName(String projectName) {
+			this.projectName = projectName;
 		}
 
 	}

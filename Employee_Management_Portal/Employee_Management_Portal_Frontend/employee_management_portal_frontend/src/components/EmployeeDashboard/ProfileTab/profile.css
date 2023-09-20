@@ -8,13 +8,13 @@
 
 .column01 {
   flex: 1;
-  padding: 20px;
-  margin: 10px;
+  padding: 0.2rem;
+  margin: 1rem;
   background-color: rgb(231, 222, 222);
 }
 .column02 {
   flex: 1;
-  padding: 0.1rem;
+  /* padding: 0.1rem; */
    margin: 10px;
   background-color: rgb(231, 222, 222);
 }
@@ -31,26 +31,28 @@
   border:2px solid gray;
   border-radius: 0.3rem;
   border-style: bold;
-  padding: 5px;
+  padding: 0.2rem;
   height: 2rem;
   font-size: 15px;
  
 }
-
+.skills{
+  height: 6rem;
+}
 .update-skills{
 margin-top: 0.5rem;
 display: inline-block; 
-padding: 10px 10px; 
+padding: 0.6rem; 
 font-size: medium;
-background-color: #007bff;
+background-color: blueviolet;
 color: #fff; 
-height: 2rem;
+height: 3rem;
+width: 8rem;
 text-decoration: none;
 border: none; 
 border-radius: 5px;
 cursor: pointer; 
-/* margin-left: 50%; */
-transition: background-color 0.3s;
+text-align: center;
 }
 
 @media (max-width: 768px) {

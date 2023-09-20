@@ -104,7 +104,7 @@ const ManagerTab = () => {
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
-                  Team :
+                  Team : 
                 </span>{" "}
               </p>
             </div>

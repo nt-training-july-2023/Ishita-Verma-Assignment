@@ -7,4 +7,18 @@
     font-weight: bold;
     border-radius: 0.2rem;
     cursor: pointer;
+    text-decoration: none;
+    padding: 0.5rem;
 }
+.assign {
+    /* margin-top: 4rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 20vh; /* Makes the container take the full viewport height */
+}
+.assign_project{
+      margin-top: 0.8rem;
+
+  }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.ProjectDTO;
+import com.portal.DTO.ProjectOutDTO;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
 import com.portal.repository.ProjectRepository;
@@ -39,7 +40,7 @@ public class ProjectController {
      * Create objects of AddProjectService.
      */
     @Autowired
-    private ProjectService addProjectService;
+    private ProjectService projectService;
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ProjectController.class);
@@ -53,7 +54,7 @@ public class ProjectController {
     public final ApiResponseDTO saveProject(
             @RequestBody final ProjectDTO projectDTO) {
     	LOGGER.info("Adding project.");
-        return addProjectService.addProject(projectDTO);
+        return projectService.addProject(projectDTO);
     }
 
     /**
@@ -65,6 +66,16 @@ public class ProjectController {
     	LOGGER.info("Getting Projects");
         return projectRepository.findAll();
     }
+    /**
+     * Endpoint for retrieving all projects.
+     * @return A list of Project entities.
+     */
+    final @GetMapping(path = "/projects/{managerId}")
+    public List<ProjectOutDTO> getProjectByManagerId(@RequestParam long managerId) {
+    	LOGGER.info("Getting Projects" + managerId);
+    	System.out.println(managerId);
+        return projectService.getProjectByManagerId(managerId);
+    }
 
     /**
      * Endpoint for retrieving skills associated with a project by name.
@@ -74,7 +85,7 @@ public class ProjectController {
     final @GetMapping(path = "/project/skills")
     public List<String> getSkillsForProject(@RequestParam final String name) {
     	LOGGER.info("Getting projects as per the skills.");
-        return addProjectService.getSkillsForProject(name);
+        return projectService.getSkillsForProject(name);
     }
     /**
      * get Employe by EmpId.

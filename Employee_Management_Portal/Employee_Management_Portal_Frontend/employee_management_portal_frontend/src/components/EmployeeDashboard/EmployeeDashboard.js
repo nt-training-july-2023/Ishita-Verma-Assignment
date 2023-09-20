@@ -16,6 +16,7 @@ const EmployeeDashboard = () => {
   const switchToOrganizationTab = () => {
     setActiveTab("organization");
   };
+  const name= localStorage.getItem("name");
 
   const handleLogout = () => {
     localStorage.removeItem("email");
@@ -25,7 +26,8 @@ const EmployeeDashboard = () => {
   };
   return (
     <div className="container">
-      <div className="admin_heading">Employee Dashboard</div>
+      <div className="admin_heading"> Welcome {name} </div>
+      
       <button className="logout" onClick={handleLogout}>
         Log Out
       </button>

@@ -2,6 +2,7 @@ package com.portal.service;
 
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.ProjectDTO;
+import com.portal.DTO.ProjectOutDTO;
 import com.portal.DTO.UserDTO;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
@@ -26,7 +27,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ProjectService {
-
 	/**
 	 * Repository for managing Project entities.
 	 */
@@ -36,7 +36,7 @@ public class ProjectService {
 	 * Repository for managing Project entities.
 	 */
 	@Autowired
-	private AdminRepository userRepository;
+	private AdminRepository adminRepository;
 
 	/**
 	 * ModelMapper for mapping between DTOs and entities.
@@ -90,15 +90,29 @@ public class ProjectService {
 	 * @param managerId manager id of employee
 	 * @return list of projects
 	 */
-	public final List<ProjectDTO> getProjectByManagerId(final long managerId) {
-		List<Project> projectList = projectRepository.findAllByManagerId(managerId);
-		List<ProjectDTO> projectOutList = new ArrayList<ProjectDTO>();
+	public final List<ProjectOutDTO> getProjectByManagerId(final long managerId) {
+		List <Project> projectList = projectRepository.findAllByManagerId(managerId);
+		System.out.println(managerId);
+		List<ProjectOutDTO> projectOutList = new ArrayList<ProjectOutDTO>();
 		for (Project project : projectList) {
-			ProjectDTO projectOutDto = new ProjectDTO();
+			ProjectOutDTO projectOutDto = new ProjectOutDTO();
 			projectOutDto.setProjectId(project.getProjectId());
-			projectOutDto.setName(project.getName());
+			projectOutDto.setProjectName(project.getName());
 			projectOutDto.setManagerId(project.getManagerId());
+			Employee employee = adminRepository.findByManagerId(project.getManagerId()).get();
+			projectOutDto.setManager(employee.getName());
 			projectOutDto.setSkills(project.getSkills());
+			List<String> teams = new ArrayList<String>();
+			List <Employee> empList = adminRepository.findAllByProjectId(project.getProjectId());
+            if(empList.size()!=0) {
+                for(Employee emp : empList) {
+                  teams.add(emp.getName());
+                 }
+           } else {
+               teams.add("N/A");
+           }
+           projectOutDto.setTeams(teams);
+           
 			projectOutList.add(projectOutDto);
 		}
 		return projectOutList;

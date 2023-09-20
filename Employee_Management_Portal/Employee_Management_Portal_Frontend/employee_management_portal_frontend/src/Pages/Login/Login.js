@@ -40,10 +40,12 @@ const Login = ({setIsLoggedIn ,login}) => {
             // Redirect to the "admindashboard" route
             if(response.data.role === "ADMIN") navigate('/admindashboard');
             if(response.data.role === "EMPLOYEE") navigate('/employeedashboard');
+            if(response.data.role === "MANAGER") navigate('/managerdashboard')
   
             localStorage.setItem("userRole", response.data.role);
             localStorage.setItem("isLoggedIn", response.status);
             localStorage.setItem("email",email);
+            localStorage.setItem("name",response.data.name);
 
         })
         .catch((error) => {

@@ -67,12 +67,12 @@ public class EmployeeController {
      * @param roleName The role name for filtering employees.
      * @return A list of employees with the specified role.
      */
-    final @GetMapping("all/{roleName}") public List<Employee> getEmployeesByRole(
+    final @GetMapping("all/{roleName}") public List<EmployeeOutDTO> getEmployeesByRole(
             @PathVariable final String roleName) {
-        Role role = Role.valueOf(roleName);
-        List<Employee> employees = userRepository.findByRole(role);
+       
+//        List<Employee> employees = userRepository.findByRole(role);
         LOGGER.info("Getting employee as per the role.");
-        return employees;
+        return employeeService.getEmployeeByRole(roleName);
     }
     
     @GetMapping("/all/employee/{id}")
@@ -109,4 +109,17 @@ public class EmployeeController {
         Long managerId= updatedDetails.get("managerId");
         return employeeService.updatedProject(id, projectId, managerId);
     }
+   /**
+    * Update employee skills.
+    *
+    * @param id The ID of the employee to update.
+    * @param updatedSkills Map containing updated skills.
+    * @return ApiResponse with the result of the operation.
+    */
+   @PutMapping("/employee/{id}/skills")
+   public final ApiResponseDTO updateSkills(final @PathVariable long id,
+          final @RequestBody Map<String, List<String>> updatedSkills) {
+      List<String> skills = updatedSkills.get("skills");
+       return employeeService.updateSkills(id, skills);
+   }
 }

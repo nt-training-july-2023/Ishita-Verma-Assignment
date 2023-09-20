@@ -30,7 +30,7 @@ public interface AdminRepository extends JpaRepository<Employee, Long> {
      * @param role Role
      * @return Admin
      */
-    List<Employee> findByRole(Role role);
+     List<Employee> findByRole(Role role);
     /**
      * Checks if an admin exists with the given email.
      * @param email The email to check.
@@ -44,4 +44,6 @@ public interface AdminRepository extends JpaRepository<Employee, Long> {
      * @return truw if exist and false if not
      */
     boolean existsByEmpId(String empId);
+    List<Employee> findAllByProjectId(long projectId);
+	Optional<Employee> findByManagerId(Long managerId);
 }

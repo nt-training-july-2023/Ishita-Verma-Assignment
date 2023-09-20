@@ -26,9 +26,9 @@
   /* padding: 10px; */
   margin: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 30rem !important;
+  width: 35rem !important;
   height: 14rem;
-  overflow-x: scroll;
+  /* overflow-x: scroll; */
 }
 
 .column {

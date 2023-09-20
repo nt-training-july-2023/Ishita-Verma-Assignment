@@ -71,7 +71,7 @@ const ManagerTab = () => {
                 ))}
               </select>
               <p>
-                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                <span style={{ fontWeight: "bold", fontSize: "1rem"}}>
                   Contact:
                 </span>{" "}
                 {employee.contactNumber}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./projecttab.css";
 import Popup from "../ProjectTab/Popup";
+import DateReverser from "../../DateReverser/DateReverser";
 
 const ProjectTab = () => {
   const [projects, setProjects] = useState([]);
@@ -113,7 +114,7 @@ const ProjectTab = () => {
               <strong>Project ID:</strong> {project.projectId}
             </p>
             <p>
-              <strong>Start Date:</strong> {project.startDate}
+              <strong>Start Date:</strong><DateReverser date={project.startDate} />
             </p>
             <p style={{ fontSize: "1rem" }} className="project_skills">
               

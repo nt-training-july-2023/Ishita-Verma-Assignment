@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import DateReverser from "../../DateReverser/DateReverser";
+import Skills from "../../Data/Skills"
+import MultiSelectDropdown from "../../MultiSelectDropdown/MultiSelectDropdown";
 
 const EmployeeTab = () => {
   const [employees, setEmployees] = useState([]);
-  const [managerNames, setManagerNames] = useState({});
   const [showAssign, setshowAssign] = useState(false);
+  const [selectedSkills, setSelectedSkills] = useState("");
 
   useEffect(() => {
     getAllEmployees();
@@ -30,47 +33,40 @@ const EmployeeTab = () => {
       console.error("Error fetching data:", error);
     }
   };
+  const handleSkillSelection = (selectedOptions) => {
+    setSelectedSkills(selectedOptions.map((option) => option.value));
+  };
 
-  // async function getManagerNames() {
-  //   const managerNamePromises = employees.map(async (employee) => {
-  //     try {
-  //       const res = await axios.get(
-  //         `http://localhost:8080/api/admin/employee/${employee.managerId}`
-  //       );
-  //       return { id: employee.Id, managerName: res.data.name };
-  //     } catch (error) {
-  //       console.log(error);
-  //       return { id: employee.id, managerName: "Error fetching name" };
-  //     }
-  //   });
-
-  //   const managerNameResults = await Promise.all(managerNamePromises);
-  //   const managerNameMap = {};
-  //   managerNameResults.forEach((result) => {
-  //     managerNameMap[result.id] = result.managerName;
-  //   });
-  //   // console.log("manager name map", managerNameMap);
-  //   setManagerNames(managerNameMap);
-  // }
-  // useEffect(() => {
-  //   if (employees.length > 0) {
-  //     getManagerNames();
-  //   }
-  // }, [employees]);
-
+  const filteredEmployees = employees.filter((employee) => {
+    if (selectedSkills.length === 0) {
+      return true;
+    }
+    return selectedSkills.some((skill) => employee.skills.includes(skill));
+  });
+  
   return (
     <div>
       <div className="card_container">
-        {employees.map((employee) => (
+      <MultiSelectDropdown
+          options={Skills.map((skill) => ({
+            label: skill,
+            value: skill,
+          }))}
+          style={{marginLeft:"4rem"}}
+          selectedOptions={selectedSkills}
+          onChange={handleSkillSelection}
+          placeholder="Select Skills"
+        />
+        { filteredEmployees.map((employee) => (
           <div className="card" key={employee.Id}>
             <div className="column1">
               <h2 className="employee_name">{employee.name}</h2>
               <p style={{ marginTop: "-0.2rem" }}>{employee.designation} </p>
               <p style={{ marginTop: "1rem" }}>
-                {employee.project ? (
+                {employee.projectName ? (
                   <p>
                     <span style={{ fontWeight: "bold" }}>Project Name :</span>
-                    {employee.project}
+                    {employee.projectName}
                   </p>
                 ) : (
                   <p>
@@ -97,6 +93,12 @@ const EmployeeTab = () => {
                 </span>
                 {employee.email}
               </p>
+              <p>
+                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                  Skills :
+                </span>
+                {employee.skills.join(', ')}
+              </p>
 
              
             </div>
@@ -112,13 +114,13 @@ const EmployeeTab = () => {
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
                   DOB :
                 </span>{" "}
-                {employee.dob}
+                <DateReverser date={employee.dob} />
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
                   DOJ:{" "}
                 </span>{" "}
-                {employee.doj}
+                <DateReverser date={employee.doj} />
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
@@ -126,9 +128,15 @@ const EmployeeTab = () => {
                 </span>{" "}
                 {employee.location}
               </p>
-              <button onClick={toggleAssign} className="assign_btn">
-                Request Resource
-              </button>
+              {employee.projectName === null && (
+                <button
+                  onClick={toggleAssign}
+                  className="assign_btn"
+                  style={{ marginTop: "0.6rem" }}
+                >
+                  Request Resource
+                </button>
+              )}
             </div>
           </div>
         ))}

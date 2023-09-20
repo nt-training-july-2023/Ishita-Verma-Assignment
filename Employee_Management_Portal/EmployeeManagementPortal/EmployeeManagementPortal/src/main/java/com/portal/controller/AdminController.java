@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portal.DTO.AdminDTO;
+import com.portal.DTO.EmployeeOutDTO;
 import com.portal.DTO.LoginDTO;
+import com.portal.DTO.LoginResponseDTO;
 import com.portal.DTO.ResponseDTO;
 import com.portal.entities.Employee;
 import com.portal.exceptions.WrongCredentialsException;
@@ -64,10 +66,10 @@ public class AdminController {
      * @return A ResponseEntity containing a list of admins.
      */
      @GetMapping("/getall")
-    public ResponseEntity<List<Employee>> getAllAdmin() {
-        List<Employee> admins = adminService.getAllAdmin();
+    public List<EmployeeOutDTO> getAllAdmin() {
+        List<EmployeeOutDTO> admins = adminService.getAllAdmin();
         LOGGER.info("Get all list of employees.");
-        return ResponseEntity.ok(admins);
+        return admins;
     }
     /**
      * Handles admin login.
@@ -75,18 +77,17 @@ public class AdminController {
      * @param loginDto The LoginDTO containing login credentials.
      * @return A ResponseEntity indicating login status.
      */
-    final @PostMapping("/login") public ResponseDTO login(
+    final @PostMapping("/login") public LoginResponseDTO login(
             @Valid @RequestBody final LoginDTO loginDto) {
         AdminDTO adminDTO = adminService.login(loginDto);
         if (adminDTO == null) {
             throw new WrongCredentialsException("Wrong credentials");
         } else {
-            // Fetch the user's role based on their email or identifier
             String userRole = adminService
                     .getUserRoleByEmail(loginDto.getEmail());
-            // Create a new ResponseDTO that includes the role
-            ResponseDTO ResponseDTO = new ResponseDTO("Login Successfully",
-                    userRole);
+         
+            LoginResponseDTO ResponseDTO = new LoginResponseDTO("Login Successfully",
+                    userRole,adminDTO.getName());
             LOGGER.info("Login User.");
             return ResponseDTO;
         }

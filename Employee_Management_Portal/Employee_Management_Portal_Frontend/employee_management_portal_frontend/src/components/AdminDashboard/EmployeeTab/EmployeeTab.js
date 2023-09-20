@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./employeetab.css";
 import axios from "axios";
 import Assign from "./AssignButton/Assign";
+import { Link } from 'react-router-dom';
+import DateReverser from "../../DateReverser/DateReverser";
 
 const EmployeeTab = () => {
   const [employees, setEmployees] = useState([]);
   const [showAssign, setShowAssign] = useState(false);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+  
 
   useEffect(() => {
     getAllEmployees();
@@ -43,17 +46,13 @@ const EmployeeTab = () => {
               <h2 className="employee_name">{employee.name}</h2>
               <p style={{ marginTop: "-0.2rem" }}>{employee.designation} </p>
               <p style={{ marginTop: "1rem" }}>
-                {employee.project ? (
+                
                   <p>
                     <span style={{ fontWeight: "bold" }}>Project Name :</span>
-                    {employee.project}
+                    { employee.projectName ? employee.projectName : "N/A"}{" "}
                   </p>
-                ) : (
-                  <p>
-                    <span style={{ fontWeight: "bold" }}>Project Name :</span>
-                    N/A{" "}
-                  </p>
-                )}
+               
+                
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
@@ -86,13 +85,13 @@ const EmployeeTab = () => {
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
                   DOB :
                 </span>{" "}
-                {employee.dob}
+                <DateReverser date={employee.dob} />
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
                   DOJ:{" "}
                 </span>{" "}
-                {employee.doj}
+                <DateReverser date={employee.doj} />
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
@@ -101,22 +100,24 @@ const EmployeeTab = () => {
                 {employee.location}
               </p>
 
-              {/* Conditionally render the Assign Project button */}
-              {!employee.project && (
-                <button
-                  onClick={() => toggleAssign(employee.id)}
+             <div className="assign_project">
+              {!employee.projectName && (
+                <Link
+                to={`/assign/project/${employee.id}`}
                   className="assign_btn"
                   style={{ marginTop: "1rem" }}
+                  return employee={employee}
                 >
                   Assign Project
-                </button>
+                </Link>
               )}
+              </div>
             </div>
           </div>
         ))}
       </div>
       {showAssign && (
-        <div className="add_employee_form">
+        <div className="add_employee_form assign">
           <Assign
             employeeId={selectedEmployeeId}
             onCancel={cancelAssign}

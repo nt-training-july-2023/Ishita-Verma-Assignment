@@ -2,34 +2,13 @@ import {React,useState,useEffect} from 'react'
 import './profile.css'
 import { Link } from "react-router-dom";
 import axios from 'axios'
+import DateReverser from "../../DateReverser/DateReverser";
 
 const ProfileTab = () => {
   const email = localStorage.getItem('email');
   const [employeeDetails, setEmployeeDetails] = useState([]); 
   const [managerNames, setManagerNames] = useState({});
 
-  // function reverseDateFormat(inputDate) {
-  //   // Split the input date using the '-' separator
-  //   const dateParts = inputDate.split('-');
-  //   // Check if the input has three parts (year, month, day)
-  //   if (dateParts.length === 3) {
-  //     // Reverse the parts and join them with '-' separator
-  //     const reversedDate = dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
-  //     return reversedDate;
-  //   } else {
-  //     // Handle invalid input format
-  //     return 'Invalid Date Format';
-  //   }
-  // }
-
-  // async function getEmployee() {
-  //   const response = await axios.get(`http://localhost:8080/api/admin/employee/${email}`);
-  //   setEmployee(response.data);
-  //   // console.log(employee);
-  // }
-  // useEffect(() => {
-  //   getEmployee();
-  // }, []);
   useEffect(() => {
     if (email) {
       axios.get(`http://localhost:8080/api/admin/employee/${email}`)
@@ -48,13 +27,13 @@ const ProfileTab = () => {
       {employeeDetails ? (
         <div>
           
-            <p style={{color:"white", marginLeft:"0.8rem",fontSize:"1.5rem"}}>Emp ID: {employeeDetails.empId}</p>
+          <p style={{color:"white", marginLeft:"0.8rem",fontSize:"1.5rem"}}>Emp ID: {employeeDetails.empId}</p>
           <div className="details-container">
+              {/* <h4 style={{color:"white", marginLeft:"0.8rem",fontSize:"1.5rem",color:"black"}}>Welcome {employeeDetails.name}</h4> */}
             <div className="column01 grid-container">
 
             <div className="column01">
-              {/* <h2>Column 1</h2> */}
-              <p style={{fontSize:"1.2rem",fontWeight:"bold"}}>Welcome {employeeDetails.name}</p>
+              {/* <p style={{fontSize:"1.2rem",fontWeight:"bold"}}>Welcome {employeeDetails.name}</p> */}
               <strong>Name</strong>
               <p className="field_input">{employeeDetails.name}</p>
 
@@ -62,12 +41,16 @@ const ProfileTab = () => {
               <p className="field_input">{employeeDetails.email}</p>
 
               <strong>DOB</strong>
-              <p className="field_input">{(employeeDetails.dob)}</p>
+              <p className="field_input"><DateReverser date={employeeDetails.dob} /></p>
 
-              <strong>Skills</strong> 
-            <p className="field_input">{employeeDetails.skills}</p>
+              <strong>Skills</strong>
+                {employeeDetails.skills ? (
+                  <p className="field_input skills">{employeeDetails.skills.join(', ')}</p>
+                ) : (
+                  <p className="field_input">No skills available</p>
+                )}
 
-            <Link to="/updateSkills" className="update-skills">Update Skills</Link>
+            <Link to={`/updateProject/${employeeDetails.id}`} className="update-skills">Update Skills</Link>
           
          </div>
 
@@ -79,13 +62,13 @@ const ProfileTab = () => {
               <p className="field_input">{employeeDetails.contactNumber}</p>
 
               <strong>Project Name</strong>
-              <p className="field_input">{employeeDetails.project}</p>
+              <p className="field_input">{employeeDetails.projectId}</p>
 
               <strong>Manager</strong>
-              <p className="field_input">{employeeDetails.managerId}</p>
+              <p className="field_input">{employeeDetails.manager}</p>
 
               <strong>DOJ</strong>
-              <p className="field_input">{(employeeDetails.doj)}</p>
+              <p className="field_input"><DateReverser date={employeeDetails.doj} /></p>
 
               <strong>Location</strong>
               <p className="field_input">{employeeDetails.location}</p>
