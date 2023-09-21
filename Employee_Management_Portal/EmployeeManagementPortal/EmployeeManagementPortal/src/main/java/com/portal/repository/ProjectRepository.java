@@ -39,5 +39,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
      * @return The project with the specified name, if found.
      */
     List<Project> findAllByManagerId(Long managerId);
+
+	List<Project> findByManagerId(Long managerId);
 }
 

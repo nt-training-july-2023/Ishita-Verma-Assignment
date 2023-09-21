@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Popup from '../../AdminDashboard/ProjectTab/Popup'
-import DateReverser from "../../DateReverser/DateReverser";
+import Popup from '../../../components/Popup/Popup'
+import DateReverser from "../../../components/DateReverser/DateReverser";
 
 const ProjectTab = () => {
   const [projects, setProjects] = useState([]);

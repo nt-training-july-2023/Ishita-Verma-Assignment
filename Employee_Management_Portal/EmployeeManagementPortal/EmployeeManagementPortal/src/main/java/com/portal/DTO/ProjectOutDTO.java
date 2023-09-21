@@ -70,8 +70,8 @@ public class ProjectOutDTO {
      /**
       * @param projectNames the projectName to set
       */
-     public final void setProjectName(final String projectNames) {
-         this.projectName = projectNames;
+     public final void setProjectName(final String projectName) {
+         this.projectName = projectName;
      }
      /**
       * @return the manager
@@ -82,20 +82,20 @@ public class ProjectOutDTO {
      /**
       * @param managers the manager to set
       */
-     public final void setManager(final String managers) {
-         this.manager = managers;
+     public final void setManager(final String manager) {
+         this.manager = manager;
      }
      /**
       * @return the managerId
       */
-     public final long getManagerId() {
+     public final Long getManagerId() {
          return managerId;
      }
      /**
       * @param managerID the managerId to set
       */
-     public final void setManagerId(final long managerID) {
-         this.managerId = managerID;
+     public final void setManagerId(final Long managerId) {
+         this.managerId = managerId;
      }
      /**
       * @return the startDate

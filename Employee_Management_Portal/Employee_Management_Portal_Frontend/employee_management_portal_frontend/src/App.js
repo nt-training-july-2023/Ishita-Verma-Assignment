@@ -1,13 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes,Navigate } from "react-router-dom";
-import Login from "../src/Pages/Login/Login";
-import AdminDashboard from "../src/components/AdminDashboard/AdminDashboard";
-import Assign from "./components/AdminDashboard/EmployeeTab/AssignButton/Assign";
-import Registration from "./Pages/Registration/Registration"
-import EmployeeManagementPage from "../src/components/EmployeeMangementPage/EmployeeManagementPage";
-import EmployeeDashboard from "../src/components/EmployeeDashboard/EmployeeDashboard";
-import ManagerDashboard from "./components/ManagerDashboard/ManagerDashboard";
+import Login from "../src/Pages/Login/Login"
+import AdminDashboard from "./Pages/AdminDashboard/AdminDashboard";
+import Assign from "./components/AssignButton/Assign";
+import Registration from '../src/Pages/Registration/Registration'
+import EmployeeManagementPage from "./Pages/EmployeeMangementPage/EmployeeManagementPage";
+import EmployeeDashboard from "./Pages/EmployeeDashboard/EmployeeDashboard";
+import ManagerDashboard from "./Pages/ManagerDashboard/ManagerDashboard";
 import UpdateSkills from "./components/UpdateSkills/UpdateSkills";
+import RequestResource from "./components/RequestResource/RequestResource";
+
 
 function App() {
 
@@ -23,8 +25,10 @@ function App() {
           <Route path="/managerdashboard" Component={ManagerDashboard} />
           <Route path="/assign/project/:id" Component={Assign}/>
           <Route path="/updateProject/:id" Component={UpdateSkills}/>
+          <Route path="/requestResource/:id" Component={RequestResource}/>
         </Routes>
       </Router>
+      {/* <RequestResource/> */}
     </>
   );
 }

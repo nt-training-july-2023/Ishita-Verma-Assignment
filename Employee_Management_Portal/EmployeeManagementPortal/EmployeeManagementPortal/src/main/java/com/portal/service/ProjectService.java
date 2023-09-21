@@ -90,33 +90,33 @@ public class ProjectService {
 	 * @param managerId manager id of employee
 	 * @return list of projects
 	 */
-	public final List<ProjectOutDTO> getProjectByManagerId(final long managerId) {
-		List <Project> projectList = projectRepository.findAllByManagerId(managerId);
-		System.out.println(managerId);
-		List<ProjectOutDTO> projectOutList = new ArrayList<ProjectOutDTO>();
-		for (Project project : projectList) {
-			ProjectOutDTO projectOutDto = new ProjectOutDTO();
-			projectOutDto.setProjectId(project.getProjectId());
-			projectOutDto.setProjectName(project.getName());
-			projectOutDto.setManagerId(project.getManagerId());
-			Employee employee = adminRepository.findByManagerId(project.getManagerId()).get();
-			projectOutDto.setManager(employee.getName());
-			projectOutDto.setSkills(project.getSkills());
-			List<String> teams = new ArrayList<String>();
-			List <Employee> empList = adminRepository.findAllByProjectId(project.getProjectId());
-            if(empList.size()!=0) {
-                for(Employee emp : empList) {
-                  teams.add(emp.getName());
-                 }
-           } else {
-               teams.add("N/A");
-           }
-           projectOutDto.setTeams(teams);
-           
-			projectOutList.add(projectOutDto);
-		}
-		return projectOutList;
-	}
+	 public final List<ProjectOutDTO> getProjectByManagerId(final Long managerId) {
+		 
+		 List<Project> projectList = projectRepository.findByManagerId((managerId));
+	        List<ProjectOutDTO> projectOutList = new ArrayList<ProjectOutDTO>();
+	        for (Project project : projectList) {
+	            ProjectOutDTO projectOutDto = new ProjectOutDTO();
+	            projectOutDto.setProjectId(project.getProjectId());
+	            projectOutDto.setProjectName(project.getName());
+	            
+	            projectOutDto.setManagerId(project.getManagerId());
+	            projectOutDto.setSkills(project.getSkills());
+	            List <Employee> empList = adminRepository.findAllByProjectId(project.getProjectId());
+	            
+	             List<String> teams = new ArrayList<String>();
+	             if(empList.size()!=0) {
+	                 for(Employee emp : empList) {
+	                   teams.add(emp.getName());
+	                  }
+	            } else {
+	                teams.add("N/A");
+	            }
+	            projectOutDto.setTeams(teams);
+	            projectOutList.add(projectOutDto);
+	        }
+	        return projectOutList;
+	 }
+
 
 	// dto to entity
 	/**

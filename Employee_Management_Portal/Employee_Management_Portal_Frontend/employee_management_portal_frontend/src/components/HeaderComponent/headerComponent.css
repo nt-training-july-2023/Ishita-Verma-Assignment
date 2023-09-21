@@ -1,0 +1,16 @@
+.admin_tabs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0; 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+    padding: 0.5rem;
+    color: white;
+    border: 0.1rem solid gray;
+    border-radius: 2rem;
+    z-index: 1;
+}

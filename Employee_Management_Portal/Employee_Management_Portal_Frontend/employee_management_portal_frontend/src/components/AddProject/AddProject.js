@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "./addproject.css";
 import axios from "axios";
-import Skills from "../../Data/Skills";
-import AdminService from "../../service/AdminService";
-import MultiSelectDropdown from "../../MultiSelectDropdown/MultiSelectDropdown";
+import Skills from "../Data/Skills";
+import AdminService from "../service/AdminService";
+import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
 
 const AddProject = () => {
   const [name, setName] = useState("");

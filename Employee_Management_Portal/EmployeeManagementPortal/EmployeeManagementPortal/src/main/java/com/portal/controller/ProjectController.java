@@ -70,10 +70,10 @@ public class ProjectController {
      * Endpoint for retrieving all projects.
      * @return A list of Project entities.
      */
-    final @GetMapping(path = "/projects/{managerId}")
-    public List<ProjectOutDTO> getProjectByManagerId(@RequestParam long managerId) {
-    	LOGGER.info("Getting Projects" + managerId);
-    	System.out.println(managerId);
+    @GetMapping(path = "/projects/{managerId}")
+    public List<ProjectOutDTO> getProjectByManagerId(@PathVariable Long managerId) {
+        LOGGER.info("Getting Projects for managerId: " + managerId);
+        System.out.println("Received managerId: " + managerId);
         return projectService.getProjectByManagerId(managerId);
     }
 

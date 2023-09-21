@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./projecttab.css";
-import Popup from "../ProjectTab/Popup";
-import DateReverser from "../../DateReverser/DateReverser";
+import Popup from "../../../components/Popup/Popup";
+import DateReverser from "../../../components/DateReverser/DateReverser";
 
 const ProjectTab = () => {
   const [projects, setProjects] = useState([]);
@@ -92,7 +92,7 @@ const ProjectTab = () => {
               </span>
               {project.description.length > 40 ? (
                 <p>
-                  {project.description.slice(0, 40)}{" "}
+                  {project.description.slice(0, 20)}{" "}
                   <span
                     style={{
                       color: "blue",
@@ -107,6 +107,9 @@ const ProjectTab = () => {
               ) : (
                 <p>{project.description}</p>
               )}
+            </p>
+            <p>
+              <strong>Team:</strong> {project.team}
             </p>
           </div>
           <div className="column2">
@@ -130,9 +133,7 @@ const ProjectTab = () => {
               </span>{" "}
               {project.skills.join(", ")}
             </p>
-            <p>
-              <strong>Team:</strong> {project.team}
-            </p>
+           
             {showPopup && (
               <Popup
                 description={selectedDescription}

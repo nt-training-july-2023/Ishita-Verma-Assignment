@@ -1,7 +1,7 @@
 import { React, useState } from "react";
-import EmployeeTab from "../ManagerDashboard/EmployeeTab/EmployeeTab";
-import ManagerTab from "../ManagerDashboard/ManagerTab/ManagerTab";
-import ProjectTab from "../ManagerDashboard/ProjectTab/ProjectTab";
+import EmployeeTab from "./EmployeeTab/EmployeeTab";
+import ManagerTab from "./ManagerTab/ManagerTab";
+import ProjectTab from "./ProjectTab/ProjectTab";
 import { useNavigate } from "react-router-dom";
 
 const ManagerDashboard = () => {

@@ -1,0 +1,26 @@
+.custom-button {
+    background-color: blueviolet;
+    border:solid 0.2rem rgb(44, 12, 73) !important;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 2rem;;
+    margin-left: 75rem;;
+  }
+  
+  /* Add specific styles for different buttons */
+  .custom-button.logout {
+    background-color: red;
+  }
+  
+  .custom-button.add-employee {
+    background-color: green;
+  }
+  
+  .custom-button.assign {
+    background-color: blue;
+  }
+  

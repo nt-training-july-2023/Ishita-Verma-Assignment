@@ -2,7 +2,7 @@ import {React,useState,useEffect} from 'react'
 import './profile.css'
 import { Link } from "react-router-dom";
 import axios from 'axios'
-import DateReverser from "../../DateReverser/DateReverser";
+import DateReverser from "../../../components/DateReverser/DateReverser";
 
 const ProfileTab = () => {
   const email = localStorage.getItem('email');

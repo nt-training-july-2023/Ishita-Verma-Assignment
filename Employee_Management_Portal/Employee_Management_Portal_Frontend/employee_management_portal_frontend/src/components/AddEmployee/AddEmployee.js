@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Select from "react-select";
 import "./addemployee.css";
-import Role from "../../Data/Role";
-import Skills from "../../Data/Skills";
-import Designation from "../../Data/Designation";
-import AdminService from "../../service/AdminService";
-import Location from "../../Data/Location";
+import Role from "../Data/Role";
+import Skills from "../Data/Skills";
+import Designation from "../Data/Designation";
+import AdminService from "../service/AdminService";
+import Location from "../Data/Location";
 import bcrypt from 'bcryptjs';
-import MultiSelectDropdown from "../../MultiSelectDropdown/MultiSelectDropdown";
+import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
 
 const AddEmployee = () => {
   // Define state variables for each form field

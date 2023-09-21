@@ -1,12 +1,13 @@
 import {React,useEffect,useState} from 'react'
 import './admindashboard.css'
-import AddEmployee from './AddEmployee/AddEmployee'
+import AddEmployee from '../../components/AddEmployee/AddEmployee'
 import EmployeeTab from './EmployeeTab/EmployeeTab'
 import ManagerTab from './ManagerTab/ManagerTab'
 import ProjectTab from './ProjectTab/ProjectTab'
-import AddProject from './AddProject/AddProject'
+import AddProject from '../../components/AddProject/AddProject'
 import { useNavigate } from 'react-router-dom'
-import Assign from './EmployeeTab/AssignButton/Assign'
+import Button from "../../components/Button/Button"
+import HeaderComponent from '../../components/HeaderComponent/HeaderComponent'
 
 
 const AdminDashboard = () => {
@@ -18,11 +19,6 @@ const AdminDashboard = () => {
  
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if(!isLoggedIn){
-  //     navigate("/login")
-  //   }
-  // },[isLoggedIn])
   const toggleAddEmployee = () => {
     setShowAddEmployee(!showAddEmployee);
   };
@@ -61,19 +57,15 @@ const AdminDashboard = () => {
     <div className='container'>
       <div className='admindashboard_header'>
         <div className='admin_heading'>Admin Dashboard</div>
-      <div className='admin_tabs'>
-      <div className={`admin_employee ${activeTab === 'employee' ? 'active' : ''}`} onClick={switchToEmployeeTab}>
-          Employee
+        <HeaderComponent
+        activeTab={activeTab}
+        switchToEmployeeTab={switchToEmployeeTab}
+        switchToManagerTab={switchToManagerTab}
+        switchToProjectTab={switchToProjectTab}
+      />
+      <div>
+          <Button onClick={handleLogout} text="Logout" />
         </div>
-        <div className={`admin_manager ${activeTab === 'manager' ? 'active' : ''}`} onClick={switchToManagerTab}>
-          Manager
-        </div>
-        <div className={`admin_project ${activeTab === 'project' ? 'active' : ''}`} onClick={switchToProjectTab}>
-          Project
-        </div>
-      </div>
-      <div className='logout' ><p style={{marginLeft:"0.5rem"}} onClick={handleLogout}>Logout</p></div>
-
       </div>
       {showAddEmployee && (
         <div className='add_employee_form'>
@@ -88,9 +80,13 @@ const AdminDashboard = () => {
         </div>
       )}
       <div>
-        {activeTab=== 'employee' && !showAddEmployee && (
-          <button className='admin_add_employee' onClick={toggleAddEmployee}>Add Employee</button>
-          )}
+      {activeTab === 'employee' && !showAddEmployee && (
+          <Button
+            onClick={toggleAddEmployee}
+            text="Add Employee"
+            className="add-employee"
+          />
+        )}
       </div>
       
       <div>

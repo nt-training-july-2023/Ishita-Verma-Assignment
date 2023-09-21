@@ -6,13 +6,12 @@
 .main_container {
     background-color: black;
 }
-.admindashboard_header{
-    /* position: fixed; */
-    /* margin-top: 10rem; */
-    /* margin-bottom: 38rem; */
-}
+
 .admin_heading {
-    /* margin: 1rem; */
+    /* top:15; */
+    margin-right: 67rem ;
+    margin-top: 0.7rem;
+    /* position:fixed; */
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -22,17 +21,6 @@
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.admin_tabs {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 4rem;
-    padding: 0.5rem;
-    color: white;
-    border: 0.1rem solid gray;
-    border-radius: 2rem;
-}
 
 .admin_employee, .admin_manager, .admin_project, .admin_add_employee {
     background-color: rgb(183, 0, 255);
@@ -147,7 +135,7 @@ font-weight: bold;
     background-color: #f8f8f8;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width:38rem;
-    height: 16rem;
+    height: 14rem;
 }
 
 .card:hover {
@@ -158,11 +146,12 @@ font-weight: bold;
 .column1{
     /* flex: 2; */
     padding: 2rem;
-    width: 23rem;
+    width: 26rem;
     /* padding: 10px; */
 }
 .column2{
 /* flex:1.5; */
+width: 23rem;
 padding: 2rem;
 }
 
@@ -192,7 +181,7 @@ cursor: pointer;
 .logout{
     background-color: rgb(17, 100, 168);
     margin-bottom: 1rem;
-    margin-left: 68rem;
+    margin-left: 68rem !important;
     padding: 0.5rem;
     color: white;
     width: 5rem;
