@@ -44,6 +44,7 @@ public interface AdminRepository extends JpaRepository<Employee, Long> {
      * @return truw if exist and false if not
      */
     boolean existsByEmpId(String empId);
-    List<Employee> findAllByProjectId(long projectId);
+    List<Employee> findAllByProjectId(Long projectId);
 	Optional<Employee> findByManagerId(Long managerId);
+
 }

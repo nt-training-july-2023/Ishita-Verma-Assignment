@@ -1,8 +1,10 @@
 package com.portal.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,14 +16,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portal.DTO.AdminDTO;
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.EmployeeOutDTO;
+import com.portal.DTO.RequestResourceDTO;
+import com.portal.DTO.RequestResourceOutDTO;
 import com.portal.entities.Employee;
+import com.portal.entities.Project;
 import com.portal.repository.AdminRepository;
+import com.portal.repository.ProjectRepository;
 import com.portal.service.EmployeeService;
+import com.portal.validation.Validation;
 
 import jakarta.validation.Valid;
 
@@ -40,7 +48,14 @@ public class EmployeeController {
      */
     @Autowired
     private AdminRepository userRepository;
+    /**
+     * Repository for managing admin data.
+     */
+    @Autowired
+    private ProjectRepository projectRepository;
 
+    @Autowired
+    private Validation validate;
     /**
      * Service for adding employees.
      */
@@ -57,6 +72,7 @@ public class EmployeeController {
     @PostMapping(path = "/addEmployee")
     public final ApiResponseDTO saveEmployee(
             @RequestBody @Valid final AdminDTO userDTO) {
+    	  validate.checkEmployee(userDTO);
     	 LOGGER.info("Adding Employee");
         return employeeService.addEmployee(userDTO);
     }
@@ -85,7 +101,7 @@ public class EmployeeController {
      * Get an employee by their email.
      *
      * @param email The email of the employee to retrieve.
-     * @return EmployeeOutDto containing the employee's details if found.
+     * @return EmployeeOutDTO containing the employee's details if found.
      */
     
     @GetMapping("employee/{email}")
@@ -104,10 +120,12 @@ public class EmployeeController {
     public ApiResponseDTO updateDetails(@PathVariable long id,
             @RequestBody Map<String,Long> updatedDetails) {
         LOGGER.info("Updating project id and manager id");
-        
+        System.out.println(updatedDetails);
         Long projectId = updatedDetails.get("projectId");
         Long managerId= updatedDetails.get("managerId");
+        
         return employeeService.updatedProject(id, projectId, managerId);
+        
     }
    /**
     * Update employee skills.
@@ -121,5 +139,24 @@ public class EmployeeController {
           final @RequestBody Map<String, List<String>> updatedSkills) {
       List<String> skills = updatedSkills.get("skills");
        return employeeService.updateSkills(id, skills);
+   }
+//   @PostMapping(path = "/request/resource")
+//   public final ApiResponseDTO requestResource(@RequestBody final RequestResourceDTO requestResourceDto){
+//       return employeeService.requestResource(requestResourceDto);
+//   }
+   @GetMapping(path = "/all/request")
+   public final List<RequestResourceOutDTO> getAllRequests(){
+       return employeeService.getAllRequests();
+   }
+   @PostMapping("/unassign/{employeeId}")
+   public String unassignEmployee(@PathVariable Long employeeId) {
+       employeeService.unassignEmployee(employeeId);
+       return "Employee unassigned successfully.";
+   }
+   @GetMapping("all/employees/skills")
+   public List<EmployeeOutDTO> empOutList(@RequestParam List<String> skills,@RequestParam boolean isCheck){
+       System.out.println(skills );
+       System.out.println(isCheck);
+       return employeeService.searchBySkills(skills,isCheck);
    }
 }

@@ -32,7 +32,7 @@ public class ProjectOutDTO {
     /**
      * project description.
      */
-    private String descrption;
+    private String description;
     /**
      * list of teams.
      */
@@ -112,14 +112,14 @@ public class ProjectOutDTO {
      /**
       * @return the descrption
       */
-     public final String getDescrption() {
-         return descrption;
+     public final String getDescription() {
+         return description;
      }
      /**
       * @param description the descrption to set
       */
-     public final void setDescrption(final String description) {
-         this.descrption = description;
+     public final void setDescription(final String description) {
+         this.description = description;
      }
      /**
       * @param newSkills setting skills for employee

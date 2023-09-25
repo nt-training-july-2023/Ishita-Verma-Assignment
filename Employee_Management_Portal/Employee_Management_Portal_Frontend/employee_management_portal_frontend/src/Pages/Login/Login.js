@@ -104,14 +104,6 @@ const Login = ({setIsLoggedIn ,login}) => {
               )}
             </div>
             {message && <div className="error-message">{message}</div>}
-            <div className="login_form_field">
-              <span className="login_text">
-                Not a user?
-                <Link to="/register" className="login_reg">
-                  Register
-                </Link>
-              </span>
-            </div>
             <div className="button_container">
               <div
                 variant="primary"
@@ -122,6 +114,15 @@ const Login = ({setIsLoggedIn ,login}) => {
                 <span className="btn-text">Login</span>
               </div>
             </div>
+            <div className="login_form_field">
+              <span className="login_text">
+                Not a user?
+                <Link to="/register" className="login_reg">
+                  Register
+                </Link>
+              </span>
+            </div>
+           
           </div>
         </div>
         <div>

@@ -4,7 +4,7 @@ import com.portal.entities.Role;
 
 public class LoginResponseDTO {
  private String message;
- private String role;
+ private Role role;
  private String name;
 /**
  * @return the message
@@ -21,13 +21,13 @@ public void setMessage(String message) {
 /**
  * @return the role
  */
-public String getRole() {
+public Role getRole() {
 	return role;
 }
 /**
  * @param role the role to set
  */
-public void setRole(String role) {
+public void setRole(Role role) {
 	this.role = role;
 }
 /**
@@ -47,7 +47,7 @@ public void setName(String name) {
  * @param role
  * @param name
  */
-public LoginResponseDTO(String message, String role, String name) {
+public LoginResponseDTO(String message, Role role, String name) {
 	super();
 	this.message = message;
 	this.role = role;

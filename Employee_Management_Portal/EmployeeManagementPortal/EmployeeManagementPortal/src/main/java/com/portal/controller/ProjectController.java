@@ -21,8 +21,12 @@ import com.portal.DTO.ProjectOutDTO;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
 import com.portal.repository.ProjectRepository;
+import com.portal.service.AdminService;
 import com.portal.service.EmployeeService;
 import com.portal.service.ProjectService;
+import com.portal.validation.Validation;
+
+import jakarta.persistence.Tuple;
 
 /**
  * Controller class for managing projects.
@@ -32,15 +36,13 @@ import com.portal.service.ProjectService;
 @RestController
 public class ProjectController {
     /**
-     * Autowire for ProjectRepository.
-     */
-    @Autowired
-    private ProjectRepository projectRepository;
-    /**
-     * Create objects of AddProjectService.
+     * Autowired for ProjectService.
      */
     @Autowired
     private ProjectService projectService;
+   
+    @Autowired
+    private Validation validate;
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ProjectController.class);
@@ -54,6 +56,7 @@ public class ProjectController {
     public final ApiResponseDTO saveProject(
             @RequestBody final ProjectDTO projectDTO) {
     	LOGGER.info("Adding project.");
+//    	 validate.checkProject(projectDTO);
         return projectService.addProject(projectDTO);
     }
 
@@ -61,10 +64,10 @@ public class ProjectController {
      * Endpoint for retrieving all projects.
      * @return A list of Project entities.
      */
-    final @GetMapping(path = "/projects")
-    public List<Project> getAllProjects() {
-    	LOGGER.info("Getting Projects");
-        return projectRepository.findAll();
+     @GetMapping(path = "/projects")
+    public final List<ProjectOutDTO> getProjects() {
+        LOGGER.info("Getting Projects");
+        return projectService.getProjects();
     }
     /**
      * Endpoint for retrieving all projects.
@@ -88,10 +91,17 @@ public class ProjectController {
         return projectService.getSkillsForProject(name);
     }
     /**
-     * get Employe by EmpId.
-     * @param empId employee Id
-     * @return empId
+     * Retrieves a list of unassigned employees.
+     *
+     * @return A list of unassigned employees represented as ProjectOutDTOs.
      */
+    @GetMapping("/unassigned")
+    public List<Employee> getUnassignedEmployees() {
+        List<Employee> unassignedEmployees = projectService.getEmployeesWithUnassignedProjects();
+        return unassignedEmployees;
+    }
+   
+
     
     
 }

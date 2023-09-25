@@ -21,6 +21,7 @@ import com.portal.DTO.ResponseDTO;
 import com.portal.entities.Employee;
 import com.portal.exceptions.WrongCredentialsException;
 import com.portal.service.AdminService;
+import com.portal.validation.Validation;
 
 import jakarta.validation.Valid;
 
@@ -37,6 +38,9 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
     
+//    @Autowired
+//    private Validation validate;
+    
     private static final Logger LOGGER = LoggerFactory
             .getLogger(EmployeeController.class);
     /**
@@ -45,21 +49,14 @@ public class AdminController {
      * @throws DuplicateEntryException If the admin already exists.
      * @param adminDTO admin
      */
-    final @PostMapping("/register") public ResponseDTO registerAdmin(
+     @PostMapping("/register")
+     public final ResponseDTO registerAdmin(
             @Valid @RequestBody final AdminDTO adminDTO) {
-        AdminDTO createUser = adminService.registerAdmin(adminDTO);
-        if (createUser != null) {
-            ResponseDTO response = new ResponseDTO(
-                    "Admin Added succesfully", "");
-            LOGGER.info("Registering new User.");
-            return response;
-        } else {
-            ResponseDTO response = new ResponseDTO("Invalid Credentials",
-                    "");
-            LOGGER.info("Wrong Credentials");
-            return response;
+//    	    validate.checkAdmin(adminDTO);
+    	    LOGGER.info("Adding Admin");
+            return adminService.registerAdmin(adminDTO);
         }
-    }
+   
     /**
      * Retrieves a list of all admins.
      *
@@ -79,18 +76,21 @@ public class AdminController {
      */
     final @PostMapping("/login") public LoginResponseDTO login(
             @Valid @RequestBody final LoginDTO loginDto) {
-        AdminDTO adminDTO = adminService.login(loginDto);
-        if (adminDTO == null) {
-            throw new WrongCredentialsException("Wrong credentials");
-        } else {
-            String userRole = adminService
-                    .getUserRoleByEmail(loginDto.getEmail());
-         
-            LoginResponseDTO ResponseDTO = new LoginResponseDTO("Login Successfully",
-                    userRole,adminDTO.getName());
-            LOGGER.info("Login User.");
-            return ResponseDTO;
-        }
+//        AdminDTO adminDTO = adminService.login(loginDto);
+//        if (adminDTO == null) {
+//            throw new WrongCredentialsException("Wrong credentials");
+//        } else {
+//            String userRole = adminService
+//                    .getUserRoleByEmail(loginDto.getEmail());
+//         
+//            LoginResponseDTO ResponseDTO = new LoginResponseDTO("Login Successfully",
+//                    userRole,adminDTO.getName());
+//            LOGGER.info("Login User.");
+//            return ResponseDTO;
+//        }
+//    	 validate.checkLogin(loginDto);
+         LOGGER.info("Data is Valid");
+         return adminService.login(loginDto);
     }
 }
 

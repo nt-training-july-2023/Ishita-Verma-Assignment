@@ -12,8 +12,7 @@
   scrollbar-width: thin;
   scrollbar-color: transparent gray;
   /* width: 28rem; */
-  height: 15rem;
- 
+  /* height: 19rem; */
 }
 
 .project-info {
@@ -27,7 +26,7 @@
   margin: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 35rem !important;
-  height: 12rem;
+  height: 10rem;
   /* overflow-x: scroll; */
 }
 

@@ -26,7 +26,7 @@ const EmployeeDashboard = () => {
   };
   return (
     <div className="container">
-      <div className="admin_heading"> Welcome {name} </div>
+      <div className="admin_heading" > <p style={{fontSize:"1.5rem",marginBottom:"3rem"}}>Welcome {name} </p></div>
       
       <button className="logout" onClick={handleLogout}>
         Log Out

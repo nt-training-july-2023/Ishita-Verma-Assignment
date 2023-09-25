@@ -1,15 +1,44 @@
 package com.portal.validation;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.portal.DTO.AdminDTO;
 import com.portal.DTO.LoginDTO;
+import com.portal.DTO.ProjectDTO;
+import com.portal.entities.Employee;
+import com.portal.entities.Project;
+import com.portal.exceptions.DuplicateEntryException;
+import com.portal.exceptions.ResourceNotFoundException;
 import com.portal.exceptions.WrongCredentialsException;
+import com.portal.repository.AdminRepository;
+import com.portal.repository.ProjectRepository;
+
+import jakarta.validation.Valid;
 
 /**
  * This class provides validation methods for various data inputs.
  */
 @Component
 public class Validation {
+	/**
+	 * instance for employee repository
+	 */
+	@Autowired
+	private AdminRepository userRepository;
+	/**
+	 * instance for project repository
+	 */
+	@Autowired
+	private ProjectRepository projectRepository;
+	/**
+	 * the logger for this class.
+	 */
+	private static final Logger LOGGER = LoggerFactory
+	.getLogger(Validation.class);
     /**
      * Checks if the provided name is valid.
      * @param name The name to be validated.
@@ -81,4 +110,94 @@ public class Validation {
         }
         return true;
     }
+    
+    
+    
+    /**
+     * check if email is already present
+     * @param email employee email
+     * @throws Resource already exists exception
+     */
+    public void checkEmailPresent(final String email) {
+        Optional<Employee> emp = userRepository
+                .findByEmail(email);
+        if(emp.isPresent()) {
+            LOGGER.error("Email id already exists");
+            throw new DuplicateEntryException(
+                    "Email id already exists");
+        }
+    }
+    /**
+     * check if employee id is already present
+     * @param empId employee id
+     * @throws Resource already exists exception
+     */
+    public void checkEmpId(final String empId) {
+        Optional<Employee> emp = userRepository
+                .findByEmpId(empId);
+        if (emp.isPresent()) {
+            LOGGER.error("Employee id already exists");
+                throw new DuplicateEntryException(
+                        "Employee id already exists");
+        }
+    }
+    /**
+     * check to perform admin operation
+     * @param empDto Employee dto containing admin informations
+     */
+    public void checkAdmin(@Valid AdminDTO adminDTO) {
+        checkEmailPresent(adminDTO.getEmail());
+        checkEmpId(adminDTO.getEmpId());
+    }
+    /**
+     * check if email is not present
+     * @param email employee email
+     * @throws Resource not found exception
+     */
+    public void checkEmailEmpty(final String email) {
+        Optional<Employee> emp = userRepository
+                    .findByEmail(email);
+        if(emp.isEmpty()) {
+            LOGGER.error("Invalid user");
+            throw new ResourceNotFoundException("Invalid user");
+        }
+    }
+    /**
+     * check to perform login operation
+     * @param loginDto login dto containing login informations
+     */
+    public void checkLogin(@Valid LoginDTO loginDTO) {
+            checkEmailEmpty(loginDTO.getEmail());
+    }
+    /**
+     * check to perform employee operation
+     * @param empDto employee dto containing employee informations
+     */
+    public void checkEmployee(@Valid AdminDTO empDto) {
+        // TODO Auto-generated method stub
+        checkEmailPresent(empDto.getEmail());
+        checkEmpId(empDto.getEmpId());
+    }
+    /**
+     * check if project name is already present
+     * @param name employee name
+     * @throws Resource already exists exception
+     */
+//    public void checkProjectName(final String name) {
+//        Optional<Project> project=
+//        projectRepository.findByProjectName(name);
+//        if(project.isPresent()) {
+//            LOGGER.error("Project Name already exists");
+//             throw new DuplicateEntryException(
+//                     "Project Name already exists");
+//         }
+//    }
+//    /**
+//     * check to perform project operation
+//     * @param prjDto project dto containing project informations
+//     */
+//    public void checkProject(@Valid ProjectDTO projectDto) {
+//        checkProjectName(projectDto.getName());
+//    }
+        
 }

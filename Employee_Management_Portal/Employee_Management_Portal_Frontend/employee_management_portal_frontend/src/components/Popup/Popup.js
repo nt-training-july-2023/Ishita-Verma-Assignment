@@ -1,19 +1,22 @@
-import React from 'react'
+import React from 'react';
 import './popup.css';
 
-const Popup = ({ description, onClose }) => {
+const Popup = ({ description, onClose, onConfirm }) => {
   return (
-    <div>
-       <div className="project-popup">
+    <div className="project-popup">
       <div className="project-popup-content">
+        <button className="close-button" onClick={onClose}>
+          X
+        </button>
         <p className='popup-description'>{description}</p>
-         <button className="close-button" onClick={onClose}>
-          Close
+        {onConfirm && ( 
+          <button className="confirm-button" onClick={onConfirm}>
+            Yes
           </button>
+        )}
       </div>
     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default Popup
+export default Popup;

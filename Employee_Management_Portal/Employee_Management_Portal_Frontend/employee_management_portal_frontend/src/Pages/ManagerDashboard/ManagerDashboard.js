@@ -1,13 +1,23 @@
-import { React, useState } from "react";
+import React, { useState, useEffect } from "react";
 import EmployeeTab from "./EmployeeTab/EmployeeTab";
-import ManagerTab from "./ManagerTab/ManagerTab";
-import ProjectTab from "./ProjectTab/ProjectTab";
+import ManagerTab from "../AdminDashboard/ManagerTab/ManagerTab";
+import ProjectTab from "../AdminDashboard/ProjectTab/ProjectTab";
+import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
 import { useNavigate } from "react-router-dom";
+import UnAuthorization from "../../components/Unauthorization/Unauthorization";
 
 const ManagerDashboard = () => {
   const [activeTab, setActiveTab] = useState("employee");
+  const [role, setRole] = useState(localStorage.getItem('userRole'));
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("email"));
+  const [isClick, setIsClick] = useState(false);
+  const [check,setCheck]=useState(false);
+  const [skills, setSkills] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setRole(localStorage.getItem('userRole'));
+  }, [])
 
   const switchToEmployeeTab = () => {
     setActiveTab("employee");
@@ -24,38 +34,42 @@ const ManagerDashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("userRole");
-    setIsLoggedIn(false);
+    // setIsLoggedIn(false);
     navigate("/login");
   };
 
+  const handleSkillChange = (selectedOptions) => {
+    const selectedSkillsValues = selectedOptions.map((option) => option.value);
+    setSkills(selectedSkillsValues);
+  };
+  const handleSkillClick = () => {
+    console.log(skills);
+    setIsClick(true);
+    console.log(check)
+    //setActiveTab("");
+   {<EmployeeTab skills={skills} isCheck={check} />}
+  };
+  const handleCheckChange=()=>{
+    setCheck(!check);
+  }
+  const handleChecked = () =>{
+       setCheck(true);
+  }
+
+  const name= localStorage.getItem("name");
+
   return (
+    <>
+    {role === "MANAGER"?(
     <div className="container">
-      <div className="admin_heading">Manager Dashboard</div>
-      <button className="logout" onClick={handleLogout}>
-        Log Out
-      </button>
-      <div className="admin_tabs">
-        <div
-          className={`admin_employee ${
-            activeTab === "employee" ? "active" : ""
-          }`}
-          onClick={switchToEmployeeTab}
-        >
-          Employee
-        </div>
-        <div
-          className={`admin_manager ${activeTab === "manager" ? "active" : ""}`}
-          onClick={switchToManagerTab}
-        >
-          Manager
-        </div>
-        <div
-          className={`admin_project ${activeTab === "project" ? "active" : ""}`}
-          onClick={switchToProjectTab}
-        >
-          Project
-        </div>
-      </div>
+      <HeaderComponent  
+        activeTab={activeTab}
+        switchToEmployeeTab={switchToEmployeeTab}
+        switchToManagerTab={switchToManagerTab}
+        switchToProjectTab={switchToProjectTab}
+      />
+      <div className="admin_heading">Welcome {name} </div>
+     
       <div className="card_container">
         {activeTab === "employee" && (
           <div>
@@ -74,6 +88,8 @@ const ManagerDashboard = () => {
         )}
       </div>
     </div>
+    ): (<UnAuthorization/>)}
+    </>
   );
 };
 

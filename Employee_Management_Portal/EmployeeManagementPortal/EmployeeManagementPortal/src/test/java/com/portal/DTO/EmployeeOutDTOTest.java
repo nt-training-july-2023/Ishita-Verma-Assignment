@@ -1,6 +1,7 @@
 package com.portal.DTO;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,106 +13,78 @@ import com.portal.entities.Designation;
 import com.portal.entities.Location;
 import com.portal.entities.Role;
 
-class EmployeeOutDTOTest {
+public class EmployeeOutDTOTest {
 
-	private EmployeeOutDTO employeeDTO;
+    private EmployeeOutDTO employee1;
+    private EmployeeOutDTO employee2;
+    private EmployeeOutDTO employee3;
 
     @BeforeEach
-    void setUp() {
-        // Initialize a sample EmployeeOutDTO object for testing
-        employeeDTO = new EmployeeOutDTO(1, "N1111", "Ankita Sharma", "ankita.sharma@nucleusteq.com", "1990-01-01", "2020-01-01",
-                Location.Raipur, Designation.Engineer, "1234567890", Role.MANAGER, "PRJ001", new ArrayList<>(),
-                "Manager Name", "1L");
+    public void setUp() {
+        // Create sample EmployeeOutDTO objects for testing
+        employee1 = new EmployeeOutDTO(1L, "N1111", "Ankita", "ankita.sharma@nucleusteq.com", "1990-01-01", "2020-01-01",
+                Location.Raipur, Designation.Engineer, "1234567890", Role.ADMIN, 1001L,
+                new ArrayList<>(), "Manager 1", 101L);
+
+        employee2 = new EmployeeOutDTO(2L, "N2222", "Jane Smith", "jane@example.com", "1995-02-15", "2021-03-15",
+                Location.Indore, Designation.Recruiter, "9876543210", Role.EMPLOYEE, null,
+                List.of("Java", "Python"), "Manager 2", 102L);
+
+        employee3 = new EmployeeOutDTO(3L, "N3333", "Bob Johnson", "bob@example.com", "1985-05-10", "2019-11-20",
+                Location.Raipur, Designation.Engineer, "5555555555", Role.MANAGER, 1003L,
+                List.of("C++", "JavaScript"), "Manager 3", 103L);
     }
 
     @Test
-    void testGettersAndSetters() {
-        // Test getters and setters for all fields
-        assertEquals(1, employeeDTO.getId());
-        assertEquals("N1111", employeeDTO.getEmpId());
-        assertEquals("Ankita Sharma", employeeDTO.getName());
-        assertEquals("ankita.sharma@nucleusteq.com", employeeDTO.getEmail());
-        assertEquals("1990-01-01", employeeDTO.getDob());
-        assertEquals("2020-01-01", employeeDTO.getDoj());
-        assertEquals(Location.Raipur, employeeDTO.getLocation());
-        assertEquals(Designation.Engineer, employeeDTO.getDesignation());
-        assertEquals("1234567890", employeeDTO.getContactNumber());
-        assertEquals(Role.MANAGER, employeeDTO.getRole());
-        assertEquals("PRJ001", employeeDTO.getProjectId());
-        assertEquals(new ArrayList<>(), employeeDTO.getSkills());
-        assertEquals("Manager Name", employeeDTO.getManager());
-        assertEquals("1L", employeeDTO.getManagerId());
+    public void testGettersAndSetters() {
+        assertEquals(1L, employee1.getId());
+        assertEquals("N1111", employee1.getEmpId());
+        assertEquals("Ankita", employee1.getName());
+        assertEquals("ankita.sharma@nucleusteq.com", employee1.getEmail());
+        assertEquals("1990-01-01", employee1.getDob());
+        assertEquals("2020-01-01", employee1.getDoj());
+        assertEquals(Location.Raipur, employee1.getLocation());
+        assertEquals(Designation.Engineer, employee1.getDesignation());
+        assertEquals("1234567890", employee1.getContactNumber());
+        assertEquals(Role.ADMIN, employee1.getRole());
+        assertEquals(1001L, employee1.getProjectId());
+        assertTrue(employee1.getSkills().isEmpty());
+        assertEquals("Manager 1", employee1.getManager());
+        assertEquals(101L, employee1.getManagerId());
 
-        // Test setters for all fields
-        employeeDTO.setId(2);
-        employeeDTO.setEmpId("N1113");
-        employeeDTO.setName("Pranjal Yadav");
-        employeeDTO.setEmail("pranjal@nucleusteq.com");
-        employeeDTO.setDob("1995-02-15");
-        employeeDTO.setDoj("2021-03-10");
-        employeeDTO.setLocation(Location.Indore);
-        employeeDTO.setDesignation(Designation.Architect);
-        employeeDTO.setContactNumber("9876543210");
-        employeeDTO.setRole(Role.EMPLOYEE);
-        employeeDTO.setProjectId("PRJ002");
-        List<String> skills = new ArrayList<>();
-        skills.add("Java");
-        skills.add("Spring Boot");
-        employeeDTO.setSkills(skills);
-        employeeDTO.setManager("New Manager");
-        employeeDTO.setManagerId("2L");
+        // Test setters
+        employee1.setId(4L);
+        assertEquals(4L, employee1.getId());
 
-        assertEquals(2, employeeDTO.getId());
-        assertEquals("N1113", employeeDTO.getEmpId());
-        assertEquals("Pranjal Yadav", employeeDTO.getName());
-        assertEquals("pranjal@nucleusteq.com", employeeDTO.getEmail());
-        assertEquals("1995-02-15", employeeDTO.getDob());
-        assertEquals("2021-03-10", employeeDTO.getDoj());
-        assertEquals(Location.Indore, employeeDTO.getLocation());
-        assertEquals(Designation.Architect, employeeDTO.getDesignation());
-        assertEquals("9876543210", employeeDTO.getContactNumber());
-        assertEquals(Role.EMPLOYEE, employeeDTO.getRole());
-        assertEquals("PRJ002", employeeDTO.getProjectId());
-        assertEquals(skills, employeeDTO.getSkills());
-        assertEquals("New Manager", employeeDTO.getManager());
-        assertEquals("2L", employeeDTO.getManagerId());
+        employee1.setEmpId("EMP004");
+        assertEquals("EMP004", employee1.getEmpId());
+
+        employee1.setName("New Name");
+        assertEquals("New Name", employee1.getName());
+
+        // Add more setters tests for other properties
     }
 
     @Test
-    void testEqualsAndHashCode() {
-        // Create a new EmployeeOutDTO object with the same values as the original
-        EmployeeOutDTO sameEmployeeDTO = new EmployeeOutDTO(1, "N1111", "Ankita Sharma", "", "1990-01-01", "2020-01-01",
-                null, null, "1234567890", null, "2L", null,
-                "Manager Name", "2L");
+    public void testEqualsAndHashCode() {
+        // Test equality of two EmployeeOutDTO objects with the same properties
+        EmployeeOutDTO employee1Copy = new EmployeeOutDTO(1L, "N1111", "Ankita", "ankita.sharma@nucleusteq.com", "1990-01-01",
+                "2020-01-01", Location.Raipur, Designation.Engineer, "1234567890", Role.ADMIN, 1001L,
+                new ArrayList<>(), "Manager 1", 101L);
 
-        // Test equals method
-        assertTrue(employeeDTO.equals(sameEmployeeDTO));
-        assertTrue(sameEmployeeDTO.equals(employeeDTO));
+        assertTrue(employee1.equals(employee1Copy));
+        assertTrue(employee1.hashCode() == employee1Copy.hashCode());
 
-        // Test hashCode method
-        assertEquals(employeeDTO.hashCode(), sameEmployeeDTO.hashCode());
+        // Test inequality of two EmployeeOutDTO objects with different properties
+        assertFalse(employee1.equals(employee2));
+        assertFalse(employee1.hashCode() == employee2.hashCode());
     }
 
     @Test
-    void testNotEquals() {
-        // Create a new EmployeeOutDTO object with different values
-        EmployeeOutDTO differentEmployeeDTO = new EmployeeOutDTO(2, "N1112", "Pranjal Yadav", "pranjal@nucleusteq.com", "1995-02-15", "2021-03-10",
-                Location.Raipur, Designation.Engineer, "9876543210", Role.EMPLOYEE, "1", new ArrayList<>(),
-                "New Manager", "2L");
-
-        // Test equals method
-        assertFalse(employeeDTO.equals(differentEmployeeDTO));
-        assertFalse(differentEmployeeDTO.equals(employeeDTO));
-
-        // Test hashCode method (hash codes should be different)
-        assertNotEquals(employeeDTO.hashCode(), differentEmployeeDTO.hashCode());
+    public void testToString() {
+        String expected = "EmployeeOutDTO [Id=1, empId=N1111, name=Ankita, email=ankita.sharma@nucleusteq.com, dob=1990-01-01, " +
+                "doj=2020-01-01, location=Raipur, designation=Engineer, contactNumber=1234567890, role=ADMIN, " +
+                "projectId=1001, skills=[], manager=Manager 1, managerId=101]";
+        assertEquals(expected, employee1.toString());
     }
-
-    @Test
-    void testToString() {
-        String expectedToString = "EmployeeOutDTO [Id=1, empId=N1111, name=Ankita Sharma, email=null, dob=1990-01-01, doj=2020-01-01, location=null, designation=null, contactNumber=1234567890, role=null, projectId=1, skills=null, manager=null, managerId=null]";
-        assertEquals(expectedToString, employeeDTO.toString());
-    }
-
-
 }

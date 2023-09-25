@@ -231,110 +231,57 @@ public class AdminDTO {
     public void setSkills(List<String> skills) {
         this.skills = skills;
     }
-}
 
-//    public AdminDTO(long id,
-//            @NotBlank(message = "Employee ID should not be empty") String empId,
-//            @NotBlank(message = "Name should not be empty") String name,
-//            @NotBlank(message = "Email ID should not be empty") String email,
-//            @NotBlank(message = "Date of Birth should not be empty") String dob,
-//            @NotBlank(message = "Date of Joining should not be empty") String doj,
-//            Location location, Designation designation,
-//            @NotBlank(message = "Phone number should not be empty") String contactNumber,
-//            @NotBlank(message = "Password should not be empty") String password,
-//            Role role, String manager, String managerId, long projectId,
-//            String project, String skills) {
-//        super();
-//        Id = id;
-//        this.empId = empId;
-//        this.name = name;
-//        this.email = email;
-//        this.dob = dob;
-//        this.doj = doj;
-//        this.location = location;
-//        this.designation = designation;
-//        this.contactNumber = contactNumber;
-//        this.password = password;
-//        this.role = role;
-//        this.manager = manager;
-//        this.managerId = managerId;
-//        this.projectId = projectId;
-//        this.project = project;
-//        this.skills = skills;
-//    }
-//
-//    public AdminDTO() {
-//        super();
-//    }
-//
-//    /**
-//     * Overrides the equals method to compare AdminDTO objects for equality.
-//     *
-//     * @param o The object to compare to this AdminDTO.
-//     * @return True if the objects are equal, false otherwise.
-//     */
-//    final @Override public boolean equals(final Object o) {
-//        if (this == o) {
-//            return true;
-//        }
-//        if (o == null || getClass() != o.getClass()) {
-//            return false;
-//        }
-//        AdminDTO adminDTO = (AdminDTO) o;
-//        return Id == adminDTO.Id && Objects.equals(empId, adminDTO.empId)
-//                && Objects.equals(name, adminDTO.name)
-//                && Objects.equals(email, adminDTO.email)
-//                && Objects.equals(dob, adminDTO.dob)
-//                && Objects.equals(doj, adminDTO.doj)
-//                && Objects.equals(location, adminDTO.location)
-//                && Objects.equals(designation, adminDTO.designation)
-//                && Objects.equals(contactNumber, adminDTO.contactNumber)
-//                && Objects.equals(password, adminDTO.password)
-//                && role == adminDTO.role
-//                && Objects.equals(manager, adminDTO.manager)
-//                && Objects.equals(managerId, adminDTO.managerId)
-//                && projectId == adminDTO.projectId
-//                && Objects.equals(project, adminDTO.project)
-//                && Objects.equals(skills, adminDTO.skills);
-//    }
-//
-//    /**
-//     * Overrides the hashCode method to generate a hash code for this AdminDTO.
-//     *
-//     * @return The hash code for this AdminDTO.
-//     */
-//    final @Override public int hashCode() {
-//        return Objects.hash(Id, empId, name, email, dob, doj, location,
-//                designation, contactNumber, password, role, manager,
-//                managerId, projectId, project, skills);
-//    }
-//
-//    
-//
-//    /**
-//     * Overrides the toString method to provide a string representation of this
-//     * AdminDTO.
-//     *
-//     * @return A string representation of this AdminDTO.
-//     */
-//    final @Override public String toString() {
-//        return "AdminDTO{" + "Id=" + Id + ", empId='" + empId + '\''
-//                + ", name='" + name + '\'' + ", email='" + email + '\''
-//                + ", dob='" + dob + '\'' + ", doj='" + doj + '\''
-//                + ", location=" + location + ", designation=" + designation
-//                + ", contactNumber='" + contactNumber + '\''
-//                + ", password='" + password + '\'' + ", role=" + role
-//                + ", manager='" + manager + '\'' + ", managerId='"
-//                + managerId + '\'' + ", projectId=" + projectId
-//                + ", project='" + project + '\'' + ", skills=" + skills
-//                + '}';
-//    }
-//
-//    public String getSkills() {
-//        return  skills;
-//    }
-//
-//    public void setSkills(String skills) {
-//        this.skills = skills;
-//    }
-//}
+	/**
+	 * @param id
+	 * @param empId
+	 * @param name
+	 * @param email
+	 * @param dob
+	 * @param doj
+	 * @param location
+	 * @param designation
+	 * @param contactNumber
+	 * @param password
+	 * @param role
+	 * @param manager
+	 * @param managerId
+	 * @param projectId
+	 * @param project
+	 * @param skills
+	 */
+	public AdminDTO(long id, @NotBlank(message = "Employee ID should not be empty") String empId,
+			@NotBlank(message = "Name should not be empty") String name,
+			@NotBlank(message = "Email ID should not be empty") String email,
+			@NotBlank(message = "Date of Birth should not be empty") String dob,
+			@NotBlank(message = "Date of Joining should not be empty") String doj, Location location,
+			Designation designation, @NotBlank(message = "Phone number should not be empty") String contactNumber,
+			@NotBlank(message = "Password should not be empty") String password, Role role, String manager,
+			Long managerId, long projectId, String project, List<String> skills) {
+		super();
+		Id = id;
+		this.empId = empId;
+		this.name = name;
+		this.email = email;
+		this.dob = dob;
+		this.doj = doj;
+		this.location = location;
+		this.designation = designation;
+		this.contactNumber = contactNumber;
+		this.password = password;
+		this.role = role;
+		this.manager = manager;
+		this.managerId = managerId;
+		this.projectId = projectId;
+		this.project = project;
+		this.skills = skills;
+	}
+
+	/**
+	 * 
+	 */
+	public AdminDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+}

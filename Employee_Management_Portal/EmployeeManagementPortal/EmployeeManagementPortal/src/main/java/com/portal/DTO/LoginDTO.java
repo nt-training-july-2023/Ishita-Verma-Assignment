@@ -17,7 +17,11 @@ public class LoginDTO {
      */
     private String password;
 
-    public String getEmail() {
+    public LoginDTO(String string) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getEmail() {
         return email;
     }
 
@@ -53,6 +57,24 @@ public class LoginDTO {
 	@Override
 	public String toString() {
 		return "LoginDTO [email=" + email + ", password=" + password + "]";
+	}
+
+	/**
+	 * @param email
+	 * @param password
+	 */
+	public LoginDTO(String email, String password) {
+		super();
+		this.email = email;
+		this.password = password;
+	}
+
+	/**
+	 * 
+	 */
+	public LoginDTO() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
     
 }

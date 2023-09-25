@@ -74,13 +74,13 @@ const ProjectTab = () => {
       {projects.map((project) => (
         <div className="project-info" key={project.projectId}>
           <div className="column1">
-            <h2 style={{ fontSize: "1.5rem" }}>{project.name}</h2>
+            <h2 style={{ fontSize: "1.5rem" }}>{project.projectName}</h2>
             <p>
               <span style={{ fontWeight: "bold" }}>Head :</span>
               {managerNames[project.projectId]}
             </p>
 
-            <p style={{ fontSize: "1rem" }}>
+            <p style={{ fontSize: "1rem"}}>
               <span
                 style={{
                   fontWeight: "bold",
@@ -109,7 +109,7 @@ const ProjectTab = () => {
               )}
             </p>
             <p>
-              <strong>Team:</strong> {project.team}
+              <strong>Team:</strong> {project.teams.join(", ")}
             </p>
           </div>
           <div className="column2">

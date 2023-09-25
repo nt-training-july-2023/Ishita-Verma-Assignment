@@ -9,6 +9,7 @@ import EmployeeDashboard from "./Pages/EmployeeDashboard/EmployeeDashboard";
 import ManagerDashboard from "./Pages/ManagerDashboard/ManagerDashboard";
 import UpdateSkills from "./components/UpdateSkills/UpdateSkills";
 import RequestResource from "./components/RequestResource/RequestResource";
+import RequestResourceTable from "./components/RequestResourceTable/RequestResourceTable";
 
 
 function App() {
@@ -26,9 +27,9 @@ function App() {
           <Route path="/assign/project/:id" Component={Assign}/>
           <Route path="/updateProject/:id" Component={UpdateSkills}/>
           <Route path="/requestResource/:id" Component={RequestResource}/>
+          <Route path="/requestResource" Component={RequestResourceTable}/>
         </Routes>
       </Router>
-      {/* <RequestResource/> */}
     </>
   );
 }

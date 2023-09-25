@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -17,11 +18,14 @@ import org.springframework.stereotype.Service;
 import com.portal.DTO.AdminDTO;
 import com.portal.DTO.EmployeeOutDTO;
 import com.portal.DTO.LoginDTO;
+import com.portal.DTO.LoginResponseDTO;
+import com.portal.DTO.ResponseDTO;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
 import com.portal.entities.Role;
 import com.portal.exceptions.DuplicateEntryException;
 import com.portal.exceptions.ResourceNotFoundException;
+import com.portal.exceptions.WrongCredentialsException;
 import com.portal.repository.AdminRepository;
 import com.portal.repository.ProjectRepository;
 
@@ -73,20 +77,21 @@ public class AdminService {
      * @throws DuplicateEntryException if an admin with the same email already
      *                                 exists.
      */
-    public final AdminDTO registerAdmin(final AdminDTO adminDTO) {
-        if (adminRepository.existsByEmail(adminDTO.getEmail())) {
-        	LOGGER.error("Email already exists");
-            throw new DuplicateEntryException("Email already exists");
-        }
+    public final ResponseDTO registerAdmin(final AdminDTO adminDTO) {
+//        if (adminRepository.existsByEmail(adminDTO.getEmail())) {
+//        	LOGGER.error("Email already exists");
+//            throw new DuplicateEntryException("Email already exists");
+//        }
         // Map from DTO to Entity
-        Employee adminEntity = modelMapper.map(adminDTO, Employee.class);
+//        Employee adminEntity = modelMapper.map(adminDTO, Employee.class);
+    	 Employee adminEntity = this.dtoToEntity(adminDTO);
         adminEntity.setRole(Role.ADMIN);
-
         // Save the Entity in the repository
-        adminEntity = adminRepository.save(adminEntity);
+        this.adminRepository.save(adminEntity);
+        return new ResponseDTO("Admin added succesfully","ADMIN");
 
         // Map back from Entity to DTO
-        return modelMapper.map(adminEntity, AdminDTO.class);
+//        return modelMapper.map(adminEntity, AdminDTO.class);
     }
 
     /**
@@ -97,28 +102,38 @@ public class AdminService {
      *         fails.
      * @throws ResourceNotFoundException if the username is not found.
      */
-    public final AdminDTO login(final LoginDTO loginUser) {
+    public final LoginResponseDTO login(final LoginDTO loginUser) {
     	LOGGER.error("Email does not exists");
-        Employee adminEntity = adminRepository
-                .findByEmail(loginUser.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Email id does not exist"));
+//        Employee adminEntity = adminRepository
+//                .findByEmail(loginUser.getEmail())
+//                .orElseThrow(() -> new ResourceNotFoundException(
+//                        "Email id does not exist"));
+    	Optional<Employee> employee =  adminRepository
+                .findByEmail(loginUser.getEmail());
+    	 if (passwordEncoder.matches(decodeData(loginUser.getPassword()),
+                 employee.get().getPassword())) {
+             LOGGER.info("User Logged in");
+             
+             return new LoginResponseDTO("Login successful", employee.get().getRole(),employee.get().getName());
+         }
+         LOGGER.error("Wrong Credentials");
+         throw new WrongCredentialsException("Wrong Credentials");
+    }
+////        if (adminEntity != null && passwordEncoder.matches(
+////                decodeData(loginUser.getPassword()),
+////                adminEntity.getPassword())) {
+////            // Map from Entity to DTO
+////            AdminDTO adminDTO = modelMapper.map(adminEntity,
+////                    AdminDTO.class);
+////
+////            // Set the role in the DTO
+////            adminDTO.setRole(adminEntity.getRole());
+////
+////            return adminDTO;
+//        }
 
-        if (adminEntity != null && passwordEncoder.matches(
-                decodeData(loginUser.getPassword()),
-                adminEntity.getPassword())) {
-            // Map from Entity to DTO
-            AdminDTO adminDTO = modelMapper.map(adminEntity,
-                    AdminDTO.class);
-
-            // Set the role in the DTO
-            adminDTO.setRole(adminEntity.getRole());
-
-            return adminDTO;
-        }
-
-        return null;
-    } 
+//        return null;
+     
 
     /**
      * Retrieves a list of all admins.
@@ -148,7 +163,7 @@ public class AdminService {
              } else {
                  Project project = projectRepository
                          .findById(employee.getProjectId()).get();
-                 empDto.setProjectId(project.getName());
+                 empDto.setProjectName(project.getName());
              }
              Employee manager = adminRepository
                      .findById(employee.getManagerId()).get();
@@ -176,5 +191,15 @@ public class AdminService {
                         "User not found with email: " + email));
 
         return admin.getRole().toString();
+    }
+    /**
+     * Convert an employee DTO to an employee entity.
+     *
+     * @param empDto the employee DTO to be converted
+     * @return the corresponding employee entity
+     */
+    private Employee dtoToEntity(final AdminDTO adminDTO) {
+        // AdminEntity adminEntity = new AdminEntity();
+        return this.modelMapper.map(adminDTO, Employee.class);
     }
 }

@@ -9,12 +9,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
 import com.portal.DTO.ProjectDTO;
+import com.portal.entities.Employee;
 import com.portal.entities.Project;
+
+import jakarta.persistence.Tuple;
 
 /**
  * Repository interface for managing Project entities.
  */
-//@EnableJpaRepositories
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     /**
@@ -41,5 +43,14 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findAllByManagerId(Long managerId);
 
 	List<Project> findByManagerId(Long managerId);
+	 /**
+     * Retrieves a project by its name.
+     * @param projectName the name of the project
+     * @return an {@code Optional}
+     *  containing the project if found, or empty if not found
+     */
+//    List<Project> findByProjectName(String projectName);
+	
+
 }
 

@@ -6,15 +6,19 @@ import com.portal.DTO.ProjectOutDTO;
 import com.portal.DTO.UserDTO;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
+import com.portal.entities.Role;
 import com.portal.exceptions.ResourceNotFoundException;
 import com.portal.repository.AdminRepository;
 import com.portal.repository.ProjectRepository;
 import com.portal.validation.Validation;
 
+import jakarta.persistence.Tuple;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -90,33 +94,86 @@ public class ProjectService {
 	 * @param managerId manager id of employee
 	 * @return list of projects
 	 */
-	 public final List<ProjectOutDTO> getProjectByManagerId(final Long managerId) {
-		 
-		 List<Project> projectList = projectRepository.findByManagerId((managerId));
-	        List<ProjectOutDTO> projectOutList = new ArrayList<ProjectOutDTO>();
-	        for (Project project : projectList) {
-	            ProjectOutDTO projectOutDto = new ProjectOutDTO();
-	            projectOutDto.setProjectId(project.getProjectId());
-	            projectOutDto.setProjectName(project.getName());
-	            
-	            projectOutDto.setManagerId(project.getManagerId());
-	            projectOutDto.setSkills(project.getSkills());
-	            List <Employee> empList = adminRepository.findAllByProjectId(project.getProjectId());
-	            
-	             List<String> teams = new ArrayList<String>();
-	             if(empList.size()!=0) {
-	                 for(Employee emp : empList) {
-	                   teams.add(emp.getName());
-	                  }
-	            } else {
-	                teams.add("N/A");
-	            }
-	            projectOutDto.setTeams(teams);
-	            projectOutList.add(projectOutDto);
-	        }
-	        return projectOutList;
-	 }
+	public final List<ProjectOutDTO> getProjectByManagerId(final Long managerId) {
 
+		List<Project> projectList = projectRepository.findByManagerId((managerId));
+		List<ProjectOutDTO> projectOutList = new ArrayList<ProjectOutDTO>();
+		for (Project project : projectList) {
+			ProjectOutDTO projectOutDto = new ProjectOutDTO();
+			projectOutDto.setProjectId(project.getProjectId());
+			projectOutDto.setProjectName(project.getName());
+
+			projectOutDto.setManagerId(project.getManagerId());
+			projectOutDto.setSkills(project.getSkills());
+			List<Employee> empList = adminRepository.findAllByProjectId(project.getProjectId());
+
+			List<String> teams = new ArrayList<String>();
+			if (empList.size() != 0) {
+				for (Employee emp : empList) {
+					teams.add(emp.getName());
+				}
+			} else {
+				teams.add("N/A");
+			}
+			projectOutDto.setTeams(teams);
+			projectOutList.add(projectOutDto);
+		}
+		return projectOutList;
+	}
+
+	/**
+	 * Get a list of all projects.
+	 * 
+	 * @return a list of project DTOs
+	 */
+	public final List<ProjectOutDTO> getProjects() {
+		List<Project> projectList = projectRepository.findAll();
+		List<ProjectOutDTO> projectOutList = new ArrayList<>();
+//		System.out.println(projectList);
+		for (Project project : projectList) {
+			ProjectOutDTO projectOutDto = new ProjectOutDTO();
+			projectOutDto.setProjectId(project.getProjectId());
+			projectOutDto.setProjectName(project.getName());
+			Employee manager = adminRepository.findById(project.getManagerId()).get();
+			projectOutDto.setManager(manager.getName());
+			projectOutDto.setManagerId(project.getManagerId());
+			projectOutDto.setDescription(project.getDescription());
+			projectOutDto.setStartDate(project.getStartDate());
+			projectOutDto.setSkills(project.getSkills());
+			System.out.println(projectOutDto);
+			List<Employee> empList = adminRepository.findAllByProjectId(project.getProjectId());
+			List<String> teams = new ArrayList<String>();
+
+			if (empList.size() != 0) {
+				for (Employee emp : empList) {
+					teams.add(emp.getName());
+				}
+			} else {
+				teams.add("N/A");
+			}
+			projectOutDto.setTeams(teams);
+
+			projectOutList.add(projectOutDto);
+		}
+
+		return projectOutList;
+	}
+
+	/**
+	 * Get a list of all unassigned projects.
+	 *
+	 * @return a list of project DTOs for unassigned projects.
+	 */
+	public List<Employee> getEmployeesWithUnassignedProjects() {
+		List<Employee> allEmployees = adminRepository.findAll();
+
+		// Use Java streams to filter employees with unassigned projects
+		List<Employee> employeesWithUnassignedProjects = allEmployees.stream()
+				.filter(employee -> employee.getProject() == 0 && employee.getRole() == Role.EMPLOYEE)
+				.collect(Collectors.toList());
+
+		return employeesWithUnassignedProjects;
+	}
 
 	// dto to entity
 	/**
