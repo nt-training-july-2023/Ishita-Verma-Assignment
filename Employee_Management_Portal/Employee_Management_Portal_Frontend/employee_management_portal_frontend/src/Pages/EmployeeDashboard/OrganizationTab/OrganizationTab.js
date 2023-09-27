@@ -34,7 +34,7 @@ const OrganizationTab = () => {
               <p style={{marginBottom:"0.5rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Email : </span> {employee.email}</p>
             </div>
             <div className="column2">
-              <p className="employee_id" style={{ fontSize:"1rem",marginBottom:"2rem",marginTop:"1rem" }} ><span style={{fontWeight:"bold" }}>Employee ID:</span>  {employee.empId}</p>
+              <p className="employee_id" style={{ fontSize:"1rem",marginBottom:"2rem" }} ><span style={{fontWeight:"bold" }}>Employee ID:</span>  {employee.empId}</p>
               <p style={{marginBottom:"0.5rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>DOB :</span> <DateReverser date={employee.dob} /></p>
               <p style={{marginBottom:"0.5rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>DOJ: </span> <DateReverser date={employee.doj} /></p>
               <p style={{marginBottom:"0.5rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Location : </span> {employee.location}</p>

@@ -3,7 +3,6 @@
   flex-wrap: wrap;
   justify-content: space-between;
   width:40rem;
- 
 }
 
 .column01 {
@@ -15,12 +14,13 @@
 .column02 {
   flex: 1;
   /* padding: 0.1rem; */
-   margin: 10px;
+  margin: 10px;
   background-color: rgb(231, 222, 222);
 }
 
 .grid-container {
   display: grid;
+ 
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   border-radius: 0.6rem;
@@ -46,7 +46,7 @@ padding: 0.6rem;
 font-size: medium;
 background-color: blueviolet;
 color: #fff; 
-height: 3rem;
+height: 1.7rem;
 width: 8rem;
 text-decoration: none;
 border: none; 
@@ -54,12 +54,11 @@ border-radius: 5px;
 cursor: pointer; 
 text-align: center;
 }
-
-@media (max-width: 768px) {
-  .form-container {
-    flex-direction: column;
-  }
-  .column {
-    width: 100%;
-  }
+.empId_profile{
+  margin-top: 2rem;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  color: white;
 }
+
+

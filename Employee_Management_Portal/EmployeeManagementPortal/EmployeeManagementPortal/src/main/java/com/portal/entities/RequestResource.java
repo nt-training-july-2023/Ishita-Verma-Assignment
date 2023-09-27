@@ -17,13 +17,13 @@ public class RequestResource {
 	    @Column
 	    private String comment;
 	    
-	    @Column
+	    @Column(nullable = false)
 	    private Long managerId;
 	    
-	    @Column
-	    private Long empId;
+	    @Column(nullable = false)
+	    private Long employeeId;
 	    
-	    @Column
+	    @Column(nullable = false)
 	    private Long projectId;
 		/**
 		 * @return the resourceId
@@ -64,14 +64,14 @@ public class RequestResource {
 		/**
 		 * @return the employeeId
 		 */
-		public Long getEmpId() {
-			return empId;
+		public Long getEmployeeId() {
+			return employeeId;
 		}
 		/**
 		 * @param employeeId the employeeId to set
 		 */
-		public void setEmpId(Long empId) {
-			this.empId = empId;
+		public void setEmployeeId(Long employeeId) {
+			this.employeeId = employeeId;
 		}
 		/**
 		 * @return the projectId

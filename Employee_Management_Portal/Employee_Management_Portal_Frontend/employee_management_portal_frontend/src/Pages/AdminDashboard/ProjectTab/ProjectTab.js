@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./projecttab.css";
+import ProjectCard from "../../../components/Card/ProjectCard";
 import Popup from "../../../components/Popup/Popup";
-import DateReverser from "../../../components/DateReverser/DateReverser";
 
 const ProjectTab = () => {
   const [projects, setProjects] = useState([]);
@@ -65,86 +65,34 @@ const ProjectTab = () => {
     setSelectedDescription(description);
     setShowPopup(true);
   };
+
   const handlePopupClose = () => {
     setShowPopup(false);
     setSelectedDescription("");
   };
   return (
-    <div className="card_container">
-      {projects.map((project) => (
-        <div className="project-info" key={project.projectId}>
-          <div className="column1">
-            <h2 style={{ fontSize: "1.5rem" }}>{project.projectName}</h2>
-            <p>
-              <span style={{ fontWeight: "bold" }}>Head :</span>
-              {managerNames[project.projectId]}
-            </p>
-
-            <p style={{ fontSize: "1rem"}}>
-              <span
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "1rem",
-                  marginTop: "2rem",
-                }}
-              >
-                Description :
-              </span>
-              {project.description.length > 40 ? (
-                <p>
-                  {project.description.slice(0, 20)}{" "}
-                  <span
-                    style={{
-                      color: "blue",
-                      textDecorationLine: "underline",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleReadMoreClick(project.description)}
-                  >
-                    Read More
-                  </span>
-                </p>
-              ) : (
-                <p>{project.description}</p>
-              )}
-            </p>
-            <p>
-              <strong>Team:</strong> {project.teams.join(", ")}
-            </p>
-          </div>
-          <div className="column2">
-            <p>
-              <strong>Project ID:</strong> {project.projectId}
-            </p>
-            <p>
-              <strong>Start Date:</strong><DateReverser date={project.startDate} />
-            </p>
-            <p style={{ fontSize: "1rem" }} className="project_skills">
-              
-              <span
-              className="project_skills"
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "1rem",
-                  marginTop: "2rem",
-                }}
-              >
-                Skills:
-              </span>{" "}
-              {project.skills.join(", ")}
-            </p>
-           
-            {showPopup && (
-              <Popup
-                description={selectedDescription}
-                onClose={handlePopupClose}
-              />
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
+    <div className="final">
+      <div className="card_container">
+        {projects.map((project) => (
+          <ProjectCard
+            key={project.projectId}
+            project={project}
+            managerName={managerNames[project.projectId]}
+            onReadMoreClick={(description) => handleReadMoreClick(description)}
+            // onClosePopup={handlePopupClose}
+            // showPopup={showPopup}
+          />
+        ))}
+      </div>
+      {showPopup && (
+        <Popup
+          description={selectedDescription}
+          onClose={handlePopupClose}
+          onConfirm={null} // You can add a confirmation function if needed
+        />
+      )}
+      </div>
+    );
+  };
 
 export default ProjectTab;

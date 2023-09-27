@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import "./addproject.css";
 import axios from "axios";
 import Skills from "../Data/Skills";
 import AdminService from "../service/AdminService";
 import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
+import Popup from "../Popup/Popup"; 
 
 const AddProject = () => {
   const [name, setName] = useState("");
   const [selectedSkills] = useState([]);
   const [managerId, setManagerId] = useState("");
   const [startDate, setStartDate] = useState("");
-  // const [skills, setSkills] = useState([]);
   const [description, setDescription] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [managerList, setManagerList] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [nameError, setNameError] = useState("");
   const [managerIdError, setManagerIdError] = useState("");
@@ -23,12 +25,16 @@ const AddProject = () => {
   const [skills, setSkills] = useState([]);
   const [descriptionError, setDescriptionError] = useState("");
 
+  // State variables for success popup
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleSkillChange = (selectedOptions) => {
-    console.log(selectedOptions);
     const selectedSkillsValues = selectedOptions.map((option) => option.value);
     setSkills(selectedSkillsValues);
   };
 
+  const navigate = useNavigate();
   // Function to validate if a field is empty
   const validateField = (field, value) => {
     if (value.trim() === "") {
@@ -86,9 +92,7 @@ const AddProject = () => {
       const res = await axios.get(
         "http://localhost:8080/api/admin/all/MANAGER"
       );
-      // console.log("manager list", res.data);
       setManagerList(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -121,24 +125,25 @@ const AddProject = () => {
       skills,
       description,
     };
-    console.log(project);
+
     AdminService.addProject(project)
       .then((response) => {
-        console.log(response);
-        setErrorMessage("Successfully added.");
-        setName("");
-        setManagerId();
-        setStartDate("");
-        setSkills([]);
-        setDescription("");
-        console.log("added");
-        // console.log(response.data);
-
-        // navigate("");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        // navigate("/admindashboard");
+        setSuccessMessage("Project added successfully.");
+        setShowSuccessPopup(true);
+        // setName("");
+        // setManagerId("");
+        // setStartDate("");
+        // setSkills([]);
+        // setDescription("");
+        // setTimeout(() => {
+          //   navigate("/admindashboard");
+          // }, 100);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        // window.location.reload();
   };
 
   return (
@@ -197,19 +202,6 @@ const AddProject = () => {
           )}
         </div>
         <div className=" input_form_field">
-          {/* <div> <label className="reg_form_field_label">Confirm Password :</label></div>  */}
-          {/* <Select
-
-                options={(Skills).map((skill) => ({
-                  value: skill,
-                  label: skill,
-                }))}
-                isMulti={true}
-                placeholder="Select skills"
-                className="custom-placeholder"
-                onChange={handleSkillChange}
-                value={skills.map((skill) => ({ value: skill, label: skill }))}
-              /> */}
           <MultiSelectDropdown
             options={Skills.map((skill) => ({
               value: skill,
@@ -221,7 +213,6 @@ const AddProject = () => {
             }))}
             onChange={handleSkillChange}
             placeholder="Select Skills"
-            // onBlur={validateSkillsRequired}
           />
           {skillsError && <div className="error-message">{skillsError}</div>}
         </div>
@@ -244,6 +235,15 @@ const AddProject = () => {
           Add Project
         </button>
       </form>
+
+      {/* Success Popup */}
+      {showSuccessPopup && (
+        <Popup
+          description={successMessage}
+          onClose={() => setShowSuccessPopup(false)}
+          onConfirm={() => setShowSuccessPopup(false)}
+        />
+      )}
     </div>
   );
 };

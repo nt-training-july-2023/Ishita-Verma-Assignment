@@ -1,16 +1,10 @@
-/* Remove scrollbars from the entire page */
-body, html {
-    overflow: hidden;
-  }
+.multi_assign_dropdown{
+  /* position: fixed; */
+  margin-left: 25rem;
+  margin-top: 1rem;
   
-  /* Remove vertical scrollbar from a specific container */
-  .card_container {
-    overflow-y: hidden;
-  }
-  
-  /* Remove horizontal scrollbar from a specific container */
-  .managerDashboard_dropdown,
-  .managerDashboard_controls {
-    overflow-x: hidden;
-  }
-  
+}
+.unassigned{
+  color: white;
+  margin-right: 0.5rem;
+}

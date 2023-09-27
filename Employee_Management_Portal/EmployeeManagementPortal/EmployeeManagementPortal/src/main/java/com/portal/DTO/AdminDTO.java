@@ -9,6 +9,9 @@ import com.portal.entities.Location;
 import com.portal.entities.Role;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 /**
  * Data Transfer Object (DTO) representing admin registration information.
@@ -19,24 +22,29 @@ public class AdminDTO {
     /**
      * The unique ID of the admin.
      */
-    private long Id;
+    private Long Id;
 
     /**
      * The employee ID of the admin.
      */
-    @NotBlank(message = "Employee ID should not be empty")
+	@NotBlank(message = "EmpId is required")
+    @Pattern(regexp = "N\\d{4}$", message = "EmpID should be NXXXX.")
     private String empId;
 
     /**
      * The name of the admin.
      */
-    @NotBlank(message = "Name should not be empty")
+	@NotBlank(message = "Name is required")
+    @Pattern(regexp = "^[A-Za-z\\s]+$",
+    message = "Name should containe letter only.")
     private String name;
 
     /**
      * The email address of the admin.
      */
-    @NotBlank(message = "Email ID should not be empty")
+	 @NotEmpty(message = "Email is required")
+	 @Pattern(regexp = ".*@nucleusteq\\.com$",
+	 message = "Email should ends with nucleusteq.com.")
     private String email;
 
     /**
@@ -54,27 +62,34 @@ public class AdminDTO {
     /**
      * The location of the admin.
      */
+    @NotNull
     private Location location;
 
     /**
      * The designation of the admin.
      */
+    @NotNull
     private Designation designation;
 
     /**
      * The contact number of the admin.
      */
-    @NotBlank(message = "Phone number should not be empty")
+    @NotBlank(message = "Contact No is required")
+    @Pattern(regexp = "^[0-9]{10}$",
+    message = "Contact no should conatins 10 digits only")
     private String contactNumber;
 
     /**
      * The password for the admin's account.
      */
-    @NotBlank(message = "Password should not be empty")
+    @NotEmpty(message = "Password is required")
+    @Pattern(regexp = "^.{8,}$",
+    message = "Password should contain only 8 digits.")
     private String password;
     /**
      * The user role of the admin.
      */
+    @NotNull(message = "Role should not be empty")
     private Role role;
 
     /**
@@ -85,12 +100,13 @@ public class AdminDTO {
     /**
      * The manager's ID for the admin.
      */
+//    @NotNull(message = "ManagerId should not be empty")
     private Long managerId;
 
     /**
      * The ID of the project associated with the admin.
      */
-    private long projectId;
+    private Long projectId;
 
     /**
      * The name of the project associated with the admin.
@@ -104,11 +120,11 @@ public class AdminDTO {
     
     
 
-    public long getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         Id = id;
     }
 
@@ -208,11 +224,11 @@ public class AdminDTO {
         this.managerId = managerId;
     }
 
-    public long getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(long projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
@@ -232,56 +248,56 @@ public class AdminDTO {
         this.skills = skills;
     }
 
-	/**
-	 * @param id
-	 * @param empId
-	 * @param name
-	 * @param email
-	 * @param dob
-	 * @param doj
-	 * @param location
-	 * @param designation
-	 * @param contactNumber
-	 * @param password
-	 * @param role
-	 * @param manager
-	 * @param managerId
-	 * @param projectId
-	 * @param project
-	 * @param skills
-	 */
-	public AdminDTO(long id, @NotBlank(message = "Employee ID should not be empty") String empId,
-			@NotBlank(message = "Name should not be empty") String name,
-			@NotBlank(message = "Email ID should not be empty") String email,
-			@NotBlank(message = "Date of Birth should not be empty") String dob,
-			@NotBlank(message = "Date of Joining should not be empty") String doj, Location location,
-			Designation designation, @NotBlank(message = "Phone number should not be empty") String contactNumber,
-			@NotBlank(message = "Password should not be empty") String password, Role role, String manager,
-			Long managerId, long projectId, String project, List<String> skills) {
-		super();
-		Id = id;
-		this.empId = empId;
-		this.name = name;
-		this.email = email;
-		this.dob = dob;
-		this.doj = doj;
-		this.location = location;
-		this.designation = designation;
-		this.contactNumber = contactNumber;
-		this.password = password;
-		this.role = role;
-		this.manager = manager;
-		this.managerId = managerId;
-		this.projectId = projectId;
-		this.project = project;
-		this.skills = skills;
-	}
-
-	/**
-	 * 
-	 */
-	public AdminDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+//	/**
+//	 * @param id
+//	 * @param empId
+//	 * @param name
+//	 * @param email
+//	 * @param dob
+//	 * @param doj
+//	 * @param location
+//	 * @param designation
+//	 * @param contactNumber
+//	 * @param password
+//	 * @param role
+//	 * @param manager
+//	 * @param managerId
+//	 * @param projectId
+//	 * @param project
+//	 * @param skills
+//	 */
+//	public AdminDTO(Long id, @NotBlank(message = "Employee ID should not be empty") String empId,
+//			@NotBlank(message = "Name should not be empty") String name,
+//			@NotBlank(message = "Email ID should not be empty") String email,
+//			@NotBlank(message = "Date of Birth should not be empty") String dob,
+//			@NotBlank(message = "Date of Joining should not be empty") String doj, Location location,
+//			Designation designation, @NotBlank(message = "Phone number should not be empty") String contactNumber,
+//			@NotBlank(message = "Password should not be empty") String password, Role role, String manager,
+//			Long managerId, Long projectId, String project, List<String> skills) {
+//		super();
+//		Id = id;
+//		this.empId = empId;
+//		this.name = name;
+//		this.email = email;
+//		this.dob = dob;
+//		this.doj = doj;
+//		this.location = location;
+//		this.designation = designation;
+//		this.contactNumber = contactNumber;
+//		this.password = password;
+//		this.role = role;
+//		this.manager = manager;
+//		this.managerId = managerId;
+//		this.projectId = projectId;
+//		this.project = project;
+//		this.skills = skills;
+//	}
+//
+//	/**
+//	 * 
+//	 */
+//	public AdminDTO() {
+//		super();
+//		// TODO Auto-generated constructor stub
+//	}
 }

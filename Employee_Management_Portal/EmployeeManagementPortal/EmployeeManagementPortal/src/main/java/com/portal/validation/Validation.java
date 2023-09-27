@@ -29,11 +29,7 @@ public class Validation {
 	 */
 	@Autowired
 	private AdminRepository userRepository;
-	/**
-	 * instance for project repository
-	 */
-	@Autowired
-	private ProjectRepository projectRepository;
+
 	/**
 	 * the logger for this class.
 	 */

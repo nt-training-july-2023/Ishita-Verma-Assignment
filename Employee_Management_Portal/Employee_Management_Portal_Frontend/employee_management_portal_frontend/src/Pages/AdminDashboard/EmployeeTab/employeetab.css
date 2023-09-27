@@ -22,3 +22,39 @@
       margin-top: 0.8rem;
 
   }
+.employeeAdmin{
+    margin-top: 6rem;
+}
+@media screen and (max-width: 1024px) {
+    .admin_tabs{
+        width: 28rem !important;
+    }
+    .admin_heading{
+        margin-left: 9rem;
+    }
+    .admin_add_employee{
+        margin-left: -13rem !important;
+    }
+    .add_employee{
+        margin-left:2rem !important;
+    }
+}
+@media screen and (max-width: 768px) {
+    .admin_employee,.admin_project,.admin_manager{
+        width: 5rem;
+        font-size: 0.8rem;
+    }
+    .admin_tabs{
+        width: 25rem !important;
+    }
+    .admin_heading{
+        margin-left: 25rem;
+    }
+    .admin_add_employee{
+        margin-left: -13rem !important;
+        margin-top: -0.1rem !important;
+    }
+    .add_employee{
+        margin-left:2rem !important;
+    }
+}

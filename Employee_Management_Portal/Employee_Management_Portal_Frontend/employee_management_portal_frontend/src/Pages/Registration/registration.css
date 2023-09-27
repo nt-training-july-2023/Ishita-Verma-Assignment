@@ -2,13 +2,16 @@
     margin: 0;
     padding: 0;
 }
+body{
+    background: linear-gradient(to right, #693bd3, #800a76);
+}
 
 .container {
     display: flex;
     justify-content: center;
     background: linear-gradient(to right, #693bd3, #800a76);
    /* background-color: #b85b5b; */
-    height: 100vh;
+    /* height: 100vh; */
     width: 100vw;
 }
 
@@ -20,7 +23,7 @@
     color: white;
     font-size: 2rem;
     font-weight: bolder;
-    /* margin-top:-5rem; */
+    margin-top:4rem;
 }
 
 .reg_plant_img {
@@ -96,21 +99,21 @@
 .select{
     background-color: rgb(255, 254, 254);
 }
-.button {
+.button_reg {
     display: flex;
     justify-content: right; /* Center the button horizontally */
     /* position: relative; Change to relative positioning */
     /* margin-top: 2rem; Add some top margin to separate from the form */
     /* padding: 2rem 0 ;  */
-    gap:9rem;
-    margin-right: 3rem;
+    gap:6rem;
+    /* margin-right: 3rem; */
  
  
 }
 
 
 .btn {
-    height: 2rem; 
+    height: 0.6rem; 
     width: auto;
     background-color: #1a71a3 !important;
     font-size: 1rem;

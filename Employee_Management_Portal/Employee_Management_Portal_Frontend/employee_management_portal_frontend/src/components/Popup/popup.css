@@ -2,9 +2,11 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 50%;
   height: 100%;
-  background-color: blueviolet;
+  /* background-color: blueviolet; */
+  /* border: solid 2px black; */
+  margin-left: 19rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +14,8 @@
 }
 
 .project-popup-content {
-  background-color: white;
+  border: solid 2px black;
+  background-color: rgb(179, 179, 179);
   word-wrap: wrap !important;
   padding: 20px;
   height: 5rem;

@@ -20,21 +20,21 @@ public class ApiResponseDTO {
 		this.message = message;
 	}
 
-	/**
-	 * @param message
-	 */
-	public ApiResponseDTO(String message) {
-		super();
-		this.message = message;
-	}
+//	/**
+//	 * @param message
+//	 */
+//	public ApiResponseDTO(String message) {
+//		super();
+//		this.message = message;
+//	}
 
-	/**
-	 * 
-	 */
-	public ApiResponseDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+//	/**
+//	 * 
+//	 */
+//	public ApiResponseDTO() {
+//		super();
+//		// TODO Auto-generated constructor stub
+//	}
 
 	@Override
 	public int hashCode() {

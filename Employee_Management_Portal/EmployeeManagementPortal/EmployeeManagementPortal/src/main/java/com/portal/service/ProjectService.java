@@ -47,14 +47,9 @@ public class ProjectService {
 	 */
 	@Autowired
 	private ModelMapper modelMapper;
-
-	/**
-	 * Validation utility for performing project data validation.
-	 */
-	@Autowired
-	private Validation projectValidation;
-	private static final Logger LOGGER = LoggerFactory.getLogger(ProjectService.class);
-
+	
+	 @Autowired
+	    private ApiResponseDTO response;
 	/**
 	 * Adds a new project based on the provided projectDTO.
 	 *
@@ -71,7 +66,8 @@ public class ProjectService {
 		projectDTO.setDescription(projectDTO.getDescription());
 		Project project = this.dtotoEntity(projectDTO);
 		this.projectRepository.save(project);
-		return new ApiResponseDTO("Project added successfully");
+		response.setMessage("Project added successfully");
+		return response;
 	}
 
 	/**

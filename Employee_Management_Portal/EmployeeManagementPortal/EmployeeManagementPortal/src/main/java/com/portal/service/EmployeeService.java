@@ -57,7 +57,8 @@ public class EmployeeService {
      */
     @Autowired
     private RequestResourceRepository requestResourceRepository;
-    
+    @Autowired
+    private ApiResponseDTO response;
     private static final Logger LOGGER = LoggerFactory
             .getLogger(EmployeeService.class);
 
@@ -82,21 +83,53 @@ public class EmployeeService {
         // default manager is admin
         Optional<Employee> emp = userRepository
                 .findByEmail("ankita.sharma@nucleusteq.com");
+//        Optional<Employee> emp = userRepository.findById(1L);
         adminDTO.setManagerId(emp.get().getId());
-        adminDTO.setProjectId(0);
+        adminDTO.setProjectId(0L);
       
         Employee empEntity = this.dtotoEntity(adminDTO);
 
         this.userRepository.save(empEntity);
-        return new ApiResponseDTO("Employee Added Succesfully");
+        response.setMessage("Employee Added Succesfully");
+        return response;
     }
     /**
      * Drop Down Manager ID and Name.
      * @param empId Id of Manager
      * @return employeeName
      */
-    public final Optional<Employee> getEmployeeById(final long id){
-        return userRepository.findById(id);
+    public final EmployeeOutDTO getEmployeeById(final Long id) {
+        // TODO Auto-generated method stub
+        if (userRepository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Id does not exists");
+        }
+        Optional<Employee> optionalEmployee = userRepository.findById(id);
+        Employee employee = optionalEmployee.orElseThrow(
+                () -> new ResourceNotFoundException("Employee Id does not exists"));
+        EmployeeOutDTO empDto = new EmployeeOutDTO();
+        if (employee != null) {
+            empDto.setId(employee.getId());
+            empDto.setName(employee.getName());
+            empDto.setEmail(employee.getEmail());
+            empDto.setEmpId(employee.getEmpId());
+            empDto.setDesignation(employee.getDesignation());
+            empDto.setContactNumber(employee.getContactNumber());
+            empDto.setDob(employee.getDob());
+            empDto.setDoj(employee.getDoj());
+            empDto.setLocation(employee.getLocation());
+            if (employee.getProjectId() == 0) {
+                empDto.setProjectName(null);
+            } else {
+                Project project = projectRepository
+                        .findById(employee.getProjectId()).get();
+                empDto.setProjectName(project.getName());
+            }
+            Employee manager = userRepository
+                    .findById(employee.getManagerId()).get();
+            empDto.setManager(manager.getName());
+            empDto.setSkills(employee.getSkills());
+        }
+        return empDto;
     }
     
     public final List<EmployeeOutDTO> getEmployeeByRole(String roleName){
@@ -154,12 +187,13 @@ public class EmployeeService {
                 empDto.setSkills(employee.getSkills());
                
                 if (employee.getProjectId() == 0) {
-                    empDto.setProjectId(null);
+                    empDto.setProjectName("");
                 } else {
                     Project project = projectRepository
                             .findById(employee.getProjectId()).get();
                     empDto.setProjectName(project.getName());
                 }
+
 //                Employee manager = userRepository
 //                        .findById(employee.getManagerId()).get();
 //                empDto.setManagerId(manager.getName());
@@ -181,7 +215,8 @@ public class EmployeeService {
                 employee.setProjectId(projectId);
                 employee.setManagerId(managerId);
                 userRepository.save(employee);
-                return new ApiResponseDTO("Updated Suceesfully");
+                response.setMessage("Updated Suceesfully");
+                return response;
             }
             LOGGER.error("Employee not found");
             throw new ResourceNotFoundException("Employee not found");
@@ -193,26 +228,28 @@ public class EmployeeService {
          * @param skills the updated list of skills
          * @return an API response indicating the result of the operation
          */
-        public final ApiResponseDTO updateSkills(final long id,
+        public final ApiResponseDTO updateSkills(final Long id,
                 final List<String> skills) {
             Employee emp = userRepository.findById(id).get();
             emp.setSkills(skills);
             userRepository.save(emp);
-            return new ApiResponseDTO("Skills Updated Successfully");
+            response.setMessage("Skills Updated Successfully");
+            return response;
         }
         
         public final ApiResponseDTO requestResource(final RequestResourceDTO requestResourceDto){
             RequestResource requestResource =
                     dtoToRequestResource(requestResourceDto);
             requestResourceRepository.save(requestResource);
-            return new ApiResponseDTO("Resource added.");
+            response.setMessage("Resource added.");
+            return response;
         }
         
         private RequestResource dtoToRequestResource(RequestResourceDTO requestResourceDto) {
             RequestResource requestResource = new RequestResource();
             requestResource.setComment(requestResourceDto.getComment());
             requestResource.setManagerId(requestResourceDto.getManagerId());
-            requestResource.setEmpId(requestResourceDto.getEmpId());
+            requestResource.setEmployeeId(requestResourceDto.getEmployeeId());
             requestResource.setProjectId(requestResourceDto.getProjectId());
             return requestResource;
         }
@@ -231,11 +268,11 @@ public class EmployeeService {
         private RequestResourceOutDTO requestToOutDto(RequestResource requestResource){
         	RequestResourceOutDTO r = new RequestResourceOutDTO();
             r.setComment(requestResource.getComment());
-            r.setEmpId(requestResource.getEmpId());
+            r.setEmpId(requestResource.getEmployeeId());
             r.setManagerId(requestResource.getManagerId());
             r.setProjectId(requestResource.getProjectId());
             Optional<Employee> optionalUser =
-                    userRepository.findById(requestResource.getEmpId());
+                    userRepository.findById(requestResource.getEmployeeId());
             Employee user = optionalUser.get();
             r.setEmployeeName(user.getName());
             r.setEmpUserId(user.getEmpId());
@@ -258,7 +295,7 @@ public class EmployeeService {
             // Check if the employee is currently assigned to a project
             if (employee.getProjectId() != 0) {
                 // Unassign the employee by setting their project ID to 0
-                employee.setProjectId(0);
+                employee.setProjectId(0L);
                 // Save the updated employee
                 userRepository.save(employee);
             } else {
@@ -266,55 +303,60 @@ public class EmployeeService {
             }
         }
 
-        public final List<EmployeeOutDTO> searchBySkills(List<String> skills,boolean isCheck){
-            System.out.println(isCheck);
-//            List<Employee> employees = empRepository.findBySkillsIn(skills);
-            List<Employee> allEmployees = userRepository.findByRole(Role.EMPLOYEE);
-            List<Employee> returnedList = new ArrayList<>();
-            List<Employee> employeesWithRequiredSkills = allEmployees.stream()
-                .filter(employee -> employee.getSkills().containsAll(skills))
-                .collect(Collectors.toList());
-            
-            if(isCheck) {
-                List<Employee> unAssignedEmployees = employeesWithRequiredSkills.stream()
-                        .filter(employee -> employee.getProjectId()==0)
-                        .collect(Collectors.toList());
-                returnedList = unAssignedEmployees;
-                
-            }else {
-                returnedList = employeesWithRequiredSkills;
+        public final List<EmployeeOutDTO> skillsAndUnassign(List<String> skills,boolean isCheck){
+//          List<Employee> employees = empRepository.findBySkillsIn(skills);
+          List<Employee> allEmployees = userRepository.findByRole(Role.EMPLOYEE);
+          List<Employee> returnedList = new ArrayList<>();
+          if(skills.isEmpty()) {
+              List<Employee> unAssignedEmployees = allEmployees.stream()
+                      .filter(employee -> employee.getProjectId()==0)
+                      .collect(Collectors.toList());
+              returnedList = unAssignedEmployees;
+          }
+          else {
+              List<Employee> employeesWithRequiredSkills = allEmployees.stream()
+                      .filter(employee -> employee.getSkills().stream().anyMatch(skills::contains))
+                      .collect(Collectors.toList());
+              if(isCheck) {
+                      List<Employee> unAssignedEmployees = employeesWithRequiredSkills.stream()
+                          .filter(employee -> employee.getProjectId()==0)
+                          .collect(Collectors.toList());
+                  returnedList = unAssignedEmployees;
+              }
+              else {
+                  returnedList = employeesWithRequiredSkills;
+              }
+          }
+       
+        List<EmployeeOutDTO> employeeDtoList = new ArrayList<EmployeeOutDTO>();
+        for (Employee employee : returnedList) {
+            EmployeeOutDTO empDto = new EmployeeOutDTO();
+            empDto.setId(employee.getId());
+            empDto.setName(employee.getName());
+            empDto.setEmail(employee.getEmail());
+            empDto.setEmpId(employee.getEmpId());
+            empDto.setDesignation(employee.getDesignation());
+            empDto.setContactNumber(employee.getContactNumber());
+            empDto.setDob(employee.getDob());
+            empDto.setDoj(employee.getDoj());
+            empDto.setLocation(employee.getLocation());
+            if (employee.getProjectId() == 0) {
+                empDto.setProjectName(null);
+            } else {
+                Project project = projectRepository.findById(employee.getProjectId()).get();
+                empDto.setProjectName(project.getName());
+                empDto.setProjectId(employee.getProjectId());
             }
-            System.out.println( returnedList);
-            List<EmployeeOutDTO> employeeDtoList = new ArrayList<EmployeeOutDTO>();
-            for (Employee employee : returnedList) {
-                EmployeeOutDTO empDTO = new EmployeeOutDTO();
-                empDTO.setId(employee.getId());
-                empDTO.setName(employee.getName());
-                empDTO.setEmail(employee.getEmail());
-                empDTO.setEmpId(employee.getEmpId());
-                empDTO.setDesignation(employee.getDesignation());
-                empDTO.setContactNumber(employee.getContactNumber());
-                empDTO.setDob(employee.getDob());
-                empDTO.setDoj(employee.getDoj());
-                empDTO.setLocation(employee.getLocation());
-                if (employee.getProjectId() == 0) {
-                    empDTO.setProjectName(null);
-                } else {
-                    Project project = projectRepository.findById(employee.getProjectId()).get();
-                    empDTO.setProjectName(project.getName());
-                    empDTO.setProjectId(employee.getProjectId());
-                }
-                Employee manager = userRepository
-                        .findById(employee.getManagerId()).get();
-                empDTO.setManager(manager.getName());
-                empDTO.setManagerId(manager.getId());
-                empDTO.setSkills(employee.getSkills());
-                empDTO.setRole(employee.getRole());
-                employeeDtoList.add(empDTO);
-            }
-            return employeeDtoList;
+            Employee manager = userRepository
+                    .findById(employee.getManagerId()).get();
+            empDto.setManager(manager.getName());
+            empDto.setManagerId(manager.getId());
+            empDto.setSkills(employee.getSkills());
+            empDto.setRole(employee.getRole());
+            employeeDtoList.add(empDto);
         }
-
+        return employeeDtoList;
+}
        
 
    // dto to entity

@@ -31,30 +31,30 @@ const ManagerDashboard = () => {
     setActiveTab("project");
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("email");
-    localStorage.removeItem("userRole");
-    // setIsLoggedIn(false);
-    navigate("/login");
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("email");
+  //   localStorage.removeItem("userRole");
+  //   // setIsLoggedIn(false);
+  //   navigate("/login");
+  // };
 
-  const handleSkillChange = (selectedOptions) => {
-    const selectedSkillsValues = selectedOptions.map((option) => option.value);
-    setSkills(selectedSkillsValues);
-  };
-  const handleSkillClick = () => {
-    console.log(skills);
-    setIsClick(true);
-    console.log(check)
-    //setActiveTab("");
-   {<EmployeeTab skills={skills} isCheck={check} />}
-  };
-  const handleCheckChange=()=>{
-    setCheck(!check);
-  }
-  const handleChecked = () =>{
-       setCheck(true);
-  }
+  // const handleSkillChange = (selectedOptions) => {
+  //   const selectedSkillsValues = selectedOptions.map((option) => option.value);
+  //   setSkills(selectedSkillsValues);
+  // };
+  // const handleSkillClick = () => {
+  //   console.log(skills);
+  //   setIsClick(true);
+  //   console.log(check)
+  //   //setActiveTab("");
+  //  {<EmployeeTab skills={skills} isCheck={check} />}
+  // };
+  // const handleCheckChange=()=>{
+  //   setCheck(!check);
+  // }
+  // const handleChecked = () =>{
+  //      setCheck(true);
+  // }
 
   const name= localStorage.getItem("name");
 

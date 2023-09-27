@@ -3,10 +3,6 @@
     padding: 0;
 }
 
-.main_container {
-    background-color: black;
-}
-
 /* Updated CSS for admin_heading */
 .admin_heading {
     position: fixed;
@@ -20,33 +16,45 @@
     font-size: 1.5rem;
     font-weight: bold;
     font-family: 'cursive';
-    margin-left: 1rem;
+    margin-left: 5rem;
     /* width: 10wh; */
     /* margin-top: 3rem; Add margin-top to create space below the admin tabs */
 }
 
 .admin_employee, .admin_manager, .admin_project, .admin_add_employee {
     background-color: rgb(183, 0, 255);
-    height: 2.5rem;
+    height: 1.5rem;
     width: auto;
     padding: 0.5rem 1rem;
     border-radius: 0.8rem;
     color: white;
     cursor: pointer;
 }
-/* .admin_add_employee{
-margin-left: 66rem;
-background-color: rgb(17, 100, 168);
-font-weight: bold;
-} */
+/* Updated CSS for admin_add_employee container */
+.admin_buttons_container {
+    display: flex;
+    justify-content: flex-end; /* Align items to the right end */
+    align-items: center; /* Vertically center items */
+    margin-top: 1rem; /* Add some top margin for spacing */
+}
 
-/* .admin_add_employee {
-    
-   font-weight: bold;
-   border: none;
-   cursor: pointer;
-   margin-bottom: 1rem;
-} */
+
+/* Updated CSS for admin_add_employee link */
+.admin_add_employee_link {
+    background-color: blue;
+    height: 2.5rem;
+    width: 6rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.8rem;
+    color: white;
+    text-decoration: none; /* Remove default link underline */
+    cursor: pointer;
+}
+
+.admin_add_employee-link:hover {
+    background-color: #800080; /* Change color on hover */
+}
+
 
 .admin_employee.active {
     border: 2px solid #000; 
@@ -94,19 +102,23 @@ font-weight: bold;
 
 
 .card_container {
-
-    /* margin-top: rem !important; */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    overflow-x: auto;
+    /* height: 90vh; */
+    overflow-x: hidden;
+    overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: transparent gray;
-    /* margin-top: 3.5rem; */
-    /* z-index: 90 !important; */
+    margin-top: 25px;
+    margin-top: 3.5rem;
+    /* position: absolute; */
+    /* top: 16rem; */
 }
+
+
 
 .card_container::-webkit-scrollbar {
     width: 0.5rem;
@@ -152,7 +164,7 @@ font-weight: bold;
 }
 .column2{
 /* flex:1.5; */
-width: 23rem;
+width: 18rem;
 padding: 1.5rem;
 }
 

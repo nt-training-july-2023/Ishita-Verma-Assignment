@@ -18,7 +18,7 @@ const HeaderComponent = ({
     localStorage.removeItem('email');
     localStorage.removeItem('userRole');
     setIsLoggedIn(false);
-    navigate('/login');
+    navigate('/');
   };
 
   return (

@@ -10,8 +10,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Entity class representing an Admin.
@@ -24,7 +22,7 @@ public class Employee {
      */
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    private Long Id;
 
     /**
      * EmployeeController ID of the admin.
@@ -47,31 +45,33 @@ public class Employee {
     /**
      * Date of birth of the admin.
      */
-    @Column
+    @Column(nullable = false)
     private String dob;
 
     /**
      * Date of joining of the admin.
      */
-    @Column
+    @Column(nullable = false)
     private String doj;
 
     /**
      * Location where the admin is based.
      */
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Location location;
 
     /**
      * Designation of the admin.
      */
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Designation designation;
 
     /**
      * Contact number of the admin.
      */
-    @Column
+    @Column(nullable = false)
     private String contactNumber;
 
     /**
@@ -84,11 +84,11 @@ public class Employee {
      * project of user.
      */
     @Column
-    private long projectId;
+    private Long projectId;
     /**
      * Password of the user.
      */
-    @Column
+    @Column(nullable = false)
     private String password;
 
     /**
@@ -101,10 +101,10 @@ public class Employee {
      */
     @Column
     private Long managerId;
-	public long getId() {
+	public Long getId() {
 		return Id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		Id = id;
 	}
 	public String getEmpId() {
@@ -161,10 +161,10 @@ public class Employee {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	public long getProjectId() {
+	public Long getProjectId() {
 		return projectId;
 	}
-	public void setProjectId(long projectId) {
+	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
 	}
 	public String getPassword() {
@@ -185,35 +185,35 @@ public class Employee {
 	public void setManagerId(Long managerId) {
 		this.managerId = managerId;
 	}
-	public long getProject() {
+	public Long getProject() {
 	    return projectId;
 	}
-	public Employee() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public Employee(long id, String empId, String name, String email, String dob, String doj, Location location,
-			Designation designation, String contactNumber, Role role, long projectId, String password, List<String> skills,
-			Long managerId) {
-		super();
-		Id = id;
-		this.empId = empId;
-		this.name = name;
-		this.email = email;
-		this.dob = dob;
-		this.doj = doj;
-		this.location = location;
-		this.designation = designation;
-		this.contactNumber = contactNumber;
-		this.role = role;
-		this.projectId = projectId;
-		this.password = password;
-		this.skills = skills;
-		this.managerId = managerId;
-	}
 	public String getManager() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+//	public Employee() {
+//		super();
+//		// TODO Auto-generated constructor stub
+//	}
+//	public Employee(Long id, String empId, String name, String email, String dob, String doj, Location location,
+//			Designation designation, String contactNumber, Role role, Long projectId, String password, List<String> skills,
+//			Long managerId) {
+//		super();
+//		Id = id;
+//		this.empId = empId;
+//		this.name = name;
+//		this.email = email;
+//		this.dob = dob;
+//		this.doj = doj;
+//		this.location = location;
+//		this.designation = designation;
+//		this.contactNumber = contactNumber;
+//		this.role = role;
+//		this.projectId = projectId;
+//		this.password = password;
+//		this.skills = skills;
+//		this.managerId = managerId;
+//	}
+	
 }

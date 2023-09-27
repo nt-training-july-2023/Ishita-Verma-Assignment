@@ -3,12 +3,13 @@ import axios from "axios";
 import { Link, useParams } from 'react-router-dom';
 
 const RequestResource = () => {
-  const [projects, setProjects] = useState([]);
+  const [projectsList, setProjectsList] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
   //const [description, setDescription] = useState("");
   const [comment, setComment] = useState("");
   const [managerId, setManagerId] = useState();
   const [projectId, setProjectId] = useState();
+  const [message, setMessage] = useState();
 
   const {id} =useParams();
 
@@ -18,12 +19,11 @@ const RequestResource = () => {
 
   const getAllProjects = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8080/api/admin/projects"
-      );
-      setProjects(response.data);
+      const response = await axios.get('http://localhost:8080/api/admin/projects');
+      // console.log(response.target.value);
+      setProjectsList(response.data);
     } catch (error) {
-      console.error("Error fetching projects:", error);
+      console.error('Error fetching projects:', error);
     }
   };
 
@@ -31,7 +31,7 @@ const RequestResource = () => {
     e.preventDefault();
     console.log("Resource request submitted");
     const requestData = {
-      empId: id,
+      employeeId: id,
       projectId,
       managerId,
       comment,
@@ -43,7 +43,8 @@ const RequestResource = () => {
       const response = await axios.post(
         "http://localhost:8080/api/admin/request/resource",
         
-          requestData
+          requestData,
+          setMessage("Requested")
         
       );
 
@@ -79,7 +80,7 @@ const RequestResource = () => {
               onChange={handleSelectChange}
             >
               <option value="">Select a Project</option>
-              {projects.map((item) => (
+              {projectsList.map((item) => (
           <option
             key={item.projectId}
             value={item.projectId}
@@ -113,6 +114,7 @@ const RequestResource = () => {
         <Link to="/managerDashboard" className="cancle-assign">
           Cancel
         </Link>
+        {message}
       </div>
     </div>
   );

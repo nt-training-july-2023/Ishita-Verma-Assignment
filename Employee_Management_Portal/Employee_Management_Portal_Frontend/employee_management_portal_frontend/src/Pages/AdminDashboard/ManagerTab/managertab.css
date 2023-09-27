@@ -5,3 +5,11 @@
     height: 1.5rem;
     border-radius: 0.2rem;
 }
+.managerAdmin{
+    margin-top: 3rem;
+}
+.final{
+    background: linear-gradient(to right, #693bd3, #800a76);
+    width: 100vw;
+    height: 100vh;;
+}

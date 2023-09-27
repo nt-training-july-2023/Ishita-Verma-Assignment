@@ -34,8 +34,8 @@ class AdminControllerTest {
     }
     @Test
     void testRegisterAdmin() {
-        // Create a sample AdminDTO object
-        AdminDTO adminDTO = new AdminDTO(/* Fill adminDTO details here */);
+       
+        AdminDTO adminDTO = new AdminDTO();
 
         // Mock the behavior of adminService.registerAdmin
         when(adminService.registerAdmin(adminDTO)).thenReturn(new ResponseDTO("Admin registered successfully",""));
@@ -51,8 +51,8 @@ class AdminControllerTest {
     void testGetAllAdmin() {
         // Create a sample list of EmployeeOutDTO objects
         List<EmployeeOutDTO> adminList = new ArrayList<>();
-        EmployeeOutDTO admin1 = new EmployeeOutDTO(/* Fill employee details here */);
-        EmployeeOutDTO admin2 = new EmployeeOutDTO(/* Fill employee details here */);
+        EmployeeOutDTO admin1 = new EmployeeOutDTO();
+        EmployeeOutDTO admin2 = new EmployeeOutDTO();
         adminList.add(admin1);
         adminList.add(admin2);
 

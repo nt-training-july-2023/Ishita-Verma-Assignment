@@ -6,12 +6,13 @@ import DateReverser from "../../../components/DateReverser/DateReverser";
 
 const ProfileTab = () => {
   const email = localStorage.getItem('email');
+  const id = localStorage.getItem("id")
   const [employeeDetails, setEmployeeDetails] = useState([]); 
   const [managerNames, setManagerNames] = useState({});
 
   useEffect(() => {
     if (email) {
-      axios.get(`http://localhost:8080/api/admin/employee/${email}`)
+      axios.get(`http://localhost:8080/api/admin/all/employee/${id}`)
         .then((response) => {
           console.log(response.data);
           setEmployeeDetails(response.data); 
@@ -26,14 +27,13 @@ const ProfileTab = () => {
     <div className="main">
       {employeeDetails ? (
         <div>
-          
-          <p style={{color:"white", marginLeft:"0.8rem",fontSize:"1.5rem"}}>Emp ID: {employeeDetails.empId}</p>
+          <p className='empId_profile'>Emp ID: {employeeDetails.empId}</p>
           <div className="details-container">
-              {/* <h4 style={{color:"white", marginLeft:"0.8rem",fontSize:"1.5rem",color:"black"}}>Welcome {employeeDetails.name}</h4> */}
+             
             <div className="column01 grid-container">
 
             <div className="column01">
-              {/* <p style={{fontSize:"1.2rem",fontWeight:"bold"}}>Welcome {employeeDetails.name}</p> */}
+             
               <strong>Name</strong>
               <p className="field_input">{employeeDetails.name}</p>
 
@@ -55,14 +55,11 @@ const ProfileTab = () => {
          </div>
 
             <div className="column01">
-              {/* <h2>Column 2</h2> */}
-              {/* <div className="grid-container"> */}
-
-              <strong>Contact No</strong>
+             <strong>Contact No</strong>
               <p className="field_input">{employeeDetails.contactNumber}</p>
 
               <strong>Project Name</strong>
-              <p className="field_input">{employeeDetails.projectId}</p>
+              <p className="field_input">{employeeDetails.projectName}</p>
 
               <strong>Manager</strong>
               <p className="field_input">{employeeDetails.manager}</p>
@@ -72,9 +69,7 @@ const ProfileTab = () => {
 
               <strong>Location</strong>
               <p className="field_input">{employeeDetails.location}</p>
-                 </div>
-              {/* </div> */}
-           
+                 </div>   
             </div>
           </div>
         </div>

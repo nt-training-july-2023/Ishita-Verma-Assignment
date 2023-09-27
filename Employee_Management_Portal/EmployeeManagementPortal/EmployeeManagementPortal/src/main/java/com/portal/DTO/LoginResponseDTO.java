@@ -6,6 +6,20 @@ public class LoginResponseDTO {
  private String message;
  private Role role;
  private String name;
+ private Long id;
+ 
+ /**
+ * @return the id
+ */
+public Long getId() {
+	return id;
+}
+/**
+ * @param id the id to set
+ */
+public void setId(Long id) {
+	this.id = id;
+}
 /**
  * @return the message
  */
@@ -40,17 +54,6 @@ public String getName() {
  * @param name the name to set
  */
 public void setName(String name) {
-	this.name = name;
-}
-/**
- * @param message
- * @param role
- * @param name
- */
-public LoginResponseDTO(String message, Role role, String name) {
-	super();
-	this.message = message;
-	this.role = role;
 	this.name = name;
 }
  

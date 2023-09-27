@@ -27,6 +27,7 @@ import com.portal.service.ProjectService;
 import com.portal.validation.Validation;
 
 import jakarta.persistence.Tuple;
+import jakarta.validation.Valid;
 
 /**
  * Controller class for managing projects.
@@ -54,7 +55,7 @@ public class ProjectController {
      */
     @PostMapping(path = "/addProject")
     public final ApiResponseDTO saveProject(
-            @RequestBody final ProjectDTO projectDTO) {
+            @RequestBody @Valid final ProjectDTO projectDTO) {
     	LOGGER.info("Adding project.");
 //    	 validate.checkProject(projectDTO);
         return projectService.addProject(projectDTO);
@@ -67,17 +68,19 @@ public class ProjectController {
      @GetMapping(path = "/projects")
     public final List<ProjectOutDTO> getProjects() {
         LOGGER.info("Getting Projects");
-        return projectService.getProjects();
+        List<ProjectOutDTO> list = projectService.getProjects();
+        return list;
     }
     /**
      * Endpoint for retrieving all projects.
      * @return A list of Project entities.
      */
     @GetMapping(path = "/projects/{managerId}")
-    public List<ProjectOutDTO> getProjectByManagerId(@PathVariable Long managerId) {
+    public final List<ProjectOutDTO> getProjectByManagerId(@PathVariable Long managerId) {
         LOGGER.info("Getting Projects for managerId: " + managerId);
         System.out.println("Received managerId: " + managerId);
-        return projectService.getProjectByManagerId(managerId);
+        List<ProjectOutDTO> list = projectService.getProjectByManagerId(managerId);
+        return list;
     }
 
     /**
@@ -88,7 +91,8 @@ public class ProjectController {
     final @GetMapping(path = "/project/skills")
     public List<String> getSkillsForProject(@RequestParam final String name) {
     	LOGGER.info("Getting projects as per the skills.");
-        return projectService.getSkillsForProject(name);
+    	List<String> list = projectService.getSkillsForProject(name);
+        return list;
     }
     /**
      * Retrieves a list of unassigned employees.
@@ -96,8 +100,8 @@ public class ProjectController {
      * @return A list of unassigned employees represented as ProjectOutDTOs.
      */
     @GetMapping("/unassigned")
-    public List<Employee> getUnassignedEmployees() {
-        List<Employee> unassignedEmployees = projectService.getEmployeesWithUnassignedProjects();
+    public final List<Employee> getUnassignedEmployees() {
+        List<Employee> unassignedEmployees = projectService.getEmployeesWithUnassignedProjects(); 
         return unassignedEmployees;
     }
    

@@ -5,6 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.portal.DTO.ApiResponseDTO;
+import com.portal.DTO.LoginResponseDTO;
+
 @SpringBootApplication
 public class EmployeeManagementPortalApplication {
 
@@ -18,6 +21,14 @@ public class EmployeeManagementPortalApplication {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+    @Bean
+    public ApiResponseDTO apiResponseDTO() {
+    	return new ApiResponseDTO();
+    }
+    @Bean
+    public LoginResponseDTO loginResponseDTO() {
+    	return new LoginResponseDTO();
     }
 
 }

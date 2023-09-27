@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import './employee.css'
+import "./employee.css";
 import axios from "axios";
 import DateReverser from "../../../components/DateReverser/DateReverser";
 import Skills from "../../../components/Data/Skills";
 import MultiSelectDropdown from "../../../components/MultiSelectDropdown/MultiSelectDropdown";
 import { Link } from "react-router-dom";
+import Button from "../../../components/Button/Button";
 
 const EmployeeTab = () => {
   const [employees, setEmployees] = useState([]);
@@ -12,11 +13,14 @@ const EmployeeTab = () => {
   const [showAssigned, setShowAssigned] = useState(false);
   const [showUnassigned, setShowUnassigned] = useState(false);
   const [skills, setSkills] = useState([]);
-  const [check,setCheck]=useState(false);
+  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     getAllEmployees();
+    IsRequested();
   }, []);
+
+  const email = localStorage.getItem("email");
 
   const getAllEmployees = async () => {
     try {
@@ -25,37 +29,40 @@ const EmployeeTab = () => {
       );
       console.log(response.data);
       setEmployees(response.data);
+      response.data.forEach((employee) =>{
+        IsRequested(employee);
+      });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  const getSkilledEmployee =async (skills,check) =>{
-    try{
-      const response= await axios.get(`http://localhost:8080/api/admin/all/employees/skills?skills=${skills}&isCheck=${check}`)
+  const getSkilledEmployee = async (skills, check) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/admin/all/employees/skills?skills=${skills}&isCheck=${check}`
+      );
       console.log(response.data);
       setEmployees(response.data);
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
-    }
- const handleSkillClick = () => {
-  console.log(skills);
-  //setIsClick(true);
-  console.log(check);
-  //setActiveTab("");
-  getSkilledEmployee(skills,check);
-//  {<EmployeeTab skills={skills} isCheck={check} />}
-
-};
-const handleSkillChange = (selectedOptions) => {
-  const selectedSkillsValues = selectedOptions.map((option) => option.value);
-  setSkills(selectedSkillsValues);
-};
-const handleCheckChange=()=>{
-  setCheck(!check)
-  
-}
+  };
+  const handleSkillClick = () => {
+    console.log(skills);
+    //setIsClick(true);
+    console.log(check);
+    //setActiveTab("");
+    getSkilledEmployee(skills, check);
+    //  {<EmployeeTab skills={skills} isCheck={check} />}
+  };
+  const handleSkillChange = (selectedOptions) => {
+    const selectedSkillsValues = selectedOptions.map((option) => option.value);
+    setSkills(selectedSkillsValues);
+  };
+  const handleCheckChange = () => {
+    setCheck(!check);
+  };
 
   const getUnassignedEmployees = async () => {
     try {
@@ -102,47 +109,41 @@ const handleCheckChange=()=>{
       console.error("Error fetching data:", error);
     }
   };
-<div>
-<label>Search Skills:</label>
-<div className="managerDashboard_dropdown">
-  <MultiSelectDropdown
-    options={Skills.map((skill) => ({
-      value: skill,
-      label: skill,
-    }))}
-    selectedOptions={selectedSkills.map((skill) => ({
-      value: skill,
-      label: skill,
-    }))}
-    onChange={(event) => {
-      {
-        handleSkillChange(event);
-      }
-      {
-       //setIsClick(false);
-      }
-    }}
-    placeholder="Select Skills"
-    //onBlur={handleSkillBlur}
-    //className="skillsInput"
-  />
-  
-  <label for="myCheckbox">Unassigned Employee:</label>
-<input type="checkbox" name="myCheckbox" value="option1"
-onChange={handleCheckChange}
-checked={check}
-/>
-{/* <label for="myCheckbox">Option 1</label> */}   
-<button onClick={handleSkillClick}>Search Employee</button>
-</div>
-{/* <EmployeeTab/> */}
-{/* <EmployeeTab skills={skills} isCheck={check} /> */}
-{/* {!isClick && <EmployeeTab />}
-{isClick && <SearchSkills skills={skills} isCheck={check} />} */}
- </div>
+
+  const IsRequested = async (employeeObject) => {
+    // console.log(id);
+    // console.log(employeeObject.id);
+    //const isRequested = async () =>{
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/admin/employee/isRequested",
+
+        {
+          employeeId: employeeObject.id,
+          managerEmail: email,
+        }
+      );
+      const requested = response.data;
+
+      setEmployees((prevEmployees) =>
+        prevEmployees.map((employee) =>
+          employee.id === employeeObject.id
+            ? { ...employee, requested: requested }
+            : employee
+        )
+      );
+
+      // console.log(value);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    //isRequested(employees);
+  }, []);
   return (
     <div>
-      <div>
+      <div className="multi_assign_dropdown">
         <MultiSelectDropdown
           options={Skills.map((skill) => ({
             label: skill,
@@ -158,22 +159,25 @@ checked={check}
               handleSkillChange(event);
             }
             {
-             //setIsClick(false);
+              //setIsClick(false);
             }
           }}
           placeholder="Select Skills"
         />
+
+        <div className="unassigned">
+          <label for="myCheckbox">Unassigned Employee:</label>
+          <input
+            type="checkbox"
+            name="myCheckbox"
+            value="option1"
+            onChange={handleCheckChange}
+            checked={check}
+          />
+          <Button onClick={handleSkillClick} className="custom-button search-button" text='Search Employee'></Button>
+        </div>
       </div>
-      <div>
-      <label for="myCheckbox">Unassigned Employee:</label>
-<input type="checkbox" name="myCheckbox" value="option1"
-onChange={handleCheckChange}
-checked={check}
-/>
-<button onClick={handleSkillClick}>Search Employee</button>
-      </div>
-  
-      <div className="card_container">
+      <div className="card_container manager_emp">
         {employees.map((employee) => (
           <div className="card" key={employee.Id}>
             <div className="column1">
@@ -196,7 +200,7 @@ checked={check}
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
                   Manager :
                 </span>
-                { employee.manager}
+                {employee.manager}
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
@@ -214,15 +218,13 @@ checked={check}
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
                   Skills :
                 </span>
-                {employee.skills.join(', ')}
+                {employee.skills.join(", ")}
               </p>
-
-             
             </div>
             <div className="column2">
               <p
                 className="employee_id"
-                style={{ marginBottom: "1.3rem", fontSize: "1rem" }}
+                style={{ marginBottom: "2.6rem", fontSize: "1rem" }}
               >
                 <span style={{ fontWeight: "bold" }}>Employee ID:</span>{" "}
                 {employee.empId}
@@ -245,16 +247,24 @@ checked={check}
                 </span>{" "}
                 {employee.location}
               </p>
-              <div style={{marginTop:"2rem"}}>
-              {employee.projectName === null && (
-                <Link
-                to={`/requestResource/${employee.id}`}
-                className="assign_btn" 
-                return employee={employee}
-              >
-                Request Resource
-              </Link>
-              )}
+              <div style={{ marginTop: "2rem" }}>
+                {employee.projectName === null && (
+                  <p>
+                    {console.log(employee.requested)}
+                    {employee.requested ? (
+                      <button className="assign_btn" disabled>Requested</button>
+                    ) : (
+                      <Link
+                        to={`/requestResource/${employee.id}`}
+                        className="assign_btn"
+                        return
+                        employee={employee}
+                      >
+                        Request Resource
+                      </Link>
+                    )}
+                  </p>
+                )}
               </div>
             </div>
           </div>

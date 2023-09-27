@@ -11,6 +11,8 @@ import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.RequestResourceDTO;
 import com.portal.service.ManagerService;
 
+import jakarta.validation.Valid;
+
 @CrossOrigin("*")
 @RequestMapping("/api/admin")
 @RestController
@@ -27,11 +29,11 @@ public class ManagerController {
     private ManagerService managerService;
     /**
      * addRequestResource.
-     * @param requestDTO request
+     * @param requestDTO rsequest
      * @return response
      */
     @PostMapping("/request/resource")
-    public final ApiResponseDTO addRequestResource(@RequestBody final RequestResourceDTO requestDTO) {
+    public final ApiResponseDTO addRequestResource(@RequestBody @Valid final RequestResourceDTO requestDTO) {
 //       LOGGER.info("add request started:");
        System.out.println("manager" + requestDTO.getManagerId());
        final ApiResponseDTO response = managerService.addRequestResource(requestDTO );

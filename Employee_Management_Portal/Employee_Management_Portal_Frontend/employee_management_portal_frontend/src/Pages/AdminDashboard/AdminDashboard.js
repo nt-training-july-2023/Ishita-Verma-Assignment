@@ -8,13 +8,15 @@ import AddProject from '../../components/AddProject/AddProject'
 import { useNavigate,Link } from 'react-router-dom'
 import Button from "../../components/Button/Button"
 import HeaderComponent from '../../components/HeaderComponent/HeaderComponent'
+import UnAuthorization from "../../components/Unauthorization/Unauthorization";
 
 const AdminDashboard = () => {
 
   const [showAddEmployee, setShowAddEmployee] = useState(false);
   const [showAddProject, setShowAddProject] = useState(false);
   const [activeTab, setActiveTab] = useState('employee');
- 
+  const [role, setRole] = useState(localStorage.getItem('userRole'));
+
   const toggleAddEmployee = () => {
     setShowAddEmployee(!showAddEmployee);
   };
@@ -42,8 +44,13 @@ const AdminDashboard = () => {
     setActiveTab('project')
   }
 
+  useEffect(() => {
+    setRole(localStorage.getItem('userRole'));
+  }, [])
 
   return (
+    <>
+    {role === "ADMIN"?(
     <div className='container'>
       <div className='admindashboard_header'>
        
@@ -69,18 +76,23 @@ const AdminDashboard = () => {
       )}
       {activeTab === 'employee' && (
   <div>
-    
+{/*     
     <Button
       onClick={toggleAddEmployee}
       text="Add Employee"
       className="admin_add_employee"
+    /> */}
+       <Button
+        onClick={toggleAddEmployee}
+      text="Add Employee" 
+      className="add_employee_btn"    
     />
-    {/* <Link
+     <Link
       to={`/requestResource`}
       className="admin_add_employee"
     >
       Request Resource
-    </Link> */}
+    </Link> 
   </div>
 )}
       <div className='admin_heading'>Welcome Ankita Sharma</div>
@@ -89,7 +101,7 @@ const AdminDashboard = () => {
     <Button
       onClick={toggleAddProject}
       text="Add Project"
-      className="admin_add_employee"
+      className="admin_add_project"
     />
   )}
   {/* {activeTab === 'employee' && !showAddEmployee && (
@@ -102,7 +114,7 @@ const AdminDashboard = () => {
     </Link>
   )} */}
 </div>
-      
+
       <div className='card_container'>
       {activeTab === 'employee' && (
           <div>
@@ -121,7 +133,10 @@ const AdminDashboard = () => {
         )}
       </div>
     </div>
+    ): (<UnAuthorization/>)}
+    </>
   )
-}
+    
+  }
 
 export default AdminDashboard

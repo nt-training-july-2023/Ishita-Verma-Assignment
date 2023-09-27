@@ -4,7 +4,7 @@ import Login from "../src/Pages/Login/Login"
 import AdminDashboard from "./Pages/AdminDashboard/AdminDashboard";
 import Assign from "./components/AssignButton/Assign";
 import Registration from '../src/Pages/Registration/Registration'
-import EmployeeManagementPage from "./Pages/EmployeeMangementPage/EmployeeManagementPage";
+// import EmployeeManagementPage from "./Pages/EmployeeMangementPage/EmployeeManagementPage";
 import EmployeeDashboard from "./Pages/EmployeeDashboard/EmployeeDashboard";
 import ManagerDashboard from "./Pages/ManagerDashboard/ManagerDashboard";
 import UpdateSkills from "./components/UpdateSkills/UpdateSkills";
@@ -18,9 +18,9 @@ function App() {
    <>
     <Router>
         <Routes>
-          <Route path="/" Component={EmployeeManagementPage}/>
+          {/* <Route path="/" Component={EmployeeManagementPage}/> */}
+          <Route path="/" Component={Login} />
           <Route path="/register" Component={Registration} />
-          <Route path="/login" Component={Login} />
           <Route path="/admindashboard" Component={AdminDashboard} />
           <Route path="/employeedashboard" Component={EmployeeDashboard}/>
           <Route path="/managerdashboard" Component={ManagerDashboard} />

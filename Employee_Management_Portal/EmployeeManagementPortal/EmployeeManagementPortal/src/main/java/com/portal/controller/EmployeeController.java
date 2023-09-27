@@ -1,10 +1,8 @@
 package com.portal.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,18 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.portal.DTO.AdminDTO;
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.EmployeeOutDTO;
-import com.portal.DTO.RequestResourceDTO;
 import com.portal.DTO.RequestResourceOutDTO;
 import com.portal.entities.Employee;
-import com.portal.entities.Project;
 import com.portal.repository.AdminRepository;
 import com.portal.repository.ProjectRepository;
 import com.portal.service.EmployeeService;
 import com.portal.validation.Validation;
 
 import jakarta.validation.Valid;
-
-import com.portal.entities.Role;
 
 /**
  * Controller class for managing employee-related operations.
@@ -72,9 +66,11 @@ public class EmployeeController {
     @PostMapping(path = "/addEmployee")
     public final ApiResponseDTO saveEmployee(
             @RequestBody @Valid final AdminDTO userDTO) {
+    	LOGGER.info("Adding Employee");
     	  validate.checkEmployee(userDTO);
-    	 LOGGER.info("Adding Employee");
-        return employeeService.addEmployee(userDTO);
+    	 LOGGER.info("Valid user : " + userDTO.toString());
+    	 ApiResponseDTO response = employeeService.addEmployee(userDTO);
+        return response;
     }
 
     /**
@@ -83,19 +79,21 @@ public class EmployeeController {
      * @param roleName The role name for filtering employees.
      * @return A list of employees with the specified role.
      */
-    final @GetMapping("all/{roleName}") public List<EmployeeOutDTO> getEmployeesByRole(
+     @GetMapping("all/{roleName}") 
+     public final List<EmployeeOutDTO> getEmployeesByRole(@Valid
             @PathVariable final String roleName) {
        
 //        List<Employee> employees = userRepository.findByRole(role);
         LOGGER.info("Getting employee as per the role.");
-        return employeeService.getEmployeeByRole(roleName);
+        List<EmployeeOutDTO> list = employeeService.getEmployeeByRole(roleName);
+        return list;
     }
     
     @GetMapping("/all/employee/{id}")
-    public final Optional<Employee> getEmployeeById(
-            @PathVariable final long id) {
-    	 LOGGER.info("Getting Employee as per the primary Id.");
-        return employeeService.getEmployeeById(id);
+    public final EmployeeOutDTO getEmployeeByID(@PathVariable final Long id) {
+        LOGGER.info("Get Employee by Id:" + id);
+        EmployeeOutDTO emp = employeeService.getEmployeeById(id);
+        return emp;
     }
     /**
      * Get an employee by their email.
@@ -105,9 +103,10 @@ public class EmployeeController {
      */
     
     @GetMapping("employee/{email}")
-    public final EmployeeOutDTO getEmployeeByEmail(@PathVariable String email){
+    public final EmployeeOutDTO getEmployeeByEmail(@Valid @PathVariable String email){
         LOGGER.info("Getting employee by email");
-        return employeeService.getEmployeeByEmail(email);
+        EmployeeOutDTO employeeOutDto = employeeService.getEmployeeByEmail(email);
+        return employeeOutDto;
     }
     /**
      * Update employee details such as project assignment and manager.
@@ -117,15 +116,13 @@ public class EmployeeController {
      * @return ApiResponse with the result of the operation.
      */
     @PutMapping("/employee/{id}/assignProject")
-    public ApiResponseDTO updateDetails(@PathVariable long id,
+    public final ApiResponseDTO updateDetails(@Valid @PathVariable Long id,
             @RequestBody Map<String,Long> updatedDetails) {
         LOGGER.info("Updating project id and manager id");
-        System.out.println(updatedDetails);
         Long projectId = updatedDetails.get("projectId");
         Long managerId= updatedDetails.get("managerId");
-        
-        return employeeService.updatedProject(id, projectId, managerId);
-        
+        ApiResponseDTO response = employeeService.updatedProject(id, projectId, managerId);
+        return response;
     }
    /**
     * Update employee skills.
@@ -135,10 +132,12 @@ public class EmployeeController {
     * @return ApiResponse with the result of the operation.
     */
    @PutMapping("/employee/{id}/skills")
-   public final ApiResponseDTO updateSkills(final @PathVariable long id,
+   public final ApiResponseDTO updateSkills(final @Valid @PathVariable Long id,
           final @RequestBody Map<String, List<String>> updatedSkills) {
+	   LOGGER.info("updating skills");
       List<String> skills = updatedSkills.get("skills");
-       return employeeService.updateSkills(id, skills);
+	   ApiResponseDTO response = employeeService.updateSkills(id, skills);
+       return response;
    }
 //   @PostMapping(path = "/request/resource")
 //   public final ApiResponseDTO requestResource(@RequestBody final RequestResourceDTO requestResourceDto){
@@ -146,17 +145,20 @@ public class EmployeeController {
 //   }
    @GetMapping(path = "/all/request")
    public final List<RequestResourceOutDTO> getAllRequests(){
-       return employeeService.getAllRequests();
+	   LOGGER.info("Getting all requests");
+	   List<RequestResourceOutDTO> list = employeeService.getAllRequests();
+       return list;
    }
    @PostMapping("/unassign/{employeeId}")
-   public String unassignEmployee(@PathVariable Long employeeId) {
+   public final String unassignEmployee(@Valid @PathVariable Long employeeId) {
+	   LOGGER.info("Unassign project to employee");
        employeeService.unassignEmployee(employeeId);
        return "Employee unassigned successfully.";
    }
    @GetMapping("all/employees/skills")
-   public List<EmployeeOutDTO> empOutList(@RequestParam List<String> skills,@RequestParam boolean isCheck){
-       System.out.println(skills );
-       System.out.println(isCheck);
-       return employeeService.searchBySkills(skills,isCheck);
+   public final List<EmployeeOutDTO> empOutList(@Valid @RequestParam List<String> skills,@RequestParam boolean isCheck){
+	   LOGGER.info("Getting employees with given skills");
+	   List<EmployeeOutDTO> list = employeeService.skillsAndUnassign(skills,isCheck);
+       return list;
    }
 }

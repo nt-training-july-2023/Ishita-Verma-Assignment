@@ -8,7 +8,7 @@ public class ProjectOutDTO {
 	   /**
      * project id.
      */
-    private long projectId;
+    private Long projectId;
     /**
      * name of project.
      */
@@ -51,14 +51,14 @@ public class ProjectOutDTO {
      /**
       * @return the projectId
       */
-     public final long getProjectId() {
+     public final Long getProjectId() {
          return projectId;
      }
 
      /**
       * @param projectID the projectId to set
       */
-     public final void setProjectId(final long projectId) {
+     public final void setProjectId(final Long projectId) {
          this.projectId = projectId;
      }
      /**

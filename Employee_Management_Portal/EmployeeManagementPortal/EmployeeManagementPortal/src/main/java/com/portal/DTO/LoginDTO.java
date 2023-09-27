@@ -2,6 +2,8 @@ package com.portal.DTO;
 
 import java.util.Objects;
 
+import jakarta.validation.constraints.NotBlank;
+
 /**
  * Data Transfer Object (DTO) representing login credentials.
  */
@@ -10,11 +12,13 @@ public class LoginDTO {
     /**
      * The email address associated with the user's account.
      */
+	@NotBlank(message="Email required for login")
     private String email;
 
     /**
      * The password provided by the user for authentication.
      */
+	@NotBlank(message="Password Required")
     private String password;
 
     public LoginDTO(String string) {

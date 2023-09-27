@@ -7,6 +7,16 @@ import reg_plant_img from "../../Assests/Images/reg_plant_img.png";
 import reg_side_img from "../../Assests/Images/reg_side_img.png";
 import Location from "../../components/Data/Location";
 import Designation from "../../components/Data/Designation";
+import {
+  validateName,
+  validateEmail,
+  validateEmpId,
+  validateDob,
+  validateDoj,
+  validateContactNumber,
+  validatePassword,
+  validateConfirmPassword,
+} from "../../components/HandleBlur/HandleBlur"; 
 
 const Registration = () => {
   const [id, setId] = useState("");
@@ -150,7 +160,10 @@ const Registration = () => {
         contactNumber,
         password: hashedPassword, 
       confirmPassword: hashedPassword,
-      }; AdminService.registerAdmin(formData)
+      }; 
+      formData.managerId = 0; 
+      formData.role = "ADMIN"; 
+      AdminService.registerAdmin(formData)
         .then((response) => {
           console.log(response.data);
           setDuplicateEmailError("");
@@ -183,94 +196,44 @@ const Registration = () => {
         });
     }
   };
-
   const handleNameBlur = (e) => {
     const inputValue = e.target.value;
-    const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-    if (!alphabeticRegex.test(inputValue)) {
-      setNameError("Name must contain alphabetic characters only");
-    } else {
-      setNameError("");
-    }
+    validateName(inputValue, setNameError);
   };
 
   const handleEmailBlur = (e) => {
     const inputValue = e.target.value;
-    // const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
-
-    if (!emailRegex.test(inputValue)) {
-      setEmailError("Email must be a company email (@nucleusteq.com)");
-    } else {
-      setEmailError("");
-    }
+    validateEmail(inputValue, setEmailError);
   };
 
   const handleEmpIdBlur = (e) => {
     const inputValue = e.target.value;
-    const empIdRegex = /^[Nn]\d{4}$/;
-
-    if (!empIdRegex.test(inputValue)) {
-      setEmpIdError("Employee ID should be in pattern NXXXX");
-    } else {
-      setEmpIdError("");
-    }
+    validateEmpId(inputValue, setEmpIdError);
   };
 
   const handleDobBlur = (e) => {
     const inputValue = e.target.value;
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-
-    if (!dateRegex.test(inputValue)) {
-      setDobError("Date should have a pattern like DD-MM-YY");
-    } else {
-      setDobError("");
-    }
+    validateDob(inputValue, setDobError);
   };
 
   const handleDojBlur = (e) => {
     const inputValue = e.target.value;
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-
-    if (!dateRegex.test(inputValue)) {
-      setDojError("Date should have a pattern like  DD-MM-YY");
-    } else {
-      setDojError("");
-    }
+    validateDoj(inputValue, setDojError);
   };
 
   const handleContactNumberBlur = (e) => {
     const inputValue = e.target.value;
-    const cleanedContactNumber = inputValue.replace(/[^0-9]/g, "");
-
-    if (!/^\d{10}$/.test(cleanedContactNumber)) {
-      setContactNumberError("Contact no should have 10 digits only");
-    } else {
-      setContactNumber(cleanedContactNumber);
-      setContactNumberError("");
-    }
+    validateContactNumber(inputValue, setContactNumber, setContactNumberError);
   };
 
   const handlePasswordBlur = (e) => {
     const inputValue = e.target.value;
-    const passwordRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~]).{8,}$/;
-
-    if (!passwordRegex.test(inputValue)) {
-      setPasswordError("Use 8 digits uppercase lowercase special character");
-    } else {
-      setPasswordError("");
-    }
+    validatePassword(inputValue, setPasswordError);
   };
 
   const handleConfirmPasswordBlur = (e) => {
     const inputValue = e.target.value;
-
-    if (inputValue !== password) {
-      setConfirmPasswordError("Password and confirm password do not match");
-    } else {
-      setConfirmPasswordError("");
-    }
+    validateConfirmPassword(inputValue, password, setConfirmPasswordError);
   };
 
   return (
@@ -453,11 +416,11 @@ const Registration = () => {
             )}
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <div class="button">
+          <div class="button_reg">
             <div className="btn" onClick={onSubmit} type="submit">
               <span className="btn-text">Submit</span>
             </div>
-            <div className="btn" onClick={() => navigate("/login")}>
+            <div className="btn" onClick={() => navigate("/")}>
               <span className="btn-text">Login</span>
             </div>
           </div>

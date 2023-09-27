@@ -23,8 +23,8 @@ const ManagerTab = () => {
   };
 
 return (
-  <div className="container">
-    <div className="card_container">
+  <div className="final">
+    <div className="card_container managerAdmin">
     {managers.map((manager) => (
     <SingleManagerCard key={manager.id} manager={manager} />
 ))}

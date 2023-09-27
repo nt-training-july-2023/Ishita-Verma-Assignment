@@ -38,8 +38,8 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
     
-//    @Autowired
-//    private Validation validate;
+    @Autowired
+    private Validation validate;
     
     private static final Logger LOGGER = LoggerFactory
             .getLogger(EmployeeController.class);
@@ -52,9 +52,10 @@ public class AdminController {
      @PostMapping("/register")
      public final ResponseDTO registerAdmin(
             @Valid @RequestBody final AdminDTO adminDTO) {
-//    	    validate.checkAdmin(adminDTO);
+    	    validate.checkAdmin(adminDTO);
     	    LOGGER.info("Adding Admin");
-            return adminService.registerAdmin(adminDTO);
+    	    ResponseDTO responseDto = adminService.registerAdmin(adminDTO);
+            return responseDto;
         }
    
     /**
@@ -63,9 +64,9 @@ public class AdminController {
      * @return A ResponseEntity containing a list of admins.
      */
      @GetMapping("/getall")
-    public List<EmployeeOutDTO> getAllAdmin() {
+    public final List<EmployeeOutDTO> getAllAdmin() {
+    	 LOGGER.info("Get all list of employees.");
         List<EmployeeOutDTO> admins = adminService.getAllAdmin();
-        LOGGER.info("Get all list of employees.");
         return admins;
     }
     /**
@@ -74,23 +75,14 @@ public class AdminController {
      * @param loginDto The LoginDTO containing login credentials.
      * @return A ResponseEntity indicating login status.
      */
-    final @PostMapping("/login") public LoginResponseDTO login(
+     @PostMapping("/login")
+     public final LoginResponseDTO login(
             @Valid @RequestBody final LoginDTO loginDto) {
-//        AdminDTO adminDTO = adminService.login(loginDto);
-//        if (adminDTO == null) {
-//            throw new WrongCredentialsException("Wrong credentials");
-//        } else {
-//            String userRole = adminService
-//                    .getUserRoleByEmail(loginDto.getEmail());
-//         
-//            LoginResponseDTO ResponseDTO = new LoginResponseDTO("Login Successfully",
-//                    userRole,adminDTO.getName());
-//            LOGGER.info("Login User.");
-//            return ResponseDTO;
-//        }
-//    	 validate.checkLogin(loginDto);
-         LOGGER.info("Data is Valid");
-         return adminService.login(loginDto);
+         LOGGER.info("Loggin in user");
+         validate.checkLogin(loginDto);
+         LOGGER.info("Valid login dto: " + loginDto.toString());
+         LoginResponseDTO loginResponse = adminService.login(loginDto);
+         return loginResponse;
     }
 }
 

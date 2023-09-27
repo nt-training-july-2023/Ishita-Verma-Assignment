@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 /**
  * Data Transfer Object (DTO) representing project information.
  */
@@ -12,7 +14,7 @@ public class ProjectDTO {
     /**
      * The unique ID of the project.
      */
-    private long projectId;
+    private Long projectId;
 
     /**
      * The name of the project.
@@ -23,35 +25,37 @@ public class ProjectDTO {
     /**
      * The description of the project.
      */
+    @NotBlank(message = "Decription cannot be null")
     private String description;
 
     /**
      * The manager ID of the project.
      */
-    @NotBlank(message = "Manager ID should not be empty")
+    @NotNull(message = "Manager ID should not be empty")
     private Long managerId;
 
     /**
      * The list of skills required for the project.
      */
-    private List<String> skills;
+    @NotEmpty(message= "Project Skill Required")
+    private List<@NotBlank String> skills;
     /**.
      * start date of project
      */
-    @Column
+    @NotBlank(message ="Start date is mandatory")
     private String startDate;
 
 	/**
 	 * @return the projectId
 	 */
-	public long getProjectId() {
+	public Long getProjectId() {
 		return projectId;
 	}
 
 	/**
 	 * @param projectId the projectId to set
 	 */
-	public void setProjectId(long projectId) {
+	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
 	}
 
@@ -133,7 +137,7 @@ public class ProjectDTO {
 	 * @param skills
 	 * @param startDate
 	 */
-	public ProjectDTO(long projectId, @NotBlank(message = "Name should not be empty") String name, String description,
+	public ProjectDTO(Long projectId, @NotBlank(message = "Name should not be empty") String name, String description,
 			@NotBlank(message = "Manager ID should not be empty") Long managerId, List<String> skills, String startDate) {
 		super();
 		this.projectId = projectId;

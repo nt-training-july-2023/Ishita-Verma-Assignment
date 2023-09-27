@@ -103,10 +103,10 @@ public class ResponseAllRequestDTO {
     }
 
     /**
-     * @param long1 the projectId to set.
+     * @param Long1 the projectId to set.
      */
-    public void setProjectId(final Long long1) {
-        this.projectId = long1;
+    public void setProjectId(final Long Long1) {
+        this.projectId = Long1;
     }
 
     /**

@@ -1,13 +1,20 @@
 package com.portal.DTO;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class RequestResourceDTO {
 	    
+	    @NotBlank(message = "Comment Required")
 	    private String comment;
 	    
+	    @NotNull(message="Manager Id Required")
 	    private Long managerId;
 	    
-	    private Long empId;
+	    @NotNull(message="Employee Id Required")
+	    private Long employeeId;
 	   
+	    @NotNull(message="Project Id Required")
 	    private Long projectId;
 
 		/**
@@ -41,15 +48,15 @@ public class RequestResourceDTO {
 		/**
 		 * @return the employeeId
 		 */
-		public Long getEmpId() {
-			return empId;
+		public Long getEmployeeId() {
+			return employeeId;
 		}
 
 		/**
 		 * @param employeeId the employeeId to set
 		 */
-		public void setEmpId(Long empId) {
-			this.empId = empId;
+		public void setEmployeeId(Long employeeId) {
+			this.employeeId = employeeId;
 		}
 
 		/**

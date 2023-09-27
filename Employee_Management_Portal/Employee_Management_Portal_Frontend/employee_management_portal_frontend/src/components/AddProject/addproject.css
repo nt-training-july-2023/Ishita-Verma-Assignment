@@ -15,16 +15,16 @@
     flex-direction: column;
     margin-bottom: 1rem;
     color: black;
-    margin-top:1rem;
+    /* margin-top:1rem; */
     padding: 0.3rem;
     width: 33.5rem;
-    /* padding-right:0.2rem; */
+    padding-right:0.2rem;
   }
   
   .input_form_field input[type="text"],
   .input_form_field input[type="date"],
   .input_form_field textarea {
-    width: 100%;
+    /* width: 100%; */
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;

@@ -18,7 +18,7 @@ public class Project {
     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long projectId;
+    private Long projectId;
     /**.
      * project name
      */
@@ -27,17 +27,17 @@ public class Project {
     /**.
      * project's manager id
      */
-    @Column
+    @Column(nullable = false)
     private Long managerId;
     /**.
      * start date of project
      */
-    @Column
+    @Column(nullable = false)
     private String startDate;
     /**.
      * list of skills required for project
      */
-    @Column
+    @Column(nullable = false)
     private List<String> skills;
      /**.
       * project description
@@ -47,13 +47,13 @@ public class Project {
 	/**
 	 * @return the projectId
 	 */
-	public long getProjectId() {
+	public Long getProjectId() {
 		return projectId;
 	}
 	/**
 	 * @param projectId the projectId to set
 	 */
-	public void setProjectId(long projectId) {
+	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
 	}
 	/**
@@ -116,31 +116,31 @@ public class Project {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	/**
-	 * @param projectId
-	 * @param name
-	 * @param managerId
-	 * @param startDate
-	 * @param skills
-	 * @param description
-	 */
-	public Project(long projectId, String name, Long managerId, String startDate, List<String> skills,
-			String description) {
-		super();
-		this.projectId = projectId;
-		this.name = name;
-		this.managerId = managerId;
-		this.startDate = startDate;
-		this.skills = skills;
-		this.description = description;
-	}
-	/**
-	 * 
-	 */
-	public Project() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+//	/**
+//	 * @param projectId
+//	 * @param name
+//	 * @param managerId
+//	 * @param startDate
+//	 * @param skills
+//	 * @param description
+//	 */
+//	public Project(Long projectId, String name, Long managerId, String startDate, List<String> skills,
+//			String description) {
+//		super();
+//		this.projectId = projectId;
+//		this.name = name;
+//		this.managerId = managerId;
+//		this.startDate = startDate;
+//		this.skills = skills;
+//		this.description = description;
+//	}
+//	/**
+//	 * 
+//	 */
+//	public Project() {
+//		super();
+//		// TODO Auto-generated constructor stub
+//	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(description, managerId, name, projectId, skills, startDate);

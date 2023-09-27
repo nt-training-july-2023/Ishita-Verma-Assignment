@@ -1,7 +1,11 @@
 package com.portal.DTO;
 
 public class RequestResourceOutDTO {
-	 private String comment;
+	 /**
+     * Unique Identifier.
+     */
+        private Long id;
+	    private String comment;
 	    private Long managerId;
 	    private Long empId;
 	    private Long projectId;
@@ -64,4 +68,17 @@ public class RequestResourceOutDTO {
 	    public void setManagerUserId(String managerUserId) {
 	        this.managerUserId = managerUserId;
 	    }
+		/**
+		 * @return the id
+		 */
+		public Long getId() {
+			return id;
+		}
+		/**
+		 * @param id the id to set
+		 */
+		public void setId(Long id) {
+			this.id = id;
+		}
+	    
 }

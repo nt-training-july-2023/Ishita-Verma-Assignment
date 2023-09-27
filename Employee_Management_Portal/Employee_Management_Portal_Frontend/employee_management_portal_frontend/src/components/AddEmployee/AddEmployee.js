@@ -7,6 +7,7 @@ import AdminService from "../service/AdminService";
 import Location from "../Data/Location";
 import bcrypt from 'bcryptjs';
 import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
+import Popup from "../Popup/Popup";
 
 const AddEmployee = () => {
   // Define state variables for each form field
@@ -22,6 +23,10 @@ const AddEmployee = () => {
   const [skills, setSkills] = useState([]);
   const [selectedSkills] = useState([])
   const [errorMessage, setErrorMessage] = useState("");
+
+ // Add state for the popup
+ const [showPopup, setShowPopup] = useState(false);
+ const [popupMessage, setPopupMessage] = useState("");
 
   // Define state variables for validation errors
   const [nameError, setNameError] = useState("");
@@ -155,9 +160,12 @@ const AddEmployee = () => {
     AdminService.addEmployee(employee)
       .then((response) => {
        console.log(response);
-        setErrorMessage("Successfully added.");
+        // setErrorMessage("Successfully added.");
         
-        clearFormFields();
+        setPopupMessage("Employee added successfully.");
+          setShowPopup(true);
+
+        // clearFormFields();
       })
       .catch((error) => {
        
@@ -260,48 +268,25 @@ const handleNameBlur = (e) => {
     }
   };
 
-
-  // // Function to validate a form field
-  // const validateField = (field, value) => {
-  //   const errorMessages = {
-  //     name: "Name is required",
-  //     empId:"Employee ID is required",
-  //     email: "Email is required",
-  //     dob: "Date of Birth is required",
-  //     doj: "Date of Joining is required",
-  //     location: "Location is required",
-  //     designation: "Designation is required",
-  //     contactNumber: "Contact Number is required",
-  //     role: "Role is required",
-  //   };
-  
-  //   const setError = (field, error) => {
-  //     switch (field) {
-  //       case "name": setNameError(error); break;
-  //       case "empId": setEmpIdError(error); break;
-  //       case "email": setEmailError(error); break;
-  //       case "dob": setDobError(error); break;
-  //       case "doj": setDojError(error); break;
-  //       case "location": setLocationError(error); break;
-  //       case "designation": setDesignationError(error); break;
-  //       case "contactNumber": setContactNumberError(error); break;
-  //       case "role": setRoleError(error); break;
-  //       default: break;
-  //     }
-  //   };
-  
-  //   const error = value.trim() === "" ? errorMessages[field] : "";
-  //   setError(field, error);
-  //   return !error; // Field is not empty if error is falsy
-  // };
-  
+  const renderPopup = () => {
+    if (showPopup) {
+      return (
+        <Popup
+          description={popupMessage}
+          onClose={() => setShowPopup(false)}
+          onConfirm={() => setShowPopup(false)}
+        />
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="add_employee_container">
     <div className="add_employee">
       <form autoComplete="off" onSubmit={handleSubmit}>
         <h2 style={{color:"white"}}>Add Employee</h2>
-        {/* Input field for Name */}
+        
         <div className="input_form_field">
           <input
             type="text"
@@ -469,6 +454,7 @@ const handleNameBlur = (e) => {
 
        
       </form>
+      {renderPopup()}
     </div>
     </div>
   );
