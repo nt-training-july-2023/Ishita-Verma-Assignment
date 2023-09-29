@@ -1,9 +1,8 @@
 .add_project {
   overflow-y: scroll;
-  max-height: 70vh;
+  max-height: 90vh;
   scrollbar-width: none; 
   -ms-overflow-style: none; 
-  
 }
 
 .add_project::-webkit-scrollbar {
@@ -39,6 +38,7 @@
     font-weight: bolder;
     font-size: 1.2rem;
   }
+  
   .btn_submit {
     background-color: blueviolet;
     border: none;

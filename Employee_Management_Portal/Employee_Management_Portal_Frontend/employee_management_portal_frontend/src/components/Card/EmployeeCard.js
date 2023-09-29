@@ -38,33 +38,33 @@ const Card = ({
         <p style={{ marginTop: "-0.2rem" }}>{designation}</p>
         <p style={{ marginTop: "1rem" }}>
           <p style={{ marginBottom: "0.3rem" }}>
-            <span style={{ fontWeight: "bold" }}>Project Name :</span>
+            <span style={{ fontWeight: "bold" }}>Project Name :</span>{" "}
             {projectName ? projectName : "N/A"}{" "}
           </p>
         </p>
         <p style={{ marginBottom: "0.3rem" }}>
-          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>Manager :</span>
+          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>Manager :</span>{" "}
           {manager}
         </p>
         <p style={{ marginBottom: "0.3rem" }}>
-          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>Contact :</span>
+          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>Contact :</span>{" "}
           {contactNumber}
         </p>
         <p style={{ marginBottom: "0.3rem" }}>
-          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>Email :</span>
+          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>Email :</span>{" "}
           {email}
         </p>
       </div>
       <div className="column2">
         <p className="employee_id" style={{ marginBottom: "2.3rem", fontSize: "1rem" }}>
-          <span style={{ fontWeight: "bold" }}>Employee ID:</span> {id}
+          <span style={{ fontWeight: "bold" }}>Employee ID :</span> {id}
         </p>
         <p style={{ marginBottom: "0.3rem" }}>
           <span style={{ fontWeight: "bold", fontSize: "1rem" }}>DOB :</span>{" "}
           <DateReverser date={dob} />
         </p>
         <p style={{ marginBottom: "0.3rem" }}>
-          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>DOJ:{" "}</span>
+          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>DOJ :{" "}</span>
           <DateReverser date={doj} />
         </p>
         <p>
@@ -73,7 +73,7 @@ const Card = ({
         </p>
         <div className="assign_project">
           {projectName ? (
-            <button className="assign_btn" onClick={handleUnassignProject}>
+            <button className="custom-button green-button" onClick={handleUnassignProject}>
               Unassign Project
             </button>
           ) : (

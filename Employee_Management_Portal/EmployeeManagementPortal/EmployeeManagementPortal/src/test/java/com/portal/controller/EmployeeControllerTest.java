@@ -1,241 +1,222 @@
 package com.portal.controller;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.portal.DTO.ApiResponseDTO;
+import com.portal.DTO.EmployeeInDTO;
+import com.portal.DTO.EmployeeOutDTO;
+import com.portal.DTO.RequestResourceOutDTO;
+import com.portal.entities.Designation;
+import com.portal.entities.Location;
+import com.portal.entities.Role;
+import com.portal.service.EmployeeService;
+import com.portal.validation.Validation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.portal.DTO.AdminDTO;
-import com.portal.DTO.ApiResponseDTO;
-import com.portal.DTO.EmployeeOutDTO;
-import com.portal.DTO.RequestResourceOutDTO;
-import com.portal.entities.Designation;
-import com.portal.entities.Employee;
-import com.portal.entities.Location;
-import com.portal.entities.Role;
-import com.portal.repository.AdminRepository;
-import com.portal.service.EmployeeService;
-import com.portal.validation.Validation;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-class EmployeeControllerTest {
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-	@InjectMocks
-	private EmployeeController employeeController;
+@WebMvcTest(EmployeeController.class)
 
-	@Mock
-	private EmployeeService employeeService;
+public class EmployeeControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
 
-	@Mock
-	private AdminRepository adminRepository;
+    @InjectMocks
+    private EmployeeController employeeController;
 
-	@BeforeEach
-	public void setUp() {
-	    MockitoAnnotations.openMocks(this);
-	}
-	@Autowired
+    @MockBean
+    private EmployeeService employeeService;
+
+    @MockBean
     private Validation validate;
 
-	@Test
-	void testGetEmployeeByEmail() {
-	    // Create a mock email and EmployeeOutDTO
-	    String email = "ankita.sharma@nucleusteq.com";
-	    EmployeeOutDTO employeeOutDTO = new EmployeeOutDTO();
-	    employeeOutDTO.setEmail(email);
+    @Autowired
+    private ObjectMapper objectMapper;
+    
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
-	    // Mock the behavior of the EmployeeService
-	    when(employeeService.getEmployeeByEmail(email)).thenReturn(employeeOutDTO);
+    @Test
+    public void testSaveEmployee() throws Exception {
+        // Create an example EmployeeInDTO
+        EmployeeInDTO employeeDTO = new EmployeeInDTO();
+        employeeDTO.setName("Ankita Sharma");
+      employeeDTO.setEmail("ankita.sharma@nucleusteq.com");
+      employeeDTO.setContactNumber("1234567890");
+      employeeDTO.setDesignation(Designation.Engineer);
+      employeeDTO.setDob("2001-02-26");
+      employeeDTO.setDoj("2020-09-01");
+      employeeDTO.setEmpId("N1111");
+      employeeDTO.setId(1L);
+      employeeDTO.setLocation(Location.Raipur);
+      employeeDTO.setManager("Rashmi");
+      employeeDTO.setManagerId(2L);
+      employeeDTO.setPassword("Ankita123@");
+      employeeDTO.setProject("Fyndr");
+      employeeDTO.setProjectId(1L);
+      employeeDTO.setRole(Role.ADMIN);
+      List<String> skills = new ArrayList<>();
+      skills.add("Skill1");
+      skills.add("Skill2");
+      employeeDTO.setSkills(skills);
+       
+        // Create a mock response from the service
+        ApiResponseDTO response = new ApiResponseDTO();
+        response.setMessage("Employee added successfully");
 
-	    // Perform the controller action
-	    EmployeeOutDTO result = employeeController.getEmployeeByEmail(email);
+        // Mock the service behavior
+        doNothing().when(validate).checkEmployee(employeeDTO);
+        when(employeeService.addEmployee(employeeDTO)).thenReturn(response);
 
-	    // Verify the result
-	    assertEquals(email, result.getEmail());
-	}
+        // Perform the HTTP request and validate the response
+        mockMvc.perform(post("/addEmployee")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(employeeDTO)))
+                .andExpect(status().isOk()); // Expect HTTP status 200
+    }
+    @Test
+    void testGetEmployeesByRole() throws Exception {
+        List<EmployeeOutDTO>  empDtoList = new ArrayList<>();
+        List<String> skills = new ArrayList<>();
+        skills.add("React");
+        skills.add("Java");
+        EmployeeOutDTO empDto = new EmployeeOutDTO();
+        empDto.setEmpId("N0001");
+        empDto.setName("Anjali Sharma");
+        empDto.setEmail("anjali.sharma@nucleusteq.com");
+        empDto.setDob("2001-09-07");
+        empDto.setDoj("2023-07-17");
+        empDto.setLocation(Location.Raipur);
+        empDto.setDesignation(Designation.Engineer);
+        empDto.setContactNumber("1234567890");
+        empDto.setRole(Role.EMPLOYEE);
+        empDto.setProjectId(0L);
+        empDto.setSkills(skills);
+        empDto.setManagerId(1L);
+        empDto.setManager("Ankita Sharma");
+        empDto.setProjectName("Fyndr");
+        empDtoList.add(empDto);
+        
+        when(employeeService.getEmployeeByRole(Mockito.any(Role.class))).thenReturn(empDtoList);
 
-	@Test
-	void testUpdateDetails() {
-	    // Create a mock employee ID, project ID, and manager ID
-	    long employeeId = 1L;
-	    long projectId = 2L;
-	    long managerId = 3L;
-	    Map<String, Long> updatedDetails = new HashMap<>();
-	    updatedDetails.put("projectId", projectId);
-	    updatedDetails.put("managerId", managerId);
-	    ApiResponseDTO apiResponseDTO = new ApiResponseDTO();
-	    apiResponseDTO.setMessage("Details updated successfully");
+        MvcResult mvcResult = this.mockMvc.perform(get("/all/EMPLOYEE")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+    }
+    @Test
+    void testGetEmployeeById() throws Exception{
+        List<String> skills = new ArrayList<>();
+        skills.add("React");
+        skills.add("Java");
+        EmployeeOutDTO empDto = new EmployeeOutDTO();
+        
+        empDto.setEmpId("N0001");
+        empDto.setName("Ankita Sharma");
+        empDto.setEmail("ankita.sharma@nucleusteq.com");
+        empDto.setDob("1998-08-10");
+        empDto.setDoj("2019-11-21");
+        empDto.setLocation(Location.Raipur);
+        empDto.setDesignation(Designation.Engineer);
+        empDto.setContactNumber("1234567890");
+        empDto.setRole(Role.ADMIN);
+        empDto.setProjectId(0L);
+        empDto.setSkills(skills);
+        empDto.setManagerId(1L);
+        empDto.setManager("Ankita Sharma");
+        empDto.setProjectName("Fyndr");
+        empDto.setId(1L);
+       
+        ObjectMapper objectMapper = new ObjectMapper();
+        String inputJSON = objectMapper.writeValueAsString(empDto);        
+        when(employeeService.getEmployeeById(Mockito.any())).thenReturn(empDto);
+        
+        MvcResult mvcResult = this.mockMvc.perform(get("/all/employee/1")
+                .contentType(MediaType.APPLICATION_JSON).content(inputJSON))
+                .andReturn();
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+    }
+    @Test
+    public void testUpdateDetails() throws Exception {
+        // Mocked input data
+        Map<String, Long> updatedDetails = new HashMap<>();
+        updatedDetails.put("projectId", 123L);
+        updatedDetails.put("managerId", 456L);
 
-	    // Mock the behavior of the EmployeeService
-	    when(employeeService.updatedProject(employeeId, projectId, managerId)).thenReturn(apiResponseDTO);
+        // Mock the service method
+        ApiResponseDTO apiResponse = new ApiResponseDTO();
+        apiResponse.setMessage("Updated successfully");
+        when(employeeService.updatedProject(1L, 123L, 456L)).thenReturn(apiResponse);
 
-	    // Perform the controller action
-	    ApiResponseDTO result = employeeController.updateDetails(employeeId, updatedDetails);
+        // Convert the input data to JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        String inputJSON = objectMapper.writeValueAsString(updatedDetails);
 
-	    // Verify the result
-	    assertEquals(apiResponseDTO.getMessage(), result.getMessage());
-	}
-	
-//	@Test
-//    void testSaveEmployee() {
-//        // Create a sample AdminDTO object
-//        AdminDTO adminDTO = new AdminDTO(/* Fill adminDTO details here */);
-//        
-//        // Mock the behavior of employeeService.addEmployee
-//        when(employeeService.addEmployee(adminDTO)).thenReturn(new ApiResponseDTO("Employee added successfully"));
-//
-//        // Call the controller method
-//        ApiResponseDTO result = employeeController.saveEmployee(adminDTO);
-//
-//        // Assert the result message
-//        assertEquals("Employee added successfully", result.getMessage());
-//    }
-	 @Test
-	    void testGetEmployeesByRole() {
-	        // Define a sample role name
-	        String roleName = "ROLE_USER";
+        // Perform the PUT request
+        mockMvc.perform(put("/employee/1/assignProject")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(inputJSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+               
+    }
+    @Test
+    public void testGetAllRequests() throws Exception {
+        // Mocked request resources
+        List<RequestResourceOutDTO> requestResources = new ArrayList<>();
+        // Add some mock request resources to the list
 
-	        // Define a sample list of EmployeeOutDTO
-	        List<String> skills = new ArrayList<>();
-	        skills.add("Java");
-	        skills.add("Python");
-	        
-	        EmployeeOutDTO employee1 = new EmployeeOutDTO(1L, "N1111", "Vanshika", "vanshika@nucleusteq.com", "1990-01-01",
-	                "2020-01-01", Location.Raipur, Designation.Engineer, "1234567890", Role.ADMIN, 1001L, skills,
-	                "Manager 1", 101L);
+        // Mock the service method
+        when(employeeService.getAllRequests()).thenReturn(requestResources);
 
-	        EmployeeOutDTO employee2 = new EmployeeOutDTO(2L, "N2222", "Pranjal", "pranjal@nucleusteq.com", "1995-02-15",
-	                "2021-03-15",  Location.Raipur, Designation.Recruiter, "9876543210", Role.MANAGER, null,
-	                null, "Manager 2", 102L);
+        // Perform the GET request
+        mockMvc.perform(get("/all/request"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+                
+    }
+    @Test
+    public void testUnassignEmployee() throws Exception {
+        // Employee ID for testing
+        Long employeeId = 1L;
 
-	        List<EmployeeOutDTO> employeesList = new ArrayList<>();
-	        employeesList.add(employee1);
-	        employeesList.add(employee2);
+        // Mock the service method
+        doNothing().when(employeeService).unassignEmployee(employeeId);
 
-	        // Mock the behavior of employeeService.getEmployeeByRole
-	        when(employeeService.getEmployeeByRole(roleName)).thenReturn(employeesList);
-
-	        // Call the controller method
-	        List<EmployeeOutDTO> result = employeeController.getEmployeesByRole(roleName);
-
-	        // Assert the result
-	        assertEquals(employeesList, result);
-	    }
-	 @Test
-	    void testGetEmployeeById() {
-	        // Define a sample employee ID
-	        long employeeId = 1L;
-
-	        // Define a sample Employee entity
-	        Employee sampleEmployee = new Employee();
-	        sampleEmployee.setId(employeeId);
-	        sampleEmployee.setEmpId("N1111");
-	        sampleEmployee.setName("Ankita");
-	        sampleEmployee.setEmail("ankita.sharma@nucleusteq.com");
-	        
-	        // Mock the behavior of employeeService.getEmployeeById
-	        when(employeeService.getEmployeeById(employeeId)).thenReturn(Optional.of(sampleEmployee));
-
-	        // Call the controller method
-	        Optional<Employee> result = employeeController.getEmployeeById(employeeId);
-
-	        // Assert the result
-	        assertTrue(result.isPresent());
-	        assertEquals(sampleEmployee, result.get());
-	    }
-	 @Test
-	    void testUpdateSkills() {
-	        // Define a sample employee ID
-	        long employeeId = 1L;
-
-	        // Define sample updated skills
-	        List<String> updatedSkills = List.of("Java", "Python", "SQL");
-
-	        // Create a sample request body
-	        Map<String, List<String>> requestBody = new HashMap<>();
-	        requestBody.put("skills", updatedSkills);
-
-	        // Define a sample ApiResponseDTO
-	        ApiResponseDTO apiResponseDTO = new ApiResponseDTO();
-	        apiResponseDTO.setMessage("Skills updated successfully");
-
-	        // Mock the behavior of employeeService.updateSkills
-	        when(employeeService.updateSkills(employeeId, updatedSkills)).thenReturn(apiResponseDTO);
-
-	        // Call the controller method
-	        ApiResponseDTO result = employeeController.updateSkills(employeeId, requestBody);
-
-	        // Assert the result
-	        assertEquals(apiResponseDTO.getMessage(), result.getMessage());
-	    }	
-	 @Test
-	    void testGetAllRequests() {
-	        // Define a sample list of RequestResourceOutDTO
-	        List<RequestResourceOutDTO> requestsList = new ArrayList<>();
-	        RequestResourceOutDTO request1 = new RequestResourceOutDTO(/* Fill request details here */);
-	        RequestResourceOutDTO request2 = new RequestResourceOutDTO(/* Fill request details here */);
-	        requestsList.add(request1);
-	        requestsList.add(request2);
-
-	        // Mock the behavior of employeeService.getAllRequests
-	        when(employeeService.getAllRequests()).thenReturn(requestsList);
-
-	        // Call the controller method
-	        List<RequestResourceOutDTO> result = employeeController.getAllRequests();
-
-	        // Assert the result
-	        assertEquals(requestsList, result);
-	    }
-
-	    @Test
-	    void testUnassignEmployee() {
-	        // Define a sample employee ID
-	        Long employeeId = 1L;
-
-	        // Call the controller method
-	        String result = employeeController.unassignEmployee(employeeId);
-
-	        // Assert the result
-	        assertEquals("Employee unassigned successfully.", result);
-
-	        // Verify that the employeeService.unassignEmployee method was called once with the correct argument
-	        verify(employeeService, times(1)).unassignEmployee(employeeId);
-	    }
-
-	    @Test
-	    void testEmpOutList() {
-	        // Define sample skills and isCheck value
-	        List<String> skills = Arrays.asList("Java", "Python");
-	        boolean isCheck = true;
-
-	        // Define a sample list of EmployeeOutDTO
-	        List<EmployeeOutDTO> employeesList = new ArrayList<>();
-	        EmployeeOutDTO employee1 = new EmployeeOutDTO(/* Fill employee details here */);
-	        EmployeeOutDTO employee2 = new EmployeeOutDTO(/* Fill employee details here */);
-	        employeesList.add(employee1);
-	        employeesList.add(employee2);
-
-	        // Mock the behavior of employeeService.searchBySkills
-	        when(employeeService.searchBySkills(skills, isCheck)).thenReturn(employeesList);
-
-	        // Call the controller method
-	        List<EmployeeOutDTO> result = employeeController.empOutList(skills, isCheck);
-
-	        // Assert the result
-	        assertEquals(employeesList, result);
-	    }
+        // Perform the POST request
+        mockMvc.perform(post("/unassign/{employeeId}", employeeId))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Employee unassigned successfully."));
+    }
+    
 }

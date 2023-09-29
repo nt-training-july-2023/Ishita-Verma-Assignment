@@ -29,7 +29,7 @@ const EmployeeTab = () => {
   const getAllEmployees = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/admin/all/EMPLOYEE"
+        "http://localhost:8080/all/EMPLOYEE"
       );
       console.log(response.data);
       setEmployees(response.data);
@@ -46,7 +46,7 @@ const EmployeeTab = () => {
   const confirmUnassign = async () => {
     try {
       await axios.post(
-        `http://localhost:8080/api/admin/unassign/${unassignEmployeeId}`
+        `http://localhost:8080/unassign/${unassignEmployeeId}`
       );
       getAllEmployees();
       setShowUnassignConfirm(false);
@@ -56,9 +56,11 @@ const EmployeeTab = () => {
   };
 
   return (
-    <div className="final" >
-      <div className="card_container employeeAdmin">
-        {employees.map((employee) => (
+    <div>
+      <div className="card_container">
+      {employees.sort(function (a, b) {
+                    return a.name.localeCompare(b.name);
+                }).map((employee) => (
           <Card
             key={employee.id}
             data={employee}
@@ -80,7 +82,7 @@ const EmployeeTab = () => {
           onConfirm={confirmUnassign}
         >
           
-          <button onClick={confirmUnassign}>Confirm</button>
+          <button onClick={confirmUnassign}></button>
         </Popup>
       )}
     </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link, useParams } from 'react-router-dom';
 
@@ -13,13 +14,15 @@ const RequestResource = () => {
 
   const {id} =useParams();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     getAllProjects();
   }, []);
 
   const getAllProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/admin/projects');
+      const response = await axios.get('http://localhost:8080/projects');
       // console.log(response.target.value);
       setProjectsList(response.data);
     } catch (error) {
@@ -41,12 +44,15 @@ const RequestResource = () => {
     try {
       console.log(requestData);
       const response = await axios.post(
-        "http://localhost:8080/api/admin/request/resource",
-        
-          requestData,
-          setMessage("Requested")
-        
+        "http://localhost:8080/request/resource",
+        requestData,
+        // setMessage("Requested"),
+         setTimeout(() => {
+            navigate("/admindashboard");
+          }, 2000),
+          
       );
+
 
       // Handle the response as needed (e.g., show a success message)
       console.log("Resource request submitted:", response.data);
@@ -66,7 +72,7 @@ const RequestResource = () => {
   };
 
   return (
-    <div className="container">
+    <div className="assign">
       <div className="assign_form">
         <h1>Request Resource</h1>
         <form onSubmit={handleSubmit}>
@@ -74,7 +80,7 @@ const RequestResource = () => {
             <div>Select Project:</div>
 
             <select
-              value={selectedProject}
+              // value={selectedProject}
               className="assign_input"
               style={{ width: "24rem" }}
               onChange={handleSelectChange}

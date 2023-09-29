@@ -12,7 +12,7 @@ const RequestResourceTable = () => {
 
   const getResourceList = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/admin/requests");
+      const response = await axios.get("http://localhost:8080/requests");
       console.log(response.data);
       setRequestList(response.data);
     } catch (error) {
@@ -21,7 +21,7 @@ const RequestResourceTable = () => {
   };
   const accept = async (id)=>{
     try{
-     const response = await axios.post(`http://localhost:8080/api/admin/manager/request/${id}`);
+     const response = await axios.post(`http://localhost:8080/manager/request/${id}`);
      console.log(response.data);
      window.location.reload();
     }
@@ -33,7 +33,7 @@ const RequestResourceTable = () => {
  const reject = async (id) =>{
   
    try{ 
-       const response = await axios.delete(`http://localhost:8080/api/admin/manager/request/delete/${id}`);
+       const response = await axios.delete(`http://localhost:8080/manager/request/delete/${id}`);
        console.log(response.data);
        window.location.reload();
       

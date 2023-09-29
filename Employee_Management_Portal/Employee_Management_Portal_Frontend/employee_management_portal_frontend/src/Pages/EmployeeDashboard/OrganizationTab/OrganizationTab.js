@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
+import './organization.css' 
 import axios from 'axios'; 
 import DateReverser from '../../../components/DateReverser/DateReverser';
 
@@ -12,7 +13,7 @@ const OrganizationTab = () => {
     const getAllEmployees = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/admin/getall"
+          "http://localhost:8080/getall"
         );
         console.log(response.data);
         setEmployees(response.data);
@@ -27,17 +28,16 @@ const OrganizationTab = () => {
           {employees.map((employee) => (<div className="card" key={employee.id}>
             <div className="column1">
               <h2 className="employee_name">{employee.name}</h2>
-              <p style={{marginBottom:"1rem"}}>{employee.designation} </p>
-              
-              <p style={{marginBottom:"0.5rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Manager :</span>  {employee.manager}</p>
-              <p style={{marginBottom:"0.5rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Contact :</span> {employee.contactNumber}</p>
-              <p style={{marginBottom:"0.5rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Email : </span> {employee.email}</p>
+              <p className='org_designation'>{employee.designation} </p>
+              <p className='org_fields'><span className='org_headers' >Manager :</span>  {employee.manager}</p>
+              <p className='org_fields'><span className='org_headers'>Contact :</span> {employee.contactNumber}</p>
+              <p className='org_fields'><span className='org_headers'>Email : </span> {employee.email}</p>
             </div>
             <div className="column2">
-              <p className="employee_id" style={{ fontSize:"1rem",marginBottom:"2rem" }} ><span style={{fontWeight:"bold" }}>Employee ID:</span>  {employee.empId}</p>
-              <p style={{marginBottom:"0.5rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>DOB :</span> <DateReverser date={employee.dob} /></p>
-              <p style={{marginBottom:"0.5rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>DOJ: </span> <DateReverser date={employee.doj} /></p>
-              <p style={{marginBottom:"0.5rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Location : </span> {employee.location}</p>
+              <p className="employee_id"><span className='org_headers'>Employee ID:</span>  {employee.empId}</p>
+              <p className='org_fields'><span className='org_headers'>DOB :</span> <DateReverser date={employee.dob} /></p>
+              <p className='org_fields'><span className='org_headers'>DOJ : </span> <DateReverser date={employee.doj} /></p>
+              <p className='org_fields'><span className='org_headers'>Location : </span> {employee.location}</p>
             </div>
           </div>))}
           

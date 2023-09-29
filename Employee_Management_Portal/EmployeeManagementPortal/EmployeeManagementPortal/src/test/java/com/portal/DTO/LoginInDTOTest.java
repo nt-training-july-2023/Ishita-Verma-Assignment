@@ -5,35 +5,35 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class LoginDTOTest {
+class LoginInDTOTest {
 
-	private LoginDTO loginDTO1;
-    private LoginDTO loginDTO2;
-    private LoginDTO loginDTO3;
+	private LoginInDTO loginDTO1;
+    private LoginInDTO loginDTO2;
+    private LoginInDTO loginDTO3;
 	 @BeforeEach
 	    void setUp() {
-	        loginDTO1 = new LoginDTO();
+	        loginDTO1 = new LoginInDTO();
 	        loginDTO1.setEmail(null);
 	        loginDTO1.setPassword(null);
 
-	        loginDTO2 = new LoginDTO();
+	        loginDTO2 = new LoginInDTO();
 	        loginDTO2.setEmail("user@example.com");
 	        loginDTO2.setPassword("password123");
 
-	        loginDTO3 = new LoginDTO();
+	        loginDTO3 = new LoginInDTO();
 	        loginDTO3.setEmail(null);
 	        loginDTO3.setPassword(null);
 	    }
 	@Test
     void testGetSetEmail() {
-        LoginDTO loginDTO = new LoginDTO();
+        LoginInDTO loginDTO = new LoginInDTO();
         loginDTO.setEmail("ankita.sharma@nucleusteq.com");
         assertEquals("ankita.sharma@nucleusteq.com", loginDTO.getEmail());
     }
 
     @Test
     void testGetSetPassword() {
-        LoginDTO loginDTO = new LoginDTO();
+        LoginInDTO loginDTO = new LoginInDTO();
         loginDTO.setPassword("password");
         assertEquals("password", loginDTO.getPassword());
     }
@@ -41,11 +41,11 @@ class LoginDTOTest {
     @Test
     void testEqualsAndHashCode() {
         // Create two LoginDTO objects with the same values
-        LoginDTO loginDTO1 = new LoginDTO();
+        LoginInDTO loginDTO1 = new LoginInDTO();
         loginDTO1.setEmail("pranjal@nucleusteq.com");
         loginDTO1.setPassword("password");
 
-        LoginDTO loginDTO2 = new LoginDTO();
+        LoginInDTO loginDTO2 = new LoginInDTO();
         loginDTO2.setEmail("pranjal@nucleusteq.com");
         loginDTO2.setPassword("password");
 

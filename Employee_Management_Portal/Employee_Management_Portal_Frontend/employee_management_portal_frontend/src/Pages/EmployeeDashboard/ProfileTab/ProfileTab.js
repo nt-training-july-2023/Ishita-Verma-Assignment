@@ -12,7 +12,7 @@ const ProfileTab = () => {
 
   useEffect(() => {
     if (email) {
-      axios.get(`http://localhost:8080/api/admin/all/employee/${id}`)
+      axios.get(`http://localhost:8080/all/employee/${id}`)
         .then((response) => {
           console.log(response.data);
           setEmployeeDetails(response.data); 

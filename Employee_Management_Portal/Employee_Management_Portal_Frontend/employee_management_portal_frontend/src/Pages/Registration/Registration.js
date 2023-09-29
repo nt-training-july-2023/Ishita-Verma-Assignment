@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import "./registration.css";
 import { useNavigate, Link } from "react-router-dom";
 import bcrypt from 'bcryptjs';
-import AdminService from "../../components/service/AdminService";
+import AdminService from "../../service/AdminService";
 import reg_plant_img from "../../Assests/Images/reg_plant_img.png";
 import reg_side_img from "../../Assests/Images/reg_side_img.png";
 import Location from "../../components/Data/Location";
@@ -17,6 +17,7 @@ import {
   validatePassword,
   validateConfirmPassword,
 } from "../../components/HandleBlur/HandleBlur"; 
+
 
 const Registration = () => {
   const [id, setId] = useState("");

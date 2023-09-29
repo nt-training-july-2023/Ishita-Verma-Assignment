@@ -49,15 +49,15 @@ const ProjectCard = ({
           )}
         </p>
         <p>
-          <strong>Team:</strong> {project.teams.join(", ")}
+          <strong>Team :</strong> {project.teams.join(", ")}
         </p>
       </div>
       <div className="column2">
         <p>
-          <strong>Project ID:</strong> {project.projectId}
+          <strong>Project ID :</strong> {project.projectId}
         </p>
         <p>
-          <strong>Start Date:</strong>{" "}
+          <strong>Start Date :</strong>{" "}
           <DateReverser date={project.startDate} />
         </p>
         <p style={{ fontSize: "1rem" }} className="project_skills">
@@ -69,7 +69,7 @@ const ProjectCard = ({
               
             }}
           >
-            Skills:
+            Skills :
           </span>{" "}
           {project.skills.join(", ")}
         </p>

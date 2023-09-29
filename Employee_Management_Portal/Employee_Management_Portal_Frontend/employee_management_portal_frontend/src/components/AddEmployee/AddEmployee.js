@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./addemployee.css";
 import Role from "../Data/Role";
 import Skills from "../Data/Skills";
 import Designation from "../Data/Designation";
-import AdminService from "../service/AdminService";
+import AdminService from "../../service/AdminService";
 import Location from "../Data/Location";
 import bcrypt from 'bcryptjs';
 import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
 import Popup from "../Popup/Popup";
+import {
+  validateName,
+  validateEmail,
+  validateEmpId,
+  validateDob,
+  validateDoj,
+  validateContactNumber,
+} from "../../components/HandleBlur/HandleBlur"; 
 
 const AddEmployee = () => {
   // Define state variables for each form field
@@ -46,7 +55,7 @@ const AddEmployee = () => {
       const selectedSkillsValues = selectedOptions.map((option) => option.value);
       setSkills(selectedSkillsValues);
     };
-
+const navigate = useNavigate();
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -160,10 +169,13 @@ const AddEmployee = () => {
     AdminService.addEmployee(employee)
       .then((response) => {
        console.log(response);
-        // setErrorMessage("Successfully added.");
-        
-        setPopupMessage("Employee added successfully.");
-          setShowPopup(true);
+       setErrorMessage("Successfully Added")
+       const navigateToDashboard = () => {
+        navigate("/EmployeeDashboard");
+    };
+    setTimeout(navigateToDashboard, 2000);
+        // setPopupMessage("Employee added successfully.");
+          // setShowPopup(true);
 
         // clearFormFields();
       })
@@ -200,72 +212,35 @@ const AddEmployee = () => {
     setRole(null);
     setSkills([]);
   };
-const handleNameBlur = (e) => {
+
+  const handleNameBlur = (e) => {
     const inputValue = e.target.value;
-    const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-    if (!alphabeticRegex.test(inputValue)) {
-      setNameError("Name must contain alphabetic characters only");
-    } else {
-      setNameError("");
-    }
+    validateName(inputValue, setNameError);
   };
 
   const handleEmailBlur = (e) => {
     const inputValue = e.target.value;
-    // const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
-
-    if (!emailRegex.test(inputValue)) {
-      setEmailError("Email must be a company email (@nucleusteq.com)");
-    } else {
-      setEmailError("");
-    }
+    validateEmail(inputValue, setEmailError);
   };
 
   const handleEmpIdBlur = (e) => {
     const inputValue = e.target.value;
-    const empIdRegex = /^[Nn]\d{4}$/;
-
-    if (!empIdRegex.test(inputValue)) {
-      setEmpIdError("Employee ID should be in pattern NXXXX");
-    } else {
-      setEmpIdError("");
-    }
+    validateEmpId(inputValue, setEmpIdError);
   };
 
   const handleDobBlur = (e) => {
     const inputValue = e.target.value;
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-
-    if (!dateRegex.test(inputValue)) {
-      setDobError("Date should have a pattern like DD-MM-YY");
-    } else {
-      setDobError("");
-    }
+    validateDob(inputValue, setDobError);
   };
 
   const handleDojBlur = (e) => {
     const inputValue = e.target.value;
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-
-    if (!dateRegex.test(inputValue)) {
-      setDojError("Date should have a pattern like  DD-MM-YY");
-    } else {
-      setDojError("");
-    }
+    validateDoj(inputValue, setDojError);
   };
 
-  
   const handleContactNumberBlur = (e) => {
     const inputValue = e.target.value;
-    const cleanedContactNumber = inputValue.replace(/[^0-9]/g, "");
-
-    if (!/^\d{10}$/.test(cleanedContactNumber)) {
-      setContactNumberError("Contact no should have 10 digits only");
-    } else {
-      setContactNumber(cleanedContactNumber);
-      setContactNumberError("");
-    }
+    validateContactNumber(inputValue, setContactNumber, setContactNumberError);
   };
 
   const renderPopup = () => {

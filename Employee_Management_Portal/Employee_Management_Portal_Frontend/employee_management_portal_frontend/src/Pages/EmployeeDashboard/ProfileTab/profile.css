@@ -55,7 +55,7 @@ cursor: pointer;
 text-align: center;
 }
 .empId_profile{
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   margin-left: 1rem;
   font-size: 1.5rem;
   color: white;

@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Data Transfer Object (DTO) representing project information.
  */
-public class ProjectDTO {
+public class ProjectInDTO {
     /**
      * The unique ID of the project.
      */
@@ -130,57 +130,43 @@ public class ProjectDTO {
 	}
 
 	/**
-	 * @param projectId
-	 * @param name
-	 * @param description
-	 * @param managerId
-	 * @param skills
-	 * @param startDate
+	 * Calculates the hash code value for this ProjectInDTO object.
+	 *
+	 * @return The hash code value based on the description, managerId, name, projectId, skills, and startDate.
 	 */
-	public ProjectDTO(Long projectId, @NotBlank(message = "Name should not be empty") String name, String description,
-			@NotBlank(message = "Manager ID should not be empty") Long managerId, List<String> skills, String startDate) {
-		super();
-		this.projectId = projectId;
-		this.name = name;
-		this.description = description;
-		this.managerId = managerId;
-		this.skills = skills;
-		this.startDate = startDate;
+	@Override
+	public int hashCode() {
+	    return Objects.hash(description, managerId, name, projectId, skills, startDate);
 	}
 
 	/**
-	 * 
+	 * Indicates whether some other object is "equal to" this ProjectInDTO.
+	 *
+	 * @param obj The reference object with which to compare.
+	 * @return {@code true} if this ProjectInDTO is the same as the obj argument; {@code false} otherwise.
 	 */
-	public ProjectDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(description, managerId, name, projectId, skills, startDate);
-	}
-
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ProjectDTO other = (ProjectDTO) obj;
-		return Objects.equals(description, other.description) && Objects.equals(managerId, other.managerId)
-				&& Objects.equals(name, other.name) && projectId == other.projectId
-				&& Objects.equals(skills, other.skills) && Objects.equals(startDate, other.startDate);
+	    if (this == obj)
+	        return true;
+	    if (obj == null)
+	        return false;
+	    if (getClass() != obj.getClass())
+	        return false;
+	    ProjectInDTO other = (ProjectInDTO) obj;
+	    return Objects.equals(description, other.description) && Objects.equals(managerId, other.managerId)
+	            && Objects.equals(name, other.name) && projectId == other.projectId
+	            && Objects.equals(skills, other.skills) && Objects.equals(startDate, other.startDate);
 	}
 
+	/**
+	 * Returns a string representation of this ProjectInDTO.
+	 *
+	 * @return A string containing the projectId, name, description, managerId, skills, and startDate of this ProjectInDTO.
+	 */
 	@Override
 	public String toString() {
-		return "ProjectDTO [projectId=" + projectId + ", name=" + name + ", description=" + description + ", managerId="
-				+ managerId + ", skills=" + skills + ", startDate=" + startDate + "]";
+	    return "ProjectDTO [projectId=" + projectId + ", name=" + name + ", description=" + description + ", managerId="
+	            + managerId + ", skills=" + skills + ", startDate=" + startDate + "]";
 	}
-
-	
-    
 }

@@ -3,6 +3,7 @@ package com.portal.DTO;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class ProjectOutDTO {
 	   /**
@@ -141,4 +142,44 @@ public class ProjectOutDTO {
              this.teams = null;
          }
      }
+     /**
+      * Returns a string representation of this ProjectOutDTO.
+      * @return A string containing the projectId, projectName, manager, managerId, startDate, skills, description, and teams of this ProjectOutDTO.
+      */
+     @Override
+     public String toString() {
+         return "ProjectOutDTO [projectId=" + projectId + ", projectName=" + projectName + ", manager=" + manager
+                 + ", managerId=" + managerId + ", startDate=" + startDate + ", skills=" + skills + ", description="
+                 + description + ", teams=" + teams + "]";
+     }
+
+     /**
+      * Calculates the hash code value for this ProjectOutDTO object.
+      * @return The hash code value based on the description, manager, managerId, projectId, projectName, skills, startDate, and teams.
+      */
+     @Override
+     public int hashCode() {
+         return Objects.hash(description, manager, managerId, projectId, projectName, skills, startDate, teams);
+     }
+
+     /**
+      * Indicates whether some other object is "equal to" this ProjectOutDTO.
+      * @param obj The reference object with which to compare.
+      * @return {@code true} if this ProjectOutDTO is the same as the obj argument; {@code false} otherwise.
+      */
+     @Override
+     public boolean equals(Object obj) {
+         if (this == obj)
+             return true;
+         if (obj == null)
+             return false;
+         if (getClass() != obj.getClass())
+             return false;
+         ProjectOutDTO other = (ProjectOutDTO) obj;
+         return Objects.equals(description, other.description) && Objects.equals(manager, other.manager)
+                 && Objects.equals(managerId, other.managerId) && Objects.equals(projectId, other.projectId)
+                 && Objects.equals(projectName, other.projectName) && Objects.equals(skills, other.skills)
+                 && Objects.equals(startDate, other.startDate) && Objects.equals(teams, other.teams);
+     }
+  
 }

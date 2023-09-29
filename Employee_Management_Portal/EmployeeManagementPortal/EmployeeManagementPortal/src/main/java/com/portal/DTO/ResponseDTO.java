@@ -16,25 +16,28 @@ public class ResponseDTO {
      * The role associated with the response.
      */
     private String role;
+    /**
+     * Getter for message.
+     */
     public String getMessage() {
         return message;
     }
-    public void setMessage(String message) {
+    /**
+     *  Setter for message.
+     */
+    public void setMessage(final String message) {
         this.message = message;
     }
+    /**
+     * Getter for role.
+     */
     public String getRole() {
         return role;
     }
-    public void setRole(String role) {
+    /**
+     * Setter for role.
+     */
+    public void setRole(final String role) {
         this.role = role;
     }
-    public ResponseDTO(String message, String role) {
-        super();
-        this.message = message;
-        this.role = role;
-    }
-    public ResponseDTO() {
-        super();
-    }
-    
 }

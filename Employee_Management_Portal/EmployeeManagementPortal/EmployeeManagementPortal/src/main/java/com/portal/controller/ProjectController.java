@@ -1,7 +1,6 @@
 package com.portal.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,24 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portal.DTO.ApiResponseDTO;
-import com.portal.DTO.ProjectDTO;
+import com.portal.DTO.ProjectInDTO;
 import com.portal.DTO.ProjectOutDTO;
 import com.portal.entities.Employee;
-import com.portal.entities.Project;
-import com.portal.repository.ProjectRepository;
-import com.portal.service.AdminService;
-import com.portal.service.EmployeeService;
 import com.portal.service.ProjectService;
 import com.portal.validation.Validation;
 
-import jakarta.persistence.Tuple;
 import jakarta.validation.Valid;
 
 /**
  * Controller class for managing projects.
  */
 @CrossOrigin("*")
-@RequestMapping("/api/admin")
+@RequestMapping("/")
 @RestController
 public class ProjectController {
     /**
@@ -41,10 +35,14 @@ public class ProjectController {
      */
     @Autowired
     private ProjectService projectService;
-   
+    /**
+     * Autowired for Validation class.
+     */
     @Autowired
     private Validation validate;
-
+    /**
+     * Logger instance for logging purposes.
+     */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ProjectController.class);
     /**
@@ -55,12 +53,11 @@ public class ProjectController {
      */
     @PostMapping(path = "/addProject")
     public final ApiResponseDTO saveProject(
-            @RequestBody @Valid final ProjectDTO projectDTO) {
+            @RequestBody @Valid final ProjectInDTO projectDTO) {
     	LOGGER.info("Adding project.");
-//    	 validate.checkProject(projectDTO);
+    	 validate.checkProject(projectDTO);
         return projectService.addProject(projectDTO);
     }
-
     /**
      * Endpoint for retrieving all projects.
      * @return A list of Project entities.
@@ -101,11 +98,8 @@ public class ProjectController {
      */
     @GetMapping("/unassigned")
     public final List<Employee> getUnassignedEmployees() {
+    	LOGGER.info("Getting unassigned employees.");
         List<Employee> unassignedEmployees = projectService.getEmployeesWithUnassignedProjects(); 
         return unassignedEmployees;
-    }
-   
-
-    
-    
+    }    
 }

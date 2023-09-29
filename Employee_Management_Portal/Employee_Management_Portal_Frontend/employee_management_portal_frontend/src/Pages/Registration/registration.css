@@ -3,16 +3,16 @@
     padding: 0;
 }
 body{
-    background: linear-gradient(to right, #693bd3, #800a76);
+    background: linear-gradient(to right, #693bd3, #800a76) ;
 }
 
 .container {
-    display: flex;
+    display: flex;  
     justify-content: center;
     background: linear-gradient(to right, #693bd3, #800a76);
    /* background-color: #b85b5b; */
     /* height: 100vh; */
-    width: 100vw;
+    /* width: 100vw; */
 }
 
 .reg_heading {
@@ -151,7 +151,7 @@ body{
     height: 23rem;
 
 }
-@media (max-width: 992px) {
+/* @media (max-width: 992px) {
     .reg_heading {
         font-size: 1.5rem;
     }
@@ -161,19 +161,13 @@ body{
     }
 
     .reg_side_img {
-        width: 100%; /* Make image take full width on small screens */
+        width: 100%;
         height: auto;
-        /* margin-top: 1rem; */
-        /* margin-bottom: 1rem; */
     }
+} */
 
-    .reg_form {
-        /* padding: 1rem; */
-    }
-}
 
-/* Add responsive styling for small screens */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .container{
         height: 100%;
     }
@@ -190,18 +184,17 @@ body{
     }
 
     .button {
-        flex-direction: column; /* Stack buttons on small screens */
-        gap: 0.5rem; /* Add space between buttons */
-        /* margin-top: 1rem; */
+        flex-direction: column;
+        gap: 0.5rem;
+        
     }
-}
+} */
 
 
-/* Add responsive styling for screens less than 485px */
-@media (max-width: 485px) {
+
+/* @media (max-width: 485px) {
     .container {
-        /* Adjust background color, height, and padding as needed */
-        /* background-color: blueviolet !important; */
+        
         height: 100vh !important;
         padding: 1rem !important;
         width: 100vw !important;
@@ -231,6 +224,6 @@ body{
         width: 9rem;
         flex-direction: column !important;
         gap: 0.5rem !important;
-        /* margin-top: 1rem !important; */
+      
     }
-}
+} */

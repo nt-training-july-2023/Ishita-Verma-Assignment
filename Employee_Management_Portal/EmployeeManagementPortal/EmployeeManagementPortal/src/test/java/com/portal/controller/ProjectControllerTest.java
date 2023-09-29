@@ -1,177 +1,210 @@
 package com.portal.controller;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.portal.DTO.ApiResponseDTO;
+import com.portal.DTO.ProjectInDTO;
+import com.portal.DTO.ProjectOutDTO;
+import com.portal.entities.Employee;
+import com.portal.service.ProjectService;
+import com.portal.validation.Validation;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.portal.DTO.ApiResponseDTO;
-import com.portal.DTO.ProjectDTO;
-import com.portal.DTO.ProjectOutDTO;
-import com.portal.entities.Designation;
-import com.portal.entities.Employee;
-import com.portal.entities.Location;
-import com.portal.entities.Project;
-import com.portal.entities.Role;
-import com.portal.repository.ProjectRepository;
-import com.portal.service.ProjectService;
+@SpringJUnitConfig
+@WebMvcTest(ProjectController.class)
+@ActiveProfiles("test")
+public class ProjectControllerTest {
 
-class ProjectControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
 
-	@InjectMocks
-	private ProjectController projectController;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-	@Mock
-	private ProjectRepository projectRepository;
+    @MockBean
+    private ProjectService projectService;
 
-	@Mock
-	private ProjectService projectService;
+    @MockBean
+    private Validation validation;
 
-	@BeforeEach
-	public void setUp() {
-	    MockitoAnnotations.openMocks(this);
-	}
-
-	@Test
-	void testSaveProject() {
-		
-	    ProjectDTO projectDTO = new ProjectDTO();
-	    projectDTO.setName("Project A");
-	    ApiResponseDTO apiResponseDTO = new ApiResponseDTO();
-	    apiResponseDTO.setMessage("Project added successfully");
-	    when(projectService.addProject(any(ProjectDTO.class))).thenReturn(apiResponseDTO);
-
-	    ApiResponseDTO result = projectController.saveProject(projectDTO);
-
-	    assertEquals(apiResponseDTO.getMessage(), result.getMessage());
-	}
-
-	@Test
-    void testGetProjects() {
-        // Define a sample list of ProjectOutDTO
-        List<ProjectOutDTO> projectsList = new ArrayList<>();
-        ProjectOutDTO project1 = new ProjectOutDTO(/* Fill project details here */);
-        ProjectOutDTO project2 = new ProjectOutDTO(/* Fill project details here */);
-        projectsList.add(project1);
-        projectsList.add(project2);
-
-        // Mock the behavior of projectService.getProjects
-        when(projectService.getProjects()).thenReturn(projectsList);
-
-        // Call the controller method
-        List<ProjectOutDTO> result = projectController.getProjects();
-
-        // Assert the result
-        assertEquals(projectsList, result);
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testGetProjectByManagerId() {
-        // Define a sample managerId
-    	// Define a sample list of ProjectOutDTO
-    	Long managerId = 123L;
-    	List<ProjectOutDTO> projectsList = new ArrayList<>();
+    public void testSaveProject() throws Exception {
+        ProjectInDTO projectDTO = new ProjectInDTO();
+        projectDTO.setName("Fyndr");
+        projectDTO.setDescription("Fyndr Description");
+        projectDTO.setManagerId(1L);
+        projectDTO.setProjectId(2L);
+        List<String> skills = new ArrayList<>();
+        skills.add("Skill1");
+        skills.add("Skill2");
+        projectDTO.setSkills(skills);
+        projectDTO.setStartDate("2001-02-11");
+        ApiResponseDTO response = new ApiResponseDTO();
+        response.setMessage("Project added successfully");
+        
+        doNothing().when(validation).checkProject(projectDTO);
+        when(projectService.addProject(projectDTO)).thenReturn(response);
 
-    	ProjectOutDTO project1 = new ProjectOutDTO();
-    	project1.setProjectId(1L);
-    	project1.setProjectName("Project A");
-    	project1.setManager("Manager A");
-    	project1.setManagerId(123L);
-    	project1.setStartDate("2023-09-25");
-    	project1.setSkills(Arrays.asList("Java", "Python"));
-    	project1.setDescription("Project A Description");
-    	project1.setTeams(Arrays.asList("Team 1", "Team 2"));
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/addProject")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(projectDTO)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(response)))
+                .andReturn();
 
-    	ProjectOutDTO project2 = new ProjectOutDTO();
-    	project2.setProjectId(2L);
-    	project2.setProjectName("Project B");
-    	project2.setManager("Manager B");
-    	project2.setManagerId(124L);
-    	project2.setStartDate("2023-09-26");
-    	project2.setSkills(Arrays.asList("C++", "JavaScript"));
-    	project2.setDescription("Project B Description");
-    	project2.setTeams(Arrays.asList("Team 3", "Team 4"));
-
-    	projectsList.add(project1);
-    	projectsList.add(project2);
-
-    	// Mock the behavior of projectService.getProjectByManagerId
-    	when(projectService.getProjectByManagerId(managerId)).thenReturn(projectsList);
-
-    	// Call the controller method
-    	List<ProjectOutDTO> result = projectController.getProjectByManagerId(managerId);
-
-    	// Assert the result
-    	assertEquals(projectsList, result);
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
     }
 
     @Test
-    void testGetUnassignedEmployees() {
-        // Define a sample list of Employee
-        List<Employee> unassignedEmployeesList = new ArrayList<>();
+    public void testGetProjects() throws Exception {
+        ProjectOutDTO project1 = new ProjectOutDTO();
+        project1.setProjectName("Fyndr");
+        project1.setDescription("Fyndr Description");
+        project1.setManager("Rashmi");
+        project1.setManagerId(1L);
+        project1.setProjectId(1L);
+        project1.setStartDate("2009-02-11");
+        List<String> skills = new ArrayList<>();
+        skills.add("Skill1");
+        skills.add("Skill2");
+        project1.setSkills(skills);
+        List<String> teams = new ArrayList<>();
+        teams.add("Member 1");
+        teams.add("Member 2");
+        project1.setTeams(teams);
+        ProjectOutDTO project2 = new ProjectOutDTO();
+        project2.setProjectName("AAA");
+        project2.setDescription("AAA Description");
+        project2.setManager("Shreya");
+        project2.setManagerId(3L);
+        project2.setProjectId(3L);
+        project2.setStartDate("2009-02-11");
+        List<String> skills2 = new ArrayList<>();
+        skills2.add("Skill1");
+        skills2.add("Skill2");
+        project2.setSkills(skills2);
+        List<String> teams2 = new ArrayList<>();
+        teams2.add("Member 1");
+        teams2.add("Member 2");
+        project2.setTeams(teams2);
+        List<ProjectOutDTO> projects = Arrays.asList(project1, project2);
 
+        when(projectService.getProjects()).thenReturn(projects);
+
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/projects"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(projects)))
+                .andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+    }
+
+    @Test
+    public void testGetProjectByManagerId() throws Exception {
+        Long managerId = 1L;
+        ProjectOutDTO project1 = new ProjectOutDTO();
+        project1.setProjectName("Fyndr");
+        project1.setDescription("Fyndr Description");
+        project1.setManager("Rashmi");
+        project1.setManagerId(1L);
+        project1.setProjectId(2L);
+        project1.setStartDate("2009-02-11");
+        List<String> skills = new ArrayList<>();
+        skills.add("Skill1");
+        skills.add("Skill2");
+        project1.setSkills(skills);
+        List<String> teams = new ArrayList<>();
+        teams.add("Member 1");
+        teams.add("Member 2");
+        project1.setTeams(teams);
+        ProjectOutDTO project2 = new ProjectOutDTO();
+        project2.setProjectName("AAA");
+        project2.setDescription("AAA Description");
+        project2.setManager("Shreya");
+        project2.setManagerId(3L);
+        project2.setProjectId(3L);
+        project2.setStartDate("2009-02-11");
+        List<String> skills2 = new ArrayList<>();
+        skills2.add("Skill1");
+        skills2.add("Skill2");
+        project2.setSkills(skills2);
+        List<String> teams2 = new ArrayList<>();
+        teams2.add("Member 1");
+        teams2.add("Member 2");
+        project2.setTeams(teams2);
+        List<ProjectOutDTO> projects = Arrays.asList(project1, project2);
+
+        when(projectService.getProjectByManagerId(managerId)).thenReturn(projects);
+
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/projects/{managerId}", managerId))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(projects)))
+                .andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+    }
+
+    @Test
+    public void testGetSkillsForProject() throws Exception {
+        String projectName = "Project Name";
+        List<String> skills = Arrays.asList("Skill 1", "Skill 2");
+
+        when(projectService.getSkillsForProject(projectName)).thenReturn(skills);
+
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/project/skills")
+                .param("name", projectName))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(skills)))
+                .andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+    }
+
+    @Test
+    public void testGetUnassignedEmployees() throws Exception {
         Employee employee1 = new Employee();
-        employee1.setId(1L);
-        employee1.setEmpId("N1111");
-        employee1.setName("Ankita");
-        employee1.setEmail("ankita.sharma@nucleusteq.com");
-        employee1.setDob("1990-01-15");
-        employee1.setDoj("2020-03-10");
-        employee1.setLocation(Location.Raipur);
-        employee1.setDesignation(Designation.Engineer);
-        employee1.setContactNumber("1234567890");
-        employee1.setRole(Role.EMPLOYEE);
-        employee1.setProjectId(0);
-        employee1.setSkills(Arrays.asList("Java", "Python"));
-        employee1.setManagerId(12L);
-
+        employee1.setName("Employee 1");
         Employee employee2 = new Employee();
-        employee2.setId(2L);
-        employee2.setEmpId("N2222");
-        employee2.setName("Vanshika");
-        employee2.setEmail("vanshika@nucleusteq.com");
-        employee2.setDob("1995-02-15");
-        employee2.setDoj("2021-03-15");
-        employee2.setLocation(Location.Indore);
-        employee2.setDesignation(Designation.Recruiter);
-        employee2.setContactNumber("9876543210");
-        employee2.setRole(Role.EMPLOYEE);
-        employee2.setProjectId(0);
-        employee2.setSkills(Arrays.asList("C++", "JavaScript"));
-        employee2.setManagerId(11L);
+        employee2.setName("Employee 2");
+        List<Employee> employees = Arrays.asList(employee1, employee2);
 
-        unassignedEmployeesList.add(employee1);
-        unassignedEmployeesList.add(employee2);
+        when(projectService.getEmployeesWithUnassignedProjects()).thenReturn(employees);
 
-        // Mock the behavior of projectService.getEmployeesWithUnassignedProjects
-        when(projectService.getEmployeesWithUnassignedProjects()).thenReturn(unassignedEmployeesList);
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/unassigned"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(employees)))
+                .andReturn();
 
-        // Call the controller method
-        List<Employee> result = projectController.getUnassignedEmployees();
-
-        // Assert the result
-        assertEquals(unassignedEmployeesList, result);
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
     }
-
-
-	@Test
-	void testGetSkillsForProject() {
-	    String projectName = "Project A";
-	    List<String> skillsList = new ArrayList<>();
-	    when(projectService.getSkillsForProject(projectName)).thenReturn(skillsList);
-
-	    List<String> result = projectController.getSkillsForProject(projectName);
-
-	    assertEquals(skillsList, result);
-	}
-
 }

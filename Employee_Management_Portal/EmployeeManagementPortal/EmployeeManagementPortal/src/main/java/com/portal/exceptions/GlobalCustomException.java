@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.ResponseDTO;
 
 /**
@@ -21,15 +22,16 @@ import com.portal.DTO.ResponseDTO;
 public class GlobalCustomException {
     /**
      * ResourceNotFoundException.
-     * @param ResourceNotFoundException resourceNotFoundException.
      * @return ResponseDTO
      */
      @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public final ResponseDTO handleResourceNotFoundException(
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public final ApiResponseDTO handleResourceNotFoundException(
             final ResourceNotFoundException exception) {
         String message = exception.getMessage();
-        return new ResponseDTO(message, " ");
+        ApiResponseDTO response = new ApiResponseDTO();
+        response.setMessage(message);
+        return response;
     }
     /**
      * WrongCredentialsException.
@@ -38,10 +40,12 @@ public class GlobalCustomException {
      */
      @ExceptionHandler(WrongCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public final ResponseDTO handleWrongCredentialException(
+    public final ApiResponseDTO handleWrongCredentialException(
             final WrongCredentialsException exception) {
         String message = exception.getMessage();
-        return new ResponseDTO(message, "");
+        ApiResponseDTO response = new ApiResponseDTO();
+        response.setMessage(message);
+        return response;
     }
     /**
      * IllegalArgumentException.
@@ -50,10 +54,12 @@ public class GlobalCustomException {
      */
      @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public final ResponseDTO handleIllegalArgumentException(
+    public final ApiResponseDTO handleIllegalArgumentException(
             final ValidationException exception) {
         String message = exception.getMessage();
-        return new ResponseDTO(message, "");
+        ApiResponseDTO response = new ApiResponseDTO();
+        response.setMessage(message);
+        return response;
     }
     /**
      * ResouceAlreadyExistsException.
@@ -62,14 +68,19 @@ public class GlobalCustomException {
      */
     @ExceptionHandler(DuplicateEntryException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public final ResponseDTO handleResourceAlreadyExistsException(
+    public final ApiResponseDTO handleResourceAlreadyExistsException(
             final DuplicateEntryException exception) {
         String message = exception.getMessage();
-        return new ResponseDTO(message, "");
+        ApiResponseDTO response = new ApiResponseDTO();
+        response.setMessage(message);
+        return response;
     }
-     
+     /**
+     * Handles validation errors.
+     * @param exception representing the validation error.
+     * @return A ResponseEntity containing a map of field names.
+     */
      @ExceptionHandler(MethodArgumentNotValidException.class)
-  // @ResponseStatus(HttpStatus.BAD_REQUEST)
    public final ResponseEntity<Map<String, String>> handleEmptyDataValidation(
            final MethodArgumentNotValidException ex) {
         Map<String, String> resp = new HashMap<>();

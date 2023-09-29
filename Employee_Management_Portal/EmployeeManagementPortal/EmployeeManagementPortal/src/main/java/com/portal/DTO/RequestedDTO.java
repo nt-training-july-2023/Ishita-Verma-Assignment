@@ -44,15 +44,32 @@ public class RequestedDTO {
     public void setManagerEmail(String managerEmails) {
         this.managerEmail = managerEmails;
     }
+    /**
+     * Returns a string representation of this RequestedDTO.
+     *
+     * @return A string containing the employeeId and managerEmail of this RequestedDTO.
+     */
     @Override
     public String toString() {
-        return "RequestedDto [employeeId=" + employeeId + ", managerEmail="
-                + managerEmail + "]";
+        return "RequestedDto [employeeId=" + employeeId + ", managerEmail=" + managerEmail + "]";
     }
+
+    /**
+     * Calculates the hash code value for this RequestedDTO object.
+     *
+     * @return The hash code value based on the employeeId and managerEmail.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(employeeId, managerEmail);
     }
+
+    /**
+     * Indicates whether some other object is "equal to" this RequestedDTO.
+     *
+     * @param obj The reference object with which to compare.
+     * @return {@code true} if this RequestedDTO is the same as the obj argument; {@code false} otherwise.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -62,9 +79,7 @@ public class RequestedDTO {
         if (getClass() != obj.getClass())
             return false;
         RequestedDTO other = (RequestedDTO) obj;
-        return employeeId == other.employeeId
-                && Objects.equals(managerEmail, other.managerEmail);
+        return employeeId == other.employeeId && Objects.equals(managerEmail, other.managerEmail);
     }
-    
-    
+
 }

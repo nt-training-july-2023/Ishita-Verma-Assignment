@@ -3,6 +3,7 @@
     padding: 0;
 }
 
+
 /* Updated CSS for admin_heading */
 .admin_heading {
     position: fixed;
@@ -38,8 +39,6 @@
     margin-top: 1rem; /* Add some top margin for spacing */
 }
 
-
-/* Updated CSS for admin_add_employee link */
 .admin_add_employee_link {
     background-color: blue;
     height: 2.5rem;
@@ -102,21 +101,25 @@
 
 
 .card_container {
+    position: fixed;
+    top: 7.5rem; 
+    top:5;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Occupy the full height of the viewport */
+    overflow-y: auto; /* Enable vertical scroll if needed */
+    scrollbar-width: thin;
+    scrollbar-color: transparent gray;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    /* height: 90vh; */
-    overflow-x: hidden;
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: transparent gray;
-    margin-top: 25px;
-    margin-top: 3.5rem;
-    /* position: absolute; */
-    /* top: 16rem; */
+    /* margin: 25px auto;  */
+    background: linear-gradient(to right, #693bd3, #800a76) ;
+    /* max-height: calc(100vh - 0.5rem); */
 }
+
 
 
 
@@ -191,7 +194,6 @@ cursor: pointer;
     }
   }
 .logout{
-    background-color: rgb(17, 100, 168);
     margin-bottom: 1rem;
     margin-left: 68rem !important;
     padding: 0.5rem;
@@ -200,3 +202,18 @@ cursor: pointer;
     border-radius: 0.5rem;
     cursor :pointer;
 }
+/* CSS for the background overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    backdrop-filter: blur(5px); /* Apply a blur effect to the background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure the overlay is above other content */
+  }
+  

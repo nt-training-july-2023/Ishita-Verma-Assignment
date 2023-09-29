@@ -20,12 +20,13 @@ const EmployeeTab = () => {
     IsRequested();
   }, []);
 
-  const email = localStorage.getItem("email");
+  // const email = localStorage.getItem("email");
+  const id = localStorage.getItem('id');
 
   const getAllEmployees = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/admin/all/EMPLOYEE"
+        "http://localhost:8080/all/EMPLOYEE"
       );
       console.log(response.data);
       setEmployees(response.data);
@@ -40,7 +41,7 @@ const EmployeeTab = () => {
   const getSkilledEmployee = async (skills, check) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/admin/all/employees/skills?skills=${skills}&isCheck=${check}`
+        `http://localhost:8080/all/employees/skills?skills=${skills}&isCheck=${check}`
       );
       console.log(response.data);
       setEmployees(response.data);
@@ -100,7 +101,7 @@ const EmployeeTab = () => {
 
       // Make an HTTP GET request to your Spring controller
       const response = await axios.get(
-        "http://localhost:8080/api/admin/unassigned",
+        "http://localhost:8080/unassigned",
         { params: queryParams }
       );
 
@@ -115,12 +116,12 @@ const EmployeeTab = () => {
     // console.log(employeeObject.id);
     //const isRequested = async () =>{
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/admin/employee/isRequested",
+      const response = await axios.get(
+        "http://localhost:8080/employee/isRequested",
 
         {
           employeeId: employeeObject.id,
-          managerEmail: email,
+          managerId: id,
         }
       );
       const requested = response.data;
@@ -166,7 +167,7 @@ const EmployeeTab = () => {
         />
 
         <div className="unassigned">
-          <label for="myCheckbox">Unassigned Employee:</label>
+          <label for="myCheckbox">Unassigned Employees :</label>{" "}
           <input
             type="checkbox"
             name="myCheckbox"
@@ -177,8 +178,10 @@ const EmployeeTab = () => {
           <Button onClick={handleSkillClick} className="custom-button search-button" text='Search Employee'></Button>
         </div>
       </div>
-      <div className="card_container manager_emp">
-        {employees.map((employee) => (
+      <div className="final">
+      {employees.sort(function (a, b) {
+                    return a.name.localeCompare(b.name);
+                }).map((employee) => (
           <div className="card" key={employee.Id}>
             <div className="column1">
               <h2 className="employee_name">{employee.name}</h2>
@@ -186,7 +189,7 @@ const EmployeeTab = () => {
               <p style={{ marginTop: "1rem" }}>
                 {employee.projectName ? (
                   <p>
-                    <span style={{ fontWeight: "bold" }}>Project Name :</span>
+                    <span style={{ fontWeight: "bold" }}>Project Name :</span>{" "}
                     {employee.projectName}
                   </p>
                 ) : (
@@ -199,25 +202,25 @@ const EmployeeTab = () => {
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
                   Manager :
-                </span>
+                  {" "} </span>
                 {employee.manager}
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
                   Contact :
-                </span>
+                  {" "} </span>
                 {employee.contactNumber}
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
                   Email :
-                </span>
+                  {" "}</span>
                 {employee.email}
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
                   Skills :
-                </span>
+                  {" "} </span>
                 {employee.skills.join(", ")}
               </p>
             </div>
@@ -226,7 +229,7 @@ const EmployeeTab = () => {
                 className="employee_id"
                 style={{ marginBottom: "2.6rem", fontSize: "1rem" }}
               >
-                <span style={{ fontWeight: "bold" }}>Employee ID:</span>{" "}
+                <span style={{ fontWeight: "bold" }}>Employee ID :</span>{" "}
                 {employee.empId}
               </p>
               <p>
@@ -237,7 +240,7 @@ const EmployeeTab = () => {
               </p>
               <p>
                 <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
-                  DOJ:{" "}
+                  DOJ :{" "}
                 </span>{" "}
                 <DateReverser date={employee.doj} />
               </p>
@@ -247,12 +250,12 @@ const EmployeeTab = () => {
                 </span>{" "}
                 {employee.location}
               </p>
-              <div style={{ marginTop: "2rem" }}>
+              <div style={{ marginTop: "1rem" }}>
                 {employee.projectName === null && (
                   <p>
                     {console.log(employee.requested)}
                     {employee.requested ? (
-                      <button className="assign_btn" disabled>Requested</button>
+                      <button className="requested_btn" disabled>Requested</button>
                     ) : (
                       <Link
                         to={`/requestResource/${employee.id}`}

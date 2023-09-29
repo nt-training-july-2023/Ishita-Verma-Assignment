@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.portal.DTO.ApiResponseDTO;
+import com.portal.DTO.RequestResourceInDTO;
 import com.portal.DTO.RequestResourceOutDTO;
 import com.portal.DTO.RequestedDTO;
 //import com.portal.DTO.RequestedDTO;
@@ -20,7 +22,7 @@ import com.portal.repository.RequestResourceRepository;
 
 @Service
 public class RequestResourceService {
-	 /**
+     /**
      * Autowired for request resource repository..
      */
     @Autowired
@@ -35,7 +37,12 @@ public class RequestResourceService {
      */
     @Autowired
     private ProjectRepository projectRepository;
-	 /**
+    /**
+     * Autowired for Apiresponse repository.
+     */
+    @Autowired
+    private ApiResponseDTO response;
+     /**
      * Retrieves all resource requests and maps them to DTOs for output.
      * @return A list of RequestResourceOutDto objects representing resource
      *         requests.
@@ -46,17 +53,20 @@ public class RequestResourceService {
                 new ArrayList<RequestResourceOutDTO>();
 
         for (RequestResource resource : resourceList) {
-        	RequestResourceOutDTO outList = new RequestResourceOutDTO();
+        RequestResourceOutDTO outList = new RequestResourceOutDTO();
             outList.setComment(resource.getComment());
             outList.setEmpId(resource.getEmployeeId());
             outList.setId(resource.getResourceId());
             outList.setManagerId(resource.getManagerId());
             //System.out.println(resource.getEmpId());
-            Employee emp = userRepository.findById(resource.getEmployeeId()).get();
+            Employee emp = userRepository
+                    .findById(resource.getEmployeeId()).get();
             outList.setEmployeeName(emp.getName());
-            Employee manager = userRepository.findById(resource.getManagerId()).get();
+            Employee manager = userRepository
+                    .findById(resource.getManagerId()).get();
             outList.setManagerName(manager.getName());
-            Project project = projectRepository.findById(resource.getProjectId())
+            Project project = projectRepository
+                    .findById(resource.getProjectId())
                     .get();
             outList.setProjectName(project.getName());
 
@@ -64,55 +74,128 @@ public class RequestResourceService {
         }
         return outDtoList;
     }
-    public ResponseDTO acceptRequest(Long id) {
-        RequestResource request = requestRepository.findById(id).get();
-        Employee employee =userRepository.findById(request.getEmployeeId()).get();
+    /**
+     * Accepts a resource request by updating
+     * the employee's project and manager ID,
+     * and rejects all other requests from the same employee.
+     * @param id The ID of the request to be accepted.
+     * @return A ResponseDTO indicating the result of the request acceptance.
+     */
+    public ResponseDTO acceptRequest(final Long id) {
+        RequestResource request =
+                requestRepository.findById(id).get();
+        Employee employee = userRepository
+                .findById(request.getEmployeeId()).get();
         employee.setProjectId(request.getProjectId());
         employee.setManagerId(request.getManagerId());
         this.userRepository.save(employee);
          rejectRequest(id);
-         List<RequestResource> employeeRequests = requestRepository.findByEmployeeId(employee.getId());
+         List<RequestResource> employeeRequests =
+                 requestRepository.findByEmployeeId(employee.getId());
 //         if(employee.getProjectId()!=0L) {
-//        	 System.out.println("Already has project");
+//         System.out.println("Already has project");
 //         }
          for (RequestResource req : employeeRequests) {
              rejectRequest(req.getResourceId());
          }
-         return new ResponseDTO("Request Accepted","");
+         ResponseDTO response = new ResponseDTO();
+         response.setMessage("Request Accepted");
+         return response;
     }
-    public final ResponseDTO rejectRequest(Long id) {
+    /**
+     * Rejects a resource request by deleting it from the repository.
+     * @param id The ID of the request to be rejected.
+     * @return A ResponseDTO indicating the result of the request rejection.
+     */
+    public final ResponseDTO rejectRequest(final Long id) {
         RequestResource request = requestRepository.findById(id).get();
         this.requestRepository.delete(request);
-        return new ResponseDTO("Request Deleted","");
+        ResponseDTO response = new ResponseDTO();
+        response.setMessage("Request Deleted");
+        return response;
     }
-    public boolean isRequested(RequestedDTO reqDto) {
-        Employee manager = userRepository.findByEmail(reqDto.getManagerEmail()).get();
+    /**
+     * Checks if a resource request exists for a given employee and manager.
+     * @param reqDto The RequestedDTO containing
+     * the employee and manager information.
+     * @return `true` if a request exists, `false` otherwise.
+     */
+//    public boolean isRequested(final RequestedDTO reqDto) {
+//        Employee manager = userRepository
+//                .findByEmail(reqDto.getManagerEmail()).get();
+//        RequestResource req = requestRepository
+//                .findByEmployeeIdAndManagerId(reqDto.getEmployeeId(),
+//                        manager.getId()).get();
+//        System.out.println(req.toString());
+//        if (req != null) {
+//            return true;
+//        }
+//        return false; 
+//    }
+    public boolean isRequested(Long empId,Long managerId) {
+        //Employee manager = empRepo.findByEmail(reqDto.getManagerEmail()).get();
         
-        RequestResource req= requestRepository.findByEmployeeIdAndManagerId(reqDto.getEmployeeId(),manager.getId()).get();
-        System.out.println(req.toString());
-        if(req != null) {
-            return true;
+        Optional<RequestResource> req= requestRepository.findByEmployeeIdAndManagerId(empId,managerId);
+        if(req.isEmpty()) {
+            return false;
         }
-        return false;  
+        return true;  
     }
-    public final List<RequestResourceOutDTO> requestOut(){
+    /**
+     * Retrieves a list of resource requests and
+     *  converts them into a list of {@link RequestResourceOutDTO}.
+     * @return A list of RequestResourceOutDTO objects representing
+     * the resource requests.
+     */
+    public final List<RequestResourceOutDTO> requestOut() {
 
         List<RequestResource> reqList = requestRepository.findAll();
         //System.out.println(employees);
-        List<RequestResourceOutDTO> reqOutList = new ArrayList<RequestResourceOutDTO>();
+        List<RequestResourceOutDTO> reqOutList =
+                new ArrayList<RequestResourceOutDTO>();
         for (RequestResource request : reqList) {
-        	RequestResourceOutDTO reqDto = new RequestResourceOutDTO();
+        RequestResourceOutDTO reqDto = new RequestResourceOutDTO();
             reqDto.setComment(request.getComment());
             reqDto.setId(request.getResourceId());
-            Employee emp = userRepository.findById(request.getEmployeeId()).get();
+            Employee emp = userRepository
+                    .findById(request.getEmployeeId()).get();
             reqDto.setEmployeeName(emp.getEmpId() + " - " + emp.getName());
-            Employee manager = userRepository.findById(request.getManagerId()).get();
+            Employee manager = userRepository
+                    .findById(request.getManagerId()).get();
             reqDto.setManagerName(manager.getName());
-            Project project = projectRepository.findById(request.getProjectId()).get();
+            Project project = projectRepository
+                    .findById(request.getProjectId()).get();
             reqDto.setProjectName(project.getName());
-            
              reqOutList.add(reqDto);
         }
         return reqOutList;
+    }
+    /**
+     * Adds a new resource request based on the provided RequestResourceInDTO.
+     * @param requestDTO The RequestResourceInDTO
+     * containing the request information.
+     * @return an ApiResponseDTO
+     */
+    public ApiResponseDTO addRequestResource(final
+            RequestResourceInDTO requestDTO) {
+        // TODO Auto-generated method stub
+        RequestResource request = dtoToRequestResource(requestDTO);
+        	requestRepository.save(request);
+            response.setMessage("Sucessfully Added");
+            return response;
+    }
+    /**
+     * dtoToRequestResource.
+     * @param RequestResource
+     * @return request
+     */
+    public final RequestResource dtoToRequestResource(final
+            RequestResourceInDTO requestDTO) {
+        RequestResource request = new RequestResource();
+        request.setEmployeeId(requestDTO.getEmployeeId());
+        request.setComment(requestDTO.getComment());
+        request.setManagerId(requestDTO.getManagerId());
+        request.setProjectId(requestDTO.getProjectId());
+        return request;
     }
 }

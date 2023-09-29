@@ -23,7 +23,7 @@ const ProjectTab = () => {
   const getAllProjects = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/admin/projects"
+        "http://localhost:8080/projects"
       );
       console.log(response.data);
       setProjects(response.data);
@@ -36,7 +36,7 @@ const ProjectTab = () => {
     const managerNamePromises = projects.map(async (project) => {
       try {
         const res = await axios.get(
-          `http://localhost:8080/api/admin/all/employee/${project.managerId}`
+          `http://localhost:8080/all/employee/${project.managerId}`
         );
         return { Id: project.projectId, managerName: res.data.name };
       } catch (error) {
@@ -71,7 +71,7 @@ const ProjectTab = () => {
     setSelectedDescription("");
   };
   return (
-    <div className="final">
+    <div>
       <div className="card_container">
         {projects.map((project) => (
           <ProjectCard
@@ -88,7 +88,7 @@ const ProjectTab = () => {
         <Popup
           description={selectedDescription}
           onClose={handlePopupClose}
-          onConfirm={null} // You can add a confirmation function if needed
+          onConfirm={null}
         />
       )}
       </div>

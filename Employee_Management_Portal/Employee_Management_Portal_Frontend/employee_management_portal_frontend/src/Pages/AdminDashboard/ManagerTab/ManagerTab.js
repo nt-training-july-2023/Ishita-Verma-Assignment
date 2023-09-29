@@ -13,7 +13,7 @@ const ManagerTab = () => {
   const getAllManagers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/admin/all/MANAGER"
+        "http://localhost:8080/all/MANAGER"
       );
       console.log(response.data);
       setManagers(response.data);
@@ -23,9 +23,11 @@ const ManagerTab = () => {
   };
 
 return (
-  <div className="final">
-    <div className="card_container managerAdmin">
-    {managers.map((manager) => (
+  <div>
+    <div className="final">
+      {managers.sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+    }).map((manager) => (
     <SingleManagerCard key={manager.id} manager={manager} />
 ))}
 

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import "./login.css";
 import { useNavigate, Link } from "react-router-dom";
-import AdminService from "../../components/service/AdminService";
+import AdminService from "../../service/AdminService";
 import login_img from "../../Assests/Images/login_img.png";
 import { Base64 } from "js-base64";
 import AdminDashboard from "../AdminDashboard/AdminDashboard";
 import EmployeeDashboard from "../EmployeeDashboard/EmployeeDashboard";
 import { useEffect } from "react";
+import Popup from "../../components/Popup/Popup";
+
 const Login = ({setIsLoggedIn ,login}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +16,7 @@ const Login = ({setIsLoggedIn ,login}) => {
   const [passwordError, setPasswordError] = useState("");
   const [message, setMessage] = useState("");
   const[role,setRole] = useState(localStorage.getItem("userRole"));
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
   // const [isLoggedIn, setIsLoggedIn] = useState(false); 
   // const [showAlert, setShowAlert] = useState(false);
 
@@ -56,9 +59,10 @@ const Login = ({setIsLoggedIn ,login}) => {
 
         })
         .catch((error) => {
-          setMessage("Wrong Credentials");
           console.log(error);
-          setPasswordError("Incorrect Password");
+          setMessage(error.response.data.message);
+          setShowErrorPopup(true);
+          // setPasswordError("Incorrect Password");
         });
     }
   };
@@ -113,7 +117,7 @@ const Login = ({setIsLoggedIn ,login}) => {
                 <div className="error-message">{passwordError}</div>
               )}
             </div>
-            {message && <div className="error-message">{message}</div>}
+            {/* {message && <div className="error-message">{message}</div>} */}
             <div className="button_container">
               <div
                 variant="primary"
@@ -146,7 +150,12 @@ const Login = ({setIsLoggedIn ,login}) => {
         </div>
       )} */}
     </div>
-  )} </>
+  )}  {showErrorPopup && (
+    <Popup
+      description={message}
+      onClose={() => setShowErrorPopup(false)}
+    />
+  )}</>
   );
 };
 

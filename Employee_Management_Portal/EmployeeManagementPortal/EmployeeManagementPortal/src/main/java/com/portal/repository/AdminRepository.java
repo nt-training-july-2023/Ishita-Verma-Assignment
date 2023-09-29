@@ -44,7 +44,17 @@ public interface AdminRepository extends JpaRepository<Employee, Long> {
      * @return truw if exist and false if not
      */
     boolean existsByEmpId(String empId);
+    /**
+     * Retrieves a list of employees who are assigned.
+     * @param projectId The unique identifier of the project.
+     * @return A list of employees assigned to the project.
+     */
     List<Employee> findAllByProjectId(Long projectId);
-	Optional<Employee> findByManagerId(Long managerId);
+    /**
+     * Retrieves an employee based on their manager.
+     * @param managerId The unique identifier of the manager.
+     * @return An Optional containing employee with specified manager
+     */
+    Optional<Employee> findByManagerId(Long managerId);
 
 }

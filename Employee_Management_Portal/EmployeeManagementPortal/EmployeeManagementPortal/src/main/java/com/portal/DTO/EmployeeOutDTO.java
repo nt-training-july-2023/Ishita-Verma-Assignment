@@ -244,77 +244,6 @@ import com.portal.entities.Role;
 		public void setManagerId(Long managerId) {
 			this.managerId = managerId;
 		}
-		@Override
-		public int hashCode() {
-			return Objects.hash(Id, contactNumber, designation, dob, doj, email, empId, location, manager, managerId,
-					name, projectId, role, skills);
-		}
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			EmployeeOutDTO other = (EmployeeOutDTO) obj;
-			return Id == other.Id && Objects.equals(contactNumber, other.contactNumber)
-					&& designation == other.designation && Objects.equals(dob, other.dob)
-					&& Objects.equals(doj, other.doj) && Objects.equals(email, other.email)
-					&& Objects.equals(empId, other.empId) && location == other.location
-					&& Objects.equals(manager, other.manager) && Objects.equals(managerId, other.managerId)
-					&& Objects.equals(name, other.name) && Objects.equals(projectId, other.projectId)
-					&& role == other.role && Objects.equals(skills, other.skills);
-		}
-		@Override
-		public String toString() {
-			return "EmployeeOutDTO [Id=" + Id + ", empId=" + empId + ", name=" + name + ", email=" + email + ", dob="
-					+ dob + ", doj=" + doj + ", location=" + location + ", designation=" + designation
-					+ ", contactNumber=" + contactNumber + ", role=" + role + ", projectId=" + projectId + ", skills="
-					+ skills + ", manager=" + manager + ", managerId=" + managerId + "]";
-		}
-//		/**
-//		 * @param id
-//		 * @param empId
-//		 * @param name
-//		 * @param email
-//		 * @param dob
-//		 * @param doj
-//		 * @param location
-//		 * @param designation
-//		 * @param contactNumber
-//		 * @param role
-//		 * @param projectId
-//		 * @param skills
-//		 * @param manager
-//		 * @param managerId
-//		 */
-//		public EmployeeOutDTO(Long id, String empId, String name, String email, String dob, String doj,
-//				Location location, Designation designation, String contactNumber, Role role, Long projectId,
-//				List<String> skills, String manager, Long managerId) {
-//			super();
-//			Id = id;
-//			this.empId = empId;
-//			this.name = name;
-//			this.email = email;
-//			this.dob = dob;
-//			this.doj = doj;
-//			this.location = location;
-//			this.designation = designation;
-//			this.contactNumber = contactNumber;
-//			this.role = role;
-//			this.projectId = projectId;
-//			this.skills = skills;
-//			this.manager = manager;
-//			this.managerId = managerId;
-//		}
-//		/**
-//		 * 
-//		 */
-//		public EmployeeOutDTO() {
-//			super();
-//			// TODO Auto-generated constructor stub
-//		}
 		/**
 		 * @return the projectName
 		 */
@@ -326,6 +255,53 @@ import com.portal.entities.Role;
 		 */
 		public void setProjectName(String projectName) {
 			this.projectName = projectName;
+		}
+		/**
+		 * Returns a hash code value for the EmployeeOutDTO object based on its properties.
+		 *
+		 * @return The hash code value for this EmployeeOutDTO.
+		 */
+		@Override
+		public int hashCode() {
+		    return Objects.hash(Id, contactNumber, designation, dob, doj, email, empId, location, manager, managerId,
+		            name, projectId, role, skills);
+		}
+
+		/**
+		 * Indicates whether some other object is "equal to" this EmployeeOutDTO.
+		 *
+		 * @param obj The reference object with which to compare.
+		 * @return true if this EmployeeOutDTO is the same as the obj argument; false otherwise.
+		 */
+		@Override
+		public boolean equals(Object obj) {
+		    if (this == obj)
+		        return true;
+		    if (obj == null)
+		        return false;
+		    if (getClass() != obj.getClass())
+		        return false;
+		    EmployeeOutDTO other = (EmployeeOutDTO) obj;
+		    return Id == other.Id && Objects.equals(contactNumber, other.contactNumber)
+		            && designation == other.designation && Objects.equals(dob, other.dob)
+		            && Objects.equals(doj, other.doj) && Objects.equals(email, other.email)
+		            && Objects.equals(empId, other.empId) && location == other.location
+		            && Objects.equals(manager, other.manager) && Objects.equals(managerId, other.managerId)
+		            && Objects.equals(name, other.name) && Objects.equals(projectId, other.projectId)
+		            && role == other.role && Objects.equals(skills, other.skills);
+		}
+
+		/**
+		 * Returns a string representation of the EmployeeOutDTO object.
+		 *
+		 * @return A string representation of this EmployeeOutDTO.
+		 */
+		@Override
+		public String toString() {
+		    return "EmployeeOutDTO [Id=" + Id + ", empId=" + empId + ", name=" + name + ", email=" + email + ", dob="
+		            + dob + ", doj=" + doj + ", location=" + location + ", designation=" + designation
+		            + ", contactNumber=" + contactNumber + ", role=" + role + ", projectId=" + projectId + ", skills="
+		            + skills + ", manager=" + manager + ", managerId=" + managerId + "]";
 		}
 
 	}

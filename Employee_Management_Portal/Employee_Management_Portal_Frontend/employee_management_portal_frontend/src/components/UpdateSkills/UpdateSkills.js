@@ -25,7 +25,7 @@ function UpdateSkills() {
     }, []);
     const getEmployee = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/admin/all/employee/${id}`)
+            const response = await axios.get(`http://localhost:8080/all/employee/${id}`)
             setEmployeeDetails(response.data);
             setTimeout(() => {
                 setFetchData(true);
@@ -40,6 +40,7 @@ function UpdateSkills() {
     useEffect(() => {
         console.log("effect", employeeDetails.skills);
         if (employeeDetails.skills) {
+            setFetchData(true);
             setSelectedSkills(employeeDetails.skills);
         }
     }, [employeeDetails]);
@@ -63,7 +64,7 @@ function UpdateSkills() {
             return;
         }
         try {
-            const response = await axios.put(`http://localhost:8080/api/admin/employee/${id}/skills`, {
+            const response = await axios.put(`http://localhost:8080/employee/${id}/skills`, {
                 skills: skills,
 
 
@@ -85,7 +86,7 @@ function UpdateSkills() {
              <div className='assign_form'> 
             <h1 className='assignHeading'>Update Skills</h1>
             <h3> {employeeDetails.name}</h3>
-            {<MultiSelectDropdown
+            {fetchData && <MultiSelectDropdown
                 options={Skills.map((skill) => ({
                     value: skill,
                     label: skill,

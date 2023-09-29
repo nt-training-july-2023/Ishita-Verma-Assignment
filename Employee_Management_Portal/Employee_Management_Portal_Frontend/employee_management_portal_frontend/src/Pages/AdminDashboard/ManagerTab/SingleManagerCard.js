@@ -7,18 +7,31 @@ const SingleManagerCard = ({ manager }) => {
   const [showDropdown, setShowDropdown] = useState(true);
   const [skills, setSkills] = useState([]);
   const [teams, setTeams] = useState([]);
+  const [selectedProjectData, setSelectedProjectData] = useState(null);
   
   async function fetchProjectList() {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/admin/projects/${manager.id}`
+        `http://localhost:8080/projects/${manager.id}`
       );
-      setProjectsList(response.data);
+    //   setProjectsList(response.data);
 
-      if (response.data.length === 1) {
-        setSelectedProject(response.data[0].projectId);
-        setShowDropdown(false);
+    //   if (response.data.length === 1) {
+    //     setSelectedProject(response.data[0].projectId);
+    //     setShowDropdown(false);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    const projectData = response.data;
+
+      if (projectData.length > 0) {
+        const firstProject = projectData[0];
+        setSelectedProjectData(firstProject); 
+        setSelectedProject(firstProject.projectID);
+        setShowDropdown(projectData.length > 1);
       }
+      setProjectsList(projectData);
     } catch (error) {
       console.log(error);
     }
@@ -27,44 +40,53 @@ const SingleManagerCard = ({ manager }) => {
     fetchProjectList();
   }, []);
 
-  useEffect(() => {
-    const selectedProjectData = projectsList.find(
-      (project) => project.projectId === selectedProject
-    );
+  // useEffect(() => {
+  //   const selectedProjectData = projectsList.find(
+  //     (project) => project.projectId === selectedProject
+  //   );
 
-    if (selectedProjectData) {
-      setTeams(selectedProjectData.teams);
-      setSkills(selectedProjectData.skills);
-    } else {
-      setTeams([]);
-      setSkills([]);
-    }
-  }, [selectedProject, projectsList]);
+  //   if (selectedProjectData) {
+  //     setTeams(selectedProjectData.teams);
+  //     setSkills(selectedProjectData.skills);
+  //   } else {
+  //     setTeams([]);
+  //     setSkills([]);
+  //   }
+  // }, [selectedProject, projectsList]);
 
   function handleChange(event) {
     const selectedProjectId = event.target.value;
     setSelectedProject(selectedProjectId);
-
-    const selectedProjectData = projectsList.find(
-      (project) => project.projectId === selectedProjectId
+    console.log(selectedProjectId);
+    const projectData = projectsList.find(
+      (project) => project.projectId.toString() === selectedProjectId
     );
-
-    if (selectedProjectData) {
-      const selectedProjectSkills = selectedProjectData.skills;
-      const selectedProjectTeams = selectedProjectData.teams;
-      console.log("Selected Project Skills:", selectedProjectSkills);
-      setTeams(selectedProjectTeams);
-      setSkills(selectedProjectSkills);
+        console.log(projectData);
+    if (projectData) {
+      setSelectedProjectData(projectData);
     } else {
-      console.log("Selected Project Does Not Exist");
-      setTeams([]);
-      setSkills([]);
+      setSelectedProjectData(null);
     }
+    // const selectedProjectData = projectsList.find(
+    //   (project) => project.projectId === selectedProjectId
+    // );
+
+    // if (selectedProjectData) {
+    //   const selectedProjectSkills = selectedProjectData.skills;
+    //   const selectedProjectTeams = selectedProjectData.teams;
+    //   console.log("Selected Project Skills:", selectedProjectSkills);
+    //   setTeams(selectedProjectTeams);
+    //   setSkills(selectedProjectSkills);
+    // } else {
+    //   console.log("Selected Project Does Not Exist");
+    //   setTeams([]);
+    //   setSkills([]);
+    // }
   }
 
   return (
     <div>
-      <div className="card_container">
+      <div>
         <div className="card" key={manager.id}>
           <div className="column1">
             <h2 className="employee_name">{manager.name}</h2>
@@ -81,9 +103,9 @@ const SingleManagerCard = ({ manager }) => {
                   onChange={handleChange}
                   value={selectedProject}
                 >
-                  <option value="" disabled>
+                  {/* <option value="" disabled>
                     Select Project
-                  </option>
+                  </option> */}
                   {projectsList.map((project) => {
                     return (
                       <option key={project.projectId} value={project.projectId}>
@@ -93,7 +115,8 @@ const SingleManagerCard = ({ manager }) => {
                   })}
                 </select>
               ) : (
-                <span>{projectsList[0].projectName}</span>
+                // <span>{projectsList[0].projectName}</span>
+                <span>{selectedProjectData?.projectName}</span>
               )}
             </p>
             <p style={{marginBottom:"0.3rem"}}>
@@ -116,8 +139,8 @@ const SingleManagerCard = ({ manager }) => {
             </p>
 
             <p style={{ marginTop: "1rem" }}>
-              <span style={{ fontWeight: "bold" }}>Project Skills:</span>{" "}
-              {showDropdown
+              <span style={{ fontWeight: "bold" }}>Project Skills :</span>{" "}
+              {/* {showDropdown
                 ? projectsList
                     .filter(
                       (project) => project.projectId + "" === selectedProject
@@ -129,11 +152,12 @@ const SingleManagerCard = ({ manager }) => {
                           : skill + ", "
                       )
                     )
-                : skills.join(", ")}
+                : skills.join(", ")} */}
+                 {selectedProjectData?.skills.join(", ")}
             </p>
             <p>
-              <span style={{ fontWeight: "bold" }}>Teams:</span>{" "}
-              {showDropdown
+              <span style={{ fontWeight: "bold" }}>Teams :</span>{" "}
+              {/* {showDropdown
                 ? projectsList
                     .filter(
                       (project) => project.projectId + "" === selectedProject
@@ -143,7 +167,8 @@ const SingleManagerCard = ({ manager }) => {
                         index === project.teams.length - 1 ? team : team + ", "
                       )
                     )
-                : teams.join(", ")}
+                : teams.join(", ")} */}
+                {selectedProjectData?.teams.join(", ")}
             </p>
           </div>
         </div>

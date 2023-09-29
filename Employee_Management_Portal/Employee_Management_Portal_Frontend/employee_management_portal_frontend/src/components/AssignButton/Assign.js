@@ -26,7 +26,7 @@ const Assign = () => {
     }
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/admin/all/employee/${id}`
+        `http://localhost:8080/all/employee/${id}`
       );
       setEmployeesDetails(response.data);
       console.log(response.data);
@@ -37,7 +37,7 @@ const Assign = () => {
 
   const getAllProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/admin/projects');
+      const response = await axios.get('http://localhost:8080/projects');
       setProjectsList(response.data);
     } catch (error) {
       console.error('Error fetching projects:', error);
@@ -46,7 +46,7 @@ const Assign = () => {
 
   const updateEmployee = async () => {
     try {
-      await axios.put(`http://localhost:8080/api/admin/employee/${id}/assignProject`, {
+      await axios.put(`http://localhost:8080/employee/${id}/assignProject`, {
         projectId: projectId,
         managerId: managerId
       });
@@ -58,6 +58,20 @@ const Assign = () => {
       console.error('Error updating employee:', error);
     }
   };
+  // const updateEmployee = async () => {
+  //   try {
+  //     await axios.put(`http://localhost:8080/api/admin/employee/${id}/assignProject`, {
+  //       projectId: projectId,
+  //       managerId: managerId
+  //     });
+  //     setMessage("Assigned");
+  //     setTimeout(() => {
+  //       navigate("/adminDashboard");
+  //     }, 2000);
+  //   } catch (error) {
+  //     console.error('Error updating employee:', error);
+  //   }
+  // };
 
   const handleSelectChange = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
@@ -88,7 +102,7 @@ const Assign = () => {
             <div style={{ marginTop: "1rem" }}> <button onClick={updateEmployee} className='assign_btn'>Save</button></div>
             <div>{message}</div>
             <div style={{ marginTop: "1rem" }}>
-              <button onClick={() => navigate("/adminDashboard")}>Back to Dashboard</button>
+              <button onClick={() => navigate("/adminDashboard")} className='dashboard_btn'>&#8592; Back to Dashboard</button>
             </div>
           </div>
         </div>

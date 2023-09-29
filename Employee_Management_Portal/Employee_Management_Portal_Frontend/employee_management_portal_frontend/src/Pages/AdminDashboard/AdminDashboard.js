@@ -63,18 +63,25 @@ const AdminDashboard = () => {
       
       </div>
       {showAddEmployee && (
-        <div className='add_employee_form'>
-          <AddEmployee />
-          <button onClick={cancelAddEmployee} className='exit_btn'>Exit</button>
-        </div>
-      )}
+            <div className="overlay">
+              <div className="add_employee_form">
+                <AddEmployee />
+                <button onClick={cancelAddEmployee} className="exit_btn">
+                  Exit
+                </button>
+              </div>
+            </div>
+          )}
       {showAddProject && (
+         <div className="overlay">
         <div className='add_employee_form'>
           <AddProject />
           <button onClick={cancelAddProject} className='exit_btn'>Exit</button>
         </div>
+        </div>
       )}
       {activeTab === 'employee' && (
+        
   <div>
 {/*     
     <Button
@@ -88,21 +95,29 @@ const AdminDashboard = () => {
       className="add_employee_btn"    
     />
      <Link
-      to={`/requestResource`}
-      className="admin_add_employee"
-    >
-      Request Resource
-    </Link> 
+        to={`/requestResource`}
+        className="admin_add_employee"
+      >
+        Request Resource
+      </Link> 
   </div>
 )}
       <div className='admin_heading'>Welcome Ankita Sharma</div>
      <div>
   {activeTab === 'project' && !showAddProject && (
+    <div>
     <Button
       onClick={toggleAddProject}
       text="Add Project"
       className="admin_add_project"
-    />
+    /> 
+     {/* <Link
+        to={`/requestResource`}
+        className="admin_add_employee"
+      >
+        Request Resource
+      </Link>  */}
+      </div>
   )}
   {/* {activeTab === 'employee' && !showAddEmployee && (
     <Link

@@ -4,9 +4,15 @@ import Select from "react-select";
 import "./addproject.css";
 import axios from "axios";
 import Skills from "../Data/Skills";
-import AdminService from "../service/AdminService";
+import AdminService from "../../service/AdminService";
 import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
 import Popup from "../Popup/Popup"; 
+import {
+  validateName,
+  validateManagerId,
+  validateStartDate,
+  validateDescription
+} from "../../components/HandleBlur/HandleBlur"; 
 
 const AddProject = () => {
   const [name, setName] = useState("");
@@ -36,52 +42,52 @@ const AddProject = () => {
 
   const navigate = useNavigate();
   // Function to validate if a field is empty
-  const validateField = (field, value) => {
-    if (value.trim() === "") {
-      switch (field) {
-        case "name":
-          setNameError("Project Name is required");
-          break;
-        case "managerId":
-          setManagerIdError("Manager ID is required");
-          break;
-        case "startDate":
-          setStartDateError("Start Date is required");
-          break;
-        case "skills":
-          setSkillsError("Skills are required");
-          break;
-        case "description":
-          setDescriptionError("Description is required");
-          break;
-        default:
-          break;
-      }
-      return false; // Field is empty
-    } else {
-      // Clear the error message if the field is not empty
-      switch (field) {
-        case "name":
-          setNameError("");
-          break;
-        case "managerId":
-          setManagerIdError("");
-          break;
-        case "startDate":
-          setStartDateError("");
-          break;
-        case "skills":
-          setSkillsError("");
-          break;
-        case "description":
-          setDescriptionError("");
-          break;
-        default:
-          break;
-      }
-      return true; // Field is not empty
-    }
-  };
+  // const validateField = (field, value) => {
+  //   if (value.trim() === "") {
+  //     switch (field) {
+  //       case "name":
+  //         setNameError("Project Name is required");
+  //         break;
+  //       case "managerId":
+  //         setManagerIdError("Manager ID is required");
+  //         break;
+  //       case "startDate":
+  //         setStartDateError("Start Date is required");
+  //         break;
+  //       case "skills":
+  //         setSkillsError("Skills are required");
+  //         break;
+  //       case "description":
+  //         setDescriptionError("Description is required");
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     return false; // Field is empty
+  //   } else {
+  //     // Clear the error message if the field is not empty
+  //     switch (field) {
+  //       case "name":
+  //         setNameError("");
+  //         break;
+  //       case "managerId":
+  //         setManagerIdError("");
+  //         break;
+  //       case "startDate":
+  //         setStartDateError("");
+  //         break;
+  //       case "skills":
+  //         setSkillsError("");
+  //         break;
+  //       case "description":
+  //         setDescriptionError("");
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     return true; // Field is not empty
+  //   }
+  // };
 
   useEffect(() => {
     getManagerList();
@@ -90,7 +96,7 @@ const AddProject = () => {
   async function getManagerList() {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/admin/all/MANAGER"
+        "http://localhost:8080/all/MANAGER"
       );
       setManagerList(res.data);
     } catch (error) {
@@ -102,21 +108,21 @@ const AddProject = () => {
     e.preventDefault();
 
     // Validate each field before submission
-    const isNameValid = validateField("name", String(name));
-    const isManagerIdValid = validateField("managerId", managerId);
-    const isStartDateValid = validateField("startDate", startDate);
-    const isSkillsValid = skills.length > 0;
-    const isDescriptionValid = validateField("description", description);
+    // const isNameValid = validateField("name", String(name));
+    // const isManagerIdValid = validateField("managerId", managerId);
+    // const isStartDateValid = validateField("startDate", startDate);
+    // const isSkillsValid = skills.length > 0;
+    // const isDescriptionValid = validateField("description", description);
 
-    if (
-      !isNameValid ||
-      !isManagerIdValid ||
-      !isStartDateValid ||
-      !isSkillsValid ||
-      !isDescriptionValid
-    ) {
-      return;
-    }
+    // if (
+    //   !isNameValid ||
+    //   !isManagerIdValid ||
+    //   !isStartDateValid ||
+    //   !isSkillsValid ||
+    //   !isDescriptionValid
+    // ) {
+    //   return;
+    // }
 
     const project = {
       name,
@@ -128,9 +134,12 @@ const AddProject = () => {
 
     AdminService.addProject(project)
       .then((response) => {
-        // navigate("/admindashboard");
         setSuccessMessage("Project added successfully.");
-        setShowSuccessPopup(true);
+        const navigateToDashboard = () => {
+          navigate("/AdminDashboard");
+      };
+      setTimeout(navigateToDashboard, 2000);
+        // setShowSuccessPopup(true);
         // setName("");
         // setManagerId("");
         // setStartDate("");
@@ -142,10 +151,32 @@ const AddProject = () => {
         })
         .catch((error) => {
           console.log(error);
+          setSuccessMessage(error.response.data.message)
         });
         // window.location.reload();
   };
 
+  const handleNameBlur = (e) => {
+    const inputValue = e.target.value;
+    validateName(inputValue, setNameError);
+  };
+  
+  const handleManagerIdBlur = (e) => {
+    const inputValue = e.target.value;
+    validateManagerId(inputValue, setManagerIdError);
+  };
+  
+  // const handleStartDateBlur = (e) => {
+  //   const inputValue = e.target.value;
+  //   validateStartDate(inputValue, setStartDateError);
+  // };
+  
+  const handleDescriptionBlur = (e) => {
+    const inputValue = e.target.value;
+    validateDescription(inputValue, setDescriptionError);
+  };
+  
+  
   return (
     <div className="add_project">
       <form autoComplete="off" onSubmit={handleSubmit}>
@@ -158,7 +189,7 @@ const AddProject = () => {
             value={name}
             placeholder="Project Name"
             onChange={(e) => setName(e.target.value)}
-            onBlur={() => validateField("name", name)}
+            onBlur={handleNameBlur}
           />
           {nameError && <div className="error-message">{nameError}</div>}
         </div>
@@ -170,7 +201,7 @@ const AddProject = () => {
             onChange={(e) => {
               setManagerId(e.target.value);
             }}
-            onBlur={() => validateField("managerId", managerId)}
+            onBlur={handleManagerIdBlur}
           >
             <option value="">Select Manager</option>
             {managerList.map((manager) => {
@@ -195,7 +226,7 @@ const AddProject = () => {
             className="custom-placeholder"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            onBlur={() => validateField("startDate", startDate)}
+            // onBlur={handleStartDateBlur}
           />
           {startDateError && (
             <div className="error-message">{startDateError}</div>
@@ -223,19 +254,22 @@ const AddProject = () => {
             placeholder="Description"
             className="custom-placeholder"
             onChange={(e) => setDescription(e.target.value)}
-            onBlur={() => validateField("description", description)}
+            onBlur={handleDescriptionBlur} 
             rows="4"
           />
           {descriptionError && (
             <div className="error-message">{descriptionError}</div>
           )}
           {errorMessage && <div className="error-message"> {errorMessage}</div>}
+          {successMessage}
         </div>
+
         <button className="btn_submit" type="submit">
           Add Project
         </button>
       </form>
-
+      
+     
       {/* Success Popup */}
       {showSuccessPopup && (
         <Popup

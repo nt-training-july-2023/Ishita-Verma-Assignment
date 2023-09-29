@@ -5,15 +5,17 @@ const Popup = ({ description, onClose, onConfirm }) => {
   return (
     <div className="project-popup">
       <div className="project-popup-content">
-        <button className="close-button" onClick={onClose}>
-          X
-        </button>
+       
         <p className='popup-description'>{description}</p>
-        {onConfirm && ( 
-          <button className="confirm-button" onClick={onConfirm}>
-            Yes
+     <div>   {onConfirm && ( 
+          <button className="confirm-button confirm_unassign" onClick={onConfirm}>
+            Confirm
           </button>
         )}
+        <button className="close-button close_unaasign" onClick={onClose}>
+          Close
+        </button>
+        </div>
       </div>
     </div>
   );

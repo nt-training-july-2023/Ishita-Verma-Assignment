@@ -12,18 +12,18 @@ import com.portal.entities.Designation;
 import com.portal.entities.Location;
 import com.portal.entities.Role;
 
-class AdminDTOTest {
+class EmployeeInDTOTest {
 
-	private AdminDTO adminDTO;
+	private EmployeeInDTO adminDTO;
 
     @BeforeEach
     public void setUp() {
-        adminDTO = new AdminDTO();
+        adminDTO = new EmployeeInDTO();
     }
 
     @Test
     public void testAdminDTOProperties() {
-        adminDTO.setId(1);
+        adminDTO.setId(1L);
         adminDTO.setEmpId("N1111");
         adminDTO.setName("Ankita Sharma");
         adminDTO.setEmail("ankita.sharma@nucleusteq.com");
@@ -44,7 +44,7 @@ class AdminDTOTest {
         skills.add("Spring");
         adminDTO.setSkills(skills);
 
-        assertEquals(1, adminDTO.getId());
+        assertEquals(1L, adminDTO.getId());
         assertEquals("N1111", adminDTO.getEmpId());
         assertEquals("Ankita Sharma", adminDTO.getName());
         assertEquals("ankita.sharma@nucleusteq.com", adminDTO.getEmail());

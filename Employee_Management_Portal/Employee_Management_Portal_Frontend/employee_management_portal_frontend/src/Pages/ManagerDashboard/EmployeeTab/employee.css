@@ -8,3 +8,9 @@
   color: white;
   margin-right: 0.5rem;
 }
+.final{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}

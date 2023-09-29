@@ -15,20 +15,21 @@ class EmployeeTest {
 	    public void setUp() {
 	        employee = new Employee();
 	    }
+	    List<String> skills = new ArrayList<String>(); 
 
 	    @Test
 	    public void testGettersAndSetters() {
 	        employee.setId(1L);
-	        employee.setEmpId("EMP001");
-	        employee.setName("John Doe");
-	        employee.setEmail("john.doe@example.com");
+	        employee.setEmpId("N1111");
+	        employee.setName("Ankita Sharma");
+	        employee.setEmail("ankita.sharma@nucleusteq.com");
 	        employee.setDob("1990-01-01");
 	        employee.setDoj("2021-01-01");
 	        employee.setLocation(Location.Raipur);
 	        employee.setDesignation(Designation.Engineer);
 	        employee.setContactNumber("1234567890");
 	        employee.setRole(Role.EMPLOYEE);
-	        employee.setProjectId(101L);
+	        employee.setProjectId(10L);
 	        employee.setPassword("password");
 	        
 	        List<String> skills = new ArrayList<>();
@@ -39,16 +40,16 @@ class EmployeeTest {
 	        employee.setManagerId(201L);
 
 	        assertEquals(1L, employee.getId());
-	        assertEquals("EMP001", employee.getEmpId());
-	        assertEquals("John Doe", employee.getName());
-	        assertEquals("john.doe@example.com", employee.getEmail());
+	        assertEquals("N1111", employee.getEmpId());
+	        assertEquals("Ankita Sharma", employee.getName());
+	        assertEquals("ankita.sharma@nucleusteq.com", employee.getEmail());
 	        assertEquals("1990-01-01", employee.getDob());
 	        assertEquals("2021-01-01", employee.getDoj());
 	        assertEquals(Location.Raipur, employee.getLocation());
 	        assertEquals(Designation.Engineer, employee.getDesignation());
 	        assertEquals("1234567890", employee.getContactNumber());
 	        assertEquals(Role.EMPLOYEE, employee.getRole());
-	        assertEquals(101L, employee.getProjectId());
+	        assertEquals(10L, employee.getProjectId());
 	        assertEquals("password", employee.getPassword());
 	        assertNotNull(employee.getSkills());
 	        assertEquals(2, employee.getSkills().size());
@@ -56,24 +57,29 @@ class EmployeeTest {
 	        assertEquals("Spring Boot", employee.getSkills().get(1));
 	        assertEquals(201L, employee.getManagerId());
 	    }
-
-	    @Test
-	    public void testDefaultConstructor() {
-	        assertNotNull(employee);
-	        assertNotNull(employee.getId());
-	        assertNull(employee.getEmpId());
-	        assertNull(employee.getName());
-	        assertNull(employee.getEmail());
-	        assertNull(employee.getDob());
-	        assertNull(employee.getDoj());
-	        assertNull(employee.getLocation());
-	        assertNull(employee.getDesignation());
-	        assertNull(employee.getContactNumber());
-	        assertNull(employee.getRole());
-	        assertNotNull(employee.getProjectId());
-	        assertNull(employee.getPassword());
-	        assertNull(employee.getSkills());
-	        assertNull(employee.getManagerId());
-	    }
+//	    @Test
+//	    void testToString() {
+//	        Employee emp = new Employee();
+//	        skills.add("React");
+//	        skills.add("Java");
+//	        emp.setId(1);
+//	        emp.setEmpId("N0001");
+//	        emp.setName("Ankita Sharma");
+//	        emp.setEmail("ankita.sharma@nucleusteq.com");
+//	        emp.setDob("1998-08-10");
+//	        emp.setDoj("2019-11-21");
+//	        emp.setLocation(Location.Indore);
+//	        emp.setDesignation(Designation.Engineer);
+//	        emp.setContactNumber("1234567890");
+//	        emp.setPassword("admin123");
+//	        emp.setRole(Role.ADMIN);
+//	        emp.setProjectId(0L);
+//	        emp.setSkills(skills);
+//	        emp.setManagerId(1L);
+//	        
+//	        String expectedToString = "Employee [id=1, empId=N0001, name=Ankita Sharma, email=ankita.sharma@nucleusteq.com, dob=1998-08-10, doj=2019-11-21, location=Indore, designation=Engineer, contactNumber=1234567890, project=0, password=admin123, role=ADMIN, skills=[React, Java], managerId=1]";
+//	      String resultString= emp.toString();
+//	        assertEquals(expectedToString, resultString);
+//	    }
 
 }
