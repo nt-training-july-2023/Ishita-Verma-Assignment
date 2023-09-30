@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test;
 
 class ProjectInDTOTest {
 
-    private ProjectInDTO projectDTO1;
-    private ProjectInDTO projectDTO2;
-    private ProjectInDTO projectDTO3;
 
-    @BeforeEach
-    void setUp() {
+    @Test
+    void testGettersAndSetters() {
+        ProjectInDTO projectDTO1 = new ProjectInDTO();
+        ProjectInDTO projectDTO2 = new ProjectInDTO();
+        ProjectInDTO projectDTO3 = new ProjectInDTO();
         projectDTO1 = new ProjectInDTO();
         projectDTO1.setProjectId(1l);
         projectDTO1.setName(null);
@@ -38,10 +38,7 @@ class ProjectInDTOTest {
         projectDTO3.setManagerId(null);
         projectDTO3.setSkills(new ArrayList<>());
         projectDTO3.setStartDate(null);
-    }
-
-    @Test
-    void testGettersAndSetters() {
+        
         assertEquals(1, projectDTO1.getProjectId());
         assertNull(projectDTO1.getName());
         assertNull(projectDTO1.getDescription());
@@ -66,6 +63,33 @@ class ProjectInDTOTest {
 
     @Test
     void testEqualsAndHashCode() {
+        ProjectInDTO projectDTO1 = new ProjectInDTO();
+        ProjectInDTO projectDTO2 = new ProjectInDTO();
+        ProjectInDTO projectDTO3 = new ProjectInDTO();
+        projectDTO1 = new ProjectInDTO();
+        projectDTO1.setProjectId(1l);
+        projectDTO1.setName(null);
+        projectDTO1.setDescription(null);
+        projectDTO1.setManagerId(null);
+        projectDTO1.setSkills(new ArrayList<>());
+        projectDTO1.setStartDate(null);
+
+        projectDTO2 = new ProjectInDTO();
+        projectDTO2.setProjectId(2l);
+        projectDTO2.setName("Project Name");
+        projectDTO2.setDescription("Project Description");
+        projectDTO2.setManagerId(3L);
+        projectDTO2.setSkills(List.of("Skill1", "Skill2"));
+        projectDTO2.setStartDate("2023-09-16");
+
+        projectDTO3 = new ProjectInDTO();
+        projectDTO3.setProjectId(1l);
+        projectDTO3.setName(null);
+        projectDTO3.setDescription(null);
+        projectDTO3.setManagerId(null);
+        projectDTO3.setSkills(new ArrayList<>());
+        projectDTO3.setStartDate(null);
+        
         assertEquals(projectDTO1, projectDTO3);
         assertEquals(projectDTO3, projectDTO1);
 

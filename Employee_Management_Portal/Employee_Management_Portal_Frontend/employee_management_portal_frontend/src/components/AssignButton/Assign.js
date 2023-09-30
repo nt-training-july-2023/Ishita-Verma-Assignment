@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './assign.css';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate,useLocation } from 'react-router-dom';
+import ProjectService from '../../service/ProjectService';
 
 const Assign = () => {
   const [projectsList, setProjectsList] = useState([]);
@@ -13,6 +14,10 @@ const Assign = () => {
 
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const stateData = location.state;
+  console.log("stateData"+ location.state);
 
   useEffect(() => {
     getEmployee();
@@ -36,17 +41,17 @@ const Assign = () => {
   };
 
   const getAllProjects = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/projects');
+    ProjectService.getProjects().then((response)=>{
+      console.log(response.data);
       setProjectsList(response.data);
-    } catch (error) {
-      console.error('Error fetching projects:', error);
-    }
+    }). catch ((error) => {
+      console.error("Error fetching data:", error);
+    })
   };
 
   const updateEmployee = async () => {
     try {
-      await axios.put(`http://localhost:8080/employee/${id}/assignProject`, {
+      await axios.put(`http://localhost:8080/employee/assignProject/${id}`, {
         projectId: projectId,
         managerId: managerId
       });
@@ -59,20 +64,24 @@ const Assign = () => {
     }
   };
   // const updateEmployee = async () => {
-  //   try {
-  //     await axios.put(`http://localhost:8080/api/admin/employee/${id}/assignProject`, {
-  //       projectId: projectId,
-  //       managerId: managerId
-  //     });
-  //     setMessage("Assigned");
-  //     setTimeout(() => {
-  //       navigate("/adminDashboard");
-  //     }, 2000);
-  //   } catch (error) {
-  //     console.error('Error updating employee:', error);
+  //   if(!projectId){
+  //     setProjectError("Select a project");
+  //     return;
   //   }
-  // };
-
+//   ProjectService.assignProject(projectId,managerId,`${stateData.empId}`).then((response)=>{
+//     console.log('Employee updated:', response.data);
+//     // navigate("/adminDashboard");
+//     // setShowPopup(true);
+//     setMessage("Project assigned succesfully");
+//     const navigateToDashboard = () => {
+//       navigate("/AdminDashboard");
+//     };
+//     setTimeout(navigateToDashboard, 2000);
+//   }).catch((error)=>{
+//     console.error('Error updating employee:', error);
+//   })
+// }
+ 
   const handleSelectChange = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const selectedProjectId = e.target.value;

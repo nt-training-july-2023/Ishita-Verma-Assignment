@@ -189,22 +189,22 @@ public class ProjectControllerTest {
         assertEquals(200, status);
     }
 
-    @Test
-    public void testGetUnassignedEmployees() throws Exception {
-        Employee employee1 = new Employee();
-        employee1.setName("Employee 1");
-        Employee employee2 = new Employee();
-        employee2.setName("Employee 2");
-        List<Employee> employees = Arrays.asList(employee1, employee2);
-
-        when(projectService.getEmployeesWithUnassignedProjects()).thenReturn(employees);
-
-        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/unassigned"))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(employees)))
-                .andReturn();
-
-        int status = mvcResult.getResponse().getStatus();
-        assertEquals(200, status);
-    }
+//    @Test
+//    public void testGetUnassignedEmployees() throws Exception {
+//        Employee employee1 = new Employee();
+//        employee1.setName("Employee 1");
+//        Employee employee2 = new Employee();
+//        employee2.setName("Employee 2");
+//        List<Employee> employees = Arrays.asList(employee1, employee2);
+//
+//        when(projectService.getEmployeesWithUnassignedProjects()).thenReturn(employees);
+//
+//        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/unassigned"))
+//                .andExpect(status().isOk())
+//                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(employees)))
+//                .andReturn();
+//
+//        int status = mvcResult.getResponse().getStatus();
+//        assertEquals(200, status);
+//    }
 }

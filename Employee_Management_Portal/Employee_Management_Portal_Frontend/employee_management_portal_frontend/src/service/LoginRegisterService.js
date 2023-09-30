@@ -10,3 +10,4 @@ class LoginRegisterService{
          return axios.post(LOGIN_BASE_URL,loginData);
      }
 }
+export default new LoginRegisterService();

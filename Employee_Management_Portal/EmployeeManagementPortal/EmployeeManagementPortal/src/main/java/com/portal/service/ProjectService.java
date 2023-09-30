@@ -40,12 +40,6 @@ public class ProjectService {
     @Autowired
     private ModelMapper modelMapper;
     /**
-     * Autowired for ApiResponseDTO.
-     */
-    @Autowired
-    private ApiResponseDTO response;
-
-    /**
      * Adds a new project based on the provided projectDTO.
      *
      * @param projectDTO The projectDTO containing project information.
@@ -61,6 +55,7 @@ public class ProjectService {
         projectDTO.setDescription(projectDTO.getDescription());
         Project project = this.dtotoEntity(projectDTO);
         this.projectRepository.save(project);
+        ApiResponseDTO response = new ApiResponseDTO();
         response.setMessage("Project added successfully");
         return response;
     }
@@ -73,13 +68,13 @@ public class ProjectService {
      * or empty list if the project is not
      *         found.
      */
-    final public List<String> getSkillsForProject(final String name) {
+     public final List<String> getSkillsForProject(final String name) {
         Project project = projectRepository.findByName(name);
         if (project != null) {
             List<String> skillArray = project.getSkills();
             return (skillArray);
         }
-        return Collections.emptyList(); // Project not found or no skills
+        return Collections.emptyList();
     }
 
     /**
@@ -183,13 +178,4 @@ public class ProjectService {
         return this.modelMapper.map(projectDto, Project.class);
     }
 
-//entity to dto
-    /**
-     * @param projectEntity project
-     * @return project dto
-     */
-    private ProjectInDTO entitytoDto(final Project projectEntity) {
-        // AdminDTO adminDto = new AdminDTO();
-        return this.modelMapper.map(projectEntity, ProjectInDTO.class);
-    }
 }

@@ -6,7 +6,7 @@ import Skills from "../Data/Skills";
 import Designation from "../Data/Designation";
 import AdminService from "../../service/AdminService";
 import Location from "../Data/Location";
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
 import Popup from "../Popup/Popup";
 import {
@@ -16,10 +16,9 @@ import {
   validateDob,
   validateDoj,
   validateContactNumber,
-} from "../../components/HandleBlur/HandleBlur"; 
+} from "../../components/HandleBlur/HandleBlur";
 
 const AddEmployee = () => {
-  // Define state variables for each form field
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [empId, setEmpId] = useState("");
@@ -30,14 +29,12 @@ const AddEmployee = () => {
   const [contactNumber, setContactNumber] = useState("");
   const [role, setRole] = useState("");
   const [skills, setSkills] = useState([]);
-  const [selectedSkills] = useState([])
+  const [selectedSkills] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
- // Add state for the popup
- const [showPopup, setShowPopup] = useState(false);
- const [popupMessage, setPopupMessage] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
 
-  // Define state variables for validation errors
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [empIdError, setEmpIdError] = useState("");
@@ -49,21 +46,17 @@ const AddEmployee = () => {
   const [skillsError, setSkillsError] = useState("");
   const [roleError, setRoleError] = useState("");
 
-  // Handle skill selection changes
-    const handleSkillChange = (selectedOptions) => {
-      console.log(selectedOptions);
-      const selectedSkillsValues = selectedOptions.map((option) => option.value);
-      setSkills(selectedSkillsValues);
-    };
-const navigate = useNavigate();
+  const handleSkillChange = (selectedOptions) => {
+    console.log(selectedOptions);
+    const selectedSkillsValues = selectedOptions.map((option) => option.value);
+    setSkills(selectedSkillsValues);
+  };
+  const navigate = useNavigate();
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate each form field
     const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-    // const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
     const empIdRegex = /^[Nn]\d{4}$/;
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -132,8 +125,8 @@ const navigate = useNavigate();
       setDesignationError("Required can't be empty.");
     }
 
-    if(role === ""){
-      setRoleError("Required can't be empty.")
+    if (role === "") {
+      setRoleError("Required can't be empty.");
     }
 
     if (!/^\d{10}$/.test(cleanedContactNumber)) {
@@ -144,66 +137,56 @@ const navigate = useNavigate();
       setContactNumberError("");
     }
 
-    // If any field is invalid, return and don't submit
-
-    // Create an employee object with form data
-    const replaceDob = dob.replaceAll("-","");
+    const replaceDob = dob.replaceAll("-", "");
     const pwd = empId + "@" + replaceDob;
     const password = bcrypt.hashSync(pwd, 10);
-    if(isValid){
-    const employee = {
-      name,
-      email,
-      empId,
-      dob,
-      doj,
-      location,
-      designation,
-      contactNumber,
-      role,
-      skills,
-      password,
-    };
+    if (isValid) {
+      const employee = {
+        name,
+        email,
+        empId,
+        dob,
+        doj,
+        location,
+        designation,
+        contactNumber,
+        role,
+        skills,
+        password,
+      };
 
-  //  console.log(employee);
-    AdminService.addEmployee(employee)
-      .then((response) => {
-       console.log(response);
-       setErrorMessage("Successfully Added")
-       const navigateToDashboard = () => {
-        navigate("/EmployeeDashboard");
-    };
-    setTimeout(navigateToDashboard, 2000);
-        // setPopupMessage("Employee added successfully.");
-          // setShowPopup(true);
-
-        // clearFormFields();
-      })
-      .catch((error) => {
-       
-        console.log(error);
-        if (error.response && error.response.data) {
-          if (error.response.data.message === "Email id already exists") {
-            setErrorMessage(
-              "Email is already in use. Please use a different email."
-            );
-          } else if (
-            error.response.data.message === "Employee Id already exists"
-          ) {
-            setErrorMessage("EmpId already exists");
+      AdminService.addEmployee(employee)
+        .then((response) => {
+          console.log(response);
+          setErrorMessage("Successfully Added");
+          const navigateToDashboard = () => {
+            navigate("/AdminDashboard");
+        };
+        setTimeout(navigateToDashboard, 2000);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response && error.response.data) {
+            if (error.response.data.message === "Email id already exists") {
+              setErrorMessage(
+                "Email is already in use. Please use a different email."
+              );
+            } else if (
+              error.response.data.message === "Employee Id already exists"
+            ) {
+              setErrorMessage("EmpId already exists");
+            }
+          } else {
+            setErrorMessage("Error occurred while adding.");
           }
-        } else {
-          setErrorMessage("Error occurred while adding.");
-        }
-      });
+        });
     }
   };
 
-  // Function to clear form fields
   const clearFormFields = () => {
     setName("");
     setEmail("");
-    setEmpId("")
+    setEmpId("");
     setDob("");
     setDoj("");
     setLocation(null);
@@ -258,179 +241,169 @@ const navigate = useNavigate();
 
   return (
     <div className="add_employee_container">
-    <div className="add_employee">
-      <form autoComplete="off" onSubmit={handleSubmit}>
-        <h2 style={{color:"white"}}>Add Employee</h2>
-        
-        <div className="input_form_field">
-          <input
-            type="text"
-            id="name"
-            className="custom-placeholder"
-            value={name}
-            placeholder="Name"
-            onChange={(e) => setName(e.target.value)}
-            onBlur={handleNameBlur}
-          />
-          {nameError && <div className="error-message">{nameError}</div>}
-        </div>
-        <div className="input_form_field">
-          <input
-            type="text"
-            id="empId"
-            className="custom-placeholder "
-            value={empId}
-            placeholder="Employee Id"
-            onChange={(e) => setEmpId(e.target.value)}
-            onBlur={handleEmpIdBlur}
-          />
-          {empIdError && <div className="error-message">{empIdError}</div>}
-        </div>
+      <div className="add_employee">
+        <form autoComplete="off" onSubmit={handleSubmit}>
+          <h2 style={{ color: "white" }}>Add Employee</h2>
 
-        <div className="input_form_field">
-         
-          <input
-            type="email"
-            id="email"
-            className="custom-placeholder addemployee_dropdown"
-            value={email}
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-            onBlur={handleEmailBlur}
-          />
-          {emailError && <div className="error-message">{emailError}</div>}
-        </div>
+          <div className="input_form_field">
+            <input
+              type="text"
+              id="name"
+              className="custom-placeholder"
+              value={name}
+              placeholder="Name"
+              onChange={(e) => setName(e.target.value)}
+              onBlur={handleNameBlur}
+            />
+            {nameError && <div className="error-message">{nameError}</div>}
+          </div>
+          <div className="input_form_field">
+            <input
+              type="text"
+              id="empId"
+              className="custom-placeholder "
+              value={empId}
+              placeholder="Employee Id"
+              onChange={(e) => setEmpId(e.target.value)}
+              onBlur={handleEmpIdBlur}
+            />
+            {empIdError && <div className="error-message">{empIdError}</div>}
+          </div>
 
-        <div className="input_form_field">
-        <label className="date_label">DOB</label>
-          <input
-            type="date"
-            id="dob"
-            className="custom-placeholder"
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
-            onBlur={handleDobBlur}
-          />
-          {dobError && <div className="error-message">{dobError}</div>}
-        </div>
+          <div className="input_form_field">
+            <input
+              type="email"
+              id="email"
+              className="custom-placeholder addemployee_dropdown"
+              value={email}
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={handleEmailBlur}
+            />
+            {emailError && <div className="error-message">{emailError}</div>}
+          </div>
 
-        <div className="input_form_field">
-        <label className="date_label">DOJ</label>
-          <input
-            type="date"
-            id="doj"
-            className="custom-placeholder"
-            value={doj}
-            onChange={(e) => setDoj(e.target.value)}
-            onBlur={handleDojBlur}
-          />
-          {dojError && <div className="error-message">{dojError}</div>}
-        </div>
+          <div className="input_form_field">
+            <label className="date_label">DOB</label>
+            <input
+              type="date"
+              id="dob"
+              className="custom-placeholder"
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+              onBlur={handleDobBlur}
+            />
+            {dobError && <div className="error-message">{dobError}</div>}
+          </div>
 
-        <div className="input_form_field">
-        <select
-  className="custom-placeholder addemployee_dropdown"
-  value={location}
-  onChange={(e) => setLocation(e.target.value)}
->
-  <option value="">Select Location</option>
-  {Location.map((item) => {
-    return (
-      <option key={item} value={item}>
-        {item}
-      </option>
-    );
-  })}
-</select>
-{locationError && (
-  <div className="error-message">{locationError}</div>
-)}
+          <div className="input_form_field">
+            <label className="date_label">DOJ</label>
+            <input
+              type="date"
+              id="doj"
+              className="custom-placeholder"
+              value={doj}
+              onChange={(e) => setDoj(e.target.value)}
+              onBlur={handleDojBlur}
+            />
+            {dojError && <div className="error-message">{dojError}</div>}
+          </div>
 
-        </div>
+          <div className="input_form_field">
+            <select
+              className="custom-placeholder addemployee_dropdown"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            >
+              <option value="">Select Location</option>
+              {Location.map((item) => {
+                return (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+            {locationError && (
+              <div className="error-message">{locationError}</div>
+            )}
+          </div>
 
-        <div className="input_form_field">
-          <select
-            className="custom-placeholder addemployee_dropdown"
-            value={designation}
-            onChange={(e) => setDesignation(e.target.value)}
-            
-          >
-            <option value="">Select Designation</option>
-            {Designation.map((item) => {
-              return (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-          {designationError && (
-            <div className="error-message">{designationError}</div>
-          )}
-        </div>
+          <div className="input_form_field">
+            <select
+              className="custom-placeholder addemployee_dropdown"
+              value={designation}
+              onChange={(e) => setDesignation(e.target.value)}
+            >
+              <option value="">Select Designation</option>
+              {Designation.map((item) => {
+                return (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+            {designationError && (
+              <div className="error-message">{designationError}</div>
+            )}
+          </div>
 
-        <div className="input_form_field">
-          <input
-            type="tel"
-            id="contactNumber"
-            className="custom-placeholder addemployee_dropdown"
-            value={contactNumber}
-            placeholder="Contact Number"
-            onChange={(e) => setContactNumber(e.target.value)}
-            onBlur={handleContactNumberBlur}
-          />
-          {contactNumberError && (
-            <div className="error-message">{contactNumberError}</div>
-          )}
-        </div>
+          <div className="input_form_field">
+            <input
+              type="tel"
+              id="contactNumber"
+              className="custom-placeholder addemployee_dropdown"
+              value={contactNumber}
+              placeholder="Contact Number"
+              onChange={(e) => setContactNumber(e.target.value)}
+              onBlur={handleContactNumberBlur}
+            />
+            {contactNumberError && (
+              <div className="error-message">{contactNumberError}</div>
+            )}
+          </div>
 
-        <div className="input_form_field">
-          <select
-            className="custom-placeholder addemployee_dropdown"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            
-          >
-            <option value="">Select Role</option>
-            {Role.map((item) => {
-              return (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              );
-            })}
-          </select>
-          {roleError && <div className="error-message">{roleError}</div>}
-        </div>
+          <div className="input_form_field">
+            <select
+              className="custom-placeholder addemployee_dropdown"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="">Select Role</option>
+              {Role.map((item) => {
+                return (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+            {roleError && <div className="error-message">{roleError}</div>}
+          </div>
 
-        <div className="input_form_field">
-          <MultiSelectDropdown
-            options={Skills.map((skill) => ({
-              value: skill,
-              label: skill,
-            }))}
-            selectedOptions={selectedSkills.map((skill) => ({
-              value: skill,
-              label: skill,
-            }))}
-            onChange={handleSkillChange}
-            placeholder="Select Skills"
-            // onBlur={validateSkillsRequired}
-          />
-          {skillsError && <div className="error-message">{skillsError}</div>}
-        </div>
-       {/* Display error message if there is one */}
-       {errorMessage && <div className="error-message">{errorMessage}</div>}
-
-        {/* Submit button */}
-        <button className="btn_submit" type="submit">
-          Add Employee
-        </button>
-
-       
-      </form>
-      {renderPopup()}
-    </div>
+          <div className="input_form_field">
+            <MultiSelectDropdown
+              options={Skills.map((skill) => ({
+                value: skill,
+                label: skill,
+              }))}
+              selectedOptions={selectedSkills.map((skill) => ({
+                value: skill,
+                label: skill,
+              }))}
+              onChange={handleSkillChange}
+              placeholder="Select Skills"
+            />
+            {skillsError && <div className="error-message">{skillsError}</div>}
+          </div>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          <button className="btn_submit" type="submit">
+            Add Employee
+          </button>
+        </form>
+        {renderPopup()}
+      </div>
     </div>
   );
 };

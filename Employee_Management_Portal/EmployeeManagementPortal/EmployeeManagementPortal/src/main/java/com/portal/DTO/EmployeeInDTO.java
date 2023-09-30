@@ -1,5 +1,6 @@
 package com.portal.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,19 +24,19 @@ public class EmployeeInDTO {
     /**
      * The unique ID of the admin.
      */
-    private Long Id;
+    private Long id;
 
     /**
      * The employee ID of the admin.
      */
-	@NotBlank(message = "EmpId is required")
+    @NotBlank(message = "EmpId is required")
     @Pattern(regexp = "N\\d{4}$", message = "EmpID should be NXXXX.")
     private String empId;
 
     /**
      * The name of the admin.
      */
-	@NotBlank(message = "Name is required")
+    @NotBlank(message = "Name is required")
     @Pattern(regexp = "^[A-Za-z\\s]+$",
     message = "Name should containe letter only.")
     private String name;
@@ -43,9 +44,9 @@ public class EmployeeInDTO {
     /**
      * The email address of the admin.
      */
-	 @NotEmpty(message = "Email is required")
-	 @Pattern(regexp = ".*@nucleusteq\\.com$",
-	 message = "Email should ends with nucleusteq.com.")
+    @NotEmpty(message = "Email is required")
+    @Pattern(regexp = ".*@nucleusteq\\.com$",
+    message = "Email should ends with nucleusteq.com.")
     private String email;
 
     /**
@@ -118,305 +119,327 @@ public class EmployeeInDTO {
      * The list of skills associated with the admin.
      */
     private List<String> skills;
-        /**
-         * Unique identifier for the admin user.
-         * @return The admin's unique identifier.
-         */
-        public Long getId() {
-            return Id;
-        }
 
-        /**
-         * Sets the unique identifier for the admin user.
-         * @param id The admin's unique identifier.
-         */
-        public void setId(Long id) {
-            Id = id;
-        }
+    /**
+     * Unique identifier for the admin user.
+     * @return The admin's unique identifier.
+     */
+    public Long getId() {
+        return id;
+    }
 
-        /**
-         * Gets the employee ID of the admin.
-         * @return The employee ID of the admin.
-         */
-        public String getEmpId() {
-            return empId;
-        }
+    /**
+     * Sets the unique identifier for the admin user.
+     * @param idParam The admin's unique identifier.
+     */
+    public void setId(final Long idParam) {
+        this.id = idParam;
+    }
 
-        /**
-         * Sets the employee ID of the admin.
-         * @param empId The employee ID of the admin.
-         */
-        public void setEmpId(String empId) {
-            this.empId = empId;
-        }
+    /**
+     * Gets the employee ID of the admin.
+     * @return The employee ID of the admin.
+     */
+    public String getEmpId() {
+        return empId;
+    }
 
-        /**
-         * Gets the name of the admin.
-         * @return The name of the admin.
-         */
-        public String getName() {
-            return name;
-        }
+    /**
+     * Sets the employee ID of the admin.
+     * @param empIdParam The employee ID of the admin.
+     */
+    public void setEmpId(final String empIdParam) {
+        this.empId = empIdParam;
+    }
 
-        /**
-         * Sets the name of the admin.
-         * @param name The name of the admin.
-         */
-        public void setName(String name) {
-            this.name = name;
-        }
+    /**
+     * Gets the name of the admin.
+     * @return The name of the admin.
+     */
+    public String getName() {
+        return name;
+    }
 
-        /**
-         * Gets the email address of the admin.
-         * @return The email address of the admin.
-         */
-        public String getEmail() {
-            return email;
-        }
+    /**
+     * Sets the name of the admin.
+     * @param nameParam The name of the admin.
+     */
+    public void setName(final String nameParam) {
+        this.name = nameParam;
+    }
 
-        /**
-         * Sets the email address of the admin.
-         * @param email The email address of the admin.
-         */
-        public void setEmail(String email) {
-            this.email = email;
-        }
+    /**
+     * Gets the email address of the admin.
+     * @return The email address of the admin.
+     */
+    public String getEmail() {
+        return email;
+    }
 
-        /**
-         * Gets the date of birth of the admin.
-         * @return The date of birth of the admin.
-         */
-        public String getDob() {
-            return dob;
-        }
+    /**
+     * Sets the email address of the admin.
+     * @param emailParam The email address of the admin.
+     */
+    public void setEmail(final String emailParam) {
+        this.email = emailParam;
+    }
 
-        /**
-         * Sets the date of birth of the admin.
-         *
-         * @param dob The date of birth of the admin.
-         */
-        public void setDob(String dob) {
-            this.dob = dob;
-        }
+    /**
+     * Gets the date of birth of the admin.
+     * @return The date of birth of the admin.
+     */
+    public String getDob() {
+        return dob;
+    }
 
-        /**
-         * Gets the date of joining of the admin.
-         * @return The date of joining of the admin.
-         */
-        public String getDoj() {
-            return doj;
-        }
+    /**
+     * Sets the date of birth of the admin.
+     * @param dobParam The date of birth of the admin.
+     */
+    public void setDob(final String dobParam) {
+        this.dob = dobParam;
+    }
 
-        /**
-         * Sets the date of joining of the admin.
-         * @param doj The date of joining of the admin.
-         */
-        public void setDoj(String doj) {
-            this.doj = doj;
-        }
+    /**
+     * Gets the date of joining of the admin.
+     * @return The date of joining of the admin.
+     */
+    public String getDoj() {
+        return doj;
+    }
 
-        /**
-         * Gets the location of the admin.
-         * @return The location of the admin.
-         */
-        public Location getLocation() {
-            return location;
-        }
+    /**
+     * Sets the date of joining of the admin.
+     * @param dojParam The date of joining of the admin.
+     */
+    public void setDoj(final String dojParam) {
+        this.doj = dojParam;
+    }
 
-        /**
-         * Sets the location of the admin.
-         * @param location The location of the admin.
-         */
-        public void setLocation(Location location) {
-            this.location = location;
-        }
+    /**
+     * Gets the location of the admin.
+     * @return The location of the admin.
+     */
+    public Location getLocation() {
+        return location;
+    }
 
-        /**
-         * Gets the designation of the admin.
-         * @return The designation of the admin.
-         */
-        public Designation getDesignation() {
-            return designation;
-        }
+    /**
+     * Sets the location of the admin.
+     * @param locationParam The location of the admin.
+     */
+    public void setLocation(final Location locationParam) {
+        this.location = locationParam;
+    }
 
-        /**
-         * Sets the designation of the admin.
-         * @param designation The designation of the admin.
-         */
-        public void setDesignation(Designation designation) {
-            this.designation = designation;
-        }
+    /**
+     * Gets the designation of the admin.
+     * @return The designation of the admin.
+     */
+    public Designation getDesignation() {
+        return designation;
+    }
 
-        /**
-         * Gets the contact number of the admin.
-         * @return The contact number of the admin.
-         */
-        public String getContactNumber() {
-            return contactNumber;
-        }
+    /**
+     * Sets the designation of the admin.
+     * @param designationParam The designation of the admin.
+     */
+    public void setDesignation(final Designation designationParam) {
+        this.designation = designationParam;
+    }
 
-        /**
-         * Sets the contact number of the admin.
-         * @param contactNumber The contact number of the admin.
-         */
-        public void setContactNumber(String contactNumber) {
-            this.contactNumber = contactNumber;
-        }
+    /**
+     * Gets the contact number of the admin.
+     * @return The contact number of the admin.
+     */
+    public String getContactNumber() {
+        return contactNumber;
+    }
 
-        /**
-         * Gets the password of the admin.
-         * @return The password of the admin.
-         */
-        public String getPassword() {
-            return password;
-        }
+    /**
+     * Sets the contact number of the admin.
+     * @param contactNumberParam The contact number of the admin.
+     */
+    public void setContactNumber(final String contactNumberParam) {
+        this.contactNumber = contactNumberParam;
+    }
 
-        /**
-         * Sets the password of the admin.
-         * @param password The password of the admin.
-         */
-        public void setPassword(String password) {
-            this.password = password;
-        }
+    /**
+     * Gets the password of the admin.
+     * @return The password of the admin.
+     */
+    public String getPassword() {
+        return password;
+    }
 
-        /**
-         * Gets the role of the admin.
-         * @return The role of the admin.
-         */
-        public Role getRole() {
-            return role;
-        }
+    /**
+     * Sets the password of the admin.
+     * @param passwordParam The password of the admin.
+     */
+    public void setPassword(final String passwordParam) {
+        this.password = passwordParam;
+    }
 
-        /**
-         * Sets the role of the admin.
-         * @param role The role of the admin.
-         */
-        public void setRole(Role role) {
-            this.role = role;
-        }
+    /**
+     * Gets the role of the admin.
+     * @return The role of the admin.
+     */
+    public Role getRole() {
+        return role;
+    }
 
-        /**
-         * Gets the manager of the admin.
-         * @return The manager of the admin.
-         */
-        public String getManager() {
-            return manager;
-        }
+    /**
+     * Sets the role of the admin.
+     * @param roleParam The role of the admin.
+     */
+    public void setRole(final Role roleParam) {
+        this.role = roleParam;
+    }
 
-        /**
-         * Sets the manager of the admin.
-         * @param manager The manager of the admin.
-         */
-        public void setManager(String manager) {
-            this.manager = manager;
-        }
+    /**
+     * Gets the manager of the admin.
+     * @return The manager of the admin.
+     */
+    public String getManager() {
+        return manager;
+    }
 
-        /**
-         * Gets the manager's unique identifier.
-         * @return The manager's unique identifier.
-         */
-        public Long getManagerId() {
-            return managerId;
-        }
+    /**
+     * Sets the manager of the admin.
+     * @param managerParam The manager of the admin.
+     */
+    public void setManager(final String managerParam) {
+        this.manager = managerParam;
+    }
 
-        /**
-         * Sets the manager's unique identifier.
-         * @param managerId The manager's unique identifier.
-         */
-        public void setManagerId(Long managerId) {
-            this.managerId = managerId;
-        }
+    /**
+     * Gets the manager's unique identifier.
+     * @return The manager's unique identifier.
+     */
+    public Long getManagerId() {
+        return managerId;
+    }
 
-        /**
-         * Gets the unique identifier for the project associated with the admin.
-         * @return The project's unique identifier.
-         */
-        public Long getProjectId() {
-            return projectId;
-        }
+    /**
+     * Sets the manager's unique identifier.
+     * @param managerIdParam The manager's unique identifier.
+     */
+    public void setManagerId(final Long managerIdParam) {
+        this.managerId = managerIdParam;
+    }
 
-        /**
-         * Sets the unique identifier for the project associated with the admin.
-         * @param projectId The project's unique identifier.
-         */
-        public void setProjectId(Long projectId) {
-            this.projectId = projectId;
-        }
+    /**
+     * Gets the unique identifier for the project associated with the admin.
+     * @return The project's unique identifier.
+     */
+    public Long getProjectId() {
+        return projectId;
+    }
 
-        /**
-         * Gets the name of the project associated with the admin.
-         * @return The name of the project.
-         */
-        public String getProject() {
-            return project;
-        }
+    /**
+     * Sets the unique identifier for the project associated with the admin.
+     * @param projectIdParam The project's unique identifier.
+     */
+    public void setProjectId(final Long projectIdParam) {
+        this.projectId = projectIdParam;
+    }
 
-        /**
-         * Sets the name of the project associated with the admin.
-         * @param project The name of the project.
-         */
-        public void setProject(String project) {
-            this.project = project;
-        }
+    /**
+     * Gets the name of the project associated with the admin.
+     * @return The name of the project.
+     */
+    public String getProject() {
+        return project;
+    }
 
-        /**
-         * Gets the list of skills possessed by the admin.
-         * @return The list of skills.
-         */
-        public List<String> getSkills() {
-            return skills;
-        }
+    /**
+     * Sets the name of the project associated with the admin.
+     * @param projectParam The name of the project.
+     */
+    public void setProject(final String projectParam) {
+        this.project = projectParam;
+    }
 
-        /**
-         * Sets the list of skills possessed by the admin.
-         * @param skills The list of skills.
-         */
-        public void setSkills(List<String> skills) {
-            this.skills = skills;
+    /**
+     * Gets the list of skills possessed by the admin.
+     * @return The list of skills.
+     */
+    public List<String> getSkills() {
+        return new ArrayList<>(skills);
+    }
+
+
+    /**
+     * Sets the list of skills possessed by the admin.
+     * @param skillsParam The list of skills.
+     */
+    public final void setSkills(final List<String> skillsParam) {
+        if (skillsParam != null) {
+            this.skills = new ArrayList<>(skillsParam);
+        } else {
+            this.skills = null;
         }
- 
+    }
+
     /**
      * Calculates the hash code for this AdminDTO object.
      * @return The hash code value.
      */
-	@Override
-	public int hashCode() {
-		return Objects.hash(Id, contactNumber, designation, dob, doj, email, empId, location, manager, managerId, name,
-				password, project, projectId, role, skills);
-	}
-	/**
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, contactNumber, designation, dob, doj,
+                email, empId, location, manager, managerId, name, password,
+                project, projectId, role, skills);
+    }
+
+    /**
      * Compares this AdminDTO object to another object for equality.
      * @param obj The object to compare to.
      * @return {@code true} if the objects are equal, {@code false} otherwise.
      */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		EmployeeInDTO other = (EmployeeInDTO) obj;
-		return Objects.equals(Id, other.Id) && Objects.equals(contactNumber, other.contactNumber)
-				&& designation == other.designation && Objects.equals(dob, other.dob) && Objects.equals(doj, other.doj)
-				&& Objects.equals(email, other.email) && Objects.equals(empId, other.empId)
-				&& location == other.location && Objects.equals(manager, other.manager)
-				&& Objects.equals(managerId, other.managerId) && Objects.equals(name, other.name)
-				&& Objects.equals(password, other.password) && Objects.equals(project, other.project)
-				&& Objects.equals(projectId, other.projectId) && role == other.role
-				&& Objects.equals(skills, other.skills);
-	}
-	/**
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        EmployeeInDTO other = (EmployeeInDTO) obj;
+        return Objects.equals(id, other.id)
+                && Objects.equals(contactNumber, other.contactNumber)
+                && designation == other.designation
+                && Objects.equals(dob, other.dob)
+                && Objects.equals(doj, other.doj)
+                && Objects.equals(email, other.email)
+                && Objects.equals(empId, other.empId)
+                && location == other.location
+                && Objects.equals(manager, other.manager)
+                && Objects.equals(managerId, other.managerId)
+                && Objects.equals(name, other.name)
+                && Objects.equals(password, other.password)
+                && Objects.equals(project, other.project)
+                && Objects.equals(projectId, other.projectId)
+                && role == other.role
+                && Objects.equals(skills, other.skills);
+    }
+
+    /**
      * Returns a string representation of the AdminDTO object.
      * @return A string containing the values of all fields.
      */
-	@Override
-	public String toString() {
-		return "AdminDTO [Id=" + Id + ", empId=" + empId + ", name=" + name + ", email=" + email + ", dob=" + dob
-				+ ", doj=" + doj + ", location=" + location + ", designation=" + designation + ", contactNumber="
-				+ contactNumber + ", password=" + password + ", role=" + role + ", manager=" + manager + ", managerId="
-				+ managerId + ", projectId=" + projectId + ", project=" + project + ", skills=" + skills + "]";
-	}
-    
+    @Override
+    public String toString() {
+        return "AdminDTO [Id=" + id + ", empId=" + empId + ", name=" + name
+                + ", email=" + email + ", dob=" + dob + ", doj=" + doj
+                + ", location=" + location + ", designation=" + designation
+                + ", contactNumber=" + contactNumber + ", password="
+                + password + ", role=" + role + ", manager=" + manager
+                + ", managerId=" + managerId + ", projectId=" + projectId
+                + ", project=" + project + ", skills=" + skills + "]";
+    }
+
 }

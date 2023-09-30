@@ -78,9 +78,13 @@ const Card = ({
             </button>
           ) : (
             <Link
-              to={`/assign/project/${id}`}
+            to={{
+              pathname: `/assign/project/${id}`,
+              state: { empId: id, empName: name },
+            }}
               className="assign_btn"
               style={{ marginTop: "1rem" }}
+              
             >
               Assign Project
             </Link>

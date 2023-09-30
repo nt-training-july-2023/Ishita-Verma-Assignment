@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +35,6 @@ public class EmployeeService {
      */
     @Autowired
     private AdminRepository userRepository;
-
-    /**
-     * ModelMapper for mapping between DTOs and entities.
-     */
-    @Autowired
-    private ModelMapper modelMapper;
     /**
      * Repository for request resource.
      */
@@ -58,11 +51,6 @@ public class EmployeeService {
     @Autowired
     private RequestResourceRepository requestResourceRepository;
     /**
-     * Api response class.
-     */
-    @Autowired
-    private ApiResponseDTO response;
-    /**
      * Logger for info and error.
      */
     private static final Logger LOGGER = LoggerFactory
@@ -70,7 +58,7 @@ public class EmployeeService {
 
     /**
      * Adds an employee based on the provided AdminDTO.
-     * @param userDto The AdminDTO containing employee information.
+     * @param adminDTO The AdminDTO containing employee information.
      * @return The added Admin entity.
      * @throws DuplicateEntryException if same email alreadyexists.
      */
@@ -92,16 +80,17 @@ public class EmployeeService {
         adminDTO.setManagerId(emp.get().getId());
         adminDTO.setProjectId(0L);
 
+        ApiResponseDTO response = new ApiResponseDTO();
         Employee empEntity = this.dtotoEntity(adminDTO);
 
         this.userRepository.save(empEntity);
-        response.setMessage("Employee Added Succesfully");
+        response.setMessage("Employee Added Successfully");
         return response;
     }
 
     /**
      * Drop Down Manager ID and Name.
-     * @param empId Id of Manager
+     * @param id Id of Manager
      * @return employeeName
      */
     public final EmployeeOutDTO getEmployeeById(final Long id) {
@@ -124,8 +113,11 @@ public class EmployeeService {
             empDto.setDob(employee.getDob());
             empDto.setDoj(employee.getDoj());
             empDto.setLocation(employee.getLocation());
+            empDto.setRole(employee.getRole());
+            empDto.setManagerId(employee.getManagerId());
+            empDto.setProjectId(employee.getProjectId());
             if (employee.getProjectId() == 0) {
-                empDto.setProjectName(null);
+                empDto.setProjectName("N/A");
             } else {
                 Project project = projectRepository
                         .findById(employee.getProjectId()).get();
@@ -147,7 +139,7 @@ public class EmployeeService {
      */
     public final List<EmployeeOutDTO> getEmployeeByRole(final Role roleName) {
 //        Role role = Role.roleName;
-        List<Employee> employees = userRepository.findByRole(Role.EMPLOYEE);
+        List<Employee> employees = userRepository.findByRole(roleName);
         // System.out.println(employees);
         List<EmployeeOutDTO> employeeDtoList = new ArrayList<EmployeeOutDTO>();
         for (Employee employee : employees) {
@@ -199,6 +191,8 @@ public class EmployeeService {
             empDto.setDoj(employee.getDoj());
             empDto.setLocation(employee.getLocation());
             empDto.setRole(employee.getRole());
+            empDto.setManagerId(employee.getManagerId());
+            empDto.setProjectId(employee.getProjectId());
             Employee manager = userRepository
                     .findById(employee.getManagerId()).get();
             empDto.setManager(manager.getName());
@@ -241,26 +235,18 @@ public class EmployeeService {
             for (RequestResource req : request) {
                 requestResourceService.rejectRequest(req.getResourceId());
             }
+            ApiResponseDTO response = new ApiResponseDTO();
             response.setMessage("Updated Suceesfully");
             return response;
         }
         LOGGER.error("Employee not found");
         throw new ResourceNotFoundException("Employee not found");
     }
-
-//        public final ApiResponseDTO updateSkills(final Long id,
-//                final List<String> skills) {
-//            Employee emp = userRepository.findById(id).get();
-//            emp.setSkills(skills);
-//            userRepository.save(emp);
-//            response.setMessage("Skills Updated Successfully");
-//            return response;
-//        }
     /**
      * Update an employee's skills.
-     * @param id     the employee ID
-     * @param skills the updated list of skills
-     * @return an API response indicating the result of the operation
+     * @param id the employee ID
+     * @param updatedSkills the updated list of skills
+     * @return an API response indicating the result of the operation.
      */
     public final ApiResponseDTO updateSkills(final Long id,
             final List<String> updatedSkills) {
@@ -287,6 +273,7 @@ public class EmployeeService {
         RequestResource requestResource = dtoToRequestResource(
                 requestResourceDto);
         requestResourceRepository.save(requestResource);
+        ApiResponseDTO response = new ApiResponseDTO();
         response.setMessage("Resource added.");
         return response;
     }
@@ -296,7 +283,7 @@ public class EmployeeService {
      * @param requestResourceDto The DTO object to be converted.
      * @return A RequestResource entity representing the converted DTO.
      */
-    private RequestResource dtoToRequestResource(
+    public RequestResource dtoToRequestResource(
            final RequestResourceInDTO requestResourceDto) {
         RequestResource requestResource = new RequestResource();
         requestResource.setComment(requestResourceDto.getComment());
@@ -317,9 +304,9 @@ public class EmployeeService {
         List<RequestResource> requestResourceList = requestResourceRepository
                 .findAll();
         List<RequestResourceOutDTO> returnedList = new ArrayList<>();
-        for (RequestResource r : requestResourceList) {
+        for (RequestResource request : requestResourceList) {
             RequestResourceOutDTO requestResourceOutDto = requestToOutDto(
-                    r);
+                    request);
             returnedList.add(requestResourceOutDto);
         }
         return returnedList;
@@ -330,28 +317,28 @@ public class EmployeeService {
      * @param requestResource entity to convert.
      * @return data representing the converted entity.
      */
-    private RequestResourceOutDTO requestToOutDto(
+    public RequestResourceOutDTO requestToOutDto(
            final RequestResource requestResource) {
-        RequestResourceOutDTO r = new RequestResourceOutDTO();
-        r.setComment(requestResource.getComment());
-        r.setEmpId(requestResource.getEmployeeId());
-        r.setManagerId(requestResource.getManagerId());
-        r.setProjectId(requestResource.getProjectId());
+        RequestResourceOutDTO request = new RequestResourceOutDTO();
+        request.setComment(requestResource.getComment());
+        request.setEmpId(requestResource.getEmployeeId());
+        request.setManagerId(requestResource.getManagerId());
+        request.setProjectId(requestResource.getProjectId());
         Optional<Employee> optionalUser = userRepository
                 .findById(requestResource.getEmployeeId());
         Employee user = optionalUser.get();
-        r.setEmployeeName(user.getName());
-        r.setEmpUserId(user.getEmpId());
+        request.setEmployeeName(user.getName());
+        request.setEmpUserId(user.getEmpId());
         Optional<Employee> optionalManager = userRepository
                 .findById(requestResource.getManagerId());
         Employee manager = optionalManager.get();
-        r.setManagerName(manager.getName());
-        r.setManagerUserId(manager.getEmpId());
+        request.setManagerName(manager.getName());
+        request.setManagerUserId(manager.getEmpId());
         Optional<Project> projectOptional = projectRepository
                 .findById(requestResource.getProjectId());
         Project project = projectOptional.get();
-        r.setProjectName(project.getName());
-        return r;
+        request.setProjectName(project.getName());
+        return request;
     }
 
     /**
@@ -447,11 +434,24 @@ public class EmployeeService {
     }
 
     /**
-     * @param dto to entity.
+     * @param userDto to entity.
      * @return employee dto
      */
-    private Employee dtotoEntity(final EmployeeInDTO adminDTO) {
-        // AdminEntity adminEntity = new AdminEntity();
-        return this.modelMapper.map(adminDTO, Employee.class);
+    private Employee dtotoEntity(final EmployeeInDTO userDto) {
+        Employee user = new Employee();
+        user.setName(userDto.getName());
+        user.setRole(userDto.getRole());
+        user.setProjectId(userDto.getProjectId());
+        user.setPassword(userDto.getPassword());
+        user.setDob(userDto.getDob());
+        user.setDoj(userDto.getDoj());
+        user.setEmail(userDto.getEmail());
+        user.setEmpId(userDto.getEmpId());
+        user.setLocation(userDto.getLocation());
+        user.setDesignation(userDto.getDesignation());
+        user.setContactNumber(userDto.getContactNumber());
+        user.setSkills(userDto.getSkills());
+        user.setManagerId(userDto.getManagerId());
+        return user;
     }
 }

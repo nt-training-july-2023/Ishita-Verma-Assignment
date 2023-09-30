@@ -1,5 +1,7 @@
 package com.portal.entities;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,10 +56,10 @@ public class Project {
     }
 
     /**
-     * @param projectId the projectId to set
+     * @param projectIdParam the projectId to set
      */
-    public void setProjectId(final Long projectId) {
-        this.projectId = projectId;
+    public void setProjectId(final Long projectIdParam) {
+        this.projectId = projectIdParam;
     }
 
     /**
@@ -68,10 +70,10 @@ public class Project {
     }
 
     /**
-     * @param name the name to set
+     * @param nameParam the name to set
      */
-    public void setName(final String name) {
-        this.name = name;
+    public void setName(final String nameParam) {
+        this.name = nameParam;
     }
 
     /**
@@ -82,10 +84,10 @@ public class Project {
     }
 
     /**
-     * @param managerId the managerId to set
+     * @param managerIdParam the managerId to set
      */
-    public void setManagerId(final Long managerId) {
-        this.managerId = managerId;
+    public void setManagerId(final Long managerIdParam) {
+        this.managerId = managerIdParam;
     }
 
     /**
@@ -96,24 +98,28 @@ public class Project {
     }
 
     /**
-     * @param startDate the startDate to set
+     * @param startDateParam the startDate to set
      */
-    public void setStartDate(final String startDate) {
-        this.startDate = startDate;
+    public void setStartDate(final String startDateParam) {
+        this.startDate = startDateParam;
     }
 
     /**
      * @return the skills
      */
     public List<String> getSkills() {
-        return skills;
+        return Collections.unmodifiableList(skills);
     }
 
     /**
-     * @param skills the skills to set
+     * @param skillsParam the skills to set
      */
-    public void setSkills(final List<String> skills) {
-        this.skills = skills;
+    public void setSkills(final List<String> skillsParam) {
+        if (skillsParam != null) {
+            this.skills = new ArrayList<>(skillsParam);
+        } else {
+            this.skills = null;
+        }
     }
 
     /**
@@ -124,10 +130,10 @@ public class Project {
     }
 
     /**
-     * @param description the description to set
+     * @param descriptionParam the description to set
      */
-    public void setDescription(final String description) {
-        this.description = description;
+    public void setDescription(final String descriptionParam) {
+        this.description = descriptionParam;
     }
 
     /**
@@ -169,7 +175,7 @@ public class Project {
         return Objects.equals(description, other.description)
                 && Objects.equals(managerId, other.managerId)
                 && Objects.equals(name, other.name)
-                && projectId == other.projectId
+                && Objects.equals(projectId, other.projectId)
                 && Objects.equals(skills, other.skills)
                 && Objects.equals(startDate, other.startDate);
     }

@@ -6,37 +6,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class LoginInDTOTest {
-
-	private LoginInDTO loginDTO1;
-    private LoginInDTO loginDTO2;
-    private LoginInDTO loginDTO3;
-	 @BeforeEach
-	    void setUp() {
-	        loginDTO1 = new LoginInDTO();
-	        loginDTO1.setEmail(null);
-	        loginDTO1.setPassword(null);
-
-	        loginDTO2 = new LoginInDTO();
-	        loginDTO2.setEmail("user@example.com");
-	        loginDTO2.setPassword("password123");
-
-	        loginDTO3 = new LoginInDTO();
-	        loginDTO3.setEmail(null);
-	        loginDTO3.setPassword(null);
+    
+	 @Test
+	    void testGetSetEmail() {
+	        // Create a LoginInDTO object
+	        LoginInDTO loginDTO = new LoginInDTO();
+            loginDTO.setEmail("ankita.sharma@nucleusteq.com");
+            loginDTO.setPassword("admin123");
+	        assertEquals("ankita.sharma@nucleusteq.com", loginDTO.getEmail());
+	        assertEquals("admin123",loginDTO.getPassword());
 	    }
-	@Test
-    void testGetSetEmail() {
-        LoginInDTO loginDTO = new LoginInDTO();
-        loginDTO.setEmail("ankita.sharma@nucleusteq.com");
-        assertEquals("ankita.sharma@nucleusteq.com", loginDTO.getEmail());
-    }
-
-    @Test
-    void testGetSetPassword() {
-        LoginInDTO loginDTO = new LoginInDTO();
-        loginDTO.setPassword("password");
-        assertEquals("password", loginDTO.getPassword());
-    }
 
     @Test
     void testEqualsAndHashCode() {
@@ -60,13 +39,24 @@ class LoginInDTOTest {
         loginDTO2.setEmail("vanshika@nucleusteq.com");
         assertNotEquals(loginDTO1, loginDTO2);
         assertNotEquals(loginDTO2, loginDTO1);
-
     }
+
     @Test
     void testToString() {
-    	assertEquals("LoginDTO [email=null, password=null]", loginDTO1.toString());
-    	assertEquals("LoginDTO [email=user@example.com, password=password123]", loginDTO2.toString());
-    	assertEquals("LoginDTO [email=null, password=null]", loginDTO3.toString());
-    }
+        LoginInDTO loginDTO1 = new LoginInDTO();
+        loginDTO1.setEmail(null);
+        loginDTO1.setPassword(null);
 
+        LoginInDTO loginDTO2 = new LoginInDTO();
+        loginDTO2.setEmail("user@example.com");
+        loginDTO2.setPassword("password123");
+
+        LoginInDTO loginDTO3 = new LoginInDTO();
+        loginDTO3.setEmail(null);
+        loginDTO3.setPassword(null);
+
+            assertEquals("LoginInDTO [email=null, password=null]", loginDTO1.toString());
+            assertEquals("LoginInDTO [email=user@example.com, password=password123]", loginDTO2.toString());
+            assertEquals("LoginInDTO [email=null, password=null]", loginDTO3.toString());
+        }
 }

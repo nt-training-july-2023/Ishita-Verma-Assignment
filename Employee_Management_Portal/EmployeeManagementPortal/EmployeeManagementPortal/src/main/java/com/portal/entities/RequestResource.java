@@ -19,7 +19,7 @@ public class RequestResource {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ResourceId;
+    private Long resourceId;
 
     /**
      * The comment or additional information about the request.
@@ -51,16 +51,16 @@ public class RequestResource {
      * @return The unique identifier for the resource request.
      */
     public Long getResourceId() {
-        return ResourceId;
+        return resourceId;
     }
 
     /**
      * Sets the unique identifier for the resource request.
      *
-     * @param resourceId The unique identifier for the resource request.
+     * @param resourceIdParam The unique identifier for the resource request.
      */
-    public void setResourceId(final Long resourceId) {
-        ResourceId = resourceId;
+    public void  setResourceId(final Long resourceIdParam) {
+        this.resourceId = resourceIdParam;
     }
 
     /**
@@ -75,10 +75,10 @@ public class RequestResource {
     /**
      * Sets the comment or additional information about the request.
      *
-     * @param comment The comment or additional information about the request.
+     * @param commentParam
      */
-    public void setComment(final String comment) {
-        this.comment = comment;
+    public void setComment(final String commentParam) {
+        this.comment = commentParam;
     }
 
     /**
@@ -93,10 +93,10 @@ public class RequestResource {
     /**
      * Sets the ID of the manager associated with the request.
      *
-     * @param managerId The ID of the manager associated with the request.
+     * @param managerIdParam The ID of the manager associated with the request.
      */
-    public void setManagerId(final Long managerId) {
-        this.managerId = managerId;
+    public void setManagerId(final Long managerIdParam) {
+        this.managerId = managerIdParam;
     }
 
     /**
@@ -111,10 +111,10 @@ public class RequestResource {
     /**
      * Sets the ID of the employee associated with the request.
      *
-     * @param employeeId The ID of the employee associated with the request.
+     * @param employeeIdParam The ID of the employee.
      */
-    public void setEmployeeId(final Long employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployeeId(final Long employeeIdParam) {
+        this.employeeId = employeeIdParam;
     }
 
     /**
@@ -129,10 +129,10 @@ public class RequestResource {
     /**
      * Sets the ID of the project associated with the request.
      *
-     * @param projectId The ID of the project associated with the request.
+     * @param projectIdParam The ID of the project associated with the request.
      */
-    public void setProjectId(final Long projectId) {
-        this.projectId = projectId;
+    public void setProjectId(final Long projectIdParam) {
+        this.projectId = projectIdParam;
     }
 
     /**
@@ -141,7 +141,7 @@ public class RequestResource {
      */
     @Override
     public String toString() {
-        return "RequestResource [ResourceId=" + ResourceId
+        return "RequestResource [ResourceId=" + resourceId
                 + ", comment=" + comment + ", managerId=" + managerId
                 + ", employeeId=" + employeeId
                 + ", projectId=" + projectId + "]";
@@ -154,7 +154,7 @@ public class RequestResource {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(ResourceId,
+        return Objects.hash(resourceId,
                 comment, employeeId, managerId, projectId);
     }
 
@@ -165,14 +165,14 @@ public class RequestResource {
      */
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
             }
-        if (obj == null || getClass() != obj.getClass()){
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
             }
         RequestResource other = (RequestResource) obj;
-        return Objects.equals(ResourceId, other.ResourceId) 
+        return Objects.equals(resourceId, other.resourceId)
                 && Objects.equals(comment, other.comment)
                 && Objects.equals(employeeId, other.employeeId)
                 && Objects.equals(managerId, other.managerId)

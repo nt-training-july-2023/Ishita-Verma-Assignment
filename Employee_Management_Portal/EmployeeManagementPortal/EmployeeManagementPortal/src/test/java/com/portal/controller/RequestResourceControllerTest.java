@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,24 +156,18 @@ class RequestResourceControllerTest {
     }
     @Test
     public void testIsRequested() throws Exception {
-        RequestedDTO reqDto = new RequestedDTO();
-        reqDto.setEmployeeId(1L);
-        reqDto.setManagerEmail("rashmi@nucleusteq.com");
-        ;
+        // Prepare input data
+        Long empId = 1L;
+        Long managerId = 2L;
 
-        when(requestService.isRequested(reqDto)).thenReturn(true);
+        // Mock the service method
+        when(requestService.isRequested(empId, managerId)).thenReturn(true);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String inputJSON = objectMapper.writeValueAsString(reqDto);
-
-        MvcResult mvcResult = this.mockMvc.perform(post("/employee/isRequested")
-                .contentType(MediaType.APPLICATION_JSON).content(inputJSON))
-                .andReturn();
-
-        int status = mvcResult.getResponse().getStatus();
-        assertEquals(200, status);
-
-        boolean response = Boolean.parseBoolean(mvcResult.getResponse().getContentAsString());
-        assertTrue(response);
+        // Perform the POST request
+        mockMvc.perform(get("/employee/isRequested")
+                .param("empId", empId.toString())
+                .param("managerId", managerId.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

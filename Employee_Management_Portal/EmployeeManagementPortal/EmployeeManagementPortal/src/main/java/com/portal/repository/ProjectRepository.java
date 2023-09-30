@@ -20,24 +20,22 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     /**
      * Find a project by its name.
-     * @param projectName The name of the project to search for.
+     * @param name The name of the project to search for.
      * @return The project with the specified name, if found.
      */
     Project findByName(String name);
 
     /**
      * Display project as per the manager.
-     * @param projectName The name of the project to search for.
+     * @param managerId The name of the project to search for.
      * @return The project with the specified name, if found.
      */
     List<Project> findAllByManagerId(Long managerId);
 
     /**
      * Retrieves a project by its name.
-     * @param projectName the name of the project
-     * @return an {@code Optional} containing
-     * the managerId if found, or empty if
-     *         not found
+     * @param managerId
+     * @return an {@code Optional}.
      */
     List<Project> findByManagerId(Long managerId);
 

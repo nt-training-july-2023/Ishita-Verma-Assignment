@@ -1,12 +1,13 @@
 package com.portal.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+
 /**
  * Data Transfer Object (DTO) representing project information.
  */
@@ -37,136 +38,153 @@ public class ProjectInDTO {
     /**
      * The list of skills required for the project.
      */
-    @NotEmpty(message= "Project Skill Required")
+    @NotEmpty(message = "Project Skill Required")
     private List<@NotBlank String> skills;
-    /**.
-     * start date of project
+    /**
+     * . start date of project
      */
-    @NotBlank(message ="Start date is mandatory")
+    @NotBlank(message = "Start date is mandatory")
     private String startDate;
 
-	/**
-	 * @return the projectId
-	 */
-	public Long getProjectId() {
-		return projectId;
-	}
+    /**
+     * @return the projectId
+     */
+    public Long getProjectId() {
+        return projectId;
+    }
 
-	/**
-	 * @param projectId the projectId to set
-	 */
-	public void setProjectId(Long projectId) {
-		this.projectId = projectId;
-	}
+    /**
+     * @param projectIdParam the projectId to set
+     */
+    public void setProjectId(final Long projectIdParam) {
+        this.projectId = projectIdParam;
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * @param nameParam the name to set
+     */
+    public void setName(final String nameParam) {
+        this.name = nameParam;
+    }
 
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
 
-	/**
-	 * @param description the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * @param descriptionParam the description to set
+     */
+    public void setDescription(final String descriptionParam) {
+        this.description = descriptionParam;
+    }
 
-	/**
-	 * @return the managerId
-	 */
-	public Long getManagerId() {
-		return managerId;
-	}
+    /**
+     * @return the managerId
+     */
+    public Long getManagerId() {
+        return managerId;
+    }
 
-	/**
-	 * @param managerId the managerId to set
-	 */
-	public void setManagerId(Long managerId) {
-		this.managerId = managerId;
-	}
+    /**
+     * @param managerIdParam the managerId to set
+     */
+    public void setManagerId(final Long managerIdParam) {
+        this.managerId = managerIdParam;
+    }
 
-	/**
-	 * @return the skills
-	 */
-	public List<String> getSkills() {
-		return skills;
-	}
+    /**
+     * Gets the list of skills possessed by the admin.
+     * @return The list of skills.
+     */
+    public List<String> getSkills() {
+        return new ArrayList<>(skills);
+    }
 
-	/**
-	 * @param skills the skills to set
-	 */
-	public void setSkills(List<String> skills) {
-		this.skills = skills;
-	}
-    
-	/**
-	 * @return the startDate
-	 */
-	public String getStartDate() {
-		return startDate;
-	}
 
-	/**
-	 * @param startDate the startDate to set
-	 */
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
+    /**
+     * Sets the list of skills possessed by the admin.
+     * @param skillsParam The list of skills.
+     */
+    public final void setSkills(final List<String> skillsParam) {
+        if (skillsParam != null) {
+            this.skills = new ArrayList<>(skillsParam);
+        } else {
+            this.skills = null;
+        }
+    }
 
-	/**
-	 * Calculates the hash code value for this ProjectInDTO object.
-	 *
-	 * @return The hash code value based on the description, managerId, name, projectId, skills, and startDate.
-	 */
-	@Override
-	public int hashCode() {
-	    return Objects.hash(description, managerId, name, projectId, skills, startDate);
-	}
+    /**
+     * @return the startDate
+     */
+    public String getStartDate() {
+        return startDate;
+    }
 
-	/**
-	 * Indicates whether some other object is "equal to" this ProjectInDTO.
-	 *
-	 * @param obj The reference object with which to compare.
-	 * @return {@code true} if this ProjectInDTO is the same as the obj argument; {@code false} otherwise.
-	 */
-	@Override
-	public boolean equals(Object obj) {
-	    if (this == obj)
-	        return true;
-	    if (obj == null)
-	        return false;
-	    if (getClass() != obj.getClass())
-	        return false;
-	    ProjectInDTO other = (ProjectInDTO) obj;
-	    return Objects.equals(description, other.description) && Objects.equals(managerId, other.managerId)
-	            && Objects.equals(name, other.name) && projectId == other.projectId
-	            && Objects.equals(skills, other.skills) && Objects.equals(startDate, other.startDate);
-	}
+    /**
+     * @param startDateParam the startDate to set
+     */
+    public void setStartDate(final String startDateParam) {
+        this.startDate = startDateParam;
+    }
 
-	/**
-	 * Returns a string representation of this ProjectInDTO.
-	 *
-	 * @return A string containing the projectId, name, description, managerId, skills, and startDate of this ProjectInDTO.
-	 */
-	@Override
-	public String toString() {
-	    return "ProjectDTO [projectId=" + projectId + ", name=" + name + ", description=" + description + ", managerId="
-	            + managerId + ", skills=" + skills + ", startDate=" + startDate + "]";
-	}
+    /**
+     * Calculates the hash code value for this ProjectInDTO object.
+     *
+     * @return The hash code value.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(description, managerId, name, projectId,
+                skills, startDate);
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" this ProjectInDTO.
+     *
+     * @param obj The reference object with which to compare.
+     * @return {@code true} if this ProjectInDTO is same as obj argument;
+     *         {@code false} otherwise.
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ProjectInDTO other = (ProjectInDTO) obj;
+        return Objects.equals(description, other.description)
+                && Objects.equals(managerId, other.managerId)
+                && Objects.equals(name, other.name)
+                && Objects.equals(projectId, other.projectId)
+                && Objects.equals(skills, other.skills)
+                && Objects.equals(startDate, other.startDate);
+    }
+
+    /**
+     * Returns a string representation of this ProjectInDTO.
+     *
+     * @return A string.
+     */
+    @Override
+    public String toString() {
+        return "ProjectDTO [projectId=" + projectId + ",name=" + name
+                + ", description=" + description + ", managerId="
+                + managerId + ", skills=" + skills + ", startDate="
+                + startDate + "]";
+    }
 }

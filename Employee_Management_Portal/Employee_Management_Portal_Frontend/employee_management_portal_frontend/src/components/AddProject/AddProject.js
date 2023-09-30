@@ -13,6 +13,8 @@ import {
   validateStartDate,
   validateDescription
 } from "../../components/HandleBlur/HandleBlur"; 
+import ProjectService from "../../service/ProjectService";
+import EmployeeService from "../../service/EmployeeService";
 
 const AddProject = () => {
   const [name, setName] = useState("");
@@ -31,7 +33,6 @@ const AddProject = () => {
   const [skills, setSkills] = useState([]);
   const [descriptionError, setDescriptionError] = useState("");
 
-  // State variables for success popup
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -41,88 +42,20 @@ const AddProject = () => {
   };
 
   const navigate = useNavigate();
-  // Function to validate if a field is empty
-  // const validateField = (field, value) => {
-  //   if (value.trim() === "") {
-  //     switch (field) {
-  //       case "name":
-  //         setNameError("Project Name is required");
-  //         break;
-  //       case "managerId":
-  //         setManagerIdError("Manager ID is required");
-  //         break;
-  //       case "startDate":
-  //         setStartDateError("Start Date is required");
-  //         break;
-  //       case "skills":
-  //         setSkillsError("Skills are required");
-  //         break;
-  //       case "description":
-  //         setDescriptionError("Description is required");
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //     return false; // Field is empty
-  //   } else {
-  //     // Clear the error message if the field is not empty
-  //     switch (field) {
-  //       case "name":
-  //         setNameError("");
-  //         break;
-  //       case "managerId":
-  //         setManagerIdError("");
-  //         break;
-  //       case "startDate":
-  //         setStartDateError("");
-  //         break;
-  //       case "skills":
-  //         setSkillsError("");
-  //         break;
-  //       case "description":
-  //         setDescriptionError("");
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //     return true; // Field is not empty
-  //   }
-  // };
 
   useEffect(() => {
     getManagerList();
   }, []);
 
-  async function getManagerList() {
-    try {
-      const res = await axios.get(
-        "http://localhost:8080/all/MANAGER"
-      );
-      setManagerList(res.data);
-    } catch (error) {
-      console.log(error);
-    }
+  async function getManagerList() { 
+    EmployeeService.getEmployees("MANAGER").then((response) =>{
+      console.log(response.data);
+      setManagerList(response.data);
+    })
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Validate each field before submission
-    // const isNameValid = validateField("name", String(name));
-    // const isManagerIdValid = validateField("managerId", managerId);
-    // const isStartDateValid = validateField("startDate", startDate);
-    // const isSkillsValid = skills.length > 0;
-    // const isDescriptionValid = validateField("description", description);
-
-    // if (
-    //   !isNameValid ||
-    //   !isManagerIdValid ||
-    //   !isStartDateValid ||
-    //   !isSkillsValid ||
-    //   !isDescriptionValid
-    // ) {
-    //   return;
-    // }
 
     const project = {
       name,
@@ -131,29 +64,17 @@ const AddProject = () => {
       skills,
       description,
     };
-
-    AdminService.addProject(project)
-      .then((response) => {
-        setSuccessMessage("Project added successfully.");
-        const navigateToDashboard = () => {
-          navigate("/AdminDashboard");
-      };
-      setTimeout(navigateToDashboard, 2000);
-        // setShowSuccessPopup(true);
-        // setName("");
-        // setManagerId("");
-        // setStartDate("");
-        // setSkills([]);
-        // setDescription("");
-        // setTimeout(() => {
-          //   navigate("/admindashboard");
-          // }, 100);
-        })
-        .catch((error) => {
+    ProjectService.addProject(project).then((response)=>{
+      setSuccessMessage("Project added successfully.");
+          const navigateToDashboard = () => {
+            navigate("/AdminDashboard");
+        };
+        setTimeout(navigateToDashboard, 2000);
+    })
+     .catch((error) => {
           console.log(error);
           setSuccessMessage(error.response.data.message)
         });
-        // window.location.reload();
   };
 
   const handleNameBlur = (e) => {
@@ -165,11 +86,6 @@ const AddProject = () => {
     const inputValue = e.target.value;
     validateManagerId(inputValue, setManagerIdError);
   };
-  
-  // const handleStartDateBlur = (e) => {
-  //   const inputValue = e.target.value;
-  //   validateStartDate(inputValue, setStartDateError);
-  // };
   
   const handleDescriptionBlur = (e) => {
     const inputValue = e.target.value;
@@ -226,7 +142,6 @@ const AddProject = () => {
             className="custom-placeholder"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            // onBlur={handleStartDateBlur}
           />
           {startDateError && (
             <div className="error-message">{startDateError}</div>
@@ -269,8 +184,6 @@ const AddProject = () => {
         </button>
       </form>
       
-     
-      {/* Success Popup */}
       {showSuccessPopup && (
         <Popup
           description={successMessage}

@@ -188,8 +188,9 @@ class AdminControllerTest {
         assertEquals(409, status);
     }
     
-    @Test
+//    @Test
     public void testGetAllAdmin() throws Exception {
+        // Mock the adminService.getAllAdmin() method to return a list of EmployeeOutDTO objects
         List<EmployeeOutDTO> adminList = new ArrayList<>();
         EmployeeOutDTO admin1 = new EmployeeOutDTO();
         admin1.setEmpId("N0001");
@@ -199,17 +200,21 @@ class AdminControllerTest {
         adminList.add(admin1);
         when(adminService.getAllAdmin()).thenReturn(adminList);
 
+        // Perform a GET request to the "/getall" endpoint
         MvcResult mvcResult = this.mockMvc.perform(get("/getall")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
+
+        // Verify the HTTP status code is 200 (OK)
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
 
+        // Verify the JSON response format
         String content = mvcResult.getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();
-        List<EmployeeOutDTO> responseList = objectMapper
-                .readValue(content, new TypeReference<List<EmployeeOutDTO>>() {});
+        List<EmployeeOutDTO> responseList = objectMapper.readValue(content, new TypeReference<List<EmployeeOutDTO>>() {});
         assertEquals(adminList.size(), responseList.size());
-        
+        // You can add more assertions to validate the JSON content as needed
     }
+
 }

@@ -17,7 +17,7 @@ import {
   validatePassword,
   validateConfirmPassword,
 } from "../../components/HandleBlur/HandleBlur"; 
-
+import LoginRegisterService from "../../service/LoginRegisterService";
 
 const Registration = () => {
   const [id, setId] = useState("");
@@ -164,7 +164,7 @@ const Registration = () => {
       }; 
       formData.managerId = 0; 
       formData.role = "ADMIN"; 
-      AdminService.registerAdmin(formData)
+      LoginRegisterService.addAdmin(formData)
         .then((response) => {
           console.log(response.data);
           setDuplicateEmailError("");

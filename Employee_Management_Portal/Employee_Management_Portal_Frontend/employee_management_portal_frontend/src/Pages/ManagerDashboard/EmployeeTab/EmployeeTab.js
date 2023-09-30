@@ -6,6 +6,7 @@ import Skills from "../../../components/Data/Skills";
 import MultiSelectDropdown from "../../../components/MultiSelectDropdown/MultiSelectDropdown";
 import { Link } from "react-router-dom";
 import Button from "../../../components/Button/Button";
+import EmployeeService from "../../../service/EmployeeService";
 
 const EmployeeTab = () => {
   const [employees, setEmployees] = useState([]);
@@ -21,7 +22,7 @@ const EmployeeTab = () => {
   }, []);
 
   // const email = localStorage.getItem("email");
-  const id = localStorage.getItem('id');
+  const ID = localStorage.getItem('id');
 
   const getAllEmployees = async () => {
     try {
@@ -31,7 +32,9 @@ const EmployeeTab = () => {
       console.log(response.data);
       setEmployees(response.data);
       response.data.forEach((employee) =>{
+        console.log(employee);
         IsRequested(employee);
+        // console.log("isrequested"+IsRequested)
       });
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -111,34 +114,50 @@ const EmployeeTab = () => {
     }
   };
 
+  // const IsRequested = async (employeeObject) => {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://localhost:8080/employee/isRequested",
+  //       {
+  //         params: {
+  //           employeeId: employeeObject.id,
+  //           managerId: id,
+  //         },
+  //       }
+  //     );
+  
+  //     const requested = response.data;
+  
+  //     setEmployees((prevEmployees) =>
+  //       prevEmployees.map((employee) =>
+  //         employee.id === employeeObject.id
+  //           ? { ...employee, requested: requested }
+  //           : employee
+  //       )
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  
   const IsRequested = async (employeeObject) => {
-    // console.log(id);
-    // console.log(employeeObject.id);
-    //const isRequested = async () =>{
-    try {
-      const response = await axios.get(
-        "http://localhost:8080/employee/isRequested",
+    console.log("employeeobj"+employeeObject.id);
+    EmployeeService.isRequested(`${employeeObject.id}`,`${ID}`).then((response)=>{
+     console.log(response.data);
+     const requested = response.data;
 
-        {
-          employeeId: employeeObject.id,
-          managerId: id,
-        }
-      );
-      const requested = response.data;
+     setEmployees((prevEmployees) =>
+       prevEmployees.map((employee) =>
+         employee.id === employeeObject.id
+           ? { ...employee, requested: requested }
+           : employee
+       )
+     );
+    }).catch((error)=>{
+     console.log(error);
+    })
+  }
 
-      setEmployees((prevEmployees) =>
-        prevEmployees.map((employee) =>
-          employee.id === employeeObject.id
-            ? { ...employee, requested: requested }
-            : employee
-        )
-      );
-
-      // console.log(value);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
     //isRequested(employees);
   }, []);
@@ -253,7 +272,7 @@ const EmployeeTab = () => {
               <div style={{ marginTop: "1rem" }}>
                 {employee.projectName === null && (
                   <p>
-                    {console.log(employee.requested)}
+                    {console.log("zzzzzzz"+employee.requested)}
                     {employee.requested ? (
                       <button className="requested_btn" disabled>Requested</button>
                     ) : (

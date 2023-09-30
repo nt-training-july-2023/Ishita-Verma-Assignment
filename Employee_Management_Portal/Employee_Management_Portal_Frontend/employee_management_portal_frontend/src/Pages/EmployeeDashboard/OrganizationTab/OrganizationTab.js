@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './organization.css' 
 import axios from 'axios'; 
 import DateReverser from '../../../components/DateReverser/DateReverser';
+import EmployeeService from '../../../service/EmployeeService';
 
 const OrganizationTab = () => {
     const [employees, setEmployees] = useState([]);
@@ -11,15 +12,11 @@ const OrganizationTab = () => {
     },[]);
   
     const getAllEmployees = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/getall"
-        );
-        console.log(response.data);
+      EmployeeService.getOrganizationEmployee().then((response)=>{
         setEmployees(response.data);
-      } catch (error) {
+       }).catch ((error) => {
         console.error("Error fetching data:", error);
-      }
+      })
     };
   
     return (

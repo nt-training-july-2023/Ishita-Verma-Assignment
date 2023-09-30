@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
+import {useLocation} from 'react-router-dom';
 import "./employeetab.css";
 import axios from "axios";
 import Assign from "../../../components/AssignButton/Assign";
 import Card from "../../../components/Card/EmployeeCard"; // Import the Card component
 import Popup from "../../../components/Popup/Popup";
+import EmployeeService from "../../../service/EmployeeService";
+import { Router } from "react-router-dom";
+// import EmployeeService from '../../service/EmployeeService';
 
 const EmployeeTab = () => {
   const [employees, setEmployees] = useState([]);
@@ -26,16 +30,13 @@ const EmployeeTab = () => {
     setShowAssign(false);
   };
 
-  const getAllEmployees = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8080/all/EMPLOYEE"
-      );
+  const getAllEmployees  = async () => {
+      EmployeeService.getEmployees("EMPLOYEE").then((response) =>{
       console.log(response.data);
       setEmployees(response.data);
-    } catch (error) {
+    }). catch ((error) =>  {
       console.error("Error fetching data:", error);
-    }
+    })
   };
 
   const unassignProject = (employeeId) => {
@@ -54,6 +55,11 @@ const EmployeeTab = () => {
       console.error("Error unassigning project:", error);
     }
   };
+  const location = useLocation();
+  const stateData = location.stateData;
+  console.log("stateData"+ stateData);
+
+  console.log(stateData);
 
   return (
     <div>
@@ -65,15 +71,9 @@ const EmployeeTab = () => {
             key={employee.id}
             data={employee}
             onUnassignProject={unassignProject}
-          />
-          ))}
+            />
+            ))}
       </div>
-          {showAssign && (
-            <div className="add_employee_form assign">
-              <Assign employeeId={selectedEmployeeId} 
-              onCancel={cancelAssign} />
-            </div>
-          )}
      
       {showUnassignConfirm && (
         <Popup

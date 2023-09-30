@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.RequestResourceInDTO;
 import com.portal.DTO.RequestResourceOutDTO;
-import com.portal.DTO.RequestedDTO;
 import com.portal.DTO.ResponseDTO;
 import com.portal.service.RequestResourceService;
 
 import jakarta.validation.Valid;
+
 /**
  * Controller class to handle Admin-related operations.
  */
@@ -30,7 +30,7 @@ import jakarta.validation.Valid;
 @CrossOrigin("*")
 @RequestMapping("/")
 public class RequestResourceController {
-	 /**
+    /**
      * Instance for Service class of ResourceRequestService.
      */
     @Autowired
@@ -39,50 +39,56 @@ public class RequestResourceController {
      * Logger instance for logging purposes.
      */
     private static final Logger LOGGER = LoggerFactory
-    		.getLogger(EmployeeController.class);
+            .getLogger(EmployeeController.class);
+
     /**
      * Retrieves all resource requests.
-     * @return A list of RequestResourceOutDto objects representing resource
-     *         requests.
+     * @return A list of RequestResourceOutDto.
      */
     @GetMapping("/requests")
     public final List<RequestResourceOutDTO> getAllRequests() {
         return requestService.getAllRequests();
     }
+
     /**
      * addRequestResource.
-     * @param requestDTO rsequest
+     * @param requestDTO request
      * @return response
      */
     @PostMapping("/request/resource")
-    public final ApiResponseDTO addRequestResource(@RequestBody @Valid final RequestResourceInDTO requestDTO) {
+    public final ApiResponseDTO addRequestResource(
+            @RequestBody @Valid final RequestResourceInDTO requestDTO) {
 //       LOGGER.info("add request started:");
-       System.out.println("manager" + requestDTO.getManagerId());
-       final ApiResponseDTO response = requestService.addRequestResource(requestDTO );
-       LOGGER.info("Successfully added Request Resource");
-       return response;
+        System.out.println("manager" + requestDTO.getManagerId());
+        final ApiResponseDTO response = requestService
+                .addRequestResource(requestDTO);
+        LOGGER.info("Successfully added Request Resource");
+        return response;
     }
+
     /**
-     * Rejecting requests
+     * Rejecting requests.
      * @param id request id
      * @return api response of the operation.
      */
     @DeleteMapping("manager/request/delete/{id}")
-    public final ResponseDTO rejectRequest(@PathVariable Long id) {
+    public final ResponseDTO rejectRequest(final @PathVariable Long id) {
         return requestService.rejectRequest(id);
     }
+
     /**
-     * Accepting Requests
+     * Accepting Requests.
      * @param id request id
      * @return api response of the operation.
      */
     @PostMapping("manager/request/{id}")
-    public final ResponseDTO acceptRequest(@PathVariable Long id) {
+    public final ResponseDTO acceptRequest(final @PathVariable Long id) {
         return requestService.acceptRequest(id);
     }
+
     /**
-     * Employee is requested or not 
-     * @param reqDto request dto
+     * @param empId
+     * @param managerId
      * @return boolean value
      */
 //    @PostMapping("/employee/isRequested")
@@ -90,7 +96,8 @@ public class RequestResourceController {
 //        return requestService.isRequested(reqDto);
 //    }
     @GetMapping("/employee/isRequested")
-    public boolean isRequested(@RequestParam Long empId,@RequestParam Long managerId) {
-        return requestService.isRequested(empId,managerId);
+    public boolean isRequested(final @RequestParam Long empId,
+            final @RequestParam Long managerId) {
+        return requestService.isRequested(empId, managerId);
     }
 }

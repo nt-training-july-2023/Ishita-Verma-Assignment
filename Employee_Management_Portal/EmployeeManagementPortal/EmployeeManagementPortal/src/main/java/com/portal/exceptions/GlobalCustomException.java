@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.portal.DTO.ApiResponseDTO;
-import com.portal.DTO.ResponseDTO;
-
 /**
  * Custom Exception.
  */
 @RestControllerAdvice
-public class GlobalCustomException {
+public class GlobalCustomException extends RuntimeException {
     /**
-     * ResourceNotFoundException.
+     * @param exception
      * @return ResponseDTO
      */
      @ExceptionHandler(ResourceNotFoundException.class)
@@ -77,7 +75,7 @@ public class GlobalCustomException {
     }
      /**
      * Handles validation errors.
-     * @param exception representing the validation error.
+     * @param ex exception representing the validation error.
      * @return A ResponseEntity containing a map of field names.
      */
      @ExceptionHandler(MethodArgumentNotValidException.class)

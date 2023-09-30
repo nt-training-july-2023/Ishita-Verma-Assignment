@@ -7,7 +7,6 @@ public class RequestResourceOutDTO {
      * Unique Identifier.
      */
     private Long id;
-
     /**
      * Comment associated with the request resource.
      */
@@ -61,66 +60,66 @@ public class RequestResourceOutDTO {
     }
 
     /**
-     * @param comment The comment to be set for this request resource.
+     * @param commentParam The comment to be set for this request resource.
      */
-    public void setComment(final String comment) {
-        this.comment = comment;
+    public void setComment(final String commentParam) {
+        this.comment = commentParam;
     }
 
     /**
-     * @return The manager's unique identifier associated with this request resource.
+     * @return The manager's unique identifier.
      */
     public Long getManagerId() {
         return managerId;
     }
 
     /**
-     * @param managerId The manager's unique identifier to be set for this request resource.
+     * @param managerIdParam The manager's unique identifier.
      */
-    public void setManagerId(final Long managerId) {
-        this.managerId = managerId;
+    public void setManagerId(final Long managerIdParam) {
+        this.managerId = managerIdParam;
     }
 
     /**
-     * @return The employee's unique identifier associated with this request resource.
+     * @return The employee's unique identifier.
      */
     public Long getEmpId() {
         return empId;
     }
 
     /**
-     * @param empId The employee's unique identifier to be set for this request resource.
+     * @param empIdParam The employee's unique identifier.
      */
-    public void setEmpId(final Long empId) {
-        this.empId = empId;
+    public void setEmpId(final Long empIdParam) {
+        this.empId = empIdParam;
     }
 
     /**
-     * @return The project's unique identifier associated with this request resource.
+     * @return The project's unique identifier.
      */
     public Long getProjectId() {
         return projectId;
     }
 
     /**
-     * @param projectId The project's unique identifier to be set for this request resource.
+     * @param projectIdParam The project's unique identifier.
      */
-    public void setProjectId(final Long projectId) {
-        this.projectId = projectId;
+    public void setProjectId(final Long projectIdParam) {
+        this.projectId = projectIdParam;
     }
 
     /**
-     * @return The name of the project associated with this request resource.
+     * @return The name of the project.
      */
     public String getProjectName() {
         return projectName;
     }
 
     /**
-     * @param projectName The name of the project to be set for this request resource.
+     * @param projectNameParam
      */
-    public void setProjectName(final String projectName) {
-        this.projectName = projectName;
+    public void setProjectName(final String projectNameParam) {
+        this.projectName = projectNameParam;
     }
 
     /**
@@ -131,52 +130,52 @@ public class RequestResourceOutDTO {
     }
 
     /**
-     * @param employeeName The name of the employee to be set for this request resource.
+     * @param employeeNameParam
      */
-    public void setEmployeeName(final String employeeName) {
-        this.employeeName = employeeName;
+    public void setEmployeeName(final String employeeNameParam) {
+        this.employeeName = employeeNameParam;
     }
 
     /**
-     * @return The name of the manager associated with this request resource.
+     * @return The name of the manager.
      */
     public String getManagerName() {
         return managerName;
     }
 
     /**
-     * @param managerName The name of the manager to be set for this request resource.
+     * @param managerNameParam
      */
-    public void setManagerName(final String managerName) {
-        this.managerName = managerName;
+    public void setManagerName(final String managerNameParam) {
+        this.managerName = managerNameParam;
     }
 
     /**
-     * @return The employee's user ID associated with this request resource.
+     * @return The employee's user ID.
      */
     public String getEmpUserId() {
         return empUserId;
     }
 
     /**
-     * @param empUserId The employee's user ID to be set for this request resource.
+     * @param empUserIdParam
      */
-    public void setEmpUserId(final String empUserId) {
-        this.empUserId = empUserId;
+    public void setEmpUserId(final String empUserIdParam) {
+        this.empUserId = empUserIdParam;
     }
 
     /**
-     * @return The manager's user ID associated with this request resource.
+     * @return The manager's user ID.
      */
     public String getManagerUserId() {
         return managerUserId;
     }
 
     /**
-     * @param managerUserId The manager's user ID to be set for this request resource.
+     * @param managerUserIdParam
      */
-    public void setManagerUserId(final String managerUserId) {
-        this.managerUserId = managerUserId;
+    public void setManagerUserId(final String managerUserIdParam) {
+        this.managerUserId = managerUserIdParam;
     }
 
     /**
@@ -187,10 +186,10 @@ public class RequestResourceOutDTO {
     }
 
     /**
-     * @param id the id to set
+     * @param idParam the id to set
      */
-    public void setId(final Long id) {
-        this.id = id;
+    public void setId(final Long idParam) {
+        this.id = idParam;
     }
 
     /**
@@ -209,7 +208,7 @@ public class RequestResourceOutDTO {
      * @return  true if this request resource is the same.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

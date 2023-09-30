@@ -3,6 +3,7 @@ import './profile.css'
 import { Link } from "react-router-dom";
 import axios from 'axios'
 import DateReverser from "../../../components/DateReverser/DateReverser";
+import EmployeeService from '../../../service/EmployeeService'
 
 const ProfileTab = () => {
   const email = localStorage.getItem('email');
@@ -10,18 +11,17 @@ const ProfileTab = () => {
   const [employeeDetails, setEmployeeDetails] = useState([]); 
   const [managerNames, setManagerNames] = useState({});
 
+  async function getEmployee(){
+    EmployeeService.getEmployeeById(`${id}`).then((response)=>{
+      setEmployeeDetails(response.data);
+    }).catch((error)=>{
+      console.log(error);
+    })
+  }
+
   useEffect(() => {
-    if (email) {
-      axios.get(`http://localhost:8080/all/employee/${id}`)
-        .then((response) => {
-          console.log(response.data);
-          setEmployeeDetails(response.data); 
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [email]); 
+    getEmployee();
+  }, []);
 
   return (
     <div className="main">

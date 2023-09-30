@@ -8,6 +8,7 @@ import AdminDashboard from "../AdminDashboard/AdminDashboard";
 import EmployeeDashboard from "../EmployeeDashboard/EmployeeDashboard";
 import { useEffect } from "react";
 import Popup from "../../components/Popup/Popup";
+import LoginRegisterService from "../../service/LoginRegisterService";
 
 const Login = ({setIsLoggedIn ,login}) => {
   const [email, setEmail] = useState("");
@@ -38,7 +39,7 @@ const Login = ({setIsLoggedIn ,login}) => {
         password: encryptedPassword,
       };
 
-      AdminService.loginAdmin(formData)
+      LoginRegisterService.login(formData)
         .then((response) => {
           console.log(response.message);
           setPasswordError("Login Successful")

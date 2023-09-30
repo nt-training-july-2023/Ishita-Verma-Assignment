@@ -7,75 +7,18 @@ import org.junit.jupiter.api.Test;
 
 class RequestResourceDTOTest {
 
-	    private RequestResourceInDTO dto;
-
-	    @BeforeEach
-	    void setUp() {
-	        dto = new RequestResourceInDTO();
-	    }
-
 	    @Test
-	    void testGetComment() {
-	        assertNull(dto.getComment());
-	        String comment = "This is a comment.";
-	        dto.setComment(comment);
-	        assertEquals(comment, dto.getComment());
-	    }
-
-	    @Test
-	    void testSetComment() {
-	        assertNull(dto.getComment());
-	        String comment = "This is a comment.";
-	        dto.setComment(comment);
-	        assertEquals(comment, dto.getComment());
-	    }
-
-	    @Test
-	    void testGetManagerId() {
-	        assertNull(dto.getManagerId());
-	        Long managerId = 1L;
-	        dto.setManagerId(managerId);
-	        assertEquals(managerId, dto.getManagerId());
-	    }
-
-	    @Test
-	    void testSetManagerId() {
-	        assertNull(dto.getManagerId());
-	        Long managerId = 1L;
-	        dto.setManagerId(managerId);
-	        assertEquals(managerId, dto.getManagerId());
-	    }
-
-	    @Test
-	    void testGetEmployeeId() {
-	        assertNull(dto.getEmployeeId());
-	        Long employeeId = 2L;
-	        dto.setEmployeeId(employeeId);
-	        assertEquals(employeeId, dto.getEmployeeId());
-	    }
-
-	    @Test
-	    void testSetEmployeeId() {
-	        assertNull(dto.getEmployeeId());
-	        Long employeeId = 2L;
-	        dto.setEmployeeId(employeeId);
-	        assertEquals(employeeId, dto.getEmployeeId());
-	    }
-
-	    @Test
-	    void testGetProjectId() {
-	        assertNull(dto.getProjectId());
-	        Long projectId = 3L;
-	        dto.setProjectId(projectId);
-	        assertEquals(projectId, dto.getProjectId());
-	    }
-
-	    @Test
-	    void testSetProjectId() {
-	        assertNull(dto.getProjectId());
-	        Long projectId = 3L;
-	        dto.setProjectId(projectId);
-	        assertEquals(projectId, dto.getProjectId());
+	    void testGetterSetter() {
+	        RequestResourceInDTO dto = new RequestResourceInDTO();
+	        dto.setComment("This is a comment.");
+	        dto.setManagerId(1L);
+	        dto.setEmployeeId(2L);
+	        dto.setProjectId(3L);
+	        
+	        assertEquals("This is a comment.", dto.getComment());
+	        assertEquals(1L, dto.getManagerId());
+	        assertEquals(2L, dto.getEmployeeId());
+	        assertEquals(3L, dto.getProjectId());
 	    }
 
 	    @Test

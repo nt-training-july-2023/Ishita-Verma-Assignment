@@ -19,7 +19,7 @@ public class EmployeeManagementPortalApplication {
      *
      * @param args The command-line arguments.
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(EmployeeManagementPortalApplication.class, args);
     }
 

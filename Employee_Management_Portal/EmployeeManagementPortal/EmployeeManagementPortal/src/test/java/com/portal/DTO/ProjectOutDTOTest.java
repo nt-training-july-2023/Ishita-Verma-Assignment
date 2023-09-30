@@ -8,13 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ProjectOutDTOTest {
-
-    private ProjectOutDTO projectDTO1;
-    private ProjectOutDTO projectDTO2;
-
-    @BeforeEach
-    void setUp() {
-        projectDTO1 = new ProjectOutDTO();
+    
+    @Test
+    void testGettersAndSetters() {
+        
+        ProjectOutDTO projectDTO1 = new ProjectOutDTO();
         projectDTO1.setProjectId(1L);
         projectDTO1.setProjectName("Project 1");
         projectDTO1.setManager("Manager 1");
@@ -24,7 +22,7 @@ class ProjectOutDTOTest {
         projectDTO1.setSkills(List.of("Java", "Python"));
         projectDTO1.setTeams(List.of("Team 1", "Team 2"));
 
-        projectDTO2 = new ProjectOutDTO();
+        ProjectOutDTO projectDTO2 = new ProjectOutDTO();
         projectDTO2.setProjectId(2L);
         projectDTO2.setProjectName("Project 2");
         projectDTO2.setManager("Manager 2");
@@ -33,10 +31,7 @@ class ProjectOutDTOTest {
         projectDTO2.setDescription("Description 2");
         projectDTO2.setSkills(List.of("C++", "JavaScript"));
         projectDTO2.setTeams(List.of("Team 3", "Team 4"));
-    }
-
-    @Test
-    void testGettersAndSetters() {
+    
         assertEquals(1L, projectDTO1.getProjectId());
         assertEquals("Project 1", projectDTO1.getProjectName());
         assertEquals("Manager 1", projectDTO1.getManager());
@@ -58,6 +53,26 @@ class ProjectOutDTOTest {
 
     @Test
     void testHashCode() {
+        
+        ProjectOutDTO projectDTO1 = new ProjectOutDTO();
+        projectDTO1.setProjectId(1L);
+        projectDTO1.setProjectName("Project 1");
+        projectDTO1.setManager("Manager 1");
+        projectDTO1.setManagerId(101L);
+        projectDTO1.setStartDate("2023-09-16");
+        projectDTO1.setDescription("Description 1");
+        projectDTO1.setSkills(List.of("Java", "Python"));
+        projectDTO1.setTeams(List.of("Team 1", "Team 2"));
+
+        ProjectOutDTO projectDTO2 = new ProjectOutDTO();
+        projectDTO2.setProjectId(2L);
+        projectDTO2.setProjectName("Project 2");
+        projectDTO2.setManager("Manager 2");
+        projectDTO2.setManagerId(102L);
+        projectDTO2.setStartDate("2023-09-17");
+        projectDTO2.setDescription("Description 2");
+        projectDTO2.setSkills(List.of("C++", "JavaScript"));
+        projectDTO2.setTeams(List.of("Team 3", "Team 4"));
         assertEquals(projectDTO1.hashCode(), projectDTO1.hashCode());
 
         assertNotEquals(projectDTO1.hashCode(), projectDTO2.hashCode());
@@ -65,6 +80,26 @@ class ProjectOutDTOTest {
 
     @Test
     void testEquals() {
+        
+        ProjectOutDTO projectDTO1 = new ProjectOutDTO();
+        projectDTO1.setProjectId(1L);
+        projectDTO1.setProjectName("Project 1");
+        projectDTO1.setManager("Manager 1");
+        projectDTO1.setManagerId(101L);
+        projectDTO1.setStartDate("2023-09-16");
+        projectDTO1.setDescription("Description 1");
+        projectDTO1.setSkills(List.of("Java", "Python"));
+        projectDTO1.setTeams(List.of("Team 1", "Team 2"));
+
+        ProjectOutDTO projectDTO2 = new ProjectOutDTO();
+        projectDTO2.setProjectId(2L);
+        projectDTO2.setProjectName("Project 2");
+        projectDTO2.setManager("Manager 2");
+        projectDTO2.setManagerId(102L);
+        projectDTO2.setStartDate("2023-09-17");
+        projectDTO2.setDescription("Description 2");
+        projectDTO2.setSkills(List.of("C++", "JavaScript"));
+        projectDTO2.setTeams(List.of("Team 3", "Team 4"));
         assertEquals(projectDTO1, projectDTO1);
 
         assertNotEquals(projectDTO1, null);

@@ -41,11 +41,6 @@ public class AdminService {
      */
     @Autowired
     private ProjectRepository projectRepository;
-    /**
-     * The loginOut dto.
-     */
-    @Autowired
-    private LoginOutDTO response;
 
     /**
      * The password encoder for encoding and decoding passwords.
@@ -105,7 +100,6 @@ public class AdminService {
 
     /**
      * Handles admin login.
-     *
      * @param loginUser The LoginDTO containing login credentials.
      * @return The authenticated Admin as an AdminDTO, or null if authentication
      *         fails.
@@ -115,14 +109,12 @@ public class AdminService {
        // LOGGER.error("Email does not exist");
         Optional<Employee> employee = adminRepository
                 .findByEmail(loginUser.getEmail());
-                
         if (employee.isPresent() && passwordEncoder.matches(
                 decodeData(loginUser.getPassword()),
                 employee.get().getPassword())) {
             LOGGER.info("User Logged in");
-
-            // Create a LoginResponseDTO object with the necessary parameters
-            response.setMessage("Login successful");
+            LoginOutDTO response = new LoginOutDTO();
+            response.setMessage("Login Successful");
             response.setName(employee.get().getName());
             response.setRole(employee.get().getRole());
             response.setMessage("Login Successful");
@@ -133,20 +125,8 @@ public class AdminService {
         LOGGER.error("Wrong Credentials");
         throw new WrongCredentialsException("Wrong Credentials");
     }
-//    public final Employee login(final LoginInDTO loginDTO) {
-//        Employee user = adminRepository.findByEmail(
-//           loginDTO.getEmail()).orElseThrow(() ->
-//          new ResourceNotFoundException("Email id does not exits"));
-//       if (user != null && passwordEncoder.matches(decodeData(
-//           loginDTO.getPassword()), user.getPassword())) {
-//         return user;
-//        }
-//       throw new WrongCredentialsException("Wrong Password");
-//        }
-
-
     /**
-     * Retrieves a list of all admins
+     * Retrieves a list of all admins.
      * @return A list containing all admins.
      */
     public final List<EmployeeOutDTO> getAllAdmin() {
@@ -192,7 +172,7 @@ public class AdminService {
      * @throws ResourceNotFoundException if
      * admin with the specified email is not found.
      */
-    final public String getUserRoleByEmail(final String email) {
+    public final String getUserRoleByEmail(final String email) {
         LOGGER.error("Employee not found with email");
         Employee admin = adminRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException(

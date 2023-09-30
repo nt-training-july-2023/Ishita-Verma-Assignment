@@ -3,6 +3,7 @@ import axios from "axios";
 import "./projecttab.css";
 import ProjectCard from "../../../components/Card/ProjectCard";
 import Popup from "../../../components/Popup/Popup";
+import ProjectService from "../../../service/ProjectService";
 
 const ProjectTab = () => {
   const [projects, setProjects] = useState([]);
@@ -21,15 +22,12 @@ const ProjectTab = () => {
   }, [projects]);
 
   const getAllProjects = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8080/projects"
-      );
+    ProjectService.getProjects().then((response)=>{
       console.log(response.data);
       setProjects(response.data);
-    } catch (error) {
+    }). catch ((error) => {
       console.error("Error fetching data:", error);
-    }
+    })
   };
 
   async function getManagerNames() {

@@ -1,5 +1,6 @@
 package com.portal.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +24,7 @@ public class Employee {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     /**
      * EmployeeController ID of the admin.
@@ -108,17 +109,16 @@ public class Employee {
      * @return The unique identifier.
      */
     public Long getId() {
-        return Id;
+        return id;
     }
 
     /**
      * Set the unique identifier of the employee.
-     * @param id The unique identifier to set.
+     * @param idParam The unique identifier to set.
      */
-    public void setId(final Long id) {
-        Id = id;
+    public void setId(final Long idParam) {
+        this.id = idParam;
     }
-
     /**
      * Get the employee ID.
      * @return The employee ID.
@@ -129,10 +129,10 @@ public class Employee {
 
     /**
      * Set the employee ID.
-     * @param empId The employee ID to set.
+     * @param empIdParam The employee ID to set.
      */
-    public void setEmpId(final String empId) {
-        this.empId = empId;
+    public void setEmpId(final String empIdParam) {
+        this.empId = empIdParam;
     }
 
     /**
@@ -145,10 +145,10 @@ public class Employee {
 
     /**
      * Set the name of the employee.
-     * @param name The name to set.
+     * @param nameParam The name to set.
      */
-    public void setName(final String name) {
-        this.name = name;
+    public void setName(final String nameParam) {
+        this.name = nameParam;
     }
 
     /**
@@ -161,10 +161,10 @@ public class Employee {
 
     /**
      * Set the email of the employee.
-     * @param email The email to set.
+     * @param emailParam The email to set.
      */
-    public void setEmail(final String email) {
-        this.email = email;
+    public void setEmail(final String emailParam) {
+        this.email = emailParam;
     }
 
     /**
@@ -177,10 +177,10 @@ public class Employee {
 
     /**
      * Set the date of birth (DOB) of the employee.
-     * @param dob The DOB to set.
+     * @param dobParam The DOB to set.
      */
-    public void setDob(final String dob) {
-        this.dob = dob;
+    public void setDob(final String dobParam) {
+        this.dob = dobParam;
     }
 
     /**
@@ -193,10 +193,10 @@ public class Employee {
 
     /**
      * Set the date of joining (DOJ) of the employee.
-     * @param doj The DOJ to set.
+     * @param dojParam The DOJ to set.
      */
-    public void setDoj(final String doj) {
-        this.doj = doj;
+    public void setDoj(final String dojParam) {
+        this.doj = dojParam;
     }
 
     /**
@@ -209,10 +209,10 @@ public class Employee {
 
     /**
      * Set the location of the employee.
-     * @param location The location to set.
+     * @param locationParam The location to set.
      */
-    public void setLocation(final Location location) {
-        this.location = location;
+    public void setLocation(final Location locationParam) {
+        this.location = locationParam;
     }
 
     /**
@@ -225,10 +225,10 @@ public class Employee {
 
     /**
      * Set the designation of the employee.
-     * @param designation The designation to set.
+     * @param designationParam The designation to set.
      */
-    public void setDesignation(final Designation designation) {
-        this.designation = designation;
+    public void setDesignation(final Designation designationParam) {
+        this.designation = designationParam;
     }
 
     /**
@@ -241,10 +241,10 @@ public class Employee {
 
     /**
      * Set the contact number of the employee.
-     * @param contactNumber The contact number to set.
+     * @param contactNumberParam The contact number to set.
      */
-    public void setContactNumber(final String contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setContactNumber(final String contactNumberParam) {
+        this.contactNumber = contactNumberParam;
     }
 
     /**
@@ -257,10 +257,10 @@ public class Employee {
 
     /**
      * Set the role of the employee.
-     * @param role The role to set.
+     * @param roleParam The role to set.
      */
-    public void setRole(final Role role) {
-        this.role = role;
+    public void setRole(final Role roleParam) {
+        this.role = roleParam;
     }
 
     /**
@@ -273,10 +273,10 @@ public class Employee {
 
     /**
      * Set the project ID associated with the employee.
-     * @param projectId The project ID to set.
+     * @param projectIdParam The project ID to set.
      */
-    public void setProjectId(final Long projectId) {
-        this.projectId = projectId;
+    public void setProjectId(final Long projectIdParam) {
+        this.projectId = projectIdParam;
     }
 
     /**
@@ -289,26 +289,30 @@ public class Employee {
 
     /**
      * Set the password of the employee.
-     * @param password The password to set.
+     * @param passwordParam The password to set.
      */
-    public void setPassword(final String password) {
-        this.password = password;
+    public void setPassword(final String passwordParam) {
+        this.password = passwordParam;
     }
 
     /**
-     * Get the list of skills associated with the employee.
+     * Gets the list of skills possessed by the admin.
      * @return The list of skills.
      */
     public List<String> getSkills() {
-        return skills;
+        return new ArrayList<>(skills);
     }
 
     /**
-     * Set the list of skills associated with the employee.
-     * @param skills The list of skills to set.
+     * Sets the list of skills possessed by the admin.
+     * @param skillsParam The list of skills.
      */
-    public void setSkills(final List<String> skills) {
-        this.skills = skills;
+    public void setSkills(final List<String> skillsParam) {
+        if (skillsParam != null) {
+            this.skills = new ArrayList<>(skillsParam);
+        } else {
+            this.skills = null;
+        }
     }
 
     /**
@@ -321,21 +325,20 @@ public class Employee {
 
     /**
      * Set the manager ID of the employee.
-     * @param managerId The manager ID to set.
+     * @param managerIdParam The manager ID to set.
      */
-    public void setManagerId(final Long managerId) {
-        this.managerId = managerId;
+    public void setManagerId(final Long managerIdParam) {
+        this.managerId = managerIdParam;
     }
     /**
      * Set the project of the employee.
-     * @param projects The manager ID to set.
+     * @return projects The manager ID to set.
      */
     public Long getProject() {
     return projectId;
      }
     /**
-     * Set the manager of the employee.
-     * @param manager The manager ID to set.
+     * @return Set the manager of the employee.
      */
     public String getManager() {
     return null;
@@ -343,11 +346,12 @@ public class Employee {
     /**
      * Returns a string representation of the Employee object.
      *
-     * @return A string containing the values of the Employee's properties.
+     * @return A string of the Employee's properties as a string.
      */
     @Override
     public String toString() {
-        return "Employee [Id=" + Id + ", empId=" + empId + ", name=" + name + ","
+        return "Employee [Id=" + id + ", empId=" + empId + ","
+                + "name=" + name + ","
                 + "email=" + email + ", dob=" + dob
                 + ", doj=" + doj + ", location=" + location + ", designation="
                 + designation + ", contactNumber="
@@ -355,14 +359,13 @@ public class Employee {
                 + ", password=" + password + ", skills="
                 + skills + ", managerId=" + managerId + "]";
     }
-
     /**
      * Computes and returns a hash code value for the Employee object.
      * @return A hash code value based on the Employee's properties.
      */
     @Override
     public int hashCode() {
-        return Objects.hash(Id, contactNumber, designation, dob, doj,
+        return Objects.hash(id, contactNumber, designation, dob, doj,
                 email, empId, location, managerId, name, password,
                 projectId, role, skills);
     }
@@ -381,16 +384,19 @@ public class Employee {
             return false;
         }
         Employee other = (Employee) obj;
-        return Objects.equals(Id, other.Id) && Objects.equals(contactNumber, other.contactNumber)
+        return Objects.equals(id, other.id)
+                && Objects.equals(contactNumber, other.contactNumber)
                 && designation == other.designation
-                && Objects.equals(dob, other.dob) && Objects.equals(doj, other.doj)
+                && Objects.equals(dob, other.dob)
+                && Objects.equals(doj, other.doj)
                 && Objects.equals(email, other.email)
                 && Objects.equals(empId, other.empId)
                 && location == other.location
                 && Objects.equals(managerId, other.managerId)
                 && Objects.equals(name, other.name)
                 && Objects.equals(password, other.password)
-                && Objects.equals(projectId, other.projectId) && role == other.role
+                && Objects.equals(projectId, other.projectId)
+                && role == other.role
                 && Objects.equals(skills, other.skills);
     }
 

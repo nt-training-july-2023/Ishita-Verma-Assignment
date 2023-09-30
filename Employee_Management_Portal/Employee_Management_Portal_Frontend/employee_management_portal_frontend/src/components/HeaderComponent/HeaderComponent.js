@@ -15,11 +15,16 @@ const HeaderComponent = ({
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    
     localStorage.removeItem('email');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('name');
+    localStorage.removeItem('id')
     setIsLoggedIn(false);
     navigate('/');
   };
+  console.log(isLoggedIn);
+  
 
   return (
     <div className='header-container'>

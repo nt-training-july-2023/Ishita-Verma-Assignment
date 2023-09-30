@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class ProjectOutDTO {
-	   /**
+     /**
      * project id.
      */
     private Long projectId;
@@ -40,7 +40,8 @@ public class ProjectOutDTO {
     private List<String> teams;
     /**
      * @return list of employee skills
-     */public final List<String> getSkills() {
+     */
+    public final List<String> getSkills() {
          return Collections.unmodifiableList(skills);
      }
      /**
@@ -57,10 +58,10 @@ public class ProjectOutDTO {
      }
 
      /**
-      * @param projectID the projectId to set
+      * @param projectIdParam the projectId to set
       */
-     public final void setProjectId(final Long projectId) {
-         this.projectId = projectId;
+     public final void setProjectId(final Long projectIdParam) {
+         this.projectId = projectIdParam;
      }
      /**
       * @return the projectName
@@ -69,10 +70,10 @@ public class ProjectOutDTO {
          return projectName;
      }
      /**
-      * @param projectNames the projectName to set
+      * @param projectNameParam the projectName to set
       */
-     public final void setProjectName(final String projectName) {
-         this.projectName = projectName;
+     public final void setProjectName(final String projectNameParam) {
+         this.projectName = projectNameParam;
      }
      /**
       * @return the manager
@@ -81,10 +82,10 @@ public class ProjectOutDTO {
          return manager;
      }
      /**
-      * @param managers the manager to set
+      * @param managerParam the manager to set
       */
-     public final void setManager(final String manager) {
-         this.manager = manager;
+     public final void setManager(final String managerParam) {
+         this.manager = managerParam;
      }
      /**
       * @return the managerId
@@ -93,10 +94,10 @@ public class ProjectOutDTO {
          return managerId;
      }
      /**
-      * @param managerID the managerId to set
+      * @param managerIdParam the managerId to set
       */
-     public final void setManagerId(final Long managerId) {
-         this.managerId = managerId;
+     public final void setManagerId(final Long managerIdParam) {
+         this.managerId = managerIdParam;
      }
      /**
       * @return the startDate
@@ -105,81 +106,91 @@ public class ProjectOutDTO {
          return startDate;
      }
      /**
-      * @param startDates the startDate to set
+      * @param startDatesParam the startDate to set
       */
-     public final void setStartDate(final String startDates) {
-         this.startDate = startDates;
+     public final void setStartDate(final String startDatesParam) {
+         this.startDate = startDatesParam;
      }
      /**
-      * @return the descrption
+      * @return the description
       */
      public final String getDescription() {
          return description;
      }
      /**
-      * @param description the descrption to set
+      * @param descriptionParam the descrption to set
       */
-     public final void setDescription(final String description) {
-         this.description = description;
+     public final void setDescription(final String descriptionParam) {
+         this.description = descriptionParam;
      }
      /**
-      * @param newSkills setting skills for employee
+      * @param newSkillsParam setting skills for employee
       */
-     public final void setSkills(final List<String> newSkills) {
-         if (newSkills != null) {
-             this.skills = new ArrayList<>(newSkills);
+     public final void setSkills(final List<String> newSkillsParam) {
+         if (newSkillsParam != null) {
+             this.skills = new ArrayList<>(newSkillsParam);
          } else {
              this.skills = null;
          }
      }
      /**
-      * @param team setting teams
+      * @param teamParam setting teams
       */
-     public final void setTeams(final List<String> team) {
-         if (team != null) {
-             this.teams = new ArrayList<>(team);
+     public final void setTeams(final List<String> teamParam) {
+         if (teamParam != null) {
+             this.teams = new ArrayList<>(teamParam);
          } else {
              this.teams = null;
          }
      }
      /**
       * Returns a string representation of this ProjectOutDTO.
-      * @return A string containing the projectId, projectName, manager, managerId, startDate, skills, description, and teams of this ProjectOutDTO.
+      * @return A string.
       */
      @Override
      public String toString() {
-         return "ProjectOutDTO [projectId=" + projectId + ", projectName=" + projectName + ", manager=" + manager
-                 + ", managerId=" + managerId + ", startDate=" + startDate + ", skills=" + skills + ", description="
+         return "ProjectOutDTO [projectId=" + projectId
+                 + ", projectName=" + projectName + ", manager=" + manager
+                 + ", managerId=" + managerId + ", startDate=" + startDate
+                 + ", skills=" + skills + ", description="
                  + description + ", teams=" + teams + "]";
      }
 
      /**
       * Calculates the hash code value for this ProjectOutDTO object.
-      * @return The hash code value based on the description, manager, managerId, projectId, projectName, skills, startDate, and teams.
+      * @return The hash code.
       */
      @Override
      public int hashCode() {
-         return Objects.hash(description, manager, managerId, projectId, projectName, skills, startDate, teams);
+         return Objects.hash(description, manager,
+                 managerId, projectId, projectName, skills, startDate, teams);
      }
 
      /**
       * Indicates whether some other object is "equal to" this ProjectOutDTO.
       * @param obj The reference object with which to compare.
-      * @return {@code true} if this ProjectOutDTO is the same as the obj argument; {@code false} otherwise.
+      * @return {@code true} if this ProjectOutDTO is same as obj argument;
+      * {@code false} otherwise.
       */
      @Override
-     public boolean equals(Object obj) {
-         if (this == obj)
+     public boolean equals(final Object obj) {
+         if (this == obj) {
              return true;
-         if (obj == null)
+         }
+         if (obj == null) {
              return false;
-         if (getClass() != obj.getClass())
+         }
+         if (getClass() != obj.getClass()) {
              return false;
+         }
          ProjectOutDTO other = (ProjectOutDTO) obj;
-         return Objects.equals(description, other.description) && Objects.equals(manager, other.manager)
-                 && Objects.equals(managerId, other.managerId) && Objects.equals(projectId, other.projectId)
-                 && Objects.equals(projectName, other.projectName) && Objects.equals(skills, other.skills)
-                 && Objects.equals(startDate, other.startDate) && Objects.equals(teams, other.teams);
+         return Objects.equals(description, other.description)
+                 && Objects.equals(manager, other.manager)
+                 && Objects.equals(managerId, other.managerId)
+                 && Objects.equals(projectId, other.projectId)
+                 && Objects.equals(projectName, other.projectName)
+                 && Objects.equals(skills, other.skills)
+                 && Objects.equals(startDate, other.startDate)
+                 && Objects.equals(teams, other.teams);
      }
-  
 }

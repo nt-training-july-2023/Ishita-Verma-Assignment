@@ -183,7 +183,7 @@ public class EmployeeControllerTest {
         String inputJSON = objectMapper.writeValueAsString(updatedDetails);
 
         // Perform the PUT request
-        mockMvc.perform(put("/employee/1/assignProject")
+        mockMvc.perform(put("/employee/assignProject/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(inputJSON))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

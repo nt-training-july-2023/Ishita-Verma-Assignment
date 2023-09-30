@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.RequestResourceInDTO;
 import com.portal.DTO.RequestResourceOutDTO;
-import com.portal.DTO.RequestedDTO;
-//import com.portal.DTO.RequestedDTO;
 import com.portal.DTO.ResponseDTO;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
@@ -37,11 +35,6 @@ public class RequestResourceService {
      */
     @Autowired
     private ProjectRepository projectRepository;
-    /**
-     * Autowired for Apiresponse repository.
-     */
-    @Autowired
-    private ApiResponseDTO response;
      /**
      * Retrieves all resource requests and maps them to DTOs for output.
      * @return A list of RequestResourceOutDto objects representing resource
@@ -116,30 +109,17 @@ public class RequestResourceService {
     }
     /**
      * Checks if a resource request exists for a given employee and manager.
-     * @param reqDto The RequestedDTO containing
-     * the employee and manager information.
+     * @param empId
+     * @param managerId
      * @return `true` if a request exists, `false` otherwise.
      */
-//    public boolean isRequested(final RequestedDTO reqDto) {
-//        Employee manager = userRepository
-//                .findByEmail(reqDto.getManagerEmail()).get();
-//        RequestResource req = requestRepository
-//                .findByEmployeeIdAndManagerId(reqDto.getEmployeeId(),
-//                        manager.getId()).get();
-//        System.out.println(req.toString());
-//        if (req != null) {
-//            return true;
-//        }
-//        return false; 
-//    }
-    public boolean isRequested(Long empId,Long managerId) {
-        //Employee manager = empRepo.findByEmail(reqDto.getManagerEmail()).get();
-        
-        Optional<RequestResource> req= requestRepository.findByEmployeeIdAndManagerId(empId,managerId);
-        if(req.isEmpty()) {
+    public boolean isRequested(final Long empId, final Long managerId) {
+        Optional<RequestResource> req = requestRepository
+                .findByEmployeeIdAndManagerId(empId, managerId);
+        if (req.isEmpty()) {
             return false;
         }
-        return true;  
+        return true;
     }
     /**
      * Retrieves a list of resource requests and
@@ -180,13 +160,14 @@ public class RequestResourceService {
             RequestResourceInDTO requestDTO) {
         // TODO Auto-generated method stub
         RequestResource request = dtoToRequestResource(requestDTO);
-        	requestRepository.save(request);
+        requestRepository.save(request);
+        ApiResponseDTO response = new ApiResponseDTO();
             response.setMessage("Sucessfully Added");
             return response;
     }
     /**
      * dtoToRequestResource.
-     * @param RequestResource
+     * @param requestDTO
      * @return request
      */
     public final RequestResource dtoToRequestResource(final

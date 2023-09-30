@@ -47,7 +47,6 @@ public class AdminController {
 
     /**
      * Registers a new admin.
-     * 
      * @return A success message with the admin's ID.
      * @throws DuplicateEntryException If the admin already exists.
      * @param adminDTO admin

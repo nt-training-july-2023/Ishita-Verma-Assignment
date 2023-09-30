@@ -48,7 +48,7 @@ const RequestResource = () => {
         requestData,
         // setMessage("Requested"),
          setTimeout(() => {
-            navigate("/admindashboard");
+            navigate("/AdminDashboard");
           }, 2000),
           
       );
