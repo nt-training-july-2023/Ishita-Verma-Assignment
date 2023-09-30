@@ -1,0 +1,64 @@
+.details-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width:40rem;
+}
+
+.column01 {
+  flex: 1;
+  padding: 0.2rem;
+  margin: 1rem;
+  background-color: rgb(231, 222, 222);
+}
+.column02 {
+  flex: 1;
+  /* padding: 0.1rem; */
+  margin: 10px;
+  background-color: rgb(231, 222, 222);
+}
+
+.grid-container {
+  display: grid;
+ 
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  border-radius: 0.6rem;
+  border: solid 0.2rem gray;
+}
+
+.field_input {
+  border:2px solid gray;
+  border-radius: 0.3rem;
+  border-style: bold;
+  padding: 0.2rem;
+  height: 2rem;
+  font-size: 15px;
+ 
+}
+.skills{
+  height: 6rem;
+}
+.update-skills{
+margin-top: 0.5rem;
+display: inline-block; 
+padding: 0.6rem; 
+font-size: medium;
+background-color: blueviolet;
+color: #fff; 
+height: 1.7rem;
+width: 8rem;
+text-decoration: none;
+border: none; 
+border-radius: 5px;
+cursor: pointer; 
+text-align: center;
+}
+.empId_profile{
+  /* margin-top: 2rem; */
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  color: white;
+}
+
+

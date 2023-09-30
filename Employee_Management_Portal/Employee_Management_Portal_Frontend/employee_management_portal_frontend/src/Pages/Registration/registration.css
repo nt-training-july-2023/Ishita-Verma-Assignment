@@ -1,0 +1,229 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: linear-gradient(to right, #693bd3, #800a76) ;
+}
+
+.container {
+    display: flex;  
+    justify-content: center;
+    background: linear-gradient(to right, #693bd3, #800a76);
+   /* background-color: #b85b5b; */
+    /* height: 100vh; */
+    /* width: 100vw; */
+}
+
+.reg_heading {
+    display: flex;
+    justify-items: center;
+    align-items: flex-start;
+    padding: 1rem;
+    color: white;
+    font-size: 2rem;
+    font-weight: bolder;
+    margin-top:4rem;
+}
+
+.reg_plant_img {
+    height: 2rem;
+    width: 3rem;
+}
+
+
+.reg_page {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.reg_form {
+    /* flex-grow: wrap; */
+    /* padding: 1rem 5rem 0rem 5rem; */
+    color: white;
+    position: relative;
+    max-height: calc(100vh - 9rem);
+    overflow-y:auto;
+    align-items: left;
+    /* margin-right: 6rem; */
+}
+
+.reg_form::-webkit-scrollbar {
+    width: 0.5em; /*  width of the invisible scrollbar */
+    display: none; /* Hide the scrollbar */
+}
+
+
+.reg_form::-webkit-scrollbar-track {
+    background-color: transparent; /* Color of the track behind the scrollbar */
+}
+
+
+.reg_form::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar handle */
+}
+
+
+
+.reg_form_field {
+    color: rgb(230, 222, 222);
+    /* margin-bottom: 0.2rem; */
+
+    & .reg_form_input::placeholder {
+        color: black;
+        padding: 0.3rem;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+}
+.reg_form_field_label {
+    width: 10rem; 
+    display: inline-block; 
+    text-align: left; 
+    /* margin-right: 1rem;  */
+    font-weight: bold;
+  }
+.reg_form_input {
+    height: 2rem;
+    border: 0.5rem;
+    width: 22rem;
+    /* font-weight: bold; */
+    border-radius: 0.2rem;
+    background-color: rgb(224, 221, 221);
+    border: solid 1px blueviolet;
+    color: black;
+    /* padding: auto; */
+    /* font-weight: 200 !important; */
+}
+.select{
+    background-color: rgb(255, 254, 254);
+}
+.button_reg {
+    display: flex;
+    justify-content: right; /* Center the button horizontally */
+    /* position: relative; Change to relative positioning */
+    /* margin-top: 2rem; Add some top margin to separate from the form */
+    /* padding: 2rem 0 ;  */
+    gap:6rem;
+    /* margin-right: 3rem; */
+ 
+ 
+}
+
+
+.btn {
+    height: 0.6rem; 
+    width: auto;
+    background-color: #1a71a3 !important;
+    font-size: 1rem;
+    border: none;
+    border-radius: 1rem;
+    color: white;
+    cursor: pointer;
+    /* margin-top: -1rem; */
+    
+}
+
+.btn-text {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 100%; 
+    font-weight: bold;
+    
+  }
+.error-message{
+    color: black;
+    font-weight: 500;
+    display: flex;
+    flex-direction: flex-end;
+    
+    /* padding-bottom: 0.5rem; */
+}
+.reg_error{
+    margin-left: 10rem;
+    color: rgb(71, 10, 10);
+
+}
+.reg_side_img {
+    width: 28rem;
+    height: 23rem;
+
+}
+/* @media (max-width: 992px) {
+    .reg_heading {
+        font-size: 1.5rem;
+    }
+
+    .reg_form_input {
+        height: 2.2rem;
+    }
+
+    .reg_side_img {
+        width: 100%;
+        height: auto;
+    }
+} */
+
+
+/* @media (max-width: 768px) {
+    .container{
+        height: 100%;
+    }
+    .reg_heading {
+        font-size: 1.2rem;
+    }
+
+    .reg_form_input {
+        height: 2rem;
+    }
+
+    .reg_side_img {
+       display: none;
+    }
+
+    .button {
+        flex-direction: column;
+        gap: 0.5rem;
+        
+    }
+} */
+
+
+
+/* @media (max-width: 485px) {
+    .container {
+        
+        height: 100vh !important;
+        padding: 1rem !important;
+        width: 100vw !important;
+        color: black;
+    }
+
+    .reg_heading {
+      
+        font-size: 1.2rem !important;
+    }
+
+    .reg_form{
+        padding: none;
+    }
+    .reg_form_input {
+        
+        height: 2.2rem !important;
+        width: 14rem;
+    }
+
+    .reg_side_img {
+       
+        display: none !important;
+    }
+
+    .button {
+        width: 9rem;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+      
+    }
+} */

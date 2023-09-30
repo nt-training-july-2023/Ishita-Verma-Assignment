@@ -1,0 +1,41 @@
+.custom-table {
+    border-collapse: collapse;
+    width: 70%;
+    background-color: rgb(255, 255, 255); /* Gray background color for headers */
+  }
+  
+  .custom-table th, .custom-table td {
+    border: 1px solid gray;
+    padding: 8px;
+    text-align: left;
+  }
+  
+ .request_heading{
+  padding: 1rem;
+  color: white;
+ }
+ .admin_dashboard_button{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  background-color: transparent;
+  text-decoration: none !important;
+  height: 2rem;
+  border: none ;
+  /* padding: 1rem; */
+  margin-right: 48rem;
+  cursor: pointer;
+  color: white;
+  font-size: 1rem;
+ }
+ .table_headings{
+  background-color: black;
+  color: white;
+  
+ }
+
+.custom-table tbody tr:hover {
+  background-color: lightgray;
+  cursor: pointer; 
+}

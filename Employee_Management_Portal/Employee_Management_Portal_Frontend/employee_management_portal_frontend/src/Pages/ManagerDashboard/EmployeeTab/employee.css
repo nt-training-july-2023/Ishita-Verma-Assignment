@@ -1,0 +1,16 @@
+.multi_assign_dropdown{
+  /* position: fixed; */
+  margin-left: 25rem;
+  margin-top: 1rem;
+  
+}
+.unassigned{
+  color: white;
+  margin-right: 0.5rem;
+}
+.final{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}

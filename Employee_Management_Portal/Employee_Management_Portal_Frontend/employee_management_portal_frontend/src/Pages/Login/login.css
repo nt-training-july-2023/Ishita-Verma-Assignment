@@ -1,0 +1,174 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_section {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.login_heading {
+    font-size: 3rem;
+    color: white;
+    padding-bottom: 1rem;
+}
+
+.login_img {
+    margin-left: 4rem;
+    width: 33rem;
+    height: 15rem;
+
+}
+
+.login_form {
+    display: flex;
+    justify-content: center;
+
+    color: white;
+}
+
+.login_form_field {
+    padding-top: 0.5rem;
+
+}
+
+.login_input_field {
+    width: 19rem;
+    height: 2.5rem;
+    border: solid 2px blueviolet;
+    font-size: 1rem;
+    padding-left: 1rem;
+}
+
+.login_reg {
+    color: white;
+    padding: 0.5rem;
+}
+
+.btn {
+    height: 0.5rem;
+    width: 6rem !important;
+    color: bisque;
+    background-color: blueviolet;
+    border: none;
+    font-weight: bold;
+    margin-top: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    padding: 1rem;
+}
+.button_container{
+    display: flex;
+    gap: 10rem;
+
+}
+.login_text{
+    color: white;
+    font-weight: bold;
+}
+.popup {
+  position: fixed;
+  top: 10%;
+  left: 90%;
+  width: 16rem;
+  transform: translate(-50%, -50%);
+  background-color: gray;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  border-radius: 0.5rem;
+}
+.popup button {
+  margin-top: 10px;
+  background-color: blueviolet;
+  color: white;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 10%;
+}
+@media (max-width: 768px) {
+    .login_heading {
+        font-size: 2rem; 
+        text-align: center;
+        /* margin-left: 9rem; */
+    }
+
+    .login_img {
+        width: 70%; 
+        height: auto; 
+    }
+
+    .login_form {
+        align-items: stretch; 
+    }
+
+    .login_input_field {
+        max-width: 100%;
+    }
+
+    .button_container {
+        gap: 1rem; 
+    }
+}
+
+
+@media (max-width: 576px) {
+    .login_heading {
+        font-size: 1.5rem;
+    }
+
+    .login_input_field {
+        font-size: 0.9rem;
+    }
+
+    .button_container {
+        gap: 1rem;
+    }
+
+    .login_img {
+       display: none;}
+
+}
+
+@media (max-width: 318px) {
+    .container{
+        min-height: 100vh;
+        width: 100% !important;
+        
+    }
+    .login_heading {
+        font-size: 1rem;
+        text-align: center; 
+    }
+
+    .login_img {
+        display: none; 
+    }
+
+    .login_form {
+        justify-content: center; 
+    }
+
+    .login_input_field {
+        max-width: 75%; 
+        font-size: 0.8rem; 
+        margin-left: 2rem;
+    }
+    .login_text{
+       margin-left:2rem;
+    }
+    .btn{
+        margin-left:2rem
+    }
+
+}

@@ -1,0 +1,23 @@
+.assign{
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+    width: 100vw;
+    background-color: blueviolet;
+    
+}
+.assign_form{
+  border: solid 0.2rem black;
+  padding: 3rem;
+  background-color: white;
+  border-radius: 0.4rem;
+}
+.assign_heading{
+  padding-bottom: 1rem;
+}
+.assign_input{
+  height: 2rem ;
+  width: 17rem;
+  border :solid 0.16rem gray;
+  border-radius: 0.3rem;
+}

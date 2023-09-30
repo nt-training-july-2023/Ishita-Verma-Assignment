@@ -1,0 +1,41 @@
+.skills_select{
+    width:22rem;
+    color: black !important;
+    /* height: 0.5rem; */
+    border: solid 1px blueviolet;
+}
+.addemployee_dropdown{
+    height: 2.4rem;
+    border-radius: 0.2rem;
+    padding-left:0.5rem ;
+     
+}
+.date_label{
+    color: white;
+    font-weight: bold;
+    margin-top: -0.5rem;
+}
+.custom-placeholder{
+    border: none;
+    margin-left: 0.2rem;
+    /* width: 100%;; */
+}
+.add_employee_container {
+    height: 80vh; 
+    overflow-y: auto; 
+  }
+  .add_employee_container::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.add_employee_container::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
+
+.add_employee_container::-webkit-scrollbar-thumb:hover {
+    background-color: gray;
+}
+
+.add_employee_container::-webkit-scrollbar-track {
+    background-color: transparent;
+}

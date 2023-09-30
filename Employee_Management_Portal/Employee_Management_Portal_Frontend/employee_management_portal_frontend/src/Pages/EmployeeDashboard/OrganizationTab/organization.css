@@ -1,0 +1,17 @@
+.employee_name{
+    font-size: 2rem;
+}.org_headers{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.org_designation{
+margin-bottom: 1rem !important;
+}
+.org_field{
+    margin-bottom: 0.5rem;
+    
+}
+.employee_id{
+    margin-bottom: 3rem;
+    font-size: 1.2rem;
+}

@@ -1,0 +1,220 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Updated CSS for admin_heading */
+.admin_heading {
+    position: fixed;
+    top: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'cursive';
+    margin-left: 5rem;
+    /* width: 10wh; */
+    /* margin-top: 3rem; Add margin-top to create space below the admin tabs */
+}
+
+.admin_employee, .admin_manager, .admin_project, .admin_add_employee {
+    background-color: rgb(183, 0, 255);
+    height: 1.5rem;
+    width: auto;
+    padding: 0.5rem 1rem;
+    border-radius: 0.8rem;
+    color: white;
+    cursor: pointer;
+}
+/* Updated CSS for admin_add_employee container */
+.admin_buttons_container {
+    display: flex;
+    justify-content: flex-end; /* Align items to the right end */
+    align-items: center; /* Vertically center items */
+    margin-top: 1rem; /* Add some top margin for spacing */
+}
+
+.admin_add_employee_link {
+    background-color: blue;
+    height: 2.5rem;
+    width: 6rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.8rem;
+    color: white;
+    text-decoration: none; /* Remove default link underline */
+    cursor: pointer;
+}
+
+.admin_add_employee-link:hover {
+    background-color: #800080; /* Change color on hover */
+}
+
+
+.admin_employee.active {
+    border: 2px solid #000; 
+  }
+.admin_manager.active {
+    border: 2px solid #000; 
+  }
+.admin_project.active {
+    border: 2px solid #000;
+  }
+  
+.add_employee_form {
+    position: absolute;
+    top: 10%;
+    left: 30%;
+    right: 30%;
+    background-color: gray;
+    /* padding:0.5rem; */
+    z-index: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.buttons{
+    display: flex;
+    gap: 1rem;
+    
+}
+.btn_submit,.btn_cancel{
+    background-color: blueviolet;
+    border-radius: 1rem;
+    /* margin-top: 0.5rem; */
+    padding:0.5rem;
+    cursor: pointer;
+    width: 15rem !important ;
+    /* margin-left: 1.5rem; */
+}
+.btn_cancel{
+    border: none;
+    /* margin-left: 5rem; */
+    color: white;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+
+.card_container {
+    /* position: fixed; */
+    /* top: 7.5rem !important;  */
+    top:5;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Occupy the full height of the viewport */
+    overflow-y: auto; /* Enable vertical scroll if needed */
+    scrollbar-width: thin;
+    scrollbar-color: transparent gray;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    /* margin: 25px auto;  */
+    background: linear-gradient(to right, #693bd3, #800a76) ;
+    max-height: calc(100vh - 0.5rem);
+    margin-top: 5rem;
+}
+
+
+
+
+.card_container::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.card_container::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
+
+.card_container::-webkit-scrollbar-thumb:hover {
+    background-color: gray;
+}
+
+.card_container::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.card {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    border: 0.2rem solid #ccc;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin: 1rem;
+    /* padding: 0.8rem; */
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width:38rem;
+    height: 14rem;
+}
+
+.card:hover {
+    /* transform: scale(1.05); */
+    /* Add a hover effect for scaling the card */
+}
+
+.column1{
+    /* flex: 2; */
+    padding: 1rem;
+    width: 26rem;
+    /* padding: 10px; */
+}
+.column2{
+/* flex:1.5; */
+width: 18rem;
+padding: 1.5rem;
+}
+
+.column h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+.column p {
+    /* margin: 5px 0; */
+    font-size: 14px;
+    color: #333;
+}
+.exit_btn{
+background-color: transparent;
+border: none;
+cursor: pointer;
+}
+@media (max-width: 768px) {
+    .admin_add_employee {
+      position: static;
+      width: 100%;
+      margin-top: 1rem;
+    }
+  }
+.logout{
+    margin-bottom: 1rem;
+    margin-left: 68rem !important;
+    padding: 0.5rem;
+    color: white;
+    width: 5rem;
+    border-radius: 0.5rem;
+    cursor :pointer;
+}
+/* CSS for the background overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    backdrop-filter: blur(5px); /* Apply a blur effect to the background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure the overlay is above other content */
+  }
+  

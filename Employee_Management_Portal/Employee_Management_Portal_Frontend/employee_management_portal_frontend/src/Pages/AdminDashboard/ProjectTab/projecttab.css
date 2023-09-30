@@ -1,0 +1,49 @@
+/* p.css */
+
+.project-card {
+  display: flex;
+  flex-direction: row;
+ 
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0 auto;
+  overflow-x: auto;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: transparent gray;
+  /* width: 28rem; */
+  flex-wrap: wrap;
+  /* height: 19rem; */
+}
+
+.project-info {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  border: 0.2rem solid gray;
+  background-color: #f8f8f8;
+  border-radius: 15px;
+  /* padding: 10px; */
+  margin: 10px;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+  width: 35rem !important;
+  /* height: 10rem; */
+  /* margin-top: 6rem; */
+  /* overflow-x: scroll; */
+}
+
+.column {
+  flex: 1;
+}
+
+.column p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #000000;
+}
+@media screen and (max-width: 1024px) {
+ .projectBtn{
+  /* margin-left: 6.5rem !important; */
+ }
+}
