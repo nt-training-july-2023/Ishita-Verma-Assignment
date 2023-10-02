@@ -10,18 +10,18 @@
 }
 
 .admin_add_employee {
-  background-color: rgb(1, 170, 1) !important;
-  position: fixed;
-  top: 4.5rem;
+  background-color: transparent !important;
+  /* position: fixed; */
+  /* top: 4.5rem; */
   text-decoration: none;
-  
-  width: 8rem;
+  font-size: 2rem;
+  width: 16rem;
   border:none !important;
- 
-  margin-left:25rem;
+ /* margin-top: 10rem; */
+  /* margin-left:2rem; */
   font-size: 1rem;
   height: 1rem;
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
   border-radius: 0.2rem;
   color: white;
   cursor: pointer;
@@ -30,31 +30,35 @@
 
 
 .add_employee_btn{
-  position: fixed;
-  top: 4.5rem;
+  /* position: fixed; */
+  /* top: 4.5rem; */
+  /* display: flex;
+    flex-direction: row;
+    justify-content: flex-end; */
   width: 10rem;
   height: 2.5rem;
   background-color:rgb(1, 170, 1);
-  border:none- !important;
-  margin-left:13rem;
+  border:none;
+  margin-left:38rem;
   color: white;
   border-radius: 0.2rem;
   font-size: 1rem;
   cursor: pointer;
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
  } 
  .admin_add_project{
-  position: fixed;
+  /* position: fixed; */
   top: 4.5rem;
   width: 10rem;
   height: 2.5rem;
   background-color:rgb(1, 170, 1);
-  margin-left:24rem;
+  /* margin-left:24rem; */
   color: white;
   border-radius: 0.2rem;
   font-size: 1rem;
   cursor: pointer;
   border:none;
+  margin-left:38rem;
 }
 .custom-button.assign {
   background-color: blue;

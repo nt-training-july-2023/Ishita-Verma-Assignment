@@ -161,7 +161,7 @@ public class ProjectService {
         // Use Java streams to filter employees with unassigned projects
         List<Employee> employeesWithUnassignedProjects = allEmployees
                 .stream()
-                .filter(employee -> employee.getProject() == 0
+                .filter(employee -> employee.getProject() == null
                         && employee.getRole() == Role.EMPLOYEE)
                 .collect(Collectors.toList());
 

@@ -20,8 +20,8 @@ const OrganizationTab = () => {
     };
   
     return (
-      <div>
-        <div className="card_container">
+      
+        <div>
           {employees.map((employee) => (<div className="card" key={employee.id}>
             <div className="column1">
               <h2 className="employee_name">{employee.name}</h2>
@@ -39,7 +39,6 @@ const OrganizationTab = () => {
           </div>))}
           
         </div>
-      </div>
     );
 }
 

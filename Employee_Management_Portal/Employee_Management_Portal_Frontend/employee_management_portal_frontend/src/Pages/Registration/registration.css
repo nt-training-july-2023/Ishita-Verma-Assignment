@@ -9,7 +9,7 @@ body{
 .container {
     display: flex;  
     justify-content: center;
-    background: linear-gradient(to right, #693bd3, #800a76);
+    /* background: linear-gradient(to right, #693bd3, #800a76); */
    /* background-color: #b85b5b; */
     /* height: 100vh; */
     /* width: 100vw; */
@@ -87,7 +87,7 @@ body{
 .reg_form_input {
     height: 2rem;
     border: 0.5rem;
-    width: 22rem;
+    width: 22rem!important;
     /* font-weight: bold; */
     border-radius: 0.2rem;
     background-color: rgb(224, 221, 221);
@@ -151,9 +151,10 @@ body{
     height: 23rem;
 
 }
-/* @media (max-width: 992px) {
+@media (max-width: 1024px) {
     .reg_heading {
         font-size: 1.5rem;
+        margin-top: 0rem;
     }
 
     .reg_form_input {
@@ -164,10 +165,13 @@ body{
         width: 100%;
         height: auto;
     }
-} */
+    .button_reg{
+        margin-top: 1rem;
+    }
+} 
 
 
-/* @media (max-width: 768px) {
+ @media (max-width: 768px) {
     .container{
         height: 100%;
     }
@@ -188,11 +192,15 @@ body{
         gap: 0.5rem;
         
     }
-} */
+    .button_reg{
+        margin-top: -0.8rem;
+    }
+    
+} 
 
 
 
-/* @media (max-width: 485px) {
+@media (max-width: 485px) {
     .container {
         
         height: 100vh !important;
@@ -226,4 +234,4 @@ body{
         gap: 0.5rem !important;
       
     }
-} */
+} 

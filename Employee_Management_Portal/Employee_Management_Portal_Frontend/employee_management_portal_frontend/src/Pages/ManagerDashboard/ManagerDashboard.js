@@ -16,7 +16,7 @@ const ManagerDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setRole(localStorage.getItem('userRole'));
+    setRole(localStorage.getItem('role'));
   }, [])
 
   const switchToEmployeeTab = () => {
@@ -61,14 +61,13 @@ const ManagerDashboard = () => {
   return (
     <>
     {role === "MANAGER"?(
-    <div className="container">
+    <div className="">
       <HeaderComponent  
         activeTab={activeTab}
         switchToEmployeeTab={switchToEmployeeTab}
         switchToManagerTab={switchToManagerTab}
         switchToProjectTab={switchToProjectTab}
       />
-      <div className="admin_heading">Welcome {name} </div>
      
       <div className="card_container">
         {activeTab === "employee" && (

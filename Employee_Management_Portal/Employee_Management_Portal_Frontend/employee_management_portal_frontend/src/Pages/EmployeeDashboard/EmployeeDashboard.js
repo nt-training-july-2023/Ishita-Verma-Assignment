@@ -5,6 +5,8 @@ import ProfileTab from "./ProfileTab/ProfileTab";
 import HeaderEmployee from "../../components/HeaderEmployee/HeaderEmployee"; // Import the HeaderComponent
 import { useNavigate } from "react-router-dom";
 import UnAuthorization from "../../components/Unauthorization/Unauthorization";
+import mainpage from '../../Assests/Images/mainpage.png';
+import Button from '../../components/Button/Button';
 
 const EmployeeDashboard = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -20,7 +22,13 @@ const EmployeeDashboard = () => {
   const switchToOrganizationTab = () => {
     setActiveTab("organization");
   };
-
+  const handleLogout = () => {
+    localStorage.removeItem('email');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('name');
+    localStorage.removeItem('id')
+    navigate('/');
+  };
   const name = localStorage.getItem("name");
 
   // const handleLogout = () => {
@@ -36,20 +44,22 @@ const EmployeeDashboard = () => {
 
   return (
     <>
+    
     {role === "EMPLOYEE"?(
-    <div className="container">
-       <HeaderEmployee
+      <>
+    <div className="headeremployee">
+       {/* <HeaderEmployee
         activeTab={activeTab}
         switchToEmployeeTab={switchToProfileTab}
         switchToManagerTab={switchToOrganizationTab}
         switchToProjectTab={() => {}}
-      />
+      /> */}
       
       <div className="admin_heading">
-        <p>Welcome {name} </p>
+        <p>Welcome {name} !!</p>
       </div>
-      <div className="admin_tabs">
-        <div
+      <div className="admin_tabs"> 
+         <div
           className={`admin_employee ${activeTab === "profile" ? "active" : ""}`}
           onClick={switchToProfileTab}
         >
@@ -63,6 +73,11 @@ const EmployeeDashboard = () => {
         >
           Organization
         </div>
+      </div> 
+        <div className='header-actions'>
+        <Button onClick={handleLogout} className='custom-button logout' text='Logout' />
+        <img src={mainpage} className='header_img' alt='Main Page' />
+      </div>
       </div>
       <div className="card_container">
         {activeTab === "profile" && (
@@ -75,8 +90,9 @@ const EmployeeDashboard = () => {
             <OrganizationTab />
           </div>
         )}
-      </div>
+     
     </div>
+    </>
      ): (<UnAuthorization/>)}
      </>
   );

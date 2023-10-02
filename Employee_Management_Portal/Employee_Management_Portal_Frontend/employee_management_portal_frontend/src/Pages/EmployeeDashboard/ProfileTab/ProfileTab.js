@@ -30,7 +30,7 @@ const ProfileTab = () => {
           <p className='empId_profile'>Emp ID: {employeeDetails.empId}</p>
           <div className="details-container">
              
-            <div className="column01 grid-container">
+            <div className="grid-container">
 
             <div className="column01">
              

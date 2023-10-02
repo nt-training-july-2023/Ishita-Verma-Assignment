@@ -6,20 +6,30 @@
 
 /* Updated CSS for admin_heading */
 .admin_heading {
-    position: fixed;
-    top: 1rem;
+    /* position: fixed; */
+    /* top: /1rem; */
+    /* padding: 1rem; */
     left: 0;
     right: 0;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
     color: white;
-    font-size: 1.5rem;
+    width: 28rem;
+    font-size: 1.8rem;
     font-weight: bold;
     font-family: 'cursive';
-    margin-left: 5rem;
+    padding-top: 0.7rem;
+    /* padding: 1rem; */
+    /* margin-left: 1rem; */
+    /* margin-right: 10rem; */
+    /* margin-right: 65rem; */
+    /* margin-top: 1rem; */
+    /* z-index: 1; */
+    /* width:20rem */
     /* width: 10wh; */
-    /* margin-top: 3rem; Add margin-top to create space below the admin tabs */
+    /* margin-top: 1rem;  */
 }
 
 .admin_employee, .admin_manager, .admin_project, .admin_add_employee {
@@ -55,14 +65,8 @@
 }
 
 
-.admin_employee.active {
-    border: 2px solid #000; 
-  }
-.admin_manager.active {
-    border: 2px solid #000; 
-  }
-.admin_project.active {
-    border: 2px solid #000;
+.admin_employee.active,.admin_manager.active ,.admin_project.active {
+    border: 4px solid white; 
   }
   
 .add_employee_form {
@@ -101,13 +105,13 @@
 
 
 .card_container {
-    /* position: fixed; */
+    /* position: absolute; */
     /* top: 7.5rem !important;  */
-    top:5;
+    /* top:5; */
     left: 0;
     right: 0;
     bottom: 0; /* Occupy the full height of the viewport */
-    overflow-y: auto; /* Enable vertical scroll if needed */
+    /* overflow-y: auto; Enable vertical scroll if needed */
     scrollbar-width: thin;
     scrollbar-color: transparent gray;
     display: flex;
@@ -115,10 +119,11 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
+    /* margin-top: -3rem; */
     /* margin: 25px auto;  */
-    background: linear-gradient(to right, #693bd3, #800a76) ;
-    max-height: calc(100vh - 0.5rem);
-    margin-top: 5rem;
+    /* background: linear-gradient(to right, #693bd3, #800a76) ; */
+    /* height: 80rem */
+    /* margin-top: 28rem; */
 }
 
 
@@ -187,23 +192,13 @@ background-color: transparent;
 border: none;
 cursor: pointer;
 }
-@media (max-width: 768px) {
-    .admin_add_employee {
-      position: static;
-      width: 100%;
-      margin-top: 1rem;
-    }
-  }
-.logout{
-    margin-bottom: 1rem;
-    margin-left: 68rem !important;
-    padding: 0.5rem;
-    color: white;
-    width: 5rem;
-    border-radius: 0.5rem;
-    cursor :pointer;
+.dropdown{
+    width: 31rem !important;
+    margin-left: 0.2rem;
 }
-/* CSS for the background overlay */
+.input_form_field{
+    width:32.5rem !important;
+}
 .overlay {
     position: fixed;
     top: 0;
@@ -217,4 +212,20 @@ cursor: pointer;
     align-items: center;
     z-index: 1000; /* Ensure the overlay is above other content */
   }
+ 
+  /* @media (max-width: 1024px) {
+.admin_heading{
+font-size: 1rem;
+margin-right: 4rem !important;
+} */
   
+/* @media (max-width: 768px) {
+    .admin_add_employee {
+      position: static;
+      width: 100%;
+      margin-top: 1rem;
+    }
+  } */
+/* .tabs{
+    width: 45rem;
+} */

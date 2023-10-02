@@ -1,3 +1,21 @@
-.logout{
-    border: none;
+.headeremployee{
+    background: black;
+}
+@media screen and (max-width: 768px) {
+    .admin_manager{
+       width:5rem !important;
+    }
+    .card_container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-right: 2rem !important;
+    }
+    .details-container,.grid-container{
+        height: 25rem;
+    }
+    .details_container{
+        margin-left: 5rem !important;
+    }
 }

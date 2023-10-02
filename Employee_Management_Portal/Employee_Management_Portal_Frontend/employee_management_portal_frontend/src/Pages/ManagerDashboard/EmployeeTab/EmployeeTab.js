@@ -15,10 +15,11 @@ const EmployeeTab = () => {
   const [showUnassigned, setShowUnassigned] = useState(false);
   const [skills, setSkills] = useState([]);
   const [check, setCheck] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     getAllEmployees();
-    IsRequested();
+    
   }, []);
 
   // const email = localStorage.getItem("email");
@@ -42,23 +43,29 @@ const EmployeeTab = () => {
   };
 
   const getSkilledEmployee = async (skills, check) => {
+    
     try {
       const response = await axios.get(
         `http://localhost:8080/all/employees/skills?skills=${skills}&isCheck=${check}`
       );
       console.log(response.data);
       setEmployees(response.data);
+      response.data.forEach((employee) =>{
+        console.log(employee);
+        IsRequested(employee);
+        // console.log("isrequested"+IsRequested)
+      });
     } catch (error) {
       console.log(error);
     }
   };
   const handleSkillClick = () => {
-    console.log(skills);
-    //setIsClick(true);
-    console.log(check);
-    //setActiveTab("");
-    getSkilledEmployee(skills, check);
-    //  {<EmployeeTab skills={skills} isCheck={check} />}
+    if(!showAssigned && skills.length == 0){
+      getAllEmployees()
+    }
+    else{
+      getSkilledEmployee(skills, check);
+    }
   };
   const handleSkillChange = (selectedOptions) => {
     const selectedSkillsValues = selectedOptions.map((option) => option.value);
@@ -75,13 +82,17 @@ const EmployeeTab = () => {
       );
       console.log(response.data);
       setEmployees(response.data);
+      response.data.forEach((employee) =>{
+        console.log(employee);
+        IsRequested(employee);
+      });
     } catch (error) {
       console.error("Error fetching unassigned employees:", error);
     }
   };
 
   useEffect(() => {
-    if (showUnassigned) {
+    if (showUnassigned ) {
       getUnassignedEmployees();
     } else {
       // Fetch all employees when showUnassigned is false
@@ -89,30 +100,35 @@ const EmployeeTab = () => {
     }
   }, [showUnassigned]);
 
-  useEffect(() => {
-    // Fetch employees when showAssigned checkbox changes
-    fetchEmployees();
-  }, [showAssigned, selectedSkills]);
+  // useEffect(() => {
+  //   // Fetch employees when showAssigned checkbox changes
+  //   fetchEmployees();
+  // }, [showAssigned, selectedSkills]);
 
-  const fetchEmployees = async () => {
-    try {
-      // Define query parameters based on your filters
-      const queryParams = {
-        showAssigned,
-        selectedSkills: selectedSkills.join(","),
-      };
+  // const fetchEmployees = async () => {
+  //   try {
+  //     // Define query parameters based on your filters
+  //     const queryParams = {
+  //       showAssigned,
+  //       selectedSkills: selectedSkills.join(","),
+  //     };
 
-      // Make an HTTP GET request to your Spring controller
-      const response = await axios.get(
-        "http://localhost:8080/unassigned",
-        { params: queryParams }
-      );
+  //     // Make an HTTP GET request to your Spring controller
+  //     const response = await axios.get(
+  //       "http://localhost:8080/unassigned",
+  //       { params: queryParams }
+  //     );
 
-      setEmployees(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  //     setEmployees(response.data);
+  //     response.data.forEach((employee) =>{
+  //       console.log(employee);
+  //       IsRequested(employee);
+  //       // console.log("isrequested"+IsRequested)
+  //     });
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
   // const IsRequested = async (employeeObject) => {
   //   try {
@@ -141,7 +157,7 @@ const EmployeeTab = () => {
   // };
   
   const IsRequested = async (employeeObject) => {
-    console.log("employeeobj"+employeeObject.id);
+    // console.log("employee obj: isrequested : "+ employeeObject);
     EmployeeService.isRequested(`${employeeObject.id}`,`${ID}`).then((response)=>{
      console.log(response.data);
      const requested = response.data;
@@ -179,7 +195,7 @@ const EmployeeTab = () => {
               handleSkillChange(event);
             }
             {
-              //setIsClick(false);
+              // setIsClick(false);
             }
           }}
           placeholder="Select Skills"
@@ -196,12 +212,13 @@ const EmployeeTab = () => {
           />
           <Button onClick={handleSkillClick} className="custom-button search-button" text='Search Employee'></Button>
         </div>
+        {error}
       </div>
       <div className="final">
       {employees.sort(function (a, b) {
                     return a.name.localeCompare(b.name);
                 }).map((employee) => (
-          <div className="card" key={employee.Id}>
+          <div className="card" key={employee.id}>
             <div className="column1">
               <h2 className="employee_name">{employee.name}</h2>
               <p style={{ marginTop: "-0.2rem" }}>{employee.designation} </p>
@@ -272,7 +289,7 @@ const EmployeeTab = () => {
               <div style={{ marginTop: "1rem" }}>
                 {employee.projectName === null && (
                   <p>
-                    {console.log("zzzzzzz"+employee.requested)}
+                    {console.log("zzzzzzz"+employee.requested + " "+employee.name)}
                     {employee.requested ? (
                       <button className="requested_btn" disabled>Requested</button>
                     ) : (

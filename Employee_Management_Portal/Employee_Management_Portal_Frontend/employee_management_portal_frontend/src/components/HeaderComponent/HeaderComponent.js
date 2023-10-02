@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './headerComponent.css';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
@@ -11,23 +11,31 @@ const HeaderComponent = ({
   switchToProjectTab,
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('email'));
-
+  const [userName, setUserName] = useState('');
   const navigate = useNavigate();
+  useEffect(() => {
+    // Retrieve the user's name from local storage
+    const name = localStorage.getItem('name');
+    setUserName(name || ''); // Set the user's name in state
+  }, []);
 
   const handleLogout = () => {
     
     localStorage.removeItem('email');
-    localStorage.removeItem('userRole');
+    localStorage.removeItem('role');
     localStorage.removeItem('name');
-    localStorage.removeItem('id')
-    setIsLoggedIn(false);
+    localStorage.removeItem('id');
+    localStorage.removeItem('isLoggedIn');
+    // setIsLoggedIn(false);
     navigate('/');
   };
   console.log(isLoggedIn);
   
 
   return (
+    <div className='back'>
     <div className='header-container'>
+        <div className='admin_heading'>Welcome {userName} !!</div>
       <div className='admin_tabs'>
         <div
           className={`admin_employee ${activeTab === 'employee' ? 'active' : ''}`}
@@ -52,6 +60,7 @@ const HeaderComponent = ({
         <Button onClick={handleLogout} className='custom-button logout' text='Logout' />
         <img src={mainpage} className='header_img' alt='Main Page' />
       </div>
+    </div>
     </div>
   );
 };

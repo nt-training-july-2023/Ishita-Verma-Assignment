@@ -29,7 +29,7 @@ const ManagerTab = () => {
 
 return (
   <div>
-    <div className="final">
+    <div className="card_container">
       {managers.sort(function (a, b) {
         return a.name.localeCompare(b.name);
     }).map((manager) => (

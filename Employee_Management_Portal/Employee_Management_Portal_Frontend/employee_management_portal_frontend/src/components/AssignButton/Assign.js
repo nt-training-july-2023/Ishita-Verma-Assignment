@@ -17,7 +17,7 @@ const Assign = () => {
 
   const location = useLocation();
   const stateData = location.state;
-  console.log("stateData"+ location.state);
+  console.log(stateData);
 
   useEffect(() => {
     getEmployee();
@@ -98,6 +98,7 @@ const Assign = () => {
       <div className='assign '>
         <div className='assign_form'>
           <h2 className='assign_heading'>Assign Project</h2>
+          <h3> {stateData.empName}</h3>
           <div className='assign_project'>
             <h3 style={{ fontWeight: 'bold' }}>{employeeDetails.name}</h3>
             <select onChange={handleSelectChange} className='assign_input'>

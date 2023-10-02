@@ -230,5 +230,38 @@ class EmployeeServiceTest {
         assertEquals(2L, requestResource.getEmployeeId());
         assertEquals(3L, requestResource.getProjectId());
     }
-    
+//    @Test
+//    public void testGetAllRequests_RequestsExistAndConversion() {
+//        // Arrange
+//        RequestResource request1 = new RequestResource();
+//        request1.setComment("Request comment 1");
+//        request1.setEmployeeId(1L);
+//        request1.setManagerId(1L);
+//        request1.setProjectId(1L);
+//        request1.setResourceId(1L);
+//        
+//        RequestResource request2 = new RequestResource();
+//        request2.setComment("Request comment 2");
+//        request2.setEmployeeId(2L);
+//        request2.setManagerId(2L);
+//        request2.setProjectId(2L);
+//        request2.setResourceId(2L);
+//        List<RequestResource> requestResources = Arrays.asList(request1, request2);
+//        
+//        when(requestRepository.findAll()).thenReturn(requestResources);
+//        
+//        // Mock the requestToOutDto method to return a specific DTO
+//        when(employeeService.requestToOutDto(request1)).thenReturn(new RequestResourceOutDTO());
+//        
+//        when(employeeService.requestToOutDto(request2)).thenReturn(new RequestResourceOutDTO(/* Initialize with data */));
+//        
+//        // Act
+//        List<RequestResourceOutDTO> result = employeeService.getAllRequests();
+//        
+//        // Assert
+//        assertNotNull(result);
+//        assertEquals(requestResources.size(), result.size());
+//        // Add more assertions to verify data correctness
+//    }
+
  }
