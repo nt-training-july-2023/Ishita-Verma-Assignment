@@ -18,6 +18,8 @@ import com.portal.DTO.EmployeeOutDTO;
 import com.portal.DTO.LoginInDTO;
 import com.portal.DTO.LoginOutDTO;
 import com.portal.DTO.ResponseDTO;
+import com.portal.constants.ErrorConstants;
+import com.portal.constants.SuccessConstants;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
 import com.portal.entities.Role;
@@ -73,6 +75,12 @@ public class AdminService {
      *                                 exists.
      */
     public final ResponseDTO registerAdmin(final EmployeeInDTO adminDTO) {
+        if (!adminDTO.getEmail().equalsIgnoreCase("ankita.sharma@nucleusteq.com")) {
+            ResponseDTO response = new ResponseDTO();
+            response.setMessage(ErrorConstants.INVALID_EMPLOYEE);
+            response.setRole("");
+            return response;
+        }
         Employee adminEntity = new Employee();
 
         adminEntity.setRole(Role.ADMIN);
@@ -92,7 +100,7 @@ public class AdminService {
 
         this.adminRepository.save(adminEntity);
         ResponseDTO response = new ResponseDTO();
-        response.setMessage("Admin added successfully");
+        response.setMessage(SuccessConstants.ADMIN_ADDED);
         response.setRole("ADMIN");
 
         return response;
@@ -123,7 +131,7 @@ public class AdminService {
         }
 
         LOGGER.error("Wrong Credentials");
-        throw new WrongCredentialsException("Wrong Credentials");
+        throw new WrongCredentialsException(ErrorConstants.WRONG_CREDENTIALS);
     }
     /**
      * Retrieves a list of all admins.

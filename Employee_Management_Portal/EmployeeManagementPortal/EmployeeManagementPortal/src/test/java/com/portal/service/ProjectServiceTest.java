@@ -22,7 +22,9 @@ import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.ProjectInDTO;
 import com.portal.DTO.ProjectOutDTO;
 import com.portal.DTO.ResponseDTO;
+import com.portal.entities.Designation;
 import com.portal.entities.Employee;
+import com.portal.entities.Location;
 import com.portal.entities.Project;
 import com.portal.entities.Role;
 import com.portal.repository.AdminRepository;
@@ -112,14 +114,41 @@ class ProjectServiceTest {
 
     @Test
     public void testGetProjectByManagerId() {
-        long managerID = 1L;
+        Long managerID = 1L;
         List<Project> mockProjects = new ArrayList<>();
-        Project project1 = new Project();
+        
+        Employee employee= new Employee();
+        employee.setId(1L);
+        employee.setEmpId("N1111");
+        employee.setName("Ankita Sharma");
+        employee.setEmail("ankita.sharma@nucleusteq.com");
+        employee.setDob("1990-01-01");
+        employee.setDoj("2021-01-01");
+        employee.setLocation(Location.Raipur);
+        employee.setDesignation(Designation.Engineer);
+        employee.setContactNumber("1234567890");
+        employee.setRole(Role.EMPLOYEE);
+        employee.setProjectId(10L);
+        employee.setPassword("password");
+        
+        Project project = new Project();
+        project.setDescription("DEscription");
+        project.setManagerId(1L);
+        project.setName("Ishita");
+        project.setProjectId(1L);
+        project.setSkills(skills);
+        project.setStartDate("20-05-2001");
+        ProjectOutDTO project1 = new ProjectOutDTO();
         project1.setProjectId(101L);
-        project1.setName("Project A");
+        project1.setProjectName("Project A");
         project1.setManagerId(managerID);
         project1.setSkills(Arrays.asList("Java", "Spring", "Hibernate"));
-        mockProjects.add(project1);
+        project1.setDescription("Description");
+        project1.setStartDate("20-05-2001");
+        project1.setManager(employee.getName());
+        project1.setTeams(teams);
+        
+        mockProjects.add(project);
         // Mock the projectRepository.findByManagerID method
         when(projectRepository.findByManagerId(managerID))
                 .thenReturn(mockProjects);
@@ -200,37 +229,5 @@ class ProjectServiceTest {
         assertEquals(Arrays.asList("Employee 1"), firstProject.getTeams());
     }
 
-    @Test
-    public void testGetEmployeesWithUnassignedProjects() {
-        List<Employee> mockEmployees = new ArrayList<>();
-
-        Employee employee1 = new Employee();
-        employee1.setId(1L);
-        employee1.setProjectId(0L);
-        employee1.setRole(Role.EMPLOYEE);
-        mockEmployees.add(employee1);
-
-        Employee employee2 = new Employee();
-        employee2.setId(2L);
-        employee2.setProjectId(1L); // Assigned to a project
-        employee2.setRole(Role.EMPLOYEE);
-        mockEmployees.add(employee2);
-
-        Employee employee3 = new Employee();
-        employee3.setId(3L);
-        employee3.setProjectId(0L);
-        employee3.setRole(Role.MANAGER); // Manager, not eligible
-        mockEmployees.add(employee3);
-
-        // Mock the repository call
-        when(userRepository.findAll()).thenReturn(mockEmployees);
-
-        // Call the method to test
-        List<Employee> result = projectService
-                .getEmployeesWithUnassignedProjects();
-
-        // Assertions
-        assertEquals(1, result.size());
-        assertEquals(1L, result.get(0).getId());
-    }
+    
 }

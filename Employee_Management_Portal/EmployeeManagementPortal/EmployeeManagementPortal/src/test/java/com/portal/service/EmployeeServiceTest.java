@@ -12,7 +12,9 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,12 +22,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.EmployeeInDTO;
 import com.portal.DTO.EmployeeOutDTO;
 import com.portal.DTO.RequestResourceInDTO;
 import com.portal.DTO.RequestResourceOutDTO;
+import com.portal.DTO.ResponseDTO;
 import com.portal.entities.Designation;
 import com.portal.entities.Employee;
 import com.portal.entities.Location;
@@ -49,7 +53,10 @@ class EmployeeServiceTest {
     private ProjectRepository projectRepository;
     @Mock
     private RequestResourceRepository requestRepository;
-
+    @Mock
+    private ModelMapper modelMapper;
+    @Mock
+    private RequestResourceService requestService;
     @Mock
     private ApiResponseDTO response;
 
@@ -88,55 +95,9 @@ class EmployeeServiceTest {
         // Assertions
         assertEquals("Employee Added Successfully", result.getMessage());
         // Add more assertions as needed for other fields or behavior
-    }
+    }    
 
 
-    @Test
-    void testUnassignEmployee_Successful() {
-        // Create a sample employee who is currently assigned to a project
-        Employee sampleEmployee = new Employee();
-        sampleEmployee.setId(1L);
-        sampleEmployee.setProjectId(2L); // Assuming the employee is assigned to a project
-
-        // Mock the userRepository.findById method to return the sample employee
-        when(userRepository.findById(1L)).thenReturn(Optional.of(sampleEmployee));
-
-        // Call the unassignEmployee method
-        assertDoesNotThrow(() -> employeeService.unassignEmployee(1L));
-
-        // Verify that the employee's project ID was set to 0 and userRepository.save was called
-        assertEquals(0L, sampleEmployee.getProjectId());
-        verify(userRepository, times(1)).save(sampleEmployee);
-    }
-
-    @Test
-    void testUnassignEmployee_NotAssignedToProject() {
-        // Create a sample employee who is not assigned to any project
-        Employee sampleEmployee = new Employee();
-        sampleEmployee.setId(1L);
-        sampleEmployee.setProjectId(0L); // Employee is not assigned to any project
-
-        // Mock the userRepository.findById method to return the sample employee
-        when(userRepository.findById(1L)).thenReturn(Optional.of(sampleEmployee));
-
-        // Call the unassignEmployee method and expect an IllegalStateException
-        assertThrows(IllegalStateException.class, () -> employeeService.unassignEmployee(1L));
-
-        // Verify that userRepository.save was not called
-        verify(userRepository, never()).save(sampleEmployee);
-    }
-
-    @Test
-    void testUnassignEmployee_EmployeeNotFound() {
-        // Mock the userRepository.findById method to return an empty Optional (employee not found)
-        when(userRepository.findById(1L)).thenReturn(Optional.empty());
-
-        // Call the unassignEmployee method and expect a ResourceNotFoundException
-        assertThrows(ResourceNotFoundException.class, () -> employeeService.unassignEmployee(1L));
-
-        // Verify that userRepository.save was not called
-        verify(userRepository, never()).save(any(Employee.class));
-    }
     @Test
     void testRequestToOutDto() {
         // Create a sample RequestResource
@@ -230,38 +191,238 @@ class EmployeeServiceTest {
         assertEquals(2L, requestResource.getEmployeeId());
         assertEquals(3L, requestResource.getProjectId());
     }
-//    @Test
-//    public void testGetAllRequests_RequestsExistAndConversion() {
-//        // Arrange
-//        RequestResource request1 = new RequestResource();
-//        request1.setComment("Request comment 1");
-//        request1.setEmployeeId(1L);
-//        request1.setManagerId(1L);
-//        request1.setProjectId(1L);
-//        request1.setResourceId(1L);
-//        
-//        RequestResource request2 = new RequestResource();
-//        request2.setComment("Request comment 2");
-//        request2.setEmployeeId(2L);
-//        request2.setManagerId(2L);
-//        request2.setProjectId(2L);
-//        request2.setResourceId(2L);
-//        List<RequestResource> requestResources = Arrays.asList(request1, request2);
-//        
-//        when(requestRepository.findAll()).thenReturn(requestResources);
-//        
-//        // Mock the requestToOutDto method to return a specific DTO
-//        when(employeeService.requestToOutDto(request1)).thenReturn(new RequestResourceOutDTO());
-//        
-//        when(employeeService.requestToOutDto(request2)).thenReturn(new RequestResourceOutDTO(/* Initialize with data */));
-//        
-//        // Act
-//        List<RequestResourceOutDTO> result = employeeService.getAllRequests();
-//        
-//        // Assert
-//        assertNotNull(result);
-//        assertEquals(requestResources.size(), result.size());
-//        // Add more assertions to verify data correctness
-//    }
+    @Test
+    public void testGetEmployeeById() {
+        List<String> skills= new ArrayList<>();
+        skills.add("Java");
+        skills.add("React");
+        Employee employee = new Employee();
+        employee.setId(1L);
+        employee.setEmpId("N1001");
+        employee.setName("Anjali Sharma");
+        employee.setEmail("anjali.sharma@nucleusteq.com");
+        employee.setDob("2001-09-07");
+        employee.setDoj("2023-07-17");
+        employee.setLocation(Location.Indore);
+        employee.setDesignation(Designation.Engineer);
+        employee.setContactNumber("1234567800");
+        employee.setRole(Role.EMPLOYEE);
+        employee.setSkills(skills);
+        employee.setManagerId((long)2);
+        employee.setPassword("admin123");
+        employee.setProjectId(0L);
+        
+        EmployeeOutDTO empDTO= new EmployeeOutDTO();
+        empDTO.setId(1L);
+        empDTO.setEmpId("N1001");
+        empDTO.setName("Anjali Sharma");
+        empDTO.setEmail("anjali.sharma@nucleusteq.com");
+        empDTO.setDob("2001-09-07");
+        empDTO.setDoj("2023-07-17");
+        empDTO.setLocation(Location.Indore);
+        empDTO.setDesignation(Designation.Engineer);
+        empDTO.setContactNumber("1234567800");
+        empDTO.setRole(Role.EMPLOYEE);
+        empDTO.setSkills(skills);
+        empDTO.setManagerId(2L);
+        empDTO.setManager("Vanshika Sharma");
+        empDTO.setProjectName("Fyndr");
+        empDTO.setProjectId(0L);
+        
+        when(userRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
+        when(modelMapper.map(employee, EmployeeOutDTO.class)).thenReturn(empDTO);
+        
+        Employee manager= new Employee();
+        manager.setId(2L);
+        manager.setEmpId("N1002");
+        manager.setName("Vanshika Sharma");
+        manager.setEmail("vanshika.sharma@nucleusteq.com");
+        manager.setDob("2001-09-07");
+        manager.setDoj("2023-07-17");
+        manager.setLocation(Location.Canada);
+        manager.setDesignation(Designation.Engineer);
+        manager.setContactNumber("1234567809");
+        manager.setRole(Role.MANAGER);
+        manager.setSkills(skills);
+        manager.setManagerId(1L);
+        manager.setPassword("van12345");
+        manager.setProjectId(1L);
+        when(userRepository.findById(employee.getManagerId())).thenReturn(Optional.of(manager));
+        
+        
+        Project project = new Project();
+        skills.add("React");
+        skills.add("Java");
+        project.setProjectId(1L);
+        
 
+        when(projectRepository.findById(project.getProjectId())).thenReturn(Optional.of(project));
+        project.setName("Fyndr");
+        project.setManagerId(1L);
+        project.setStartDate("2023-09-07");
+        project.setDescription("Description");
+        project.setSkills(skills);
+        EmployeeOutDTO result = employeeService.getEmployeeById(project.getProjectId());
+        assertEquals(empDTO, result);
+        
+        
+     }
+    @Test
+    public void testListEmployeeByRole() {
+        List<String> skills= new ArrayList<>();
+        skills.add("Java");
+        skills.add("React");
+        Employee employee = new Employee();
+        employee.setId(1L);
+        employee.setEmpId("N1001");
+        employee.setName("Anjali Sharma");
+        employee.setEmail("anjali.sharma@nucleusteq.com");
+        employee.setDob("2001-09-07");
+        employee.setDoj("2023-07-17");
+        employee.setLocation(Location.Indore);
+        employee.setDesignation(Designation.Engineer);
+        employee.setContactNumber("1234567800");
+        employee.setRole(Role.EMPLOYEE);
+        employee.setSkills(skills);
+        employee.setManagerId((long)2);
+        employee.setPassword("admin123");
+        employee.setProjectId(0L);
+    List<Employee> empList = new ArrayList<Employee>();
+    empList.add(employee);
+    when(userRepository.findByRole(Role.EMPLOYEE)).thenReturn(empList);
+
+    EmployeeOutDTO empDTO= new EmployeeOutDTO();
+    empDTO.setId(1L);
+    empDTO.setEmpId("N1001");
+    empDTO.setName("Anjali Sharma");
+    empDTO.setEmail("anjali.sharma@nucleusteq.com");
+    empDTO.setDob("2001-09-07");
+    empDTO.setDoj("2023-07-17");
+    empDTO.setLocation(Location.Raipur);
+    empDTO.setDesignation(Designation.Engineer);
+    empDTO.setContactNumber("1234567800");
+    empDTO.setRole(Role.EMPLOYEE);
+    empDTO.setSkills(skills);
+    empDTO.setManagerId(2L);
+    empDTO.setManager("Vanshika Sharma");
+    empDTO.setProjectName("Fyndr");
+    empDTO.setProjectId(1L);
+
+    List<EmployeeOutDTO>empOutList = new ArrayList<EmployeeOutDTO>();
+    empOutList.add(empDTO);
+    Project prj = new Project();
+    skills.add("React");
+    skills.add("Java");
+    prj.setProjectId(1L);
+    prj.setName("Fyndr");
+    prj.setManagerId(1L);
+    prj.setStartDate("2023-09-07");
+    prj.setDescription("Description");
+    prj.setSkills(skills);
+
+    when(projectRepository.findById(prj.getProjectId())).thenReturn(Optional.of(prj));
+    Employee manager= new Employee();
+    manager.setId(2L);
+    manager.setEmpId("N1002");
+    manager.setName(" Vanshika Sharma");
+    manager.setEmail("vanshika.sharma@nucleusteq.com");
+    manager.setDob("2001-09-07");
+    manager.setDoj("2023-07-17");
+    manager.setLocation(Location.Raipur);
+    manager.setDesignation(Designation.Engineer);
+    manager.setContactNumber("1234567809");
+    manager.setRole(Role.MANAGER);
+    manager.setSkills(skills);
+    manager.setManagerId((long)1);
+    manager.setPassword("van12345");
+    manager.setProjectId(1L);
+    when(userRepository.findById(employee.getManagerId())).thenReturn(Optional.of(manager));
+    empOutList.add(empDTO);
+
+    List<EmployeeOutDTO> result = employeeService.getEmployeeByRole(Role.EMPLOYEE);
+    assertEquals(1, result.size());
+
+    List<Employee> list2 = new ArrayList<>();
+    when(userRepository.findByRole(Role.EMPLOYEE)).thenReturn(list2);
+
+    }
+    @Test
+    public void testAssignProject() {
+        List<String> skills= new ArrayList<>();
+        skills.add("Java");
+        skills.add("React");
+        Employee employee= new Employee();
+        employee.setId(1L);
+        employee.setEmpId("N1001");
+        employee.setName("Anjali Sharma");
+        employee.setEmail("anjali.sharma@nucleusteq.com");
+        employee.setDob("2001-09-07");
+        employee.setDoj("2023-07-17");
+        employee.setLocation(Location.Raipur);
+        employee.setDesignation(Designation.Engineer);
+        employee.setContactNumber("1234567800");
+        employee.setRole(Role.EMPLOYEE);
+        employee.setSkills(skills);
+        employee.setManagerId(1L);
+        employee.setPassword("admin123");
+        employee.setProjectId(1L);
+        when(userRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
+        when(userRepository.save(employee)).thenReturn(employee);
+        Map<String ,Long> map = new HashMap<>();
+        map.put("projectId", employee.getProjectId());
+        map.put("managerId", employee.getManagerId());
+        
+        RequestResource request = new RequestResource();
+        request.setEmployeeId(1L);
+        request.setComment("Comments");
+        request.setResourceId(1L);
+        request.setManagerId(1L);
+        request.setProjectId(1L);
+        
+        List<RequestResource> reqList = new ArrayList<>();
+        ResponseDTO response = new ResponseDTO();
+        response.setMessage("Request Deleted");
+        reqList.add(request);
+        when(requestService.rejectRequest(request.getResourceId())).thenReturn(response);
+        when(requestRepository.findByEmployeeId(employee.getId())).thenReturn(reqList);
+        ApiResponseDTO result = employeeService.updatedProject(employee.getId(), employee.getProjectId(),employee.getManagerId());
+        assertEquals("Updated Suceesfully",result.getMessage());
+        
+    }
+    @Test
+    public void testUpdateSkills() {
+        List<String> skills= new ArrayList<>();
+        skills.add("React");
+        skills.add("Java");
+        Employee emp= new Employee();
+        emp.setId(1L);
+       emp.setSkills(skills);
+       when(userRepository.findById(emp.getId())).thenReturn(Optional.of(emp));
+       when(userRepository.save(emp)).thenReturn(emp);
+       
+       ApiResponseDTO result = employeeService.updateSkills(emp.getId(), emp.getSkills());
+       assertEquals("Updated Skills",result.getMessage());
+    }
+    @Test
+    public void testGetAllRequests() {
+        // Arrange
+        List<RequestResource> mockRequestResourceList = new ArrayList<>();
+        RequestResource request = new RequestResource();
+        request.setComment("Comment1");
+        request.setEmployeeId(1L);
+        request.setManagerId(1L);
+        request.setResourceId(1L);
+        request.setProjectId(1L);
+        mockRequestResourceList.add(request);
+        // Add more mock RequestResource objects as needed
+
+        // Mock the behavior of requestResourceRepository
+        when(requestRepository.findAll()).thenReturn(mockRequestResourceList);
+        // Act
+        List<RequestResourceOutDTO> result = requestService.getAllRequests();
+
+        // Assert
+        assertEquals(mockRequestResourceList.size(), result.size());
+        // You can add more specific assertions based on your actual requirements
+    }
  }

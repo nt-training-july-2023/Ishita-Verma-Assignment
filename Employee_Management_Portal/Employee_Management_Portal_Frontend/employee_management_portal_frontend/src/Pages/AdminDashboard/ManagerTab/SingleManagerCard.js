@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import ProjectService from "../../../service/ProjectService";
 
 const SingleManagerCard = ({ manager }) => {
   const [projectsList, setProjectsList] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
   const [showDropdown, setShowDropdown] = useState(true);
-  const [skills, setSkills] = useState([]);
-  const [teams, setTeams] = useState([]);
   const [selectedProjectData, setSelectedProjectData] = useState(null);
   
   async function fetchProjectList() {
+
+    ProjectService.getProjectById(`${manager.id}`).then((response)=>{
+
+    }).catch((error)=>{
+      
+    })
     try {
       const response = await axios.get(
         `http://localhost:8080/projects/${manager.id}`
       );
-    //   setProjectsList(response.data);
-
-    //   if (response.data.length === 1) {
-    //     setSelectedProject(response.data[0].projectId);
-    //     setShowDropdown(false);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
     const projectData = response.data;
 
       if (projectData.length > 0) {
@@ -40,19 +36,6 @@ const SingleManagerCard = ({ manager }) => {
     fetchProjectList();
   }, []);
 
-  // useEffect(() => {
-  //   const selectedProjectData = projectsList.find(
-  //     (project) => project.projectId === selectedProject
-  //   );
-
-  //   if (selectedProjectData) {
-  //     setTeams(selectedProjectData.teams);
-  //     setSkills(selectedProjectData.skills);
-  //   } else {
-  //     setTeams([]);
-  //     setSkills([]);
-  //   }
-  // }, [selectedProject, projectsList]);
 
   function handleChange(event) {
     const selectedProjectId = event.target.value;
@@ -67,21 +50,6 @@ const SingleManagerCard = ({ manager }) => {
     } else {
       setSelectedProjectData(null);
     }
-    // const selectedProjectData = projectsList.find(
-    //   (project) => project.projectId === selectedProjectId
-    // );
-
-    // if (selectedProjectData) {
-    //   const selectedProjectSkills = selectedProjectData.skills;
-    //   const selectedProjectTeams = selectedProjectData.teams;
-    //   console.log("Selected Project Skills:", selectedProjectSkills);
-    //   setTeams(selectedProjectTeams);
-    //   setSkills(selectedProjectSkills);
-    // } else {
-    //   console.log("Selected Project Does Not Exist");
-    //   setTeams([]);
-    //   setSkills([]);
-    // }
   }
 
   return (
@@ -103,9 +71,6 @@ const SingleManagerCard = ({ manager }) => {
                   onChange={handleChange}
                   value={selectedProject}
                 >
-                  {/* <option value="" disabled>
-                    Select Project
-                  </option> */}
                   {projectsList.map((project) => {
                     return (
                       <option key={project.projectId} value={project.projectId}>
@@ -115,7 +80,6 @@ const SingleManagerCard = ({ manager }) => {
                   })}
                 </select>
               ) : (
-                // <span>{projectsList[0].projectName}</span>
                 <span>{selectedProjectData?.projectName}</span>
               )}
             </p>
@@ -140,34 +104,10 @@ const SingleManagerCard = ({ manager }) => {
 
             <p style={{ marginTop: "1rem" }}>
               <span style={{ fontWeight: "bold" }}>Project Skills :</span>{" "}
-              {/* {showDropdown
-                ? projectsList
-                    .filter(
-                      (project) => project.projectId + "" === selectedProject
-                    )
-                    .map((project) =>
-                      project.skills.map((skill, index) =>
-                        index === project.skills.length - 1
-                          ? skill
-                          : skill + ", "
-                      )
-                    )
-                : skills.join(", ")} */}
                  {selectedProjectData?.skills.join(", ")}
             </p>
             <p>
               <span style={{ fontWeight: "bold" }}>Teams :</span>{" "}
-              {/* {showDropdown
-                ? projectsList
-                    .filter(
-                      (project) => project.projectId + "" === selectedProject
-                    )
-                    .map((project) =>
-                      project.teams.map((team, index) =>
-                        index === project.teams.length - 1 ? team : team + ", "
-                      )
-                    )
-                : teams.join(", ")} */}
                 {selectedProjectData?.teams.join(", ")}
             </p>
           </div>

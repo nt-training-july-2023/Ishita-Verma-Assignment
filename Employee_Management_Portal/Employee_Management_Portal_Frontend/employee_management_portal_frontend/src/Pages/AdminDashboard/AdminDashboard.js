@@ -5,7 +5,7 @@ import EmployeeTab from "./EmployeeTab/EmployeeTab";
 import ManagerTab from "./ManagerTab/ManagerTab";
 import ProjectTab from "./ProjectTab/ProjectTab";
 import AddProject from "../../components/AddProject/AddProject";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
 import UnAuthorization from "../../components/Unauthorization/Unauthorization";
@@ -84,7 +84,7 @@ const AdminDashboard = () => {
             <div className="addEmployee_div">
               <Button
                 onClick={toggleAddEmployee}
-                text="Add Employee"
+                text={<>&#x2B; Add Employee</>}
                 className="add_employee_btn"
               />
             </div>
@@ -94,7 +94,7 @@ const AdminDashboard = () => {
             <div>
               <Button
                 onClick={toggleAddProject}
-                text="Add Project"
+                text={<>&#x2B; Add Project</>}
                 className="admin_add_project"
               />
             </div>

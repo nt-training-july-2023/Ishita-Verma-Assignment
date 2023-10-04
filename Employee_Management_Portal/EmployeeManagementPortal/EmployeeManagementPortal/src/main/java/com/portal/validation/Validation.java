@@ -10,13 +10,16 @@ import org.springframework.stereotype.Component;
 import com.portal.DTO.EmployeeInDTO;
 import com.portal.DTO.LoginInDTO;
 import com.portal.DTO.ProjectInDTO;
+import com.portal.constants.ErrorConstants;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
+import com.portal.entities.Role;
 import com.portal.exceptions.DuplicateEntryException;
 import com.portal.exceptions.ResourceNotFoundException;
 import com.portal.exceptions.WrongCredentialsException;
 import com.portal.repository.AdminRepository;
 import com.portal.repository.ProjectRepository;
+
 
 import jakarta.validation.Valid;
 
@@ -87,15 +90,15 @@ public class Validation {
     public final boolean checkUser(final EmployeeInDTO userDto) {
         if (!checkName(userDto.getName())) {
             throw new WrongCredentialsException(
-                    "Please provide a valid name.");
+                    ErrorConstants.WRONG_NAME);
         }
         if (!checkEmail(userDto.getEmail())) {
             throw new WrongCredentialsException(
-                    "Please provide a valid email address.");
+                    ErrorConstants.WRONG_EMAIL);
         }
         if (!checkempId(userDto.getEmpId())) {
             throw new WrongCredentialsException(
-                    "Please provide a valid employee ID.");
+                    ErrorConstants.WRONG_ID);
         }
         return true;
     }
@@ -109,7 +112,7 @@ public class Validation {
     public final boolean checkLoginDto(final LoginInDTO loginDto) {
         if (!checkName(loginDto.getEmail())) {
             throw new WrongCredentialsException(
-                    "Please provide a valid email address.");
+                    ErrorConstants.WRONG_EMAIL);
         }
         return true;
     }
@@ -123,7 +126,7 @@ public class Validation {
         Optional<Employee> emp = userRepository.findByEmail(email);
         if (emp.isPresent()) {
             LOGGER.error("Email id already exists");
-            throw new DuplicateEntryException("Email id already exists");
+            throw new DuplicateEntryException(ErrorConstants.EMAIL_EXISTS);
         }
     }
 
@@ -137,7 +140,7 @@ public class Validation {
         if (emp.isPresent()) {
             LOGGER.error("Employee id already exists");
             throw new DuplicateEntryException(
-                    "Employee id already exists");
+                    ErrorConstants.ID_EXISTS);
         }
     }
 
@@ -159,7 +162,7 @@ public class Validation {
         Optional<Employee> emp = userRepository.findByEmail(email);
         if (emp.isEmpty()) {
             LOGGER.error("Invalid user");
-            throw new ResourceNotFoundException("Invalid user");
+            throw new ResourceNotFoundException(ErrorConstants.INAVALID_USER);
         }
     }
 
@@ -189,12 +192,40 @@ public class Validation {
     public void checkProjectName(final String name) {
         Project project = projectRepository.findByName(name);
         if (project != null) {
-        LOGGER.error("Project Name already exists");
+        LOGGER.error("Already Exists");
             throw new DuplicateEntryException(
-                    "Project Name already exists");
+                    ErrorConstants.NAME_EXISTS);
         }
     }
-
+    /**
+     * Check if a project exists by ID.
+     * @param id The ID of the project to check.
+     * @throws UserNotFound If the project does
+     * not exist, throw this exception.
+     */
+    public final void checkProjectExists(final Long id) {
+       Project project = projectRepository.findById(id).orElse(null);
+        if (project == null) {
+            LOGGER.error(ErrorConstants.PROJECT_NOT_FOUND);
+            throw new ResourceNotFoundException(ErrorConstants.PROJECT_NOT_FOUND);
+        }
+    }
+    /**
+     * Check if a manager exists by ID.
+     * @param id The ID of the manager to check.
+     * @throws UserNotFound If the manager does not
+     * exist, throw this exception.
+     */
+    public final void checkManagerExists(final Long id) {
+        Employee employee = userRepository.findById(id).orElse(null);
+        if (employee == null) {
+            LOGGER.error(ErrorConstants.EMPLOYEE_NOT_FOUND);
+            throw new ResourceNotFoundException(ErrorConstants.EMPLOYEE_NOT_FOUND);
+        } else if (employee.getRole() != Role.MANAGER) {
+            LOGGER.error(ErrorConstants.MANAGER_NOT_FOUND);
+            throw new ResourceNotFoundException(ErrorConstants.MANAGER_NOT_FOUND);
+        }
+    }
     /**
      * check to perform project operation.
      * @param projectDto project dto containing project informations.

@@ -3,6 +3,7 @@ package com.portal.service;
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.ProjectInDTO;
 import com.portal.DTO.ProjectOutDTO;
+import com.portal.constants.SuccessConstants;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
 import com.portal.entities.Role;
@@ -12,6 +13,7 @@ import com.portal.repository.ProjectRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -56,7 +58,7 @@ public class ProjectService {
         Project project = this.dtotoEntity(projectDTO);
         this.projectRepository.save(project);
         ApiResponseDTO response = new ApiResponseDTO();
-        response.setMessage("Project added successfully");
+        response.setMessage(SuccessConstants.PROJECT_ADDED);
         return response;
     }
 
@@ -87,13 +89,18 @@ public class ProjectService {
         List<Project> projectList = projectRepository
                 .findByManagerId((managerId));
         List<ProjectOutDTO> projectOutList = new ArrayList<ProjectOutDTO>();
+        Optional<Employee> optionalManager = adminRepository.findById(managerId);
+        Employee manager = optionalManager.orElse(null);
+        
         for (Project project : projectList) {
             ProjectOutDTO projectOutDto = new ProjectOutDTO();
             projectOutDto.setProjectId(project.getProjectId());
             projectOutDto.setProjectName(project.getName());
-
+            projectOutDto.setStartDate(project.getStartDate());
             projectOutDto.setManagerId(project.getManagerId());
+            projectOutDto.setDescription(project.getDescription());
             projectOutDto.setSkills(project.getSkills());
+            projectOutDto.setManager(manager.getName());
             List<Employee> empList = adminRepository
                     .findAllByProjectId(project.getProjectId());
 
@@ -149,26 +156,6 @@ public class ProjectService {
 
         return projectOutList;
     }
-
-    /**
-     * Get a list of all unassigned projects.
-     *
-     * @return a list of project DTOs for unassigned projects.
-     */
-    public List<Employee> getEmployeesWithUnassignedProjects() {
-        List<Employee> allEmployees = adminRepository.findAll();
-
-        // Use Java streams to filter employees with unassigned projects
-        List<Employee> employeesWithUnassignedProjects = allEmployees
-                .stream()
-                .filter(employee -> employee.getProject() == null
-                        && employee.getRole() == Role.EMPLOYEE)
-                .collect(Collectors.toList());
-
-        return employeesWithUnassignedProjects;
-    }
-
-    // dto to entity
     /**
      * @param projectDto project dto
      * @return project entity

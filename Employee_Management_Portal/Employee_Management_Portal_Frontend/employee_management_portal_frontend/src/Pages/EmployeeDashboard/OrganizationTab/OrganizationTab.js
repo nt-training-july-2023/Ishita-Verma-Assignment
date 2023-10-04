@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './organization.css' 
-import axios from 'axios'; 
 import DateReverser from '../../../components/DateReverser/DateReverser';
 import EmployeeService from '../../../service/EmployeeService';
 

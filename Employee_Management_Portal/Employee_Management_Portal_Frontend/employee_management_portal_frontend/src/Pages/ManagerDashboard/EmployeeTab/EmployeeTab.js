@@ -22,24 +22,20 @@ const EmployeeTab = () => {
     
   }, []);
 
-  // const email = localStorage.getItem("email");
   const ID = localStorage.getItem('id');
 
   const getAllEmployees = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8080/all/EMPLOYEE"
-      );
+
+    EmployeeService.getEmployees("EMPLOYEE").then((response)=>{
       console.log(response.data);
       setEmployees(response.data);
       response.data.forEach((employee) =>{
         console.log(employee);
         IsRequested(employee);
-        // console.log("isrequested"+IsRequested)
       });
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    }).catch((error)=>{
+
+    })
   };
 
   const getSkilledEmployee = async (skills, check) => {
@@ -53,15 +49,15 @@ const EmployeeTab = () => {
       response.data.forEach((employee) =>{
         console.log(employee);
         IsRequested(employee);
-        // console.log("isrequested"+IsRequested)
       });
     } catch (error) {
       console.log(error);
     }
   };
   const handleSkillClick = () => {
-    if(!showAssigned && skills.length == 0){
+    if(check===false && skills.length === 0){
       getAllEmployees()
+      return
     }
     else{
       getSkilledEmployee(skills, check);
@@ -75,89 +71,31 @@ const EmployeeTab = () => {
     setCheck(!check);
   };
 
-  const getUnassignedEmployees = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8080/api/admin/unassigned"
-      );
-      console.log(response.data);
-      setEmployees(response.data);
-      response.data.forEach((employee) =>{
-        console.log(employee);
-        IsRequested(employee);
-      });
-    } catch (error) {
-      console.error("Error fetching unassigned employees:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (showUnassigned ) {
-      getUnassignedEmployees();
-    } else {
-      // Fetch all employees when showUnassigned is false
-      getAllEmployees();
-    }
-  }, [showUnassigned]);
-
-  // useEffect(() => {
-  //   // Fetch employees when showAssigned checkbox changes
-  //   fetchEmployees();
-  // }, [showAssigned, selectedSkills]);
-
-  // const fetchEmployees = async () => {
+  // const getUnassignedEmployees = async () => {
   //   try {
-  //     // Define query parameters based on your filters
-  //     const queryParams = {
-  //       showAssigned,
-  //       selectedSkills: selectedSkills.join(","),
-  //     };
-
-  //     // Make an HTTP GET request to your Spring controller
   //     const response = await axios.get(
-  //       "http://localhost:8080/unassigned",
-  //       { params: queryParams }
+  //       "http://localhost:8080/api/admin/unassigned"
   //     );
-
+  //     console.log(response.data);
   //     setEmployees(response.data);
   //     response.data.forEach((employee) =>{
   //       console.log(employee);
   //       IsRequested(employee);
-  //       // console.log("isrequested"+IsRequested)
   //     });
   //   } catch (error) {
-  //     console.error("Error fetching data:", error);
+  //     console.error("Error fetching unassigned employees:", error);
   //   }
   // };
 
-  // const IsRequested = async (employeeObject) => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://localhost:8080/employee/isRequested",
-  //       {
-  //         params: {
-  //           employeeId: employeeObject.id,
-  //           managerId: id,
-  //         },
-  //       }
-  //     );
-  
-  //     const requested = response.data;
-  
-  //     setEmployees((prevEmployees) =>
-  //       prevEmployees.map((employee) =>
-  //         employee.id === employeeObject.id
-  //           ? { ...employee, requested: requested }
-  //           : employee
-  //       )
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  
+  useEffect(() => {
+    if (showUnassigned ) {
+      getSkilledEmployee();
+    } else {
+      getAllEmployees();
+    }
+  }, [showUnassigned]);
+
   const IsRequested = async (employeeObject) => {
-    // console.log("employee obj: isrequested : "+ employeeObject);
     EmployeeService.isRequested(`${employeeObject.id}`,`${ID}`).then((response)=>{
      console.log(response.data);
      const requested = response.data;
@@ -174,12 +112,9 @@ const EmployeeTab = () => {
     })
   }
 
-  useEffect(() => {
-    //isRequested(employees);
-  }, []);
   return (
     <div>
-      <div className="multi_assign_dropdown">
+      <div className="multi_assign_dropdown search_skill">
         <MultiSelectDropdown
           options={Skills.map((skill) => ({
             label: skill,
@@ -193,9 +128,6 @@ const EmployeeTab = () => {
           onChange={(event) => {
             {
               handleSkillChange(event);
-            }
-            {
-              // setIsClick(false);
             }
           }}
           placeholder="Select Skills"
@@ -291,7 +223,7 @@ const EmployeeTab = () => {
                   <p>
                     {console.log("zzzzzzz"+employee.requested + " "+employee.name)}
                     {employee.requested ? (
-                      <button className="requested_btn" disabled>Requested</button>
+                      <Button className="requested_btn" text="Requested" />
                     ) : (
                       <Link
                         to={`/requestResource/${employee.id}`}

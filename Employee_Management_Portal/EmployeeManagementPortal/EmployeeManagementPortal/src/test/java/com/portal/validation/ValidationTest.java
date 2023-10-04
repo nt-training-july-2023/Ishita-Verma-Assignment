@@ -176,7 +176,7 @@ public class ValidationTest {
             validation.checkProject(projectDto);
         });
 
-        assertEquals("Project Name already exists", exception.getMessage());
+        assertEquals("Already Exists", exception.getMessage());
     }
 
     @Test

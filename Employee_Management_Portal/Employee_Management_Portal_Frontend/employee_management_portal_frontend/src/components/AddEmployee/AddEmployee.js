@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./addemployee.css";
 import Role from "../Data/Role";
@@ -9,13 +9,19 @@ import Location from "../Data/Location";
 import bcrypt from "bcryptjs";
 import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
 import Popup from "../Popup/Popup";
+import Button from "../Button/Button";
+import InputField from "../InputField/InputField";
 import {
   validateName,
-  validateEmail,
+  validateEmployeeEmail,
   validateEmpId,
   validateDob,
+  validateLocation,
+  validateDesignation,
   validateDoj,
   validateContactNumber,
+  validateRole,
+  validateSkills
 } from "../../components/HandleBlur/HandleBlur";
 
 const AddEmployee = () => {
@@ -50,93 +56,39 @@ const AddEmployee = () => {
     console.log(selectedOptions);
     const selectedSkillsValues = selectedOptions.map((option) => option.value);
     setSkills(selectedSkillsValues);
+    setSkillsError("");
   };
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
-    const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
-    const empIdRegex = /^[Nn]\d{4}$/;
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    const today = new Date();
-    const minDate = new Date(
-      today.getFullYear() - 18,
-      today.getMonth(),
-      today.getDate()
-    );
-    const cleanedContactNumber = contactNumber.replace(/[^0-9]/g, "");
+    if (
+      !name ||
+      !email ||
+      !empId ||
+      !dob ||
+      !doj ||
+      !location ||
+      !designation ||
+      !contactNumber ||
+      skills.length === 0 ||
+      !role
 
+    ) {
+      validateName(name, setNameError);
+      validateEmployeeEmail(email, setEmailError)
+      validateEmpId(empId, setEmpIdError)
+      validateDob(dob, setDobError)
+      validateDoj(doj, setDojError)
+      validateLocation(location, setLocationError)
+      validateDesignation(designation, setDesignationError)
+      validateContactNumber(contactNumber, setContactNumber, setContactNumberError)
+      validateRole(role, setRoleError)
+      validateSkills(skills, setSkillsError)
+      return;
+    }
     let isValid = true;
-
-    if (!alphabeticRegex.test(name)) {
-      setNameError("Name must contain alphabetic characters only");
-      isValid = false;
-    } else {
-      setNameError("");
-    }
-
-    if (!emailRegex.test(email)) {
-      setEmailError("Email must be a company email (@nucleusteq.com)");
-      isValid = false;
-    } else {
-      setEmailError("");
-    }
-
-    if (!empIdRegex.test(empId)) {
-      setEmpIdError("Employee ID should be in pattern NXXXX");
-      isValid = false;
-    } else {
-      setEmpIdError("");
-    }
-
-    const dobDate = new Date(dob);
-    const dojDate = new Date(doj);
-
-    if (isNaN(dobDate)) {
-      setDobError("Invalid date format.");
-      isValid = false;
-    } else if (dobDate > today) {
-      setDobError("Date of Birth cannot be in the future.");
-      isValid = false;
-    } else if (dobDate > minDate) {
-      setDobError("You must be at least 18 years old.");
-      isValid = false;
-    } else {
-      setDobError("");
-    }
-
-    if (!dateRegex.test(doj)) {
-      setDojError("Date should have a pattern like  DD-MM-YY");
-      isValid = false;
-    } else if (isNaN(dojDate) || dojDate > today) {
-      setDojError("Date of Joining cannot be in the future.");
-      isValid = false;
-    } else {
-      setDojError("");
-    }
-
-    if (location === "") {
-      setLocationError("Required can't be empty.");
-    }
-
-    if (designation === "") {
-      setDesignationError("Required can't be empty.");
-    }
-
-    if (role === "") {
-      setRoleError("Required can't be empty.");
-    }
-
-    if (!/^\d{10}$/.test(cleanedContactNumber)) {
-      setContactNumberError("Contact no should have 10 digits only");
-      isValid = false;
-    } else {
-      setContactNumber(cleanedContactNumber);
-      setContactNumberError("");
-    }
-
     const replaceDob = dob.replaceAll("-", "");
     const pwd = empId + "@" + replaceDob;
     const password = bcrypt.hashSync(pwd, 10);
@@ -159,10 +111,9 @@ const AddEmployee = () => {
         .then((response) => {
           console.log(response);
           setErrorMessage("Successfully Added");
-          const navigateToDashboard = () => {
-            navigate("/AdminDashboard");
-        };
-        setTimeout(navigateToDashboard, 2000);
+          setTimeout(() => {
+            navigate("/adminDashboard");
+          }, 200000);
         })
         .catch((error) => {
           console.log(error);
@@ -181,49 +132,6 @@ const AddEmployee = () => {
           }
         });
     }
-  };
-
-  const clearFormFields = () => {
-    setName("");
-    setEmail("");
-    setEmpId("");
-    setDob("");
-    setDoj("");
-    setLocation(null);
-    setDesignation(null);
-    setContactNumber("");
-    setRole(null);
-    setSkills([]);
-  };
-
-  const handleNameBlur = (e) => {
-    const inputValue = e.target.value;
-    validateName(inputValue, setNameError);
-  };
-
-  const handleEmailBlur = (e) => {
-    const inputValue = e.target.value;
-    validateEmail(inputValue, setEmailError);
-  };
-
-  const handleEmpIdBlur = (e) => {
-    const inputValue = e.target.value;
-    validateEmpId(inputValue, setEmpIdError);
-  };
-
-  const handleDobBlur = (e) => {
-    const inputValue = e.target.value;
-    validateDob(inputValue, setDobError);
-  };
-
-  const handleDojBlur = (e) => {
-    const inputValue = e.target.value;
-    validateDoj(inputValue, setDojError);
-  };
-
-  const handleContactNumberBlur = (e) => {
-    const inputValue = e.target.value;
-    validateContactNumber(inputValue, setContactNumber, setContactNumberError);
   };
 
   const renderPopup = () => {
@@ -246,65 +154,66 @@ const AddEmployee = () => {
           <h2 style={{ color: "white" }}>Add Employee</h2>
 
           <div className="input_form_field">
-            <input
+            <InputField
               type="text"
               id="name"
-              className="custom-placeholder"
+              className="custom-placeholder "
               value={name}
-              placeholder="Name"
+              placeholder="Employee Name"
               onChange={(e) => setName(e.target.value)}
-              onBlur={handleNameBlur}
+              onBlur={() => validateName(name, setNameError)}
             />
-            {nameError && <div className="error-message">{nameError}</div>}
+            {setNameError && <div className="error-message">{nameError}</div>}
           </div>
+
           <div className="input_form_field">
-            <input
+            <InputField
               type="text"
               id="empId"
               className="custom-placeholder "
               value={empId}
               placeholder="Employee Id"
               onChange={(e) => setEmpId(e.target.value)}
-              onBlur={handleEmpIdBlur}
+              onBlur={() => validateEmpId(empId, setEmpIdError)}
             />
             {empIdError && <div className="error-message">{empIdError}</div>}
           </div>
 
           <div className="input_form_field">
-            <input
+            <InputField
               type="email"
               id="email"
               className="custom-placeholder addemployee_dropdown"
               value={email}
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
-              onBlur={handleEmailBlur}
+              onBlur={() => validateEmployeeEmail(email, setEmailError)}
             />
             {emailError && <div className="error-message">{emailError}</div>}
           </div>
 
           <div className="input_form_field">
             <label className="date_label">DOB</label>
-            <input
+            <InputField
               type="date"
               id="dob"
               className="custom-placeholder"
               value={dob}
               onChange={(e) => setDob(e.target.value)}
-              onBlur={handleDobBlur}
+              onBlur={() => validateDob(dob, setDobError)}
             />
             {dobError && <div className="error-message">{dobError}</div>}
           </div>
 
           <div className="input_form_field">
             <label className="date_label">DOJ</label>
-            <input
+            <InputField
               type="date"
               id="doj"
               className="custom-placeholder"
               value={doj}
               onChange={(e) => setDoj(e.target.value)}
-              onBlur={handleDojBlur}
+              onBlur={() => validateDoj(doj, setDojError)}
             />
             {dojError && <div className="error-message">{dojError}</div>}
           </div>
@@ -314,6 +223,7 @@ const AddEmployee = () => {
               className="custom-placeholder addemployee_dropdown"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              onBlur={() => validateLocation(location, setLocationError)}
             >
               <option value="">Select Location</option>
               {Location.map((item) => {
@@ -334,6 +244,7 @@ const AddEmployee = () => {
               className="custom-placeholder addemployee_dropdown"
               value={designation}
               onChange={(e) => setDesignation(e.target.value)}
+              onBlur={() => validateDesignation(designation, setDesignationError)}
             >
               <option value="">Select Designation</option>
               {Designation.map((item) => {
@@ -350,14 +261,14 @@ const AddEmployee = () => {
           </div>
 
           <div className="input_form_field">
-            <input
+            <InputField
               type="tel"
               id="contactNumber"
               className="custom-placeholder addemployee_dropdown"
               value={contactNumber}
               placeholder="Contact Number"
               onChange={(e) => setContactNumber(e.target.value)}
-              onBlur={handleContactNumberBlur}
+              onBlur={() => validateContactNumber(contactNumber, setContactNumber, setContactNumberError)}
             />
             {contactNumberError && (
               <div className="error-message">{contactNumberError}</div>
@@ -369,6 +280,7 @@ const AddEmployee = () => {
               className="custom-placeholder addemployee_dropdown"
               value={role}
               onChange={(e) => setRole(e.target.value)}
+              onBlur={() => validateRole(role, setRoleError)}
             >
               <option value="">Select Role</option>
               {Role.map((item) => {
@@ -394,13 +306,14 @@ const AddEmployee = () => {
               }))}
               onChange={handleSkillChange}
               placeholder="Select Skills"
+              onBlur={() => validateSkills(skills, setSkillsError)}
             />
             {skillsError && <div className="error-message">{skillsError}</div>}
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <button className="btn_submit" type="submit">
+          <Button className="btn_submit" text="Add Employee">
             Add Employee
-          </button>
+          </Button>
         </form>
         {renderPopup()}
       </div>

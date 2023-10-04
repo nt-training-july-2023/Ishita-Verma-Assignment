@@ -11,6 +11,7 @@ import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.RequestResourceInDTO;
 import com.portal.DTO.RequestResourceOutDTO;
 import com.portal.DTO.ResponseDTO;
+import com.portal.constants.SuccessConstants;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
 import com.portal.entities.RequestResource;
@@ -74,7 +75,7 @@ public class RequestResourceService {
      * @param id The ID of the request to be accepted.
      * @return A ResponseDTO indicating the result of the request acceptance.
      */
-    public ResponseDTO acceptRequest(final Long id) {
+    public ApiResponseDTO acceptRequest(final Long id) {
         RequestResource request =
                 requestRepository.findById(id).get();
         Employee employee = userRepository
@@ -91,7 +92,7 @@ public class RequestResourceService {
          for (RequestResource req : employeeRequests) {
              rejectRequest(req.getResourceId());
          }
-         ResponseDTO response = new ResponseDTO();
+         ApiResponseDTO response = new ApiResponseDTO();
          response.setMessage("Request Accepted");
          return response;
     }
@@ -104,7 +105,7 @@ public class RequestResourceService {
         RequestResource request = requestRepository.findById(id).get();
         this.requestRepository.delete(request);
         ResponseDTO response = new ResponseDTO();
-        response.setMessage("Request Deleted");
+        response.setMessage(SuccessConstants.REQUEST_DELETED);
         return response;
     }
     /**
@@ -162,7 +163,7 @@ public class RequestResourceService {
         RequestResource request = dtoToRequestResource(requestDTO);
         requestRepository.save(request);
         ApiResponseDTO response = new ApiResponseDTO();
-            response.setMessage("Sucessfully Added");
+            response.setMessage(SuccessConstants.RESOURCE_ADDED);
             return response;
     }
     /**

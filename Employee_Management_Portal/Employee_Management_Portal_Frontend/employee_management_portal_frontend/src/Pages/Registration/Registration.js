@@ -1,23 +1,26 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import "./registration.css";
 import { useNavigate, Link } from "react-router-dom";
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 import AdminService from "../../service/AdminService";
 import reg_plant_img from "../../Assests/Images/reg_plant_img.png";
 import reg_side_img from "../../Assests/Images/reg_side_img.png";
 import Location from "../../components/Data/Location";
 import Designation from "../../components/Data/Designation";
+import LoginRegisterService from "../../service/LoginRegisterService";
+import InputField from "../../components/InputField/InputField";
 import {
   validateName,
   validateEmail,
   validateEmpId,
   validateDob,
   validateDoj,
+  validateLocation,
+  validateDesignation,
   validateContactNumber,
   validatePassword,
   validateConfirmPassword,
-} from "../../components/HandleBlur/HandleBlur"; 
-import LoginRegisterService from "../../service/LoginRegisterService";
+} from "../../components/HandleBlur/HandleBlur";
 
 const Registration = () => {
   const [id, setId] = useState("");
@@ -32,20 +35,20 @@ const Registration = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  //for validations
+  // Validation error state
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [empIdError, setEmpIdError] = useState("");
   const [dobError, setDobError] = useState("");
   const [dojError, setDojError] = useState("");
   const [locationError, setLocationError] = useState("");
-  const [designationError, setDesignationError]  = useState("");
+  const [designationError, setDesignationError] = useState("");
   const [contactNumberError, setContactNumberError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [duplicateEmailError, setDuplicateEmailError] = useState("");
-  
+
   const navigate = useNavigate();
 
   const hashPassword = (password) => {
@@ -54,99 +57,41 @@ const Registration = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (
+      !name ||
+      !email ||
+      !empId ||
+      !dob ||
+      !doj ||
+      !location ||
+      !designation ||
+      !contactNumber ||
+      !password ||
+      !confirmPassword
+    ) {
+      validateName(name, setNameError);
+      validateEmail(email, setEmailError);
+      validateEmpId(empId, setEmpIdError);
+      validateDob(dob, setDobError);
+      validateDoj(doj, setDojError);
+      validateLocation(location, setLocationError);
+      validateDesignation(designation, setDesignationError);
+      validateContactNumber(
+        contactNumber,
+        setContactNumber,
+        setContactNumberError
+      );
+      validatePassword(password, setPasswordError);
+      validateConfirmPassword(
+        confirmPassword,
+        password,
+        setConfirmPasswordError
+      );
+      return;
+    }
 
-    // onBlur validations for each input field
-    const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-    const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;
-    // const emailRegex = /^[a-zA-Z0-9._%+-]+@nucleusteq\.com$/;
-    const empIdRegex = /^[Nn][1-9][0-9]{3}$/;
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    const today = new Date();
-    const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-    const cleanedContactNumber = contactNumber.replace(/[^0-9]/g, "");
-    const passwordRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~]).{8,}$/;
-
-    
     let isValid = true;
     const hashedPassword = hashPassword(password);
-    if (!alphabeticRegex.test(name)) {
-      setNameError("Name must contain alphabetic characters only");
-      isValid = false;
-    } else {
-      setNameError("");
-    }
-
-    if (!emailRegex.test(email)) {
-      setEmailError("Email must be a company email (@nucleusteq.com)");
-      isValid = false;
-    } else {
-      setEmailError("");
-    }
-    
-    if (!empIdRegex.test(empId)) {
-      setEmpIdError("Employee ID should be in pattern NXXXX");
-      isValid = false;
-    } else {
-      setEmpIdError("");
-    }
-
-    const dobDate = new Date(dob);
-    const dojDate = new Date(doj);
-
-    if (isNaN(dobDate)) {
-      setDobError("Invalid date format.");
-      isValid = false;
-    } else if (dobDate > today) {
-      setDobError("Date of Birth cannot be in the future.");
-      isValid = false;
-    } else if (dobDate > minDate) {
-      setDobError("You must be at least 18 years old.");
-      isValid = false;
-    } else {
-      setDobError("");
-    }
-
-    if (!dateRegex.test(doj)) {
-      setDojError("Date should have a pattern like  DD-MM-YY");
-      isValid = false;
-    } else if (isNaN(dojDate) || dojDate > today) {
-      setDojError("Date of Joining cannot be in the future.");
-      isValid = false;
-    } else {
-      setDojError("");
-    }
-
-    if(location === ""){
-     setLocationError("Required can't be empty.")
-    }
-
-    if (designation === ""){
-      setDesignationError("Required can't be empty.")
-    }
-
-    if (!/^\d{10}$/.test(cleanedContactNumber)) {
-      setContactNumberError("Contact no should have 10 digits only");
-      isValid = false;
-    } else {
-      setContactNumber(cleanedContactNumber);
-      setContactNumberError("");
-    }
-
-    if (!passwordRegex.test(password)) {
-      setPasswordError("Use 8 digits uppercase lowercase special character");
-      isValid = false;
-    } else {
-      setPasswordError("");
-    }
-    
-
-    if (confirmPassword !== password) {
-      setConfirmPasswordError("Password and confirm password do not match");
-      isValid = false;
-    } else {
-      setConfirmPasswordError("");
-    }
 
     if (isValid) {
       const formData = {
@@ -159,11 +104,12 @@ const Registration = () => {
         location,
         designation,
         contactNumber,
-        password: hashedPassword, 
-      confirmPassword: hashedPassword,
-      }; 
-      formData.managerId = 0; 
-      formData.role = "ADMIN"; 
+        password: hashedPassword,
+        confirmPassword: hashedPassword,
+      };
+      formData.managerId = 0;
+      formData.role = "ADMIN";
+
       LoginRegisterService.addAdmin(formData)
         .then((response) => {
           console.log(response.data);
@@ -180,61 +126,21 @@ const Registration = () => {
           setContactNumber("");
           setPassword("");
           setConfirmPassword("");
-
-          // navigate("/register");
         })
         .catch((error) => {
           console.log(error);
 
-          if (error.response && error.response.data && error.response.data.message) {  
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+          ) {
             setErrorMessage(error.response.data.message);
-            console.log("error");
-          }
-          else {
+          } else {
             setErrorMessage("An error occurred while registering.");
-            // console.log(error.response.status);
           }
         });
     }
-  };
-  const handleNameBlur = (e) => {
-    const inputValue = e.target.value;
-    validateName(inputValue, setNameError);
-  };
-
-  const handleEmailBlur = (e) => {
-    const inputValue = e.target.value;
-    validateEmail(inputValue, setEmailError);
-  };
-
-  const handleEmpIdBlur = (e) => {
-    const inputValue = e.target.value;
-    validateEmpId(inputValue, setEmpIdError);
-  };
-
-  const handleDobBlur = (e) => {
-    const inputValue = e.target.value;
-    validateDob(inputValue, setDobError);
-  };
-
-  const handleDojBlur = (e) => {
-    const inputValue = e.target.value;
-    validateDoj(inputValue, setDojError);
-  };
-
-  const handleContactNumberBlur = (e) => {
-    const inputValue = e.target.value;
-    validateContactNumber(inputValue, setContactNumber, setContactNumberError);
-  };
-
-  const handlePasswordBlur = (e) => {
-    const inputValue = e.target.value;
-    validatePassword(inputValue, setPasswordError);
-  };
-
-  const handleConfirmPasswordBlur = (e) => {
-    const inputValue = e.target.value;
-    validateConfirmPassword(inputValue, password, setConfirmPasswordError);
   };
 
   return (
@@ -248,90 +154,84 @@ const Registration = () => {
       <div className="reg_page">
         <div className="reg_form">
           <div>
-            <div className=" reg_form_field">
+            <div className="reg_form_field">
             <label className="reg_form_field_label">Name :</label>
-              <input
+              <InputField
                 type="text"
-                placeholder="Name "
-                className="reg_form_input"
+                placeholder="Name"
                 value={name}
+                className="reg_form_input"
                 onChange={(e) => setName(e.target.value)}
-                autoComplete="off"
-                onBlur={handleNameBlur}
+                onBlur={() => validateName(name, setNameError)}
               />
             </div>
             {nameError && <div className="error-message reg_error">{nameError}</div>}
 
-            <div className=" reg_form_field">
-              <label className="reg_form_field_label" >Email :</label>
-              <input
+            <div className="reg_form_field">
+            <label className="reg_form_field_label">Email :</label>
+              <InputField
                 type="email"
                 placeholder="Email"
-                className="reg_form_input"
                 value={email}
+                className="reg_form_input"
                 onChange={(e) => setEmail(e.target.value)}
-                autoComplete="off"
-                onBlur={handleEmailBlur}
-                required
+                onBlur={() => validateEmail(email, setEmailError)}
               />
             </div>
             {emailError && <div className="error-message reg_error">{emailError}</div>}
 
-            <div className=" reg_form_field">
-      <label className="reg_form_field_label">Employee ID :</label>
-              <input
+            <div className="reg_form_field">
+            <label className="reg_form_field_label">Employee ID :</label>
+              <InputField
                 type="text"
                 placeholder="Employee ID"
-                className="reg_form_input"
                 value={empId}
+                className="reg_form_input"
                 onChange={(e) => setEmpId(e.target.value)}
-                autoComplete="off"
-                onBlur={handleEmpIdBlur}
-                required
+                onBlur={() => validateEmpId(empId, setEmpIdError)}
               />
             </div>
             {empIdError && <div className="error-message reg_error">{empIdError}</div>}
 
-            <div className=" reg_form_field">
-             
-                <label className="reg_form_field_label">DOB :</label>
-               
-              <input
+            <div className="reg_form_field">
+            <label className="reg_form_field_label">Date of Birth :</label>
+              <InputField
                 type="date"
-                className="reg_form_input"
+                placeholder="Date of Birth"
                 value={dob}
+                className="reg_form_input"
                 onChange={(e) => setDob(e.target.value)}
-                onBlur={handleDobBlur}
-                required
+                onBlur={() => validateDob(dob, setDobError)}
               />
             </div>
             {dobError && <div className="error-message reg_error">{dobError}</div>}
 
-            <div className=" reg_form_field" controlId="formBasicEmail">
-
-                <label className="reg_form_field_label">DOJ :</label>
-              
-              <input
+            <div className="reg_form_field">
+            <label className="reg_form_field_label">Date of Joining :</label>
+              <InputField
                 type="date"
-                className="reg_form_input"
+                placeholder="Date of Joining"
                 value={doj}
+                className="reg_form_input"
                 onChange={(e) => setDoj(e.target.value)}
-                onBlur={handleDojBlur}
-                required
+                onBlur={() => validateDoj(doj, setDojError)}
               />
             </div>
             {dojError && <div className="error-message reg_error">{dojError}</div>}
 
             <div className=" reg_form_field">
-               <label className="reg_form_field_label">Location :</label>
+              <label className="reg_form_field_label">Location :</label>
               <select
                 className="reg_form_input"
                 type="text"
                 name="location"
                 placeholder="Enter Location"
                 onChange={(e) => setLocation(e.target.value)}
+                onBlur={() => validateLocation(location, setLocationError)}
               >
-                <option value="" className="select" >Select Location</option>
+                <option value="" className="select">
+                  Select Location
+                </option>
                 {Location.map((item) => {
                   return (
                     <option key={item} value={item} className="select">
@@ -342,7 +242,7 @@ const Registration = () => {
               </select>
             </div>
             {locationError && (
-                <div className="error-message reg_error">{locationError}</div>
+              <div className="error-message reg_error">{locationError}</div>
             )}
 
             <div className=" reg_form_field">
@@ -353,8 +253,13 @@ const Registration = () => {
                 name="designation"
                 placeholder="Enter Designation"
                 onChange={(e) => setDesignation(e.target.value)}
+                onBlur={() =>
+                  validateDesignation(designation, setDesignationError)
+                }
               >
-                <option value="" className="select" >Select Designation</option>
+                <option value="" className="select">
+                  Select Designation
+                </option>
                 {Designation.map((item) => {
                   return (
                     <option key={item} value={item} className="select">
@@ -365,56 +270,60 @@ const Registration = () => {
               </select>
             </div>
             {designationError && (
-  <div className="error-message reg_error">{designationError}</div>
-)}
-
-            <div className=" reg_form_field">
-               <label className="reg_form_field_label">Contact Number :</label>
-              <input
+              <div className="error-message reg_error">{designationError}</div>
+            )}
+            <div className="reg_form_field">
+            <label className="reg_form_field_label">Contact Number :</label>
+              <InputField
                 type="tel"
                 placeholder="Contact Number"
-                className="reg_form_input"
                 value={contactNumber}
+                className="reg_form_input"
                 onChange={(e) => setContactNumber(e.target.value)}
-                onBlur={handleContactNumberBlur}
-                required
+                onBlur={() =>
+                  validateContactNumber(
+                    contactNumber,
+                    setContactNumber,
+                    setContactNumberError
+                  )
+                }
               />
-            </div>
-            {contactNumberError && (
-              <div className="error-message reg_error">{contactNumberError}</div>
-            )}
-
-            <div className=" reg_form_field">
-              <label className="reg_form_field_label">Password :</label>
-              <input
+               {contactNumberError && ( <div className="error-message reg_error">{contactNumberError}</div>)}
+            </div><div className="reg_form_field">
+            <label className="reg_form_field_label">Password :</label>
+              <InputField
                 type="password"
                 placeholder="Password"
-                className="reg_form_input"
                 value={password}
+                className="reg_form_input"
                 onChange={(e) => setPassword(e.target.value)}
-                onBlur={handlePasswordBlur}
-                required
+                onBlur={() => validatePassword(password, setPasswordError)}
+                error={passwordError}
               />
-            </div>
-            {passwordError && (
+                          {passwordError && (
               <div className="error-message reg_error">{passwordError}</div>
             )}
 
-            <div className=" reg_form_field">
-              <label className="reg_form_field_label">Confirm Password :</label>
-              <input
+            </div><div className="reg_form_field">
+            <label className="reg_form_field_label">Confirm Password :</label>
+              <InputField
                 type="password"
                 placeholder="Confirm Password"
-                className="reg_form_input"
-                required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                onBlur={handleConfirmPasswordBlur}
+                className="reg_form_input"
+                onBlur={() =>
+                  validateConfirmPassword(
+                    confirmPassword,
+                    password,
+                    setConfirmPasswordError
+                  )
+                }
               />
-            </div>
-            {confirmPasswordError && (
+              {confirmPasswordError && (
               <div className="error-message reg_error">{confirmPasswordError}</div>
             )}
+            </div>
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div class="button_reg">
@@ -433,6 +342,6 @@ const Registration = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Registration;

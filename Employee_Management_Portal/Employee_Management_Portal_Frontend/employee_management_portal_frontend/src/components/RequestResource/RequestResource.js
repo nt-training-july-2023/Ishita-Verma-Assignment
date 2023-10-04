@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
+import './requestResource.css'
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Link, useParams } from 'react-router-dom';
+import ProjectService from "../../service/ProjectService";
+import EmployeeService from "../../service/EmployeeService";
+import Button from "../Button/Button";
+import { 
+validateSelectProject,
+validateDescription } from '../HandleBlur/HandleBlur';
 
 const RequestResource = () => {
   const [projectsList, setProjectsList] = useState([]);
-  const [selectedProject, setSelectedProject] = useState("");
-  //const [description, setDescription] = useState("");
   const [comment, setComment] = useState("");
   const [managerId, setManagerId] = useState();
   const [projectId, setProjectId] = useState();
   const [message, setMessage] = useState();
+  const [projectError, setProjectError] = useState();
+  const [descriptionError, setDescriptionError]= useState();
 
   const {id} =useParams();
 
@@ -21,18 +27,16 @@ const RequestResource = () => {
   }, []);
 
   const getAllProjects = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/projects');
-      // console.log(response.target.value);
+    ProjectService.getProjects().then((response)=>{
       setProjectsList(response.data);
-    } catch (error) {
-      console.error('Error fetching projects:', error);
-    }
+    }).catch((error)=>{
+
+    })
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Resource request submitted");
+
     const requestData = {
       employeeId: id,
       projectId,
@@ -40,25 +44,13 @@ const RequestResource = () => {
       comment,
     };
 
-    // Send the selected project and description to your API endpoint
-    try {
-      console.log(requestData);
-      const response = await axios.post(
-        "http://localhost:8080/request/resource",
-        requestData,
-        // setMessage("Requested"),
-         setTimeout(() => {
-            navigate("/AdminDashboard");
-          }, 2000),
-          
-      );
+    EmployeeService.requestResource(requestData).then((response)=>{
+      setTimeout(() => {
+        navigate("/AdminDashboard");
+      }, 2000)
+    }).catch((error)=>{
 
-
-      // Handle the response as needed (e.g., show a success message)
-      console.log("Resource request submitted:", response.data);
-    } catch (error) {
-      console.error("Error submitting resource request:", error);
-    }
+    })
   };
 
   const handleSelectChange = (e) => {
@@ -80,10 +72,15 @@ const RequestResource = () => {
             <div>Select Project:</div>
 
             <select
-              // value={selectedProject}
               className="assign_input"
               style={{ width: "24rem" }}
               onChange={handleSelectChange}
+              onBlur={() =>
+                validateSelectProject(
+                  projectId,
+                  setProjectError
+                )
+              }
             >
               <option value="">Select a Project</option>
               {projectsList.map((item) => (
@@ -96,8 +93,8 @@ const RequestResource = () => {
           </option>
         ))}
             </select>
+          {projectError && <div className="error-message assign_error">{projectError}</div>}
           </div>
-
           <div>
             <div>Comment:</div>
 
@@ -106,19 +103,25 @@ const RequestResource = () => {
               style={{
                 border: "solid 0.15rem gray",
                 borderRadius: "0.4rem",
+                
               }}
+              onBlur={() =>
+                validateDescription(
+                  comment,
+                  setDescriptionError
+                )
+              }
               onChange={(e) => setComment(e.target.value)}
               rows="4"
               cols="50"
             />
           </div>
-          <br />
-          <button type="submit" className="assign_btn">
-          Request Resource
-          </button>
+          {descriptionError && <div className="error-message assign_error">{descriptionError}</div>}
+          <Button type="submit" className="assign_btn request_btn" text="Request"/>
+           
         </form>
-        <Link to="/managerDashboard" className="cancle-assign">
-          Cancel
+        <Link to="/managerDashboard" className="cancel-assign">
+        &#8592; Back to Dashboard
         </Link>
         {message}
       </div>

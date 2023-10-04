@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Select from "react-select";
 import "./addproject.css";
-import axios from "axios";
 import Skills from "../Data/Skills";
-import AdminService from "../../service/AdminService";
 import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
 import Popup from "../Popup/Popup"; 
 import {
   validateName,
   validateManagerId,
   validateStartDate,
-  validateDescription
+  validateDescription,
+  validateSkills
 } from "../../components/HandleBlur/HandleBlur"; 
 import ProjectService from "../../service/ProjectService";
 import EmployeeService from "../../service/EmployeeService";
+import InputField from "../InputField/InputField";
+import Button from '../Button/Button'
 
 const AddProject = () => {
   const [name, setName] = useState("");
@@ -24,7 +24,6 @@ const AddProject = () => {
   const [description, setDescription] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [managerList, setManagerList] = useState([]);
-  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [nameError, setNameError] = useState("");
   const [managerIdError, setManagerIdError] = useState("");
@@ -39,6 +38,7 @@ const AddProject = () => {
   const handleSkillChange = (selectedOptions) => {
     const selectedSkillsValues = selectedOptions.map((option) => option.value);
     setSkills(selectedSkillsValues);
+    setSkillsError("");
   };
 
   const navigate = useNavigate();
@@ -55,8 +55,22 @@ const AddProject = () => {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-
+    // e.preventDefault();
+    if (
+      !name ||
+      !managerId ||
+      !description ||
+      !startDate ||
+       skills.length === 0 
+      
+    ) {
+      validateName(name, setNameError);
+      validateManagerId(managerId,setManagerIdError)
+      validateDescription(description,setDescriptionError)
+      validateStartDate(startDate,setStartDateError)
+      validateSkills(skills,setSkillsError)
+     return;
+    }
     const project = {
       name,
       managerId,
@@ -66,46 +80,29 @@ const AddProject = () => {
     };
     ProjectService.addProject(project).then((response)=>{
       setSuccessMessage("Project added successfully.");
-          const navigateToDashboard = () => {
-            navigate("/AdminDashboard");
-        };
-        setTimeout(navigateToDashboard, 2000);
+      setTimeout(() => {
+        navigate("/adminDashboard");
+      }, 200000);
     })
      .catch((error) => {
           console.log(error);
           setSuccessMessage(error.response.data.message)
         });
   };
-
-  const handleNameBlur = (e) => {
-    const inputValue = e.target.value;
-    validateName(inputValue, setNameError);
-  };
-  
-  const handleManagerIdBlur = (e) => {
-    const inputValue = e.target.value;
-    validateManagerId(inputValue, setManagerIdError);
-  };
-  
-  const handleDescriptionBlur = (e) => {
-    const inputValue = e.target.value;
-    validateDescription(inputValue, setDescriptionError);
-  };
-  
   
   return (
     <div className="add_project">
       <form autoComplete="off" onSubmit={handleSubmit}>
         <h2 style={{ marginLeft: "0.3rem", color: "white" }}>Add Project</h2>
         <div className="input_form_field">
-          <input
+          <InputField
             type="text"
             id="projectName"
             className="custom-placeholder"
             value={name}
             placeholder="Project Name"
             onChange={(e) => setName(e.target.value)}
-            onBlur={handleNameBlur}
+            onBlur={() => validateName(name, setNameError)}
           />
           {nameError && <div className="error-message">{nameError}</div>}
         </div>
@@ -117,7 +114,7 @@ const AddProject = () => {
             onChange={(e) => {
               setManagerId(e.target.value);
             }}
-            onBlur={handleManagerIdBlur}
+            onBlur={() => validateManagerId(managerId, setManagerIdError)}
           >
             <option value="">Select Manager</option>
             {managerList.map((manager) => {
@@ -136,12 +133,13 @@ const AddProject = () => {
           <div>
             <label className="startDate">Start Date</label>
           </div>
-          <input
+          <InputField
             type="date"
             id="startDate"
             className="custom-placeholder"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
+            onBlur={() => validateStartDate(startDate, setStartDateError)}
           />
           {startDateError && (
             <div className="error-message">{startDateError}</div>
@@ -159,6 +157,7 @@ const AddProject = () => {
             }))}
             onChange={handleSkillChange}
             placeholder="Select Skills"
+            onBlur={() => validateSkills(skills, setSkillsError)}
           />
           {skillsError && <div className="error-message">{skillsError}</div>}
         </div>
@@ -169,7 +168,7 @@ const AddProject = () => {
             placeholder="Description"
             className="custom-placeholder"
             onChange={(e) => setDescription(e.target.value)}
-            onBlur={handleDescriptionBlur} 
+            onBlur={() => validateDescription(description, setDescriptionError)}
             rows="4"
           />
           {descriptionError && (
@@ -179,9 +178,7 @@ const AddProject = () => {
           {successMessage}
         </div>
 
-        <button className="btn_submit" type="submit">
-          Add Project
-        </button>
+        <Button className="btn_submit" type="submit" text="Add Project"/>
       </form>
       
       {showSuccessPopup && (

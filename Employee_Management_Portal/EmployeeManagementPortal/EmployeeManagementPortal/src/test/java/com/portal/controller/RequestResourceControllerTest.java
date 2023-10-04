@@ -29,6 +29,7 @@ import com.portal.DTO.RequestResourceOutDTO;
 import com.portal.DTO.RequestedDTO;
 import com.portal.DTO.ResponseDTO;
 import com.portal.service.RequestResourceService;
+import com.portal.validation.RequestResourceValidation;
 @WebMvcTest(RequestResourceController.class)
 class RequestResourceControllerTest {
     @Autowired
@@ -36,6 +37,9 @@ class RequestResourceControllerTest {
   
     @MockBean
     private RequestResourceService requestService;
+    
+    @MockBean
+    private RequestResourceValidation validate;
 
     @InjectMocks
     private RequestResourceController controller;
@@ -137,7 +141,7 @@ class RequestResourceControllerTest {
     @Test
     public void testAcceptRequest() throws Exception {
         Long requestId = 1L;
-        ResponseDTO responseDTO = new ResponseDTO();
+        ApiResponseDTO responseDTO = new ApiResponseDTO();
         responseDTO.setMessage("Request accepted successfully");
 
         when(requestService.acceptRequest(requestId)).thenReturn(responseDTO);
@@ -151,7 +155,7 @@ class RequestResourceControllerTest {
 
         String content = mvcResult.getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();
-        ResponseDTO response = objectMapper.readValue(content, ResponseDTO.class);
+        ApiResponseDTO response = objectMapper.readValue(content, ApiResponseDTO.class);
         assertEquals("Request accepted successfully", response.getMessage());
     }
     @Test

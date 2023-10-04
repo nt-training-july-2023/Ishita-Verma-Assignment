@@ -57,7 +57,7 @@ class RequestResourceServiceTest {
         ApiResponseDTO ResponseDTO = requestService.addRequestResource(requestDTO);
 
         assertNotNull(ResponseDTO);
-        assertEquals("Sucessfully Added", ResponseDTO.getMessage());
+        assertEquals("Resource added.", ResponseDTO.getMessage());
     }
     @Test
     public void testGetAllRequestResource() {
@@ -92,7 +92,7 @@ class RequestResourceServiceTest {
     @Test
     void testAcceptRequest() {
         // Create a response DTO for simulating the response
-        ResponseDTO resp = new ResponseDTO();
+        ApiResponseDTO resp = new ApiResponseDTO();
         resp.setMessage("Request Deleted");
 
         // Create a RequestResource
@@ -123,7 +123,7 @@ class RequestResourceServiceTest {
         assertDoesNotThrow(() -> requestService.rejectRequest(req.getResourceId()));
 
         // Now, attempt to accept the request
-        ResponseDTO result = requestService.acceptRequest(req.getResourceId());
+        ApiResponseDTO result = requestService.acceptRequest(req.getResourceId());
 
         // Assert that the response message is as expected
         assertEquals("Request Accepted", result.getMessage());

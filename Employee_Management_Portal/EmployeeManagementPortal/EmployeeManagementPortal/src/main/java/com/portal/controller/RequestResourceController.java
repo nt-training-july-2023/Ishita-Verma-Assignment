@@ -20,6 +20,7 @@ import com.portal.DTO.RequestResourceInDTO;
 import com.portal.DTO.RequestResourceOutDTO;
 import com.portal.DTO.ResponseDTO;
 import com.portal.service.RequestResourceService;
+import com.portal.validation.RequestResourceValidation;
 
 import jakarta.validation.Valid;
 
@@ -35,6 +36,11 @@ public class RequestResourceController {
      */
     @Autowired
     private RequestResourceService requestService;
+    /**
+     * Request Resource validation.
+     */
+    @Autowired
+    private RequestResourceValidation requestValidation;
     /**
      * Logger instance for logging purposes.
      */
@@ -58,8 +64,7 @@ public class RequestResourceController {
     @PostMapping("/request/resource")
     public final ApiResponseDTO addRequestResource(
             @RequestBody @Valid final RequestResourceInDTO requestDTO) {
-//       LOGGER.info("add request started:");
-        System.out.println("manager" + requestDTO.getManagerId());
+        requestValidation.checkRequest(requestDTO);
         final ApiResponseDTO response = requestService
                 .addRequestResource(requestDTO);
         LOGGER.info("Successfully added Request Resource");
@@ -73,6 +78,7 @@ public class RequestResourceController {
      */
     @DeleteMapping("manager/request/delete/{id}")
     public final ResponseDTO rejectRequest(final @PathVariable Long id) {
+        requestValidation.validateResourceIdExists(id);
         return requestService.rejectRequest(id);
     }
 
@@ -82,7 +88,8 @@ public class RequestResourceController {
      * @return api response of the operation.
      */
     @PostMapping("manager/request/{id}")
-    public final ResponseDTO acceptRequest(final @PathVariable Long id) {
+    public final ApiResponseDTO acceptRequest(final @PathVariable Long id) {
+        requestValidation.validateResourceIdExists(id);
         return requestService.acceptRequest(id);
     }
 
@@ -91,10 +98,6 @@ public class RequestResourceController {
      * @param managerId
      * @return boolean value
      */
-//    @PostMapping("/employee/isRequested")
-//    public boolean isRequested(@RequestBody RequestedDTO reqDto) {
-//        return requestService.isRequested(reqDto);
-//    }
     @GetMapping("/employee/isRequested")
     public boolean isRequested(final @RequestParam Long empId,
             final @RequestParam Long managerId) {

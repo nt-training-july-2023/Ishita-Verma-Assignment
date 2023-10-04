@@ -1,7 +1,7 @@
 .custom-table {
     border-collapse: collapse;
     width: 70%;
-    background-color: rgb(255, 255, 255); /* Gray background color for headers */
+    background-color: rgb(255, 255, 255);
   }
   
   .custom-table th, .custom-table td {
@@ -23,7 +23,6 @@
   text-decoration: none !important;
   height: 2rem;
   border: none ;
-  /* padding: 1rem; */
   margin-right: 48rem;
   cursor: pointer;
   color: white;

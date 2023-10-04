@@ -1,10 +1,10 @@
-import axios from 'axios';
-import './updateskills.css'
 import React, { useEffect, useState } from 'react'
+import './updateskills.css'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import MultiSelectDropdown from '../MultiSelectDropdown/MultiSelectDropdown';
 import Skills from '../Data/Skills'
-
+import EmployeeService from '../../service/EmployeeService';
+import Button from '../Button/Button';
 
 function UpdateSkills() {
     const [employeeDetails, setEmployeeDetails] = useState([]);
@@ -24,17 +24,13 @@ function UpdateSkills() {
 
     }, []);
     const getEmployee = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8080/all/employee/${id}`)
+        EmployeeService.getEmployeeById(`${id}`).then((response)=>{
             setEmployeeDetails(response.data);
             setTimeout(() => {
                 setFetchData(true);
             }, 200);
             console.log(response.data);
-        }
-        catch (error) {
-            console.log(error)
-        }
+        })
     }
 
     useEffect(() => {
@@ -63,22 +59,16 @@ function UpdateSkills() {
             setSkillsError("Atleast update one skills");
             return;
         }
-        try {
-            const response = await axios.put(`http://localhost:8080/employee/${id}/skills`, {
-                skills: skills,
-
-
-            });
-            console.log('Employee updated:', response.data);
+        EmployeeService.updateSkills(`${id}`,skills).then((response)=>{
             setShowPopup(true);
             setPopMessage(response.data.message);
             const navigateToDashboard = () => {
                 navigate("/EmployeeDashboard");
             };
             setTimeout(navigateToDashboard, 2000);
-        } catch (error) {
-            console.error('Error updating employee:', error);
-        }
+        }).catch((error)=>{
+
+        })
     };
 
     return (
@@ -102,10 +92,10 @@ function UpdateSkills() {
             />}
             {skillsError && <div>{skillsError}</div>}
             <div className='buttonsContainer'>
-                <button onClick={(e) => update(e)} className='assign_btn'> Update</button>
-                <Link to="/EmployeeDashboard" ><button className='update_cancel_btn'>Cancel</button></Link>
+                <Button onClick={(e) => update(e)} className='assign_btn' text="Update"/>
+                <Link to="/EmployeeDashboard" >
+                    <Button className='update_cancel_btn' text="Cancel" /></Link>
             </div>
-            {/* {showPopup && (<PopUpSuccess message={popMessage} />)} */}
         </div>
         </div>
     )

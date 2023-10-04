@@ -49,13 +49,8 @@ const ProjectTab = () => {
     const managerNameResults = await Promise.all(managerNamePromises);
     const managerNameMap = {};
     managerNameResults.forEach((result) => {
-      // console.log("Project ID:", result.projectId);
-      // console.log("Manager Name:", result.managerName);
       managerNameMap[result.Id] = result.managerName;
     });
-    // console.log("manager name map", managerNameMap);
-    // console.log("Projects:", projects);
-    // console.log("Manager Name Results:", managerNameResults);
     setManagerNames(managerNameMap);
   }
 
@@ -70,15 +65,13 @@ const ProjectTab = () => {
   };
   return (
     <div>
-      <div className="card_container">
+      <div className="card_container  admin_manager_tab">
         {projects.map((project) => (
           <ProjectCard
             key={project.projectId}
             project={project}
             managerName={managerNames[project.projectId]}
             onReadMoreClick={(description) => handleReadMoreClick(description)}
-            // onClosePopup={handlePopupClose}
-            // showPopup={showPopup}
           />
         ))}
       </div>

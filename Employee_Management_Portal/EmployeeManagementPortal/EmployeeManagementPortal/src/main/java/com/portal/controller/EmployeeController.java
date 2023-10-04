@@ -98,14 +98,14 @@ public class EmployeeController {
      * @return EmployeeOutDTO containing the employee's details if found.
      */
 
-    @GetMapping("employee/{email}")
-    public final EmployeeOutDTO getEmployeeByEmail(
-            @Valid @PathVariable final String email) {
-        LOGGER.info("Getting employee by email");
-        EmployeeOutDTO employeeOutDto = employeeService
-                .getEmployeeByEmail(email);
-        return employeeOutDto;
-    }
+//    @GetMapping("employee/{email}")
+//    public final EmployeeOutDTO getEmployeeByEmail(
+//            @Valid @PathVariable final String email) {
+//        LOGGER.info("Getting employee by email");
+//        EmployeeOutDTO employeeOutDto = employeeService
+//                .getEmployeeByEmail(email);
+//        return employeeOutDto;
+//    }
 
     /**
      * Update employee details such as project assignment and manager.
@@ -120,6 +120,8 @@ public class EmployeeController {
         LOGGER.info("Updating project id and manager id");
         Long projectId = updatedDetails.get("projectId");
         Long managerId = updatedDetails.get("managerId");
+        validate.checkProjectExists(projectId);
+        validate.checkManagerExists(managerId);
         ApiResponseDTO response = employeeService.updatedProject(id,
                 projectId, managerId);
         return response;
@@ -131,7 +133,7 @@ public class EmployeeController {
      * @param updatedSkills Map containing updated skills.
      * @return ApiResponse with the result of the operation.
      */
-    @PutMapping("/employee/{id}/skills")
+    @PutMapping("/employee/skills/{id}")
     public final ApiResponseDTO updateSkills(
             final @Valid @PathVariable Long id,
             final @RequestBody Map<String, List<String>> updatedSkills) {

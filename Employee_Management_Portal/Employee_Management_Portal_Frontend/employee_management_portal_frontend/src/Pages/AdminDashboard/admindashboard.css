@@ -3,33 +3,17 @@
     padding: 0;
 }
 
-
-/* Updated CSS for admin_heading */
 .admin_heading {
-    /* position: fixed; */
-    /* top: /1rem; */
-    /* padding: 1rem; */
     left: 0;
     right: 0;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
     color: white;
     width: 28rem;
     font-size: 1.8rem;
     font-weight: bold;
     font-family: 'cursive';
     padding-top: 0.7rem;
-    /* padding: 1rem; */
-    /* margin-left: 1rem; */
-    /* margin-right: 10rem; */
-    /* margin-right: 65rem; */
-    /* margin-top: 1rem; */
-    /* z-index: 1; */
-    /* width:20rem */
-    /* width: 10wh; */
-    /* margin-top: 1rem;  */
 }
 
 .admin_employee, .admin_manager, .admin_project, .admin_add_employee {
@@ -41,12 +25,12 @@
     color: white;
     cursor: pointer;
 }
-/* Updated CSS for admin_add_employee container */
+
 .admin_buttons_container {
     display: flex;
-    justify-content: flex-end; /* Align items to the right end */
-    align-items: center; /* Vertically center items */
-    margin-top: 1rem; /* Add some top margin for spacing */
+    justify-content: flex-end;
+    align-items: center; 
+    margin-top: 1rem;
 }
 
 .admin_add_employee_link {
@@ -56,12 +40,12 @@
     padding: 0.5rem 1rem;
     border-radius: 0.8rem;
     color: white;
-    text-decoration: none; /* Remove default link underline */
+    text-decoration: none; 
     cursor: pointer;
 }
 
 .admin_add_employee-link:hover {
-    background-color: #800080; /* Change color on hover */
+    background-color: #800080; 
 }
 
 
@@ -75,7 +59,6 @@
     left: 30%;
     right: 30%;
     background-color: gray;
-    /* padding:0.5rem; */
     z-index: 1;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -89,15 +72,12 @@
 .btn_submit,.btn_cancel{
     background-color: blueviolet;
     border-radius: 1rem;
-    /* margin-top: 0.5rem; */
     padding:0.5rem;
     cursor: pointer;
     width: 15rem !important ;
-    /* margin-left: 1.5rem; */
 }
 .btn_cancel{
     border: none;
-    /* margin-left: 5rem; */
     color: white;
     font-size: 1rem;
     font-weight: bolder;
@@ -105,13 +85,9 @@
 
 
 .card_container {
-    /* position: absolute; */
-    /* top: 7.5rem !important;  */
-    /* top:5; */
     left: 0;
     right: 0;
-    bottom: 0; /* Occupy the full height of the viewport */
-    /* overflow-y: auto; Enable vertical scroll if needed */
+    bottom: 0; 
     scrollbar-width: thin;
     scrollbar-color: transparent gray;
     display: flex;
@@ -119,11 +95,6 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    /* margin-top: -3rem; */
-    /* margin: 25px auto;  */
-    /* background: linear-gradient(to right, #693bd3, #800a76) ; */
-    /* height: 80rem */
-    /* margin-top: 28rem; */
 }
 
 
@@ -153,26 +124,17 @@
     border-radius: 0.5rem;
     margin-bottom: 0.5rem;
     margin: 1rem;
-    /* padding: 0.8rem; */
     background-color: #f8f8f8;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width:38rem;
     height: 14rem;
 }
 
-.card:hover {
-    /* transform: scale(1.05); */
-    /* Add a hover effect for scaling the card */
-}
-
 .column1{
-    /* flex: 2; */
     padding: 1rem;
     width: 26rem;
-    /* padding: 10px; */
 }
 .column2{
-/* flex:1.5; */
 width: 18rem;
 padding: 1.5rem;
 }
@@ -183,7 +145,6 @@ padding: 1.5rem;
 }
 
 .column p {
-    /* margin: 5px 0; */
     font-size: 14px;
     color: #333;
 }
@@ -205,27 +166,10 @@ cursor: pointer;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-    backdrop-filter: blur(5px); /* Apply a blur effect to the background */
+    background-color: rgba(0, 0, 0, 0.5); 
+    backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Ensure the overlay is above other content */
+    z-index: 1000; 
   }
- 
-  /* @media (max-width: 1024px) {
-.admin_heading{
-font-size: 1rem;
-margin-right: 4rem !important;
-} */
-  
-/* @media (max-width: 768px) {
-    .admin_add_employee {
-      position: static;
-      width: 100%;
-      margin-top: 1rem;
-    }
-  } */
-/* .tabs{
-    width: 45rem;
-} */

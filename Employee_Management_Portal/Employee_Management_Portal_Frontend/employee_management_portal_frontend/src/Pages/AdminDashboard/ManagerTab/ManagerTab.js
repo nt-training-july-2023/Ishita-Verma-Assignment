@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./managertab.css";
 import SingleManagerCard from "./SingleManagerCard";
 
@@ -12,13 +11,7 @@ const ManagerTab = () => {
   }, []);
 
   const getAllManagers = async () => {
-    // try {
-    //   const response = await axios.get(
-    //     "http://localhost:8080/all/MANAGER"
-    //   );
-    //   console.log(response.data);
-    //   setManagers(response.data);
-    // } 
+  
     EmployeeService.getEmployees("MANAGER").then((response)=>{
       console.log(response.data);
       setManagers(response.data);
@@ -29,7 +22,7 @@ const ManagerTab = () => {
 
 return (
   <div>
-    <div className="card_container">
+    <div className="card_container admin_manager_tab">
       {managers.sort(function (a, b) {
         return a.name.localeCompare(b.name);
     }).map((manager) => (

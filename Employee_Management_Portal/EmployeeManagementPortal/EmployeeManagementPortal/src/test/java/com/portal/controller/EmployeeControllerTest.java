@@ -211,12 +211,37 @@ public class EmployeeControllerTest {
         Long employeeId = 1L;
 
         // Mock the service method
-        doNothing().when(employeeService).unassignEmployee(employeeId);
+//        doNothing().when(employeeService).unassignEmployee(employeeId);
 
         // Perform the POST request
-        mockMvc.perform(post("/unassign/{employeeId}", employeeId))
+        mockMvc.perform(post("/unassign/1", employeeId))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Employee unassigned successfully."));
     }
     
+    List<String> skills = new ArrayList<>();
+    
+    @Test
+    void testUpdateSkills() throws Exception{
+        skills.add("React");
+        skills.add("Java");
+        ApiResponseDTO resp= new ApiResponseDTO();
+        resp.setMessage("Skills Updated Successfully");
+        
+        EmployeeInDTO empDto = new EmployeeInDTO();
+        empDto.setSkills(skills);
+        
+        Map<String,List<String>> map= new HashMap<String,List<String>>();
+        map.put("skills",skills);
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+        String inputJSON = objectMapper.writeValueAsString(empDto);        
+        when(employeeService.updateSkills(3L,skills)).thenReturn(resp);
+        
+        MvcResult mvcResult = this.mockMvc.perform(put("/employee/skills/1")
+                .contentType(MediaType.APPLICATION_JSON).content(inputJSON))
+                .andReturn();
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+    }
 }

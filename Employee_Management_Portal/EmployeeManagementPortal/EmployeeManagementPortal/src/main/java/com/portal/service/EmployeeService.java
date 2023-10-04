@@ -15,6 +15,8 @@ import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.EmployeeOutDTO;
 import com.portal.DTO.RequestResourceInDTO;
 import com.portal.DTO.RequestResourceOutDTO;
+import com.portal.constants.ErrorConstants;
+import com.portal.constants.SuccessConstants;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
 import com.portal.entities.RequestResource;
@@ -84,7 +86,7 @@ public class EmployeeService {
         Employee empEntity = this.dtotoEntity(adminDTO);
 
         this.userRepository.save(empEntity);
-        response.setMessage("Employee Added Successfully");
+        response.setMessage(SuccessConstants.EMPLOYEE_ADDED);
         return response;
     }
 
@@ -240,7 +242,7 @@ public class EmployeeService {
             return response;
         }
         LOGGER.error("Employee not found");
-        throw new ResourceNotFoundException("Employee not found");
+        throw new ResourceNotFoundException(ErrorConstants.EMPLOYEE_NOT_FOUND );
     }
     /**
      * Update an employee's skills.
@@ -260,7 +262,7 @@ public class EmployeeService {
             return response;
         }
         LOGGER.error("Employee not found");
-        throw new ResourceNotFoundException("Employee not found");
+        throw new ResourceNotFoundException(ErrorConstants.EMPLOYEE_NOT_FOUND );
     }
 
     /**
@@ -274,7 +276,7 @@ public class EmployeeService {
                 requestResourceDto);
         requestResourceRepository.save(requestResource);
         ApiResponseDTO response = new ApiResponseDTO();
-        response.setMessage("Resource added.");
+        response.setMessage(SuccessConstants.RESOURCE_ADDED);
         return response;
     }
 
@@ -349,22 +351,17 @@ public class EmployeeService {
      * @throws IllegalStateException If the employee
      * is not currently assigned to any project.
      */
-    public void unassignEmployee(final Long employeeId) {
-        // Find the employee by ID
-        Employee employee = userRepository.findById(employeeId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Employee not found with ID: " + employeeId));
-
-        // Check if the employee is currently assigned to a project
-        if (employee.getProjectId() != 0) {
-            // Unassign the employee by setting their project ID to 0
-            employee.setProjectId(0L);
-            // Save the updated employee
-            userRepository.save(employee);
-        } else {
-            throw new IllegalStateException(
-                    "Employee is not assigned to any project.");
-        }
+    public final ApiResponseDTO unassignEmployee(final Long id) {
+        // TODO Auto-generated method stub
+        Employee employee = userRepository.findById(id).get();
+        Employee emp = userRepository.findByEmail("ankita.sharma@nucleusteq.com")
+                .get();
+        employee.setManagerId(emp.getId());
+        employee.setProjectId(0L);
+        this.userRepository.save(employee);
+        ApiResponseDTO response = new ApiResponseDTO();
+        response.setMessage("Project unassigned");
+        return response;
     }
 
     /**

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './assign.css';
-import axios from 'axios';
 import { useParams, useNavigate,useLocation } from 'react-router-dom';
 import ProjectService from '../../service/ProjectService';
+import EmployeeService from '../../service/EmployeeService';
+import { validateSelectProject } from '../HandleBlur/HandleBlur';
 
 const Assign = () => {
   const [projectsList, setProjectsList] = useState([]);
@@ -11,6 +12,7 @@ const Assign = () => {
   const [projectId, setProjectId] = useState(0);
   const [message, setMessage] = useState("");
   const [projectError, setProjectError] = useState("");
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -26,18 +28,13 @@ const Assign = () => {
 
   const getEmployee = async () => {
     if (!projectId) {
-      setProjectError("Select a project");
       return;
     }
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/all/employee/${id}`
-      );
+    EmployeeService.getEmployeeById(`${id}`).then((response)=>{
       setEmployeesDetails(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    }).catch((error)=>{
+
+    })
   };
 
   const getAllProjects = async () => {
@@ -50,37 +47,15 @@ const Assign = () => {
   };
 
   const updateEmployee = async () => {
-    try {
-      await axios.put(`http://localhost:8080/employee/assignProject/${id}`, {
-        projectId: projectId,
-        managerId: managerId
-      });
+    EmployeeService.assignProject(`${id}`,projectId,managerId).then((response)=>{
       setMessage("Assigned");
       setTimeout(() => {
         navigate("/adminDashboard");
       }, 2000);
-    } catch (error) {
-      console.error('Error updating employee:', error);
-    }
+    }).catch((error)=>{
+
+    })
   };
-  // const updateEmployee = async () => {
-  //   if(!projectId){
-  //     setProjectError("Select a project");
-  //     return;
-  //   }
-//   ProjectService.assignProject(projectId,managerId,`${stateData.empId}`).then((response)=>{
-//     console.log('Employee updated:', response.data);
-//     // navigate("/adminDashboard");
-//     // setShowPopup(true);
-//     setMessage("Project assigned succesfully");
-//     const navigateToDashboard = () => {
-//       navigate("/AdminDashboard");
-//     };
-//     setTimeout(navigateToDashboard, 2000);
-//   }).catch((error)=>{
-//     console.error('Error updating employee:', error);
-//   })
-// }
  
   const handleSelectChange = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
@@ -91,6 +66,7 @@ const Assign = () => {
     setManagerId(selectedManagerId);
     console.log(typeof(selectedManagerId, "from handleSelectChange"));
     setProjectError("");
+    setIsSaveButtonDisabled(!selectedProjectId); 
   };
 
   return (
@@ -98,10 +74,17 @@ const Assign = () => {
       <div className='assign '>
         <div className='assign_form'>
           <h2 className='assign_heading'>Assign Project</h2>
-          <h3> {stateData.empName}</h3>
+          <h3 className='assign_name'> {stateData.empName}</h3>
           <div className='assign_project'>
-            <h3 style={{ fontWeight: 'bold' }}>{employeeDetails.name}</h3>
-            <select onChange={handleSelectChange} className='assign_input'>
+            <select onChange={handleSelectChange} 
+              className='assign_input'
+              onBlur={() =>
+                validateSelectProject(
+                  projectId,
+                  setProjectError
+                )
+              }
+            >
               <option value="">Select Project</option>
               {projectsList.map((item) => (
                 <option key={item.projectId} value={item.projectId} data-managerid={item.managerId}>
@@ -109,7 +92,12 @@ const Assign = () => {
                 </option>
               ))}
             </select>
-            <div style={{ marginTop: "1rem" }}> <button onClick={updateEmployee} className='assign_btn'>Save</button></div>
+            {projectError && <div className="error-message assign_error">{projectError}</div>}
+            <div style={{ marginTop: "1rem" }}>
+              <button onClick={updateEmployee} className='assign_btn' disabled={isSaveButtonDisabled}>
+                Save
+              </button>
+            </div>
             <div>{message}</div>
             <div style={{ marginTop: "1rem" }}>
               <button onClick={() => navigate("/adminDashboard")} className='dashboard_btn'>&#8592; Back to Dashboard</button>

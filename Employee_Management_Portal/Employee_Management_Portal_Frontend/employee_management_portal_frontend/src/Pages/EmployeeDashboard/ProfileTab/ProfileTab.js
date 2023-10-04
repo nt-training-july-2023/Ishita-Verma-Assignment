@@ -1,7 +1,6 @@
 import {React,useState,useEffect} from 'react'
 import './profile.css'
 import { Link } from "react-router-dom";
-import axios from 'axios'
 import DateReverser from "../../../components/DateReverser/DateReverser";
 import EmployeeService from '../../../service/EmployeeService'
 

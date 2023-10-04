@@ -66,7 +66,7 @@ function MultiSelectDropdown({
         <div className="dropdown-arrow" />
       </div>
       {isOpen && (
-        <div className="dropdown-options">
+        <div className="dropdown-options dropdown_managertab">
           {options.map((option) => (
             <div
               key={option.value}

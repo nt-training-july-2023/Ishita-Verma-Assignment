@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import "./employeetab.css";
-import axios from "axios";
 import DateReverser from "../../../components/DateReverser/DateReverser";
-import Assign from "../../../components/AssignButton/Assign";
+import Button from '../../../components/Button/Button'
 import Popup from "../../../components/Popup/Popup";
 import EmployeeService from "../../../service/EmployeeService";
 
@@ -45,15 +44,12 @@ const EmployeeTab = () => {
   };
 
   const confirmUnassign = async () => {
-    try {
-      await axios.post(
-        `http://localhost:8080/unassign/${unassignEmployeeId}`
-      );
+     EmployeeService.unassignProject(`${unassignEmployeeId}`).then((response)=>{
       getAllEmployees();
       setShowUnassignConfirm(false);
-    } catch (error) {
-      console.error("Error unassigning project:", error);
-    }
+     }).catch((error)=>{
+
+     })
   };
 
   const location = useLocation();
@@ -64,7 +60,7 @@ const EmployeeTab = () => {
 
   return (
     
-      <div className="card_container">
+      <div className="card_container  admin_manager_tab">
         {employees.sort(function (a, b) {
           return a.name.localeCompare(b.name);
         }).map((employee) => (
@@ -109,30 +105,19 @@ const EmployeeTab = () => {
               </p>
               <div className="assign_project">
                 {employee.projectName ? (
-                  <button className="custom-button green-button" onClick={() => unassignProject(employee.id)}>
-                    Unassign Project
-                  </button>
+                  <Button className="custom-button green-button" onClick={() => unassignProject(employee.id)}
+                  text="Unassign Project"/>
                 ) : (
-                  // <Link
-                  //   to={{
-                  //     pathname: `/assign/project/${employee.id}`,
-                  //     state: { empId: employee.id, empName: employee.name },
-                  //   }}
-                  //   className="assign_btn"
-                  //   style={{ marginTop: "1rem" }}
-                  // >
-                  //   Assign Project
-                  // </Link>
-                  <button
+                 
+                  <Button
                   onClick={() => {
                     navigate( `/assign/project/${employee.id}`, {
                       state: { empId: employee.id, empName: employee.name },
                     });
                   }}
                   className="assign_btn"
-                >
-                  Assign Project
-                </button>
+                  text=" Assign Project"
+                />  
                 )}
               </div>
             </div>

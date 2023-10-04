@@ -30,7 +30,7 @@ public class EmployeeInDTO {
      * The employee ID of the admin.
      */
     @NotBlank(message = "EmpId is required")
-    @Pattern(regexp = "N\\d{4}$", message = "EmpID should be NXXXX.")
+    @Pattern(regexp = "[Nn]\\d{4}$", message = "EmpID should be NXXXX.")
     private String empId;
 
     /**

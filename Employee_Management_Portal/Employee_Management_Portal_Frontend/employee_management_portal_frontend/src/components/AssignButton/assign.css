@@ -21,3 +21,13 @@
   border :solid 0.16rem gray;
   border-radius: 0.3rem;
 }
+.assign_error{
+  color: red !important;
+}
+.assign_name{
+  font-weight: 500;
+  color:rgb(0, 41, 82);
+}
+.request_btn{
+  margin-top: 1rem;
+}

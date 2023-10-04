@@ -14,5 +14,9 @@ class ProjectService{
              managerId: managerId,
         });
      }
+
+     getProjectById(id){
+      return axios.get(GET_PROJECT_BY_ID_BASE_URL + id) ;
+     }
 }
 export default new ProjectService();

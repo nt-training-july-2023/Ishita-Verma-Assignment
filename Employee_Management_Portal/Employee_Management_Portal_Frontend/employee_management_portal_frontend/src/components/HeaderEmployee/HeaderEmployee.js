@@ -1,5 +1,5 @@
 import {React,useState} from 'react';
-import '../HeaderComponent/headerComponent.css'; // Import the CSS file for HeaderComponent
+import '../HeaderComponent/headerComponent.css'; 
 import { useNavigate } from 'react-router-dom';
 import mainpage from '../../Assests/Images/mainpage.png';
 import Button from '../../components/Button/Button';
@@ -16,7 +16,6 @@ const HeaderEmployee = () => {
     localStorage.removeItem('name');
     localStorage.removeItem('id');
     localStorage.removeItem('IsLoggedIn')
-    // setIsLoggedIn(false);
     navigate('/');
   };
   const switchToProfileTab = () => {

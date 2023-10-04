@@ -41,23 +41,23 @@ const HeaderComponent = ({
           className={`admin_employee ${activeTab === 'employee' ? 'active' : ''}`}
           onClick={switchToEmployeeTab}
         >
-          Employee
+        <span className='employee_logo'>&#x1F464;</span>  Employee 
         </div>
         <div
           className={`admin_manager ${activeTab === 'manager' ? 'active' : ''}`}
           onClick={switchToManagerTab}
         >
-          Manager
+         <span className='employee_logo'>&#x1F464;</span>  Manager 
         </div>
         <div
           className={`admin_project ${activeTab === 'project' ? 'active' : ''}`}
           onClick={switchToProjectTab}
         >
-          Project
+           <span className='employee_logo'>&#128193;</span> Project
         </div>
       </div>
       <div className='header-actions'>
-        <Button onClick={handleLogout} className='custom-button logout' text='Logout' />
+        <Button onClick={handleLogout} className='custom-button logout' text={<>&#x2192; Logout</>}  />
         <img src={mainpage} className='header_img' alt='Main Page' />
       </div>
     </div>

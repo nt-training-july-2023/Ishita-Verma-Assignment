@@ -102,11 +102,11 @@ public class ProjectController {
      * Retrieves a list of unassigned employees.
      * @return A list of unassigned employees represented as ProjectOutDTOs.
      */
-    @GetMapping("/unassigned")
-    public final List<Employee> getUnassignedEmployees() {
-        LOGGER.info("Getting unassigned employees.");
-        List<Employee> unassignedEmployees = projectService
-                .getEmployeesWithUnassignedProjects();
-        return unassignedEmployees;
-    }
+//    @GetMapping("/unassigned")
+//    public final List<Employee> getUnassignedEmployees() {
+//        LOGGER.info("Getting unassigned employees.");
+//        List<Employee> unassignedEmployees = projectService
+//                .getEmployeesWithUnassignedProjects();
+//        return unassignedEmployees;
+//    }
 }
