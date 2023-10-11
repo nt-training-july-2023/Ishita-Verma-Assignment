@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import Popup from "../../components/Popup/Popup";
 import LoginRegisterService from "../../service/LoginRegisterService";
 import InputField from "../../components/InputField/InputField";
-import { validateEmployeeEmail } from "../../components/HandleBlur/HandleBlur";
+import { validateEmployeeEmail,validateLoginPassword } from "../../components/HandleBlur/HandleBlur";
 
 const Login = ({ setIsLoggedIn, login }) => {
   const [email, setEmail] = useState("");
@@ -30,8 +30,8 @@ const Login = ({ setIsLoggedIn, login }) => {
     e.preventDefault();
 
     if (email === "" || password === "") {
-      setEmailError("Please enter an Email");
-      setPasswordError("Please enter a Password");
+    validateLoginPassword(password,setPasswordError)
+     validateEmployeeEmail(email,setEmailError)
     } else {
       const formData = {
         email,
@@ -85,7 +85,7 @@ const Login = ({ setIsLoggedIn, login }) => {
                     />
                   </div>
                  
-                  {emailError && <div className="error-message">{emailError}</div>}
+                  {emailError && <div className="error-message login_errors">{emailError}</div>}
          
                   <div className="login_form_field">
                     <InputField
@@ -96,10 +96,11 @@ const Login = ({ setIsLoggedIn, login }) => {
                         setPassword(e.target.value);
                       }}
                       className="login_input_field"
+                      onBlur={() => validateLoginPassword(password, setPasswordError)}
                     />
                   </div>
                   {passwordError && (
-                <div className="error-message">{passwordError}</div>
+                <div className="error-message login_errors">{passwordError}</div>
               )}
                   <div className="button_container">
                     <div

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "./addproject.css";
 import Skills from "../Data/Skills";
 import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
-import Popup from "../Popup/Popup"; 
+import SubmitPopup from "../SubmitPopup/SubmitPopup";
 import {
   validateName,
   validateManagerId,
@@ -34,14 +33,14 @@ const AddProject = () => {
 
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [showSubmitPopup, setShowSubmitPopup] = useState(false);
+
 
   const handleSkillChange = (selectedOptions) => {
     const selectedSkillsValues = selectedOptions.map((option) => option.value);
     setSkills(selectedSkillsValues);
     setSkillsError("");
   };
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     getManagerList();
@@ -55,7 +54,7 @@ const AddProject = () => {
   }
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     if (
       !name ||
       !managerId ||
@@ -80,9 +79,7 @@ const AddProject = () => {
     };
     ProjectService.addProject(project).then((response)=>{
       setSuccessMessage("Project added successfully.");
-      setTimeout(() => {
-        navigate("/adminDashboard");
-      }, 200000);
+      setShowSubmitPopup(true);
     })
      .catch((error) => {
           console.log(error);
@@ -104,7 +101,7 @@ const AddProject = () => {
             onChange={(e) => setName(e.target.value)}
             onBlur={() => validateName(name, setNameError)}
           />
-          {nameError && <div className="error-message">{nameError}</div>}
+          {nameError && <div className="error-message employee_errors">{nameError}</div>}
         </div>
         <div className="input_form_field">
           <select
@@ -126,7 +123,7 @@ const AddProject = () => {
             })}
           </select>
           {managerIdError && (
-            <div className="error-message">{managerIdError}</div>
+            <div className="error-message employee_errors">{managerIdError}</div>
           )}
         </div>
         <div className="input_form_field">
@@ -142,7 +139,7 @@ const AddProject = () => {
             onBlur={() => validateStartDate(startDate, setStartDateError)}
           />
           {startDateError && (
-            <div className="error-message">{startDateError}</div>
+            <div className="error-message employee_errors">{startDateError}</div>
           )}
         </div>
         <div className=" input_form_field">
@@ -159,7 +156,7 @@ const AddProject = () => {
             placeholder="Select Skills"
             onBlur={() => validateSkills(skills, setSkillsError)}
           />
-          {skillsError && <div className="error-message">{skillsError}</div>}
+          {skillsError && <div className="error-message employee_errors">{skillsError}</div>}
         </div>
         <div className="input_form_field">
           <textarea
@@ -172,22 +169,22 @@ const AddProject = () => {
             rows="4"
           />
           {descriptionError && (
-            <div className="error-message">{descriptionError}</div>
+            <div className="error-message employee_errors">{descriptionError}</div>
           )}
-          {errorMessage && <div className="error-message"> {errorMessage}</div>}
+          {errorMessage && <div className="error-message employee_errors"> {errorMessage}</div>}
           {successMessage}
         </div>
 
         <Button className="btn_submit" type="submit" text="Add Project"/>
       </form>
-      
-      {showSuccessPopup && (
-        <Popup
-          description={successMessage}
-          onClose={() => setShowSuccessPopup(false)}
-          onConfirm={() => setShowSuccessPopup(false)}
-        />
-      )}
+      {showSubmitPopup && (
+  <SubmitPopup
+    description={successMessage}
+    onClose={() => setShowSubmitPopup(false)} 
+    onConfirm={() => setShowSubmitPopup(false)} 
+  />
+)}
+
     </div>
   );
 };

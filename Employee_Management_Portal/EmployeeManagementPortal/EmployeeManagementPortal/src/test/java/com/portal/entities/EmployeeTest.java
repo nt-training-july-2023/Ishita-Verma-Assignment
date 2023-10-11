@@ -178,4 +178,31 @@ class EmployeeTest {
 	        
 	        employee2.setProjectId(1L);
 	    }
+	    @Test
+	    void testToString() {
+	        Employee employee = new Employee();
+	        employee.setId(1L);
+	        employee.setEmpId("N1111");
+	        employee.setName("John Doe");
+	        employee.setEmail("ankita.sharma@nucleusteq.com");
+	        employee.setDob("1990-01-01");
+	        employee.setDoj("2023-09-18");
+	        employee.setLocation(Location.Raipur);
+	        employee.setDesignation(Designation.Engineer);
+	        employee.setContactNumber("1234567890");
+	        employee.setRole(Role.EMPLOYEE);
+	        employee.setProjectId(2L);
+	        employee.setPassword("password123");
+	        List<String> skills = Arrays.asList("Java", "React");
+	        employee.setSkills(skills);
+	        employee.setManagerId(3L);
+
+	        String expected = "Employee [Id=1, empId=N1111,name=John Doe,"
+	                +"email=ankita.sharma@nucleusteq.com, dob=1990-01-01, "
+	                + "doj=2023-09-18, location=Raipur, designation=Engineer, "
+	                + "contactNumber=1234567890, role=EMPLOYEE, projectId=2, "
+	                + "password=password123, skills=[Java, React], managerId=3]";
+	        
+	        assertEquals(expected, employee.toString());
+	    }
 }

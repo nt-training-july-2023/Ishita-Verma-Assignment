@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom';
 import './requestresourcetable.css';
 import Button from '../Button/Button';
 import EmployeeService from '../../service/EmployeeService';
+import SubmitPopup from '../SubmitPopup/SubmitPopup';
 
 const RequestResourceTable = () => {
   const [requestList, setRequestList] = useState([]);
+  const [showNoRequestsPopup, setShowNoRequestsPopup] = useState(false);
+
   useEffect(() => {
     getResourceList();
   }, []);
@@ -13,6 +16,10 @@ const RequestResourceTable = () => {
   const getResourceList = async () => {
     EmployeeService.listRequestResource().then((response) => {
       setRequestList(response.data);
+
+      if (response.data.length === 0) {
+        setShowNoRequestsPopup(true);
+      }
     }).catch((error) => {});
   };
 
@@ -59,7 +66,7 @@ const RequestResourceTable = () => {
                 <td>{request.projectName}</td>
 
                 <td>{request.comment}</td>
-                <td>
+                <td className='request_actions'>
                   <Button
                     className="custom-button green-button"
                     onClick={() => {
@@ -84,7 +91,14 @@ const RequestResourceTable = () => {
       <Link to="/admindashboard">
         <button className="admin_dashboard_button">&#8592; Back to Admin Dashboard</button>
       </Link>
-    </div>
+     {showNoRequestsPopup && (
+       <SubmitPopup
+       description="No pending requests"
+       onClose={() => setShowNoRequestsPopup(false)}
+       onConfirm={() => setShowNoRequestsPopup(false)}
+       />
+       )}
+       </div>
   );
 };
 

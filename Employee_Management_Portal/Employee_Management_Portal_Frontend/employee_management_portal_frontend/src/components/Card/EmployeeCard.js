@@ -1,107 +1,105 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React,{useState,useEffect} from "react";
+import { useLocation,useNavigate } from 'react-router-dom';
 import DateReverser from "../DateReverser/DateReverser";
+import Button from '../Button/Button'
+import EmployeeService from "../../service/EmployeeService";
+import Popup from "../Popup/Popup";
 
-const Card = ({
-  data,
-  onUnassignProject,
-  onAssignProject,
-  managerName,
-  managerEmail,
-  managerContact,
-}) => {
-  const {
-    id,
-    name,
-    designation,
-    projectName,
-    manager,
-    contactNumber,
-    email,
-    dob,
-    doj,
-    location,
-  } = data;
+const Card= ({employee}) => {
+  const [showUnassignConfirm, setShowUnassignConfirm] = useState(false);
+  const [unassignEmployeeId, setUnassignEmployeeId] = useState(null);
 
-  const handleUnassignProject = () => {
-    onUnassignProject(id);
+ 
+  const unassignProject = (employeeId) => {
+
+    setUnassignEmployeeId(employeeId);
+    setShowUnassignConfirm(true);
   };
 
-  const handleAssignProject = () => {
-    onAssignProject(id);
-  };
+  const confirmUnassign = async () => {
+    EmployeeService.unassignProject(`${unassignEmployeeId}`).then((response)=>{
+     setShowUnassignConfirm(false);
+     window.location.reload();
+    }).catch((error)=>{
+
+    })
+ };
+  const navigate = useNavigate()
+
+  const location = useLocation();
+  const stateData = location.stateData;
+  // console.log("stateData" + stateData);
 
   return (
-    <div className="card" key={id}>
-      <div className="column1">
-        <h2 className="employee_name">{name}</h2>
-        <p style={{ marginTop: "-0.2rem" }}>{designation}</p>
-        <p style={{ marginTop: "1rem" }}>
-          <p style={{ marginBottom: "0.3rem" }}>
-            <span style={{ fontWeight: "bold" }}>Project Name :</span>{" "}
-            {projectName ? projectName : "N/A"}{" "}
-          </p>
-        </p>
-        <p style={{ marginBottom: "0.3rem" }}>
-          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>Manager :</span>{" "}
-          {manager}
-        </p>
-        <p style={{ marginBottom: "0.3rem" }}>
-          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>Contact :</span>{" "}
-          {contactNumber}
-        </p>
-        <p style={{ marginBottom: "0.3rem" }}>
-          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>Email :</span>{" "}
-          {email}
-        </p>
-      </div>
-      <div className="column2">
-        <p className="employee_id" style={{ marginBottom: "2.3rem", fontSize: "1rem" }}>
-          <span style={{ fontWeight: "bold" }}>Employee ID :</span> {id}
-        </p>
-        <p style={{ marginBottom: "0.3rem" }}>
-          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>DOB :</span>{" "}
-          <DateReverser date={dob} />
-        </p>
-        <p style={{ marginBottom: "0.3rem" }}>
-          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>DOJ :{" "}</span>
-          <DateReverser date={doj} />
-        </p>
-        <p>
-          <span style={{ fontWeight: "bold", fontSize: "1rem" }}>Location :{" "}</span>
-          {location}
-        </p>
-        <div className="assign_project">
-          {projectName ? (
-            <button className="custom-button green-button" onClick={handleUnassignProject}>
-              Unassign Project
-            </button>
-          ) : (
-            <Link
-            to={{
-              pathname: `/assign/project/${id}`,
-              state: { empId: id, empName: name },
-            }}
-              className="assign_btn"
-              style={{ marginTop: "1rem" }}
+    <>
+    <div className="card" key={employee.id}>
+    <div className="column1">
+              <h2 className="employee_name"> <span className='employee_logo'>&#x1F464;</span> {employee.name}</h2>
+              <p >{employee.designation}</p>
+              <p>
+                  <span className="employee_titles">Project Name :</span>{" "}
+                  {employee.projectName ? employee.projectName : "N/A"}
+                </p>
               
-            >
-              Assign Project
-            </Link>
-          )}
-        </div>
-      </div>
-      {managerName && managerEmail && managerContact && (
-        <div className="column3">
-          <p style={{ fontWeight: "bold" }}>Manager:</p>
-          <p>{managerName}</p>
-          <p style={{ fontWeight: "bold" }}>Email:</p>
-          <p>{managerEmail}</p>
-          <p style={{ fontWeight: "bold" }}>Contact:</p>
-          <p>{managerContact}</p>
-        </div>
+              <p>
+                <span className="employee_titles">Manager :</span>{" "}
+                {employee.manager}
+              </p>
+              <p >
+                <span className="employee_titles" >Contact :</span>{" "}
+                {employee.contactNumber}
+              </p>
+              <p>
+                <span className="employee_titles">Email :</span>{" "}
+                {employee.email}
+              </p>
+            </div>
+            <div className="column2">
+              <p>
+                <span className="employee_titles">Employee Id :</span> {employee.id}
+              </p>
+              <p className="employee_dob">
+                <span className="employee_titles">DOB :</span>{" "}
+                <DateReverser date={employee.dob} />
+              </p>
+              <p>
+                <span className="employee_titles" >DOJ :{" "}</span>
+                <DateReverser date={employee.doj} />
+              </p>
+              <p>
+                <span className="employee_titles">Location :{" "}</span>
+                {employee.location}
+              </p>
+              <div className="assign_project">
+                {employee.projectName ? (
+                  <Button className="custom-button green-button" onClick={() => unassignProject(employee.id)}
+                  text="Unassign Project"/>
+                ) : (
+                 
+                  <Button
+                  onClick={() => {
+                    navigate( `/assign/project/${employee.id}`, {
+                      state: { empId: employee.id, empName: employee.name },
+                    });
+                  }}
+                  className="assign_btn"
+                  text=" Assign Project"
+                />  
+                )}
+              </div>
+            </div>
+            </div>
+            
+      {showUnassignConfirm && (
+        <Popup
+          description="Are you sure you want to unassign this project?"
+          onClose={() => setShowUnassignConfirm(false)}
+          onConfirm={confirmUnassign}
+        >
+          <button onClick={confirmUnassign}></button>
+        </Popup>
       )}
-    </div>
+    </>
   );
 };
 

@@ -20,12 +20,12 @@ const OrganizationTab = () => {
   
     return (
       
-        <div>
+        <div className='card_container'>
           {employees.map((employee) => (<div className="card" key={employee.id}>
             <div className="column1">
-              <h2 className="employee_name">{employee.name}</h2>
+              <h2 className="employee_name"><span className='employee_logo'>&#x1F464;</span>{employee.name}</h2>
               <p className='org_designation'>{employee.designation} </p>
-              <p className='org_fields'><span className='org_headers' >Manager :</span>  {employee.manager}</p>
+              <p className='org_fields'><strong className='org_headers' >Manager :</strong>  {employee.manager}</p>
               <p className='org_fields'><span className='org_headers'>Contact :</span> {employee.contactNumber}</p>
               <p className='org_fields'><span className='org_headers'>Email : </span> {employee.email}</p>
             </div>

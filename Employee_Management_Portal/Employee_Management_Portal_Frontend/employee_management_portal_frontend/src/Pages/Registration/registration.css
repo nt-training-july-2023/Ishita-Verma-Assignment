@@ -132,7 +132,7 @@ body{
 @media (max-width: 1024px) {
     .reg_heading {
         font-size: 1.5rem;
-        margin-top: 0rem;
+        margin-top: 4rem;
     }
 
     .reg_form_input {
@@ -153,8 +153,12 @@ body{
     .container{
         height: 100%;
     }
+    .reg_form{
+        overflow-y:unset;
+    }
     .reg_heading {
         font-size: 1.2rem;
+        margin-top: 0 !important;
     }
 
     .reg_form_input {
@@ -172,44 +176,7 @@ body{
     }
     .button_reg{
         margin-top: -0.8rem;
+        /* height: 5rem; */
     }
     
-} 
-
-
-
-@media (max-width: 485px) {
-    .container {
-        
-        height: 100vh !important;
-        padding: 1rem !important;
-        width: 100vw !important;
-        color: black;
-    }
-
-    .reg_heading {
-      
-        font-size: 1.2rem !important;
-    }
-
-    .reg_form{
-        padding: none;
-    }
-    .reg_form_input {
-        
-        height: 2.2rem !important;
-        width: 14rem;
-    }
-
-    .reg_side_img {
-       
-        display: none !important;
-    }
-
-    .button {
-        width: 9rem;
-        flex-direction: column !important;
-        gap: 0.5rem !important;
-      
-    }
 } 

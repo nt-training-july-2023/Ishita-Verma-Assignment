@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.EmployeeInDTO;
 import com.portal.DTO.EmployeeOutDTO;
 import com.portal.DTO.LoginInDTO;
@@ -116,7 +117,7 @@ class AdminControllerTest {
         
         ObjectMapper objectMapper = new ObjectMapper();
         String inputJSON = objectMapper.writeValueAsString(empDto);
-        ResponseDTO response = new ResponseDTO();
+        ApiResponseDTO response = new ApiResponseDTO();
         response.setMessage("Admin added succesfully");
         doNothing().when(validate).checkAdmin(empDto);
         when(adminService.registerAdmin(Mockito.any())).thenReturn(response);

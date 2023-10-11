@@ -325,7 +325,7 @@ const Registration = () => {
             )}
             </div>
           </div>
-          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          {errorMessage && <div className="error-message reg_error">{errorMessage}</div>}
           <div class="button_reg">
             <div className="btn" onClick={onSubmit} type="submit">
               <span className="btn-text">Submit</span>

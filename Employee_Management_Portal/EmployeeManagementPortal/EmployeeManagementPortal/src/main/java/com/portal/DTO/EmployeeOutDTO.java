@@ -295,24 +295,20 @@ public class EmployeeOutDTO {
     }
 
     /**
-     * Returns a hash code value for the EmployeeOutDTO object based on its
-     * properties.
-     *
-     * @return The hash code value for this EmployeeOutDTO.
+     * Generates a hash code for this EmployeeOutDTO based on its attributes.
+     * @return A hash code value for this EmployeeOutDTO.
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, contactNumber, designation, dob, doj,
-                email, empId, location, manager, managerId, name,
-                projectId, role, skills);
+        return Objects.hash(contactNumber, designation, dob, doj, email,
+                empId, id, location, manager, managerId, name, projectId,
+                projectName, role, skills);
     }
 
     /**
-     * Indicates whether some other object is "equal to" this EmployeeOutDTO.
-     *
-     * @param obj The reference object with which to compare.
-     * @return true if this EmployeeOutDTO is the same as obj argument; false
-     *         otherwise.
+     * Compares this EmployeeOutDTO with the specified object for equality.
+     * @param obj The object to compare with this EmployeeOutDTO.
+     * @return {@code true} if the objects are equal, {@code false} otherwise.
      */
     @Override
     public boolean equals(final Object obj) {
@@ -326,25 +322,26 @@ public class EmployeeOutDTO {
             return false;
         }
         EmployeeOutDTO other = (EmployeeOutDTO) obj;
-        return id == other.id
-                && Objects.equals(contactNumber, other.contactNumber)
+        return Objects.equals(contactNumber, other.contactNumber)
                 && designation == other.designation
                 && Objects.equals(dob, other.dob)
                 && Objects.equals(doj, other.doj)
                 && Objects.equals(email, other.email)
                 && Objects.equals(empId, other.empId)
+                && Objects.equals(id, other.id)
                 && location == other.location
                 && Objects.equals(manager, other.manager)
                 && Objects.equals(managerId, other.managerId)
                 && Objects.equals(name, other.name)
                 && Objects.equals(projectId, other.projectId)
+                && Objects.equals(projectName, other.projectName)
                 && role == other.role
                 && Objects.equals(skills, other.skills);
     }
 
+
     /**
      * Returns a string representation of the EmployeeOutDTO object.
-     *
      * @return A string representation of this EmployeeOutDTO.
      */
     @Override

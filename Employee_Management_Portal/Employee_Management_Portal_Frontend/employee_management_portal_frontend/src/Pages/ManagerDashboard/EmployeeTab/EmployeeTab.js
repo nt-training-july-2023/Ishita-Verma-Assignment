@@ -4,14 +4,13 @@ import axios from "axios";
 import DateReverser from "../../../components/DateReverser/DateReverser";
 import Skills from "../../../components/Data/Skills";
 import MultiSelectDropdown from "../../../components/MultiSelectDropdown/MultiSelectDropdown";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../../../components/Button/Button";
 import EmployeeService from "../../../service/EmployeeService";
 
 const EmployeeTab = () => {
   const [employees, setEmployees] = useState([]);
   const [selectedSkills, setSelectedSkills] = useState([]);
-  const [showAssigned, setShowAssigned] = useState(false);
   const [showUnassigned, setShowUnassigned] = useState(false);
   const [skills, setSkills] = useState([]);
   const [check, setCheck] = useState(false);
@@ -21,6 +20,7 @@ const EmployeeTab = () => {
     getAllEmployees();
     
   }, []);
+  const navigate = useNavigate();
 
   const ID = localStorage.getItem('id');
 
@@ -71,22 +71,6 @@ const EmployeeTab = () => {
     setCheck(!check);
   };
 
-  // const getUnassignedEmployees = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://localhost:8080/api/admin/unassigned"
-  //     );
-  //     console.log(response.data);
-  //     setEmployees(response.data);
-  //     response.data.forEach((employee) =>{
-  //       console.log(employee);
-  //       IsRequested(employee);
-  //     });
-  //   } catch (error) {
-  //     console.error("Error fetching unassigned employees:", error);
-  //   }
-  // };
-
   useEffect(() => {
     if (showUnassigned ) {
       getSkilledEmployee();
@@ -120,7 +104,7 @@ const EmployeeTab = () => {
             label: skill,
             value: skill,
           }))}
-          style={{ marginLeft: "4rem" }}
+         
           selectedOptions={selectedSkills.map((skill) => ({
             value: skill,
             label: skill,
@@ -152,41 +136,41 @@ const EmployeeTab = () => {
                 }).map((employee) => (
           <div className="card" key={employee.id}>
             <div className="column1">
-              <h2 className="employee_name">{employee.name}</h2>
-              <p style={{ marginTop: "-0.2rem" }}>{employee.designation} </p>
-              <p style={{ marginTop: "1rem" }}>
+              <h2 className="employee_name"> <span className='employee_logo'>&#x1F464;</span>{employee.name}</h2>
+              <p >{employee.designation} </p>
+              <p >
                 {employee.projectName ? (
                   <p>
-                    <span style={{ fontWeight: "bold" }}>Project Name :</span>{" "}
+                    <span className="employee_titles">Project Name :</span>{" "}
                     {employee.projectName}
                   </p>
                 ) : (
                   <p>
-                    <span style={{ fontWeight: "bold" }}>Project Name :</span>
+                    <span className="employee_titles">Project Name :</span>{" "}
                     N/A{" "}
                   </p>
                 )}
               </p>
               <p>
-                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                <span className="employee_titles">
                   Manager :
                   {" "} </span>
                 {employee.manager}
               </p>
               <p>
-                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                <span className="employee_titles">
                   Contact :
                   {" "} </span>
                 {employee.contactNumber}
               </p>
               <p>
-                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                <span className="employee_titles">
                   Email :
                   {" "}</span>
                 {employee.email}
               </p>
               <p>
-                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                <span className="employee_titles">
                   Skills :
                   {" "} </span>
                 {employee.skills.join(", ")}
@@ -194,45 +178,50 @@ const EmployeeTab = () => {
             </div>
             <div className="column2">
               <p
-                className="employee_id"
-                style={{ marginBottom: "2.6rem", fontSize: "1rem" }}
+                // className="employee_id"
               >
-                <span style={{ fontWeight: "bold" }}>Employee ID :</span>{" "}
+                <span className="employee_titles">Employee Id :</span>{" "}
                 {employee.empId}
               </p>
-              <p>
-                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+              <p className="employee_dob">
+                <span className="employee_titles">
                   DOB :
                 </span>{" "}
                 <DateReverser date={employee.dob} />
               </p>
               <p>
-                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                <span className="employee_titles">
                   DOJ :{" "}
                 </span>{" "}
                 <DateReverser date={employee.doj} />
               </p>
               <p>
-                <span style={{ fontWeight: "bold", fontSize: "1rem" }}>
+                <span className="employee_titles">
                   Location :{" "}
                 </span>{" "}
                 {employee.location}
               </p>
-              <div style={{ marginTop: "1rem" }}>
+              <div >
                 {employee.projectName === null && (
                   <p>
-                    {console.log("zzzzzzz"+employee.requested + " "+employee.name)}
                     {employee.requested ? (
                       <Button className="requested_btn" text="Requested" />
                     ) : (
-                      <Link
-                        to={`/requestResource/${employee.id}`}
-                        className="assign_btn"
-                        return
-                        employee={employee}
-                      >
-                        Request Resource
-                      </Link>
+
+                      <Button
+
+                        className="assignProjectbtn"
+                        text="Request Resource"
+                        onClick={() => {
+                          navigate(`/requestResource/${employee.id}`, {
+                            state: {
+                              empId: employee.id,
+                              empName: employee.name,
+                            },
+                          });
+                        }}
+
+                        />
                     )}
                   </p>
                 )}

@@ -1,6 +1,6 @@
 .add_project {
   overflow-y: scroll;
-  max-height: 90vh;
+  max-height: 80vh;
   scrollbar-width: none; 
   -ms-overflow-style: none; 
 }
@@ -67,4 +67,9 @@
   }
   .custom-placeholder::placeholder {
     color: black; 
+  }
+  .description_readmore{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
   }

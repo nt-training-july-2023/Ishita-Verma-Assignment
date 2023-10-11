@@ -1,0 +1,16 @@
+.unauthorized{
+    background: white !important;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: red;
+}
+.error_heading{
+border: dotted 0.2rem white;
+padding: 0.5rem;
+}
+.error_symbol{
+    color: red;
+}

@@ -47,9 +47,15 @@ public class RequestResourceValidation {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "This project does not exist."));
     }
-    public void validateResourceIdExists(Long id) {
+    /**
+     * Validates if a resource with the given ID exists in the repository.
+     * @param id The ID of the resource to validate.
+     * @throws ResourceNotFoundException If no resource with aID is found.
+     */
+    public void validateResourceIdExists(final Long id) {
         if (!requestResourceRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Resource with ID " + id + " not found.");
+            throw new ResourceNotFoundException("Resource with ID "
+             + id + " not found.");
         }
     }
 }

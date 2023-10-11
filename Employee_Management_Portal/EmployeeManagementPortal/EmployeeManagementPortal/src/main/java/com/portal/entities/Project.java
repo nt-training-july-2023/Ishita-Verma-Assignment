@@ -115,12 +115,8 @@ public class Project {
      * @param skillsParam the skills to set
      */
     public void setSkills(final List<String> skillsParam) {
-        if (skillsParam != null) {
-            this.skills = new ArrayList<>(skillsParam);
-        } else {
-            this.skills = null;
-        }
-    }
+    this.skills = new ArrayList<>(skillsParam);
+            }
 
     /**
      * @return the description

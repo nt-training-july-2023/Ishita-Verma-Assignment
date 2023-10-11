@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./addemployee.css";
 import Role from "../Data/Role";
 import Skills from "../Data/Skills";
@@ -9,6 +8,7 @@ import Location from "../Data/Location";
 import bcrypt from "bcryptjs";
 import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
 import Popup from "../Popup/Popup";
+import SubmitPopup from "../SubmitPopup/SubmitPopup";
 import Button from "../Button/Button";
 import InputField from "../InputField/InputField";
 import {
@@ -39,7 +39,9 @@ const AddEmployee = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [showPopup, setShowPopup] = useState(false);
+  const [showSubmitPopup, setShowSubmitPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -58,10 +60,9 @@ const AddEmployee = () => {
     setSkills(selectedSkillsValues);
     setSkillsError("");
   };
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     if (
       !name ||
@@ -72,8 +73,8 @@ const AddEmployee = () => {
       !location ||
       !designation ||
       !contactNumber ||
-      skills.length === 0 ||
-      !role
+      !role ||
+      skills.length === 0 
 
     ) {
       validateName(name, setNameError);
@@ -88,11 +89,10 @@ const AddEmployee = () => {
       validateSkills(skills, setSkillsError)
       return;
     }
-    let isValid = true;
     const replaceDob = dob.replaceAll("-", "");
     const pwd = empId + "@" + replaceDob;
     const password = bcrypt.hashSync(pwd, 10);
-    if (isValid) {
+ 
       const employee = {
         name,
         email,
@@ -110,10 +110,8 @@ const AddEmployee = () => {
       AdminService.addEmployee(employee)
         .then((response) => {
           console.log(response);
-          setErrorMessage("Successfully Added");
-          setTimeout(() => {
-            navigate("/adminDashboard");
-          }, 200000);
+          setErrorMessage("Employee Added Successfully ");
+          setShowSubmitPopup(true);
         })
         .catch((error) => {
           console.log(error);
@@ -123,16 +121,15 @@ const AddEmployee = () => {
                 "Email is already in use. Please use a different email."
               );
             } else if (
-              error.response.data.message === "Employee Id already exists"
+              error.response.data.message === "Employee id already exists"
             ) {
-              setErrorMessage("EmpId already exists");
+              setErrorMessage("Employee Id already exists");
             }
           } else {
             setErrorMessage("Error occurred while adding.");
           }
         });
     }
-  };
 
   const renderPopup = () => {
     if (showPopup) {
@@ -163,7 +160,7 @@ const AddEmployee = () => {
               onChange={(e) => setName(e.target.value)}
               onBlur={() => validateName(name, setNameError)}
             />
-            {setNameError && <div className="error-message">{nameError}</div>}
+            {setNameError && <div className="error-message employee_errors">{nameError}</div>}
           </div>
 
           <div className="input_form_field">
@@ -176,7 +173,7 @@ const AddEmployee = () => {
               onChange={(e) => setEmpId(e.target.value)}
               onBlur={() => validateEmpId(empId, setEmpIdError)}
             />
-            {empIdError && <div className="error-message">{empIdError}</div>}
+            {empIdError && <div className="error-message employee_errors">{empIdError}</div>}
           </div>
 
           <div className="input_form_field">
@@ -189,7 +186,7 @@ const AddEmployee = () => {
               onChange={(e) => setEmail(e.target.value)}
               onBlur={() => validateEmployeeEmail(email, setEmailError)}
             />
-            {emailError && <div className="error-message">{emailError}</div>}
+            {emailError && <div className="error-message employee_errors">{emailError}</div>}
           </div>
 
           <div className="input_form_field">
@@ -202,7 +199,7 @@ const AddEmployee = () => {
               onChange={(e) => setDob(e.target.value)}
               onBlur={() => validateDob(dob, setDobError)}
             />
-            {dobError && <div className="error-message">{dobError}</div>}
+            {dobError && <div className="error-message employee_errors">{dobError}</div>}
           </div>
 
           <div className="input_form_field">
@@ -215,7 +212,7 @@ const AddEmployee = () => {
               onChange={(e) => setDoj(e.target.value)}
               onBlur={() => validateDoj(doj, setDojError)}
             />
-            {dojError && <div className="error-message">{dojError}</div>}
+            {dojError && <div className="error-message employee_errors">{dojError}</div>}
           </div>
 
           <div className="input_form_field">
@@ -235,7 +232,7 @@ const AddEmployee = () => {
               })}
             </select>
             {locationError && (
-              <div className="error-message">{locationError}</div>
+              <div className="error-message employee_errors">{locationError}</div>
             )}
           </div>
 
@@ -256,7 +253,7 @@ const AddEmployee = () => {
               })}
             </select>
             {designationError && (
-              <div className="error-message">{designationError}</div>
+              <div className="error-message employee_errors">{designationError}</div>
             )}
           </div>
 
@@ -271,7 +268,7 @@ const AddEmployee = () => {
               onBlur={() => validateContactNumber(contactNumber, setContactNumber, setContactNumberError)}
             />
             {contactNumberError && (
-              <div className="error-message">{contactNumberError}</div>
+              <div className="error-message employee_errors">{contactNumberError}</div>
             )}
           </div>
 
@@ -291,7 +288,7 @@ const AddEmployee = () => {
                 );
               })}
             </select>
-            {roleError && <div className="error-message">{roleError}</div>}
+            {roleError && <div className="error-message employee_errors">{roleError}</div>}
           </div>
 
           <div className="input_form_field">
@@ -308,15 +305,20 @@ const AddEmployee = () => {
               placeholder="Select Skills"
               onBlur={() => validateSkills(skills, setSkillsError)}
             />
-            {skillsError && <div className="error-message">{skillsError}</div>}
+            {skillsError && <div className="error-message employee_errors">{skillsError}</div>}
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
-          <Button className="btn_submit" text="Add Employee">
-            Add Employee
-          </Button>
+       <Button className="btn_submit" type="submit" text="Add Employee"/>
         </form>
         {renderPopup()}
       </div>
+      {showSubmitPopup && (
+  <SubmitPopup
+    description={errorMessage}
+    onClose={() => setShowSubmitPopup(false)} 
+    onConfirm={() => setShowSubmitPopup(false)} 
+  />
+)}
     </div>
   );
 };

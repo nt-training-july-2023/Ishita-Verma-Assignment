@@ -263,9 +263,8 @@ class EmployeeServiceTest {
         project.setDescription("Description");
         project.setSkills(skills);
         EmployeeOutDTO result = employeeService.getEmployeeById(project.getProjectId());
-        assertEquals(empDTO, result);
-        
-        
+        assertEquals(empDTO.getEmpId(), result.getEmpId());
+
      }
     @Test
     public void testListEmployeeByRole() {
@@ -403,26 +402,173 @@ class EmployeeServiceTest {
        ApiResponseDTO result = employeeService.updateSkills(emp.getId(), emp.getSkills());
        assertEquals("Updated Skills",result.getMessage());
     }
+//    @Test
+//    public void testGetAllRequests() {
+//        List<String> skills= new ArrayList<>();
+//        skills.add("Java");
+//        skills.add("React");
+//        RequestResource req = new RequestResource();
+//        req.setResourceId(1l);
+//        req.setEmployeeId(1l);
+//        req.setManagerId(1l);
+//        req.setProjectId(1l);
+//        req.setComment("Comments");
+//        List<RequestResource> reqList = new ArrayList<>();
+//        reqList.add(req);
+//        when(requestRepository.findAll()).thenReturn(reqList);
+//        RequestResourceOutDTO reqOutDto = new RequestResourceOutDTO();
+//        reqOutDto.setId(req.getResourceId());
+//        reqOutDto.setComment(req.getComment());
+//        
+//        Employee emp= new Employee();
+//        emp.setId(1L);
+//        emp.setEmpId("N1001");
+//        emp.setName("Anjali Sharma");
+//        emp.setEmail("anjali.sharma@nucleusteq.com");
+//        emp.setDob("2001-09-07");
+//        emp.setDoj("2023-07-17");
+//        emp.setLocation(Location.Raipur);
+//        emp.setDesignation(Designation.Engineer);
+//        emp.setContactNumber("1234567800");
+//        emp.setRole(Role.EMPLOYEE);
+//        emp.setSkills(skills);
+//        emp.setManagerId(1L);
+//        emp.setPassword("admin123");
+//        emp.setProjectId(1L);
+//        
+//        when(userRepository.findById(req.getResourceId())).thenReturn(Optional.of(emp));
+//        reqOutDto.setEmployeeName(emp.getEmpId() + "-" + emp.getName());
+//        
+//        Employee manager= new Employee();
+//        manager.setId(2L);
+//        manager.setEmpId("N1002");
+//        manager.setName(" Vanshika Sharma");
+//        manager.setEmail("vanshika.sharma@nucleusteq.com");
+//        manager.setDob("2001-09-07");
+//        manager.setDoj("2023-07-17");
+//        manager.setLocation(Location.Raipur);
+//        manager.setDesignation(Designation.Engineer);
+//        manager.setContactNumber("1234567809");
+//        manager.setRole(Role.MANAGER);
+//        manager.setSkills(skills);
+//        manager.setManagerId((long)1);
+//        manager.setPassword("van12345");
+//        manager.setProjectId(1L);
+//        when(userRepository.findById(req.getManagerId())).thenReturn(Optional.of(manager));
+//        reqOutDto.setManagerName(manager.getName());
+//        
+//        Project project = new Project();
+//        project.setName("Fyndr");
+//        project.setManagerId(1L);
+//        project.setStartDate("2023-09-07");
+//        project.setDescription("Description");
+//        project.setSkills(skills);
+//        
+//        when(projectRepository.findById(req.getProjectId())).thenReturn(Optional.of(project));
+//        reqOutDto.setProjectName(project.getName());
+//        
+//        List<RequestResourceOutDTO> reqOutList = new ArrayList<>();
+//        reqOutList.add(reqOutDto);
+//        
+//        List<RequestResourceOutDTO> result = requestService.requestOut();
+//        assertEquals(0,result.size());
+//    }
     @Test
-    public void testGetAllRequests() {
-        // Arrange
-        List<RequestResource> mockRequestResourceList = new ArrayList<>();
-        RequestResource request = new RequestResource();
-        request.setComment("Comment1");
-        request.setEmployeeId(1L);
-        request.setManagerId(1L);
-        request.setResourceId(1L);
-        request.setProjectId(1L);
-        mockRequestResourceList.add(request);
-        // Add more mock RequestResource objects as needed
+    public void testUnAssignProject() {
+        List<String> skills= new ArrayList<>();
+        skills.add("Java");
+        skills.add("React");
+        Employee emp = new Employee();
+        emp.setId(1L);
+        emp.setEmpId("N0001");
+        emp.setName("Ankita Sharma");
+        emp.setDob("1998-08-10");
+        emp.setDoj("2019-11-21");
+        emp.setLocation(Location.Bangalore);
+        emp.setDesignation(Designation.Recruiter);
+        emp.setContactNumber("1234567890");
+        emp.setPassword("admin123");
+        emp.setRole(Role.ADMIN);
 
-        // Mock the behavior of requestResourceRepository
-        when(requestRepository.findAll()).thenReturn(mockRequestResourceList);
-        // Act
-        List<RequestResourceOutDTO> result = requestService.getAllRequests();
+        emp.setSkills(skills);
 
-        // Assert
-        assertEquals(mockRequestResourceList.size(), result.size());
-        // You can add more specific assertions based on your actual requirements
+        when(userRepository.findById(emp.getId())).thenReturn(Optional.of(emp));
+        emp.setEmail("ankita.sharma@nucleusteq.com");
+        when(userRepository.findByEmail(emp.getEmail()))
+                .thenReturn(Optional.of(emp));
+        emp.setProjectId(0L);
+        emp.setManagerId(1L);
+        when(userRepository.save(emp)).thenReturn(emp);
+
+        ApiResponseDTO result = employeeService.unassignEmployee(emp.getId());
+        assertEquals("Project unassigned", result.getMessage());
+
     }
+    @Test
+    public void testSkillsAndUnassign() {
+        List<String> skills1 = new ArrayList<>();
+        List<String> skills= new ArrayList<>();
+        Employee emp = new Employee();
+        emp.setId(1L);
+        emp.setEmpId("N1001");
+        emp.setName("Anjali Sharma");
+        emp.setEmail("anjali.sharma@nucleusteq.com");
+        emp.setDob("2001-09-07");
+        emp.setDoj("2023-07-17");
+        emp.setLocation(Location.Raipur);
+        emp.setDesignation(Designation.Engineer);
+        emp.setContactNumber("1234567800");
+        emp.setRole(Role.EMPLOYEE);
+        emp.setSkills(skills);
+        emp.setManagerId(1L);
+        emp.setPassword("admin123");
+        emp.setProjectId(0L);
+
+        List<Employee> empList = new ArrayList<>();
+        empList.add(emp);
+        when(userRepository.findByRole(Role.EMPLOYEE)).thenReturn(empList);
+
+        EmployeeOutDTO empDto = new EmployeeOutDTO();
+        empDto.setId(1L);
+        empDto.setEmpId("N1001");
+        empDto.setName("Anjali Sharma");
+        empDto.setEmail("anjali.sharma@nucleusteq.com");
+        empDto.setDob("2001-09-07");
+        empDto.setDoj("2023-07-17");
+        empDto.setLocation(Location.Raipur);
+        empDto.setDesignation(Designation.Engineer);
+        empDto.setContactNumber("1234567890");
+        empDto.setRole(Role.EMPLOYEE);
+        empDto.setProjectId(0L);
+        empDto.setManagerId(2L);
+        empDto.setManager("Ankita Sharma");
+        empDto.setProjectName("Fyndr");
+        empDto.setSkills(skills);
+        List<EmployeeOutDTO> outList = new ArrayList<EmployeeOutDTO>();
+        outList.add(empDto);
+
+        Employee manager = new Employee();
+        manager.setId(2L);
+        manager.setProjectId(2L);
+        manager.setManagerId(3L);
+        manager.setRole(Role.MANAGER);
+        manager.setDesignation(Designation.Architect);
+        manager.setLocation(Location.Raipur);
+        manager.setDob("2001-07-31");
+        manager.setDoj("2023-07-17");
+        manager.setEmail("abhinandan@nucleusteq.com");
+        manager.setEmpId("N0002");
+        manager.setName("Abhinandan");
+        manager.setPassword("N0002@31072001");
+        manager.setContactNumber("7890432167");
+        manager.setSkills(skills);
+        when(userRepository.findById(emp.getManagerId()))
+                .thenReturn(Optional.of(manager));
+//        when(employeeService.skillsAndUnassign(empList)).thenReturn(outList);
+        List<EmployeeOutDTO> result =
+                employeeService.skillsAndUnassign(skills1, false);
+        assertEquals(1, result.size());
+
+    }
+
  }

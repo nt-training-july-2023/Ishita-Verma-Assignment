@@ -1,5 +1,5 @@
 .assign_btn{
-    width: 9rem;
+    width: 9.5rem;
     height: 2rem;
     background-color: blueviolet;
     border: none;
@@ -9,6 +9,10 @@
     text-decoration: none;
     padding: 0.5rem;
     font-size: 1rem;
+    /* margin-top: 1rem; */
+}
+.assign_save{
+    margin-top: 1rem;
 }
 .assign {
     display: flex;
@@ -83,6 +87,9 @@
     }
     .employee_logo{
         display: none;;
+    }
+    .add_project{
+        max-height: 80vh !important;
     }
 }
 

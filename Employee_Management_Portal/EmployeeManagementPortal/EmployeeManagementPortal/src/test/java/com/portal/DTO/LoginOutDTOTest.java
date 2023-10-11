@@ -22,44 +22,40 @@ class LoginOutDTOTest {
         assertEquals("Ankita", loginDTO.getName());
     }
 
-    @Test
-    public void testHashCode() {
-        LoginOutDTO loginDTO1 = new LoginOutDTO();
-        loginDTO1.setId(1L);
-        loginDTO1.setMessage("Welcome!");
-        loginDTO1.setName("Ankita");
-        loginDTO1.setRole(Role.ADMIN);
-
-        LoginOutDTO loginDTO2 = new LoginOutDTO();
-        loginDTO2.setId(1L);
-        loginDTO2.setMessage("Welcome!");
-        loginDTO2.setName("Ankita");
-        loginDTO2.setRole(Role.ADMIN);
-
-        assertEquals(loginDTO1.hashCode(), loginDTO2.hashCode());
-    }
 
     @Test
-    public void testEquals() {
-        LoginOutDTO loginDTO1 = new LoginOutDTO();
-        loginDTO1.setId(1L);
-        loginDTO1.setMessage("Welcome!");
-        loginDTO1.setName("Ankita");
-        loginDTO1.setRole(Role.ADMIN);
-
-        LoginOutDTO loginDTO2 = new LoginOutDTO();
-        loginDTO2.setId(1L);
-        loginDTO2.setMessage("Welcome!");
-        loginDTO2.setName("Ankita");
-        loginDTO2.setRole(Role.ADMIN);
-
-        assertTrue(loginDTO1.equals(loginDTO2));
-        assertTrue(loginDTO2.equals(loginDTO1));
-
-        loginDTO2.setRole(Role.EMPLOYEE);
-
-        assertFalse(loginDTO1.equals(loginDTO2));
-        assertFalse(loginDTO2.equals(loginDTO1));
+    void testHashCodeAndEquals() {
+        LoginOutDTO loginOutDto1 = new LoginOutDTO();
+        loginOutDto1.setName("Employee");
+        loginOutDto1.setMessage("Success");
+        loginOutDto1.setRole(Role.ADMIN);
+        
+        LoginOutDTO loginOutDto2 = new LoginOutDTO();
+        loginOutDto2.setName("Employee");
+        loginOutDto2.setMessage("Success");
+        loginOutDto2.setRole(Role.ADMIN);
+        
+        assertTrue(loginOutDto1.equals(loginOutDto1));
+        assertFalse(loginOutDto1.equals(null));
+        assertFalse(loginOutDto1.equals(""));
+        
+        assertEquals(loginOutDto1.hashCode(),loginOutDto2.hashCode());
+        assertTrue(loginOutDto1.equals(loginOutDto2));
+        
+        loginOutDto2.setName("Praveen");
+        assertFalse(loginOutDto1.equals(loginOutDto2));
+        assertNotEquals(loginOutDto1.hashCode(),loginOutDto2.hashCode());
+        
+        loginOutDto2.setName("Hemant");
+        loginOutDto2.setMessage("Fail");
+        assertFalse(loginOutDto1.equals(loginOutDto2));
+        assertNotEquals(loginOutDto1.hashCode(),loginOutDto2.hashCode());
+        
+        loginOutDto2.setMessage("Success");
+        loginOutDto2.setRole(Role.EMPLOYEE);
+        assertFalse(loginOutDto1.equals(loginOutDto2));
+        assertNotEquals(loginOutDto1.hashCode(),loginOutDto2.hashCode());
+        
     }
 
     @Test

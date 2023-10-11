@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.EmployeeInDTO;
 import com.portal.DTO.EmployeeOutDTO;
 import com.portal.DTO.LoginInDTO;
 import com.portal.DTO.LoginOutDTO;
-import com.portal.DTO.ResponseDTO;
 import com.portal.service.AdminService;
 import com.portal.validation.Validation;
 
@@ -52,11 +52,11 @@ public class AdminController {
      * @param adminDTO admin
      */
     @PostMapping("/register")
-    public final ResponseDTO registerAdmin(
+    public final ApiResponseDTO registerAdmin(
             @Valid @RequestBody final EmployeeInDTO adminDTO) {
         validate.checkAdmin(adminDTO);
         LOGGER.info("Adding Admin");
-        ResponseDTO responseDto = adminService.registerAdmin(adminDTO);
+        ApiResponseDTO responseDto = adminService.registerAdmin(adminDTO);
         return responseDto;
     }
 

@@ -26,7 +26,7 @@ const ProfileTab = () => {
     <div className="main">
       {employeeDetails ? (
         <div>
-          <p className='empId_profile'>Emp ID: {employeeDetails.empId}</p>
+          <p className='empId_profile'><span>&#129333;</span>Emp ID: {employeeDetails.empId}</p>
           <div className="details-container">
              
             <div className="grid-container">
@@ -54,7 +54,7 @@ const ProfileTab = () => {
          </div>
 
             <div className="column01">
-             <strong>Contact No</strong>
+             <strong>Contact Number</strong>
               <p className="field_input">{employeeDetails.contactNumber}</p>
 
               <strong>Project Name</strong>

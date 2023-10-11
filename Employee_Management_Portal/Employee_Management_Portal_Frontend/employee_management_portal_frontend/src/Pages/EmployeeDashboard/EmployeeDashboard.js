@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import "./employeedashboard.css"; 
 import OrganizationTab from "./OrganizationTab/OrganizationTab";
 import ProfileTab from "./ProfileTab/ProfileTab";
-import HeaderEmployee from "../../components/HeaderEmployee/HeaderEmployee"; // Import the HeaderComponent
+import DisableBackButton from "../../components/DisableBackButton/DisableBackButon";
 import { useNavigate } from "react-router-dom";
 import UnAuthorization from "../../components/Unauthorization/Unauthorization";
 import mainpage from '../../Assests/Images/mainpage.png';
@@ -33,7 +33,7 @@ const EmployeeDashboard = () => {
 
   return (
     <>
-    
+    <DisableBackButton/>
     {role === "EMPLOYEE"?(
       <>
     <div className="headeremployee">
@@ -45,7 +45,7 @@ const EmployeeDashboard = () => {
           className={`admin_employee ${activeTab === "profile" ? "active" : ""}`}
           onClick={switchToProfileTab}
         >
-          Profile
+        <span  className='employee_logo'> &#128196;</span>  Profile
         </div>
         <div
           className={`admin_manager ${
@@ -53,7 +53,7 @@ const EmployeeDashboard = () => {
           }`}
           onClick={switchToOrganizationTab}
         >
-          Organization
+           <span  className='employee_logo'> &#127971;</span>   Organization
         </div>
       </div> 
         <div className='header-actions'>

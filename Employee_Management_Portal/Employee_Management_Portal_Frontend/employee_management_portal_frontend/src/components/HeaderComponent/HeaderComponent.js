@@ -10,7 +10,6 @@ const HeaderComponent = ({
   switchToManagerTab,
   switchToProjectTab,
 }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('email'));
   const [userName, setUserName] = useState('');
   const navigate = useNavigate();
   useEffect(() => {
@@ -29,7 +28,7 @@ const HeaderComponent = ({
     // setIsLoggedIn(false);
     navigate('/');
   };
-  console.log(isLoggedIn);
+  // console.log(isLoggedIn);
   
 
   return (

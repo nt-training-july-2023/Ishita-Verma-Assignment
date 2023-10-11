@@ -23,7 +23,7 @@
   text-decoration: none !important;
   height: 2rem;
   border: none ;
-  margin-right: 48rem;
+  /* margin-right: 48rem; */
   cursor: pointer;
   color: white;
   font-size: 1rem;
@@ -38,3 +38,13 @@
   background-color: lightgray;
   cursor: pointer; 
 }
+@media (max-width: 1024px) {
+  .red-button{
+    margin-top: 0.5rem !important;
+  }
+ }
+@media (max-width: 768px) {
+  .red-button{
+    margin-top: 0.5rem !important;
+  }
+ }

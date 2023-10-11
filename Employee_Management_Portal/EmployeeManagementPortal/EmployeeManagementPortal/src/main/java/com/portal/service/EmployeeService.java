@@ -65,17 +65,6 @@ public class EmployeeService {
      * @throws DuplicateEntryException if same email alreadyexists.
      */
     public final ApiResponseDTO addEmployee(final EmployeeInDTO adminDTO) {
-        adminDTO.setEmpId(adminDTO.getEmpId());
-        adminDTO.setEmail(adminDTO.getEmail());
-        adminDTO.setName(adminDTO.getName());
-        adminDTO.setContactNumber(adminDTO.getContactNumber());
-        adminDTO.setDob(adminDTO.getDob());
-        adminDTO.setDoj(adminDTO.getDoj());
-        adminDTO.setLocation(adminDTO.getLocation());
-        adminDTO.setDesignation(adminDTO.getDesignation());
-        adminDTO.setRole(adminDTO.getRole());
-        adminDTO.setSkills(adminDTO.getSkills());
-        // default manager is admin
         Optional<Employee> emp = userRepository
                 .findByEmail("ankita.sharma@nucleusteq.com");
 //        Optional<Employee> emp = userRepository.findById(1L);
@@ -173,50 +162,6 @@ public class EmployeeService {
     }
 
     /**
-     * Retrieves an object based on the specified email address.
-     * @param email The email address of the employee to retrieve.
-     * @return An object representing the employee with
-     * the specified email address,or null if not found.
-     */
-    public final EmployeeOutDTO getEmployeeByEmail(final String email) {
-        LOGGER.error("Employee id already exists");
-        Employee employee = userRepository.findByEmail(email).get();
-        EmployeeOutDTO empDto = new EmployeeOutDTO();
-        if (employee != null) {
-            empDto.setId(employee.getId());
-            empDto.setName(employee.getName());
-            empDto.setEmail(employee.getEmail());
-            empDto.setEmpId(employee.getEmpId());
-            empDto.setDesignation(employee.getDesignation());
-            empDto.setContactNumber(employee.getContactNumber());
-            empDto.setDob(employee.getDob());
-            empDto.setDoj(employee.getDoj());
-            empDto.setLocation(employee.getLocation());
-            empDto.setRole(employee.getRole());
-            empDto.setManagerId(employee.getManagerId());
-            empDto.setProjectId(employee.getProjectId());
-            Employee manager = userRepository
-                    .findById(employee.getManagerId()).get();
-            empDto.setManager(manager.getName());
-            empDto.setSkills(employee.getSkills());
-
-            if (employee.getProjectId() == 0) {
-                empDto.setProjectName("");
-            } else {
-                Project project = projectRepository
-                        .findById(employee.getProjectId()).get();
-                empDto.setProjectName(project.getName());
-            }
-
-//                Employee manager = userRepository
-//                        .findById(employee.getManagerId()).get();
-//                empDto.setManagerId(manager.getName());
-//                empDto.setSkills(null);
-        }
-        return empDto;
-    }
-
-    /**
      * update project to employee.
      * @param id        employee primary key id
      * @param projectId project id
@@ -242,7 +187,7 @@ public class EmployeeService {
             return response;
         }
         LOGGER.error("Employee not found");
-        throw new ResourceNotFoundException(ErrorConstants.EMPLOYEE_NOT_FOUND );
+        throw new ResourceNotFoundException(ErrorConstants.EMPLOYEE_NOT_FOUND);
     }
     /**
      * Update an employee's skills.
@@ -262,7 +207,7 @@ public class EmployeeService {
             return response;
         }
         LOGGER.error("Employee not found");
-        throw new ResourceNotFoundException(ErrorConstants.EMPLOYEE_NOT_FOUND );
+        throw new ResourceNotFoundException(ErrorConstants.EMPLOYEE_NOT_FOUND);
     }
 
     /**
@@ -295,24 +240,23 @@ public class EmployeeService {
         return requestResource;
     }
 
-    /**
-     * Retrieves all request resources from the
-     * repository and converts them into a
-     * list of RequestResourceOutDTO.
-     * @return A list of RequestResourceOutDTO objects representing the request
-     *         resources.
-     */
-    public final List<RequestResourceOutDTO> getAllRequests() {
-        List<RequestResource> requestResourceList = requestResourceRepository
-                .findAll();
-        List<RequestResourceOutDTO> returnedList = new ArrayList<>();
-        for (RequestResource request : requestResourceList) {
-            RequestResourceOutDTO requestResourceOutDto = requestToOutDto(
-                    request);
-            returnedList.add(requestResourceOutDto);
-        }
-        return returnedList;
-    }
+//    /**
+//     * Retrieves all request resources from the
+//     * repository and converts them into a
+//     * list of RequestResourceOutDTO.
+//     * @return A list of RequestResourceOutDTO.
+//     */
+//    public final List<RequestResourceOutDTO> getAllRequests() {
+//        List<RequestResource> requestResourceList = requestResourceRepository
+//                .findAll();
+//        List<RequestResourceOutDTO> returnedList = new ArrayList<>();
+//        for (RequestResource request : requestResourceList) {
+//            RequestResourceOutDTO requestResourceOutDto = requestToOutDto(
+//                    request);
+//            returnedList.add(requestResourceOutDto);
+//        }
+//        return returnedList;
+//    }
 
     /**
      * Converts a entity to a OutDTO.
@@ -345,16 +289,14 @@ public class EmployeeService {
 
     /**
      * Unassigns an employee from a project by setting their project ID to 0.
-     * @param employeeId The ID of the employee to unassign.
-     * @throws ResourceNotFoundException If the
-     * employee with the specified ID is not found.
-     * @throws IllegalStateException If the employee
-     * is not currently assigned to any project.
+     * @param id The ID of the employee to unassign.
+     * @return unassigned employees.
      */
     public final ApiResponseDTO unassignEmployee(final Long id) {
         // TODO Auto-generated method stub
         Employee employee = userRepository.findById(id).get();
-        Employee emp = userRepository.findByEmail("ankita.sharma@nucleusteq.com")
+        Employee emp = userRepository
+                .findByEmail("ankita.sharma@nucleusteq.com")
                 .get();
         employee.setManagerId(emp.getId());
         employee.setProjectId(0L);

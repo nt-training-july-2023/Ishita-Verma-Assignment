@@ -308,11 +308,7 @@ public class Employee {
      * @param skillsParam The list of skills.
      */
     public void setSkills(final List<String> skillsParam) {
-        if (skillsParam != null) {
-            this.skills = new ArrayList<>(skillsParam);
-        } else {
-            this.skills = null;
-        }
+       this.skills = new ArrayList<>(skillsParam);
     }
 
     /**
@@ -337,12 +333,9 @@ public class Employee {
     public Long getProject() {
     return projectId;
      }
-    /**
-     * @return Set the manager of the employee.
-     */
-    public String getManager() {
-    return null;
-     }
+//    public String getManager() {
+//    return null;
+//     }
     /**
      * Returns a string representation of the Employee object.
      *

@@ -16,32 +16,21 @@ const ProjectCard = ({
   return (
     <div className="project-info" key={project.projectId}>
       <div className="column1">
-        <h2 style={{ fontSize: "1.5rem" }}>{project.projectName}</h2>
+        <h2>&#128189;{project.projectName}</h2>
         <p>
-          <span style={{ fontWeight: "bold" }}>Head :</span> {managerName}
+          <strong>Head :</strong> {managerName}
         </p>
-        <p style={{ fontSize: "1rem" }}>
-          <span
-            style={{
-              fontWeight: "bold",
-              fontSize: "1rem",
-             
-            }}
-          >
+        <p >
+          <strong>          
             Description :
-          </span>
+          </strong>
           {project.description.length > 40 ? (
             <p>
               {project.description.slice(0, 20)}{" "}
               <span
-                style={{
-                  color: "blue",
-                  textDecorationLine: "underline",
-                  cursor: "pointer",
-                }}
                 onClick={handleReadMoreClick}
               >
-                Read More
+              <span className="description_readmore"> Read More</span> 
               </span>
             </p>
           ) : (

@@ -13,17 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.EmployeeInDTO;
 import com.portal.DTO.EmployeeOutDTO;
 import com.portal.DTO.LoginInDTO;
 import com.portal.DTO.LoginOutDTO;
-import com.portal.DTO.ResponseDTO;
 import com.portal.constants.ErrorConstants;
 import com.portal.constants.SuccessConstants;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
 import com.portal.entities.Role;
-import com.portal.exceptions.ResourceNotFoundException;
 import com.portal.exceptions.WrongCredentialsException;
 import com.portal.repository.AdminRepository;
 import com.portal.repository.ProjectRepository;
@@ -74,18 +73,18 @@ public class AdminService {
      * @throws DuplicateEntryException if an admin with the same email already
      *                                 exists.
      */
-    public final ResponseDTO registerAdmin(final EmployeeInDTO adminDTO) {
-        if (!adminDTO.getEmail().equalsIgnoreCase("ankita.sharma@nucleusteq.com")) {
-            ResponseDTO response = new ResponseDTO();
+    public final ApiResponseDTO registerAdmin(final EmployeeInDTO adminDTO) {
+        if (!adminDTO.getEmail()
+                .equalsIgnoreCase("ankita.sharma@nucleusteq.com")) {
+            ApiResponseDTO response = new ApiResponseDTO();
             response.setMessage(ErrorConstants.INVALID_EMPLOYEE);
-            response.setRole("");
+//            response.setRole("");
             return response;
         }
         Employee adminEntity = new Employee();
 
         adminEntity.setRole(Role.ADMIN);
         adminEntity.setManagerId(0L);
-
         adminEntity.setName(adminDTO.getName());
         adminEntity.setEmail(adminDTO.getEmail());
         adminEntity.setEmpId(adminDTO.getEmpId());
@@ -99,10 +98,9 @@ public class AdminService {
         adminEntity.setRole(adminDTO.getRole());
 
         this.adminRepository.save(adminEntity);
-        ResponseDTO response = new ResponseDTO();
+        ApiResponseDTO response = new ApiResponseDTO();
         response.setMessage(SuccessConstants.ADMIN_ADDED);
-        response.setRole("ADMIN");
-
+//        response.setRole("ADMIN");
         return response;
     }
 
@@ -172,20 +170,20 @@ public class AdminService {
         return employeeDTOList;
     }
 
-    /**
-     * Retrieves the role of an admin by email.
-     *
-     * @param email The email of the admin.
-     * @return The role of the admin as a string.
-     * @throws ResourceNotFoundException if
-     * admin with the specified email is not found.
-     */
-    public final String getUserRoleByEmail(final String email) {
-        LOGGER.error("Employee not found with email");
-        Employee admin = adminRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "User not found with email: " + email));
-
-        return admin.getRole().toString();
-    }
+//    /**
+//     * Retrieves the role of an admin by email.
+//     *
+//     * @param email The email of the admin.
+//     * @return The role of the admin as a string.
+//     * @throws ResourceNotFoundException if
+//     * admin with the specified email is not found.
+//     */
+//    public final String getUserRoleByEmail(final String email) {
+//        LOGGER.error("Employee not found with email");
+//        Employee admin = adminRepository.findByEmail(email)
+//                .orElseThrow(() -> new ResourceNotFoundException(
+//                        "User not found with email: " + email));
+//
+//        return admin.getRole().toString();
+//    }
 }

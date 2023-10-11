@@ -50,7 +50,7 @@ const Assign = () => {
     EmployeeService.assignProject(`${id}`,projectId,managerId).then((response)=>{
       setMessage("Assigned");
       setTimeout(() => {
-        navigate("/adminDashboard");
+        navigate("/admindashboard");
       }, 2000);
     }).catch((error)=>{
 
@@ -93,14 +93,14 @@ const Assign = () => {
               ))}
             </select>
             {projectError && <div className="error-message assign_error">{projectError}</div>}
-            <div style={{ marginTop: "1rem" }}>
-              <button onClick={updateEmployee} className='assign_btn' disabled={isSaveButtonDisabled}>
+            <div >
+              <button onClick={updateEmployee} className='assign_btn assign_save' disabled={isSaveButtonDisabled}>
                 Save
               </button>
             </div>
             <div>{message}</div>
-            <div style={{ marginTop: "1rem" }}>
-              <button onClick={() => navigate("/adminDashboard")} className='dashboard_btn'>&#8592; Back to Dashboard</button>
+            <div >
+              <button onClick={() => navigate("/admindashboard")} className='dashboard_btn'>&#8592; Back to Dashboard</button>
             </div>
           </div>
         </div>

@@ -1,5 +1,7 @@
 package com.portal.validation;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -16,10 +18,9 @@ import com.portal.entities.Project;
 import com.portal.entities.Role;
 import com.portal.exceptions.DuplicateEntryException;
 import com.portal.exceptions.ResourceNotFoundException;
-import com.portal.exceptions.WrongCredentialsException;
+import com.portal.exceptions.ValidationException;
 import com.portal.repository.AdminRepository;
 import com.portal.repository.ProjectRepository;
-
 
 import jakarta.validation.Valid;
 
@@ -44,79 +45,6 @@ public class Validation {
      */
     private static final Logger LOGGER = LoggerFactory
             .getLogger(Validation.class);
-
-    /**
-     * Checks if the provided name is valid.
-     * @param name The name to be validated.
-     * @return true if the name is valid, false otherwise.
-     */
-    public final boolean checkName(final String name) {
-        if (!name.isEmpty() && name.matches("^[A-Za-z ]+$")) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Checks if the provided email is valid.
-     * @param email The email to be validated.
-     * @return true if the email is valid, false otherwise.
-     */
-    public final boolean checkEmail(final String email) {
-        if (!email.isEmpty() && email.matches(".*@nucleusteq\\.com$")) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Checks if the provided employee ID (empId) is valid.
-     * @param empId The employee ID (empId) to be validated.
-     * @return true if the employee ID (empId) is valid, false otherwise.
-     */
-    public final boolean checkempId(final String empId) {
-        if (!empId.isEmpty() && empId.matches("N\\d{4}$")) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Validates a user's registration information.
-     * @param userDto The AdminDTO containing user registration details.
-     * @return true if the user registration information is valid.
-     * @throws WrongCredentialsException if any details are invalid.
-     */
-    public final boolean checkUser(final EmployeeInDTO userDto) {
-        if (!checkName(userDto.getName())) {
-            throw new WrongCredentialsException(
-                    ErrorConstants.WRONG_NAME);
-        }
-        if (!checkEmail(userDto.getEmail())) {
-            throw new WrongCredentialsException(
-                    ErrorConstants.WRONG_EMAIL);
-        }
-        if (!checkempId(userDto.getEmpId())) {
-            throw new WrongCredentialsException(
-                    ErrorConstants.WRONG_ID);
-        }
-        return true;
-    }
-
-    /**
-     * Validates a user's login credentials.
-     * @param loginDto The LoginDTO containing login credentials.
-     * @return true if the login credentials are valid.
-     * @throws WrongCredentialsException if the provided email is invalid.
-     */
-    public final boolean checkLoginDto(final LoginInDTO loginDto) {
-        if (!checkName(loginDto.getEmail())) {
-            throw new WrongCredentialsException(
-                    ErrorConstants.WRONG_EMAIL);
-        }
-        return true;
-    }
-
     /**
      * check if email is already present.
      * @param email employee email.
@@ -139,8 +67,7 @@ public class Validation {
         Optional<Employee> emp = userRepository.findByEmpId(empId);
         if (emp.isPresent()) {
             LOGGER.error("Employee id already exists");
-            throw new DuplicateEntryException(
-                    ErrorConstants.ID_EXISTS);
+            throw new DuplicateEntryException(ErrorConstants.ID_EXISTS);
         }
     }
 
@@ -162,7 +89,8 @@ public class Validation {
         Optional<Employee> emp = userRepository.findByEmail(email);
         if (emp.isEmpty()) {
             LOGGER.error("Invalid user");
-            throw new ResourceNotFoundException(ErrorConstants.INAVALID_USER);
+            throw new ResourceNotFoundException(
+                    ErrorConstants.INAVALID_USER);
         }
     }
 
@@ -192,40 +120,43 @@ public class Validation {
     public void checkProjectName(final String name) {
         Project project = projectRepository.findByName(name);
         if (project != null) {
-        LOGGER.error("Already Exists");
-            throw new DuplicateEntryException(
-                    ErrorConstants.NAME_EXISTS);
+            LOGGER.error("Project with this name already Exists");
+            throw new DuplicateEntryException(ErrorConstants.NAME_EXISTS);
         }
     }
+
     /**
      * Check if a project exists by ID.
      * @param id The ID of the project to check.
-     * @throws UserNotFound If the project does
-     * not exist, throw this exception.
+     * @throws UserNotFound If the project does not exist, throw this exception.
      */
     public final void checkProjectExists(final Long id) {
-       Project project = projectRepository.findById(id).orElse(null);
+        Project project = projectRepository.findById(id).orElse(null);
         if (project == null) {
             LOGGER.error(ErrorConstants.PROJECT_NOT_FOUND);
-            throw new ResourceNotFoundException(ErrorConstants.PROJECT_NOT_FOUND);
+            throw new ResourceNotFoundException(
+                    ErrorConstants.PROJECT_NOT_FOUND);
         }
     }
+
     /**
      * Check if a manager exists by ID.
      * @param id The ID of the manager to check.
-     * @throws UserNotFound If the manager does not
-     * exist, throw this exception.
+     * @throws UserNotFound If the manager does not exist, throw this exception.
      */
     public final void checkManagerExists(final Long id) {
         Employee employee = userRepository.findById(id).orElse(null);
         if (employee == null) {
             LOGGER.error(ErrorConstants.EMPLOYEE_NOT_FOUND);
-            throw new ResourceNotFoundException(ErrorConstants.EMPLOYEE_NOT_FOUND);
+            throw new ResourceNotFoundException(
+                    ErrorConstants.EMPLOYEE_NOT_FOUND);
         } else if (employee.getRole() != Role.MANAGER) {
             LOGGER.error(ErrorConstants.MANAGER_NOT_FOUND);
-            throw new ResourceNotFoundException(ErrorConstants.MANAGER_NOT_FOUND);
+            throw new ResourceNotFoundException(
+                    ErrorConstants.MANAGER_NOT_FOUND);
         }
     }
+
     /**
      * check to perform project operation.
      * @param projectDto project dto containing project informations.
@@ -233,5 +164,39 @@ public class Validation {
     public void checkProject(@Valid final ProjectInDTO projectDto) {
         checkProjectName(projectDto.getName());
     }
-
+    /**
+     * checking employee exists.
+     * @param id id of employee.
+     * @throws ResourceNotFoundException
+     */
+    public void checkEmployeeExists(final Long id) {
+        Optional<Employee> employee = userRepository.findById(id);
+        if (employee.isEmpty()
+                || employee.get().getRole() != Role.EMPLOYEE) {
+            LOGGER.error(ErrorConstants.EMPLOYEE_NOT_FOUND);
+            throw new ResourceNotFoundException(
+                    ErrorConstants.EMPLOYEE_NOT_FOUND);
+        }
+    }
+    /**.
+     * check to perform update skills operation.
+     * @param id
+     * @param updatedSkills
+     */
+    public void checkUpdateSkills(final Long id,
+            final Map<String, List<String>> updatedSkills) {
+        checkEmployeeExists(id);
+        List<String> skills = updatedSkills.get("skills");
+        checkSkills(skills);
+    }
+    /**
+     * checking skills list.
+     * @param skills list of skills
+     * @throws ValidationException
+     */
+    public void checkSkills(final List<String> skills) {
+        if (skills.size() == 0) {
+            throw new ValidationException(ErrorConstants.SKILLS_REQUIRED);
+        }
+    }
 }

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
 import UnAuthorization from "../../components/Unauthorization/Unauthorization";
+import DisableBackButton from "../../components/DisableBackButton/DisableBackButon";
 
 const AdminDashboard = () => {
   const [showAddEmployee, setShowAddEmployee] = useState(false);
@@ -49,6 +50,7 @@ const AdminDashboard = () => {
 
   return (
     <>
+    <DisableBackButton/>
       {role === "ADMIN" ? (
         <div className="admindashboard_header">
           <HeaderComponent
@@ -58,7 +60,7 @@ const AdminDashboard = () => {
             switchToProjectTab={switchToProjectTab}
           />
           <Link to={`/requestResource`} className="admin_add_employee">
-            &#9993; Request Resource
+            &#9993; Requests
           </Link>
           {showAddEmployee && (
             <div className="overlay">

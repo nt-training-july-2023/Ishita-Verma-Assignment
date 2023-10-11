@@ -433,7 +433,7 @@ public class EmployeeInDTO {
      */
     @Override
     public String toString() {
-        return "AdminDTO [Id=" + id + ", empId=" + empId + ", name=" + name
+        return "EmployeeInDTO [Id=" + id + ", empId=" + empId + ", name=" + name
                 + ", email=" + email + ", dob=" + dob + ", doj=" + doj
                 + ", location=" + location + ", designation=" + designation
                 + ", contactNumber=" + contactNumber + ", password="

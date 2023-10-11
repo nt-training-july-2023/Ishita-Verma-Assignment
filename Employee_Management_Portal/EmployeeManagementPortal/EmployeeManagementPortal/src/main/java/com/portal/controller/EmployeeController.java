@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.portal.DTO.EmployeeInDTO;
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.EmployeeOutDTO;
-import com.portal.DTO.RequestResourceOutDTO;
 import com.portal.entities.Role;
 import com.portal.service.EmployeeService;
 import com.portal.validation.Validation;
@@ -91,22 +90,6 @@ public class EmployeeController {
         EmployeeOutDTO emp = employeeService.getEmployeeById(id);
         return emp;
     }
-
-    /**
-     * Get an employee by their email.
-     * @param email The email of the employee to retrieve.
-     * @return EmployeeOutDTO containing the employee's details if found.
-     */
-
-//    @GetMapping("employee/{email}")
-//    public final EmployeeOutDTO getEmployeeByEmail(
-//            @Valid @PathVariable final String email) {
-//        LOGGER.info("Getting employee by email");
-//        EmployeeOutDTO employeeOutDto = employeeService
-//                .getEmployeeByEmail(email);
-//        return employeeOutDto;
-//    }
-
     /**
      * Update employee details such as project assignment and manager.
      * @param id The ID of the employee to update.
@@ -138,22 +121,23 @@ public class EmployeeController {
             final @Valid @PathVariable Long id,
             final @RequestBody Map<String, List<String>> updatedSkills) {
         LOGGER.info("updating skills");
+        validate.checkUpdateSkills(id, updatedSkills);
         List<String> skills = updatedSkills.get("skills");
         ApiResponseDTO response = employeeService.updateSkills(id, skills);
         return response;
     }
 
-    /**
-     * Retrieves a list of all requests.
-     * @return A list of RequestResourceOutDTO representing all requests.
-     */
-    @GetMapping(path = "/all/request")
-    public final List<RequestResourceOutDTO> getAllRequests() {
-        LOGGER.info("Getting all requests");
-        List<RequestResourceOutDTO> list = employeeService
-                .getAllRequests();
-        return list;
-    }
+//    /**
+//     * Retrieves a list of all requests.
+//     * @return A list of RequestResourceOutDTO representing all requests.
+//     */
+//    @GetMapping(path = "/all/request")
+//    public final List<RequestResourceOutDTO> getAllRequests() {
+//        LOGGER.info("Getting all requests");
+//        List<RequestResourceOutDTO> list = employeeService
+//                .getAllRequests();
+//        return list;
+//    }
 
     /**
      * Unassigns a project from an employee.

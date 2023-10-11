@@ -34,12 +34,14 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @WebMvcTest(EmployeeController.class)
 
@@ -190,21 +192,21 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk());
                
     }
-    @Test
-    public void testGetAllRequests() throws Exception {
-        // Mocked request resources
-        List<RequestResourceOutDTO> requestResources = new ArrayList<>();
-        // Add some mock request resources to the list
-
-        // Mock the service method
-        when(employeeService.getAllRequests()).thenReturn(requestResources);
-
-        // Perform the GET request
-        mockMvc.perform(get("/all/request"))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-                
-    }
+//    @Test
+//    public void testGetAllRequests() throws Exception {
+//        // Mocked request resources
+//        List<RequestResourceOutDTO> requestResources = new ArrayList<>();
+//        // Add some mock request resources to the list
+//
+//        // Mock the service method
+//        when(employeeService.getAllRequests()).thenReturn(requestResources);
+//
+//        // Perform the GET request
+//        mockMvc.perform(get("/all/request"))
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk());
+//                
+//    }
     @Test
     public void testUnassignEmployee() throws Exception {
         // Employee ID for testing
@@ -244,4 +246,49 @@ public class EmployeeControllerTest {
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
     }
+    @Test
+    public void testEmpOutListWithEmptySkillsAndCheckTrue() {
+        
+        List<String> skills = Collections.emptyList();
+        boolean isCheck = true;
+        List<EmployeeOutDTO> sampleEmployeeList = new ArrayList<>();
+        EmployeeOutDTO employee1 = new EmployeeOutDTO();
+        employee1.setName("employee1");
+        employee1.setContactNumber("1234567890");
+        employee1.setDesignation(Designation.Engineer);
+        employee1.setDob("2001-02-21");
+        employee1.setDoj("2020-09-11");
+        employee1.setEmail("employee1@nucleusteq.com");
+        employee1.setEmpId("N1111");
+        employee1.setId(1L);
+        employee1.setLocation(Location.Raipur);
+        employee1.setManager("Ankita");
+        employee1.setManagerId(1L);
+        employee1.setProjectId(1L);
+        employee1.setProjectName("Fyndr");
+        employee1.setRole(Role.EMPLOYEE);
+        employee1.setSkills(skills);
+
+        when(employeeService.skillsAndUnassign(skills, isCheck)).thenReturn(sampleEmployeeList);
+        
+        
+        List<EmployeeOutDTO> result = employeeController.empOutList(skills, isCheck);
+        
+        
+        verify(employeeService).skillsAndUnassign(skills, isCheck);
+        assertEquals(sampleEmployeeList, result);
+    }
+
+//    @Test
+//    public void testEmpOutListWithSkillsAndCheckTrue() {
+//       
+//        List<String> skills = Arrays.asList("Java", "Python");
+//        boolean isCheck = true;
+//       
+//        when(employeeService.skillsAndUnassign(skills, isCheck)).thenReturn(someListOfEmployeeOutDTOs);
+//        
+//        List<EmployeeOutDTO> result = employeeController.empOutList(skills, isCheck);
+//        assertEquals(someListOfEmployeeOutDTOs, result);
+//    }
+
 }

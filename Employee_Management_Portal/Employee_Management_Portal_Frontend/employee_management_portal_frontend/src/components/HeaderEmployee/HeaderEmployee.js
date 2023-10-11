@@ -40,7 +40,7 @@ const HeaderEmployee = () => {
           }`}
           onClick={switchToOrganizationTab}
         >
-          Organization
+          &#127971; Organization
         </div>
       </div> 
       <div className='header-actions'>

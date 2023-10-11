@@ -70,5 +70,50 @@ class RequestResourceTest {
         assertNotEquals(requestResource1.hashCode(), requestResource3.hashCode());
         assertNotEquals(requestResource2.hashCode(), requestResource3.hashCode());
     }
+    @Test
+    void testEquals() {
+        // Create two RequestResource objects with the same properties
+        RequestResource request1 = new RequestResource();
+        request1.setResourceId(1L);
+        request1.setComment("Test comment");
+        request1.setManagerId(2L);
+        request1.setEmployeeId(3L);
+        request1.setProjectId(4L);
 
+        RequestResource request2 = new RequestResource();
+        request2.setResourceId(1L);
+        request2.setComment("Test comment");
+        request2.setManagerId(2L);
+        request2.setEmployeeId(3L);
+        request2.setProjectId(4L);
+
+        // Create another RequestResource object with different properties
+        RequestResource request3 = new RequestResource();
+        request3.setResourceId(5L);
+        request3.setComment("Different comment");
+        request3.setManagerId(6L);
+        request3.setEmployeeId(7L);
+        request3.setProjectId(8L);
+
+        // Test for equality between request1 and request2
+        assertTrue(request1.equals(request2));
+        assertTrue(request2.equals(request1));
+
+        // Test for inequality between request1 and request3
+        assertFalse(request1.equals(request3));
+        assertFalse(request3.equals(request1));
+
+        // Test for inequality between request2 and request3
+        assertFalse(request2.equals(request3));
+        assertFalse(request3.equals(request2));
+
+        // Test for equality between the same object
+        assertTrue(request1.equals(request1));
+
+        // Test for inequality when comparing to null
+        assertFalse(request1.equals(null));
+
+        // Test for inequality when comparing to an object of a different class
+//        assertFalse(request1.equals("Not a RequestResource"));
+    }
 }

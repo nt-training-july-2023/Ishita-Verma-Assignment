@@ -7,9 +7,9 @@
 .org_designation{
 margin-bottom: 1rem !important;
 }
-.org_field{
-    margin-bottom: 0.5rem;
-    
+.org_fields{
+    margin-bottom: 0.2rem;
+    font-size: 1.2rem !important;
 }
 .employee_id{
     margin-bottom: 3rem;

@@ -4,6 +4,7 @@ import ManagerTab from "../AdminDashboard/ManagerTab/ManagerTab";
 import ProjectTab from "../AdminDashboard/ProjectTab/ProjectTab";
 import HeaderComponent from "../../components/HeaderComponent/HeaderComponent";
 import UnAuthorization from "../../components/Unauthorization/Unauthorization";
+import DisableBackButton from "../../components/DisableBackButton/DisableBackButon";
 
 const ManagerDashboard = () => {
   const [activeTab, setActiveTab] = useState("employee");
@@ -29,6 +30,7 @@ const ManagerDashboard = () => {
 
   return (
     <>
+    <DisableBackButton/>
     {role === "MANAGER"?(
     <div className="">
       <HeaderComponent  

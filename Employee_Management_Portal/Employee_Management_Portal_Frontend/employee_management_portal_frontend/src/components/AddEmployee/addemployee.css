@@ -37,4 +37,7 @@
 .add_employee_container::-webkit-scrollbar-track {
     background-color: transparent;
 }
-
+.employee_errors{
+    color: rgb(71, 10, 10) !important ;
+    margin-left: 0.3rem;
+}

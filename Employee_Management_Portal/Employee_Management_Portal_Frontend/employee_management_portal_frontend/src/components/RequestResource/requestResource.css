@@ -1,3 +1,24 @@
 .cancel-assign{
     text-decoration: none;
 }
+.resource_description{
+    border: solid 0.15rem gray;
+    border-radius: 0.4rem ;
+    resize: none; 
+    width: 23rem; 
+    height: 4rem;
+    padding: 0.5rem;
+}
+.request_name{
+    font-weight: 500;
+  color:rgb(0, 41, 82);
+  margin: 0.5rem;
+  margin-left: 0;
+}
+.request_description{
+    margin-top: 0.5rem;
+}
+
+
+
+

@@ -45,15 +45,34 @@ class RequestedDTOTest {
         // Test equals method
         assertTrue(requestedDTO1.equals(requestedDTO2));
         assertTrue(requestedDTO2.equals(requestedDTO1));
+        assertEquals(requestedDTO1.hashCode(), requestedDTO2.hashCode());
 
-        // Create two RequestedDTO objects with different values
+        // Create two RequestedDTO objects with different employeeId values
         RequestedDTO requestedDTO3 = new RequestedDTO();
         requestedDTO3.setEmployeeId(123L);
-        requestedDTO3.setManagerEmail("anothermanager@example.com");
+        requestedDTO3.setManagerEmail("manager@example.com");
 
-        // Test equals method for objects with different values
+        // Test equals method for objects with different employeeId values
         assertFalse(requestedDTO1.equals(requestedDTO3));
         assertFalse(requestedDTO3.equals(requestedDTO1));
+        assertNotEquals(requestedDTO1.hashCode(), requestedDTO3.hashCode());
+
+        // Create two RequestedDTO objects with different managerEmail values
+        RequestedDTO requestedDTO4 = new RequestedDTO();
+        requestedDTO4.setEmployeeId(9L);
+        requestedDTO4.setManagerEmail("anothermanager@example.com");
+
+        // Test equals method for objects with different managerEmail values
+        assertFalse(requestedDTO1.equals(requestedDTO4));
+        assertFalse(requestedDTO4.equals(requestedDTO1));
+        assertNotEquals(requestedDTO1.hashCode(), requestedDTO4.hashCode());
+
+        // Test equals method for null and non-RequestDTO object
+        assertFalse(requestedDTO1.equals(null));
+//        assertFalse(requestedDTO1.equals("Not a RequestedDTO"));
+
+        // Test equals method for comparing an object to itself
+        assertTrue(requestedDTO1.equals(requestedDTO1));
     }
 
     @Test

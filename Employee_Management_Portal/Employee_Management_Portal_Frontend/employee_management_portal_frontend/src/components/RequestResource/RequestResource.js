@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './requestResource.css'
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { Link, useParams } from 'react-router-dom';
 import ProjectService from "../../service/ProjectService";
 import EmployeeService from "../../service/EmployeeService";
@@ -19,15 +19,19 @@ const RequestResource = () => {
   const [descriptionError, setDescriptionError]= useState();
 
   const {id} =useParams();
-
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const stateData = location.state;
+  console.log(stateData);
 
   useEffect(() => {
     getAllProjects();
   }, []);
 
+  const manager_id = localStorage.getItem("id")
   const getAllProjects = async () => {
-    ProjectService.getProjects().then((response)=>{
+    ProjectService.getProjectById(manager_id).then((response)=>{
       setProjectsList(response.data);
     }).catch((error)=>{
 
@@ -46,7 +50,7 @@ const RequestResource = () => {
 
     EmployeeService.requestResource(requestData).then((response)=>{
       setTimeout(() => {
-        navigate("/AdminDashboard");
+        navigate("/managerdashboard");
       }, 2000)
     }).catch((error)=>{
 
@@ -67,13 +71,14 @@ const RequestResource = () => {
     <div className="assign">
       <div className="assign_form">
         <h1>Request Resource</h1>
+        <h3 className='request_name'> {stateData.empName}</h3>
         <form onSubmit={handleSubmit}>
           <div>
             <div>Select Project:</div>
 
             <select
               className="assign_input"
-              style={{ width: "24rem" }}
+              
               onChange={handleSelectChange}
               onBlur={() =>
                 validateSelectProject(
@@ -95,16 +100,12 @@ const RequestResource = () => {
             </select>
           {projectError && <div className="error-message assign_error">{projectError}</div>}
           </div>
-          <div>
+          <div className="request_description">
             <div>Comment:</div>
 
             <textarea
               value={comment}
-              style={{
-                border: "solid 0.15rem gray",
-                borderRadius: "0.4rem",
-                
-              }}
+              className="resource_description"
               onBlur={() =>
                 validateDescription(
                   comment,
@@ -112,15 +113,14 @@ const RequestResource = () => {
                 )
               }
               onChange={(e) => setComment(e.target.value)}
-              rows="4"
-              cols="50"
+              
             />
           </div>
           {descriptionError && <div className="error-message assign_error">{descriptionError}</div>}
           <Button type="submit" className="assign_btn request_btn" text="Request"/>
            
         </form>
-        <Link to="/managerDashboard" className="cancel-assign">
+        <Link to="/managerdashboard" className="cancel-assign">
         &#8592; Back to Dashboard
         </Link>
         {message}

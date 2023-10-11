@@ -6,7 +6,6 @@ import com.portal.DTO.ProjectOutDTO;
 import com.portal.constants.SuccessConstants;
 import com.portal.entities.Employee;
 import com.portal.entities.Project;
-import com.portal.entities.Role;
 import com.portal.repository.AdminRepository;
 import com.portal.repository.ProjectRepository;
 
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +72,7 @@ public class ProjectService {
         Project project = projectRepository.findByName(name);
         if (project != null) {
             List<String> skillArray = project.getSkills();
-            return (skillArray);
+            return skillArray;
         }
         return Collections.emptyList();
     }
@@ -87,11 +85,11 @@ public class ProjectService {
             final Long managerId) {
 
         List<Project> projectList = projectRepository
-                .findByManagerId((managerId));
+                .findByManagerId(managerId);
         List<ProjectOutDTO> projectOutList = new ArrayList<ProjectOutDTO>();
-        Optional<Employee> optionalManager = adminRepository.findById(managerId);
+        Optional<Employee> optionalManager = adminRepository
+                .findById(managerId);
         Employee manager = optionalManager.orElse(null);
-        
         for (Project project : projectList) {
             ProjectOutDTO projectOutDto = new ProjectOutDTO();
             projectOutDto.setProjectId(project.getProjectId());
@@ -162,7 +160,15 @@ public class ProjectService {
      */
     private Project dtotoEntity(final ProjectInDTO projectDto) {
         // AdminEntity adminEntity = new AdminEntity();
-        return this.modelMapper.map(projectDto, Project.class);
+        Project project = new Project();
+        project.setDescription(projectDto.getDescription());
+        project.setManagerId(projectDto.getManagerId());
+        project.setName(projectDto.getName());
+        project.setProjectId(projectDto.getProjectId());
+        project.setSkills(projectDto.getSkills());
+        project.setStartDate(projectDto.getStartDate());
+//        project.set
+        return project;
     }
 
 }

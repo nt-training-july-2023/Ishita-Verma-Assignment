@@ -5,7 +5,7 @@ export const validateName = (inputValue, setNameError) => {
  }else{
     const alphabeticRegex = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
     if (!alphabeticRegex.test(inputValue)) {
-      setNameError("Name must contain alphabetic characters only");
+      setNameError("Name must contain alphabetic characters only.");
     } else {
       setNameError("");
     }
@@ -20,7 +20,7 @@ export const validateEmail = (inputValue, setEmailError) => {
   else{
     const emailRegex = /^ankita\.sharma@nucleusteq\.com$/;
     if (!emailRegex.test(inputValue)) {
-      setEmailError("Only admin can register");
+      setEmailError("Only admin can register.");
     } else {
       setEmailError("");
     }
@@ -34,7 +34,7 @@ export const validateEmpId = (inputValue, setEmpIdError) => {
  }else{
     const empIdRegex = /^[Nn][1-9][0-9]{3}$/;
     if (!empIdRegex.test(inputValue)) {
-      setEmpIdError("Employee ID should be in pattern NXXXX");
+      setEmpIdError("Employee ID should be in pattern NXXXX.");
     } else {
       setEmpIdError("");
     }
@@ -44,7 +44,7 @@ export const validateEmpId = (inputValue, setEmpIdError) => {
 
 export const validateDob = (dob, setDobError) => {
   if(dob===""){
-    setDobError("Date of Birth can't be empty")
+    setDobError("Date of Birth can't be empty.")
   }
   else{
   const today = new Date();
@@ -64,7 +64,7 @@ export const validateDob = (dob, setDobError) => {
 
 export const validateDoj = (doj, setDojError) => {
   if(doj===""){
-    setDojError("Date of Joining can't be empty")
+    setDojError("Date of Joining can't be empty.")
   }
   else{
   const today = new Date();
@@ -82,7 +82,7 @@ export const validateDoj = (doj, setDojError) => {
 
  export const validateDesignation = (inputValue,setDesignationError) => {
     if (inputValue === "") {
-      setDesignationError("Designation cannot be empty");
+      setDesignationError("Designation cannot be empty.");
     }
     else{
       setDesignationError("")
@@ -91,7 +91,7 @@ export const validateDoj = (doj, setDojError) => {
 
 export const validateLocation = (inputValue,setLocationError) => {
     if (inputValue === "") {
-      setLocationError("Location cannot be empty");
+      setLocationError("Location cannot be empty.");
     }
     else{
       setLocationError("")
@@ -104,12 +104,12 @@ export const validateContactNumber = (
   setContactNumberError
 ) => {
   if(inputValue===""){
-    setContactNumberError("Contact Number can't be empty");
+    setContactNumberError("Contact Number can't be empty.");
   }
   else{
   const cleanedContactNumber = inputValue.replace(/[^0-9]/g, "");
   if (!/^\d{10}$/.test(cleanedContactNumber)) {
-    setContactNumberError("Contact no should have 10 digits only");
+    setContactNumberError("Contact no should have 10 digits only.");
   } else {
     setContactNumber(cleanedContactNumber);
     setContactNumberError("");
@@ -120,12 +120,12 @@ export const validateContactNumber = (
 
 export const validatePassword = (inputValue, setPasswordError) => {
   if(inputValue===""){
-    setPasswordError("Password can't be empty")
+    setPasswordError("Password can't be empty.")
   }else{
     const passwordRegex =
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~]).{8,}$/;
   if (!passwordRegex.test(inputValue)) {
-    setPasswordError("Use 8 digits uppercase lowercase special character");
+    setPasswordError("Use 8 digits uppercase lowercase special character.");
   } else {
     setPasswordError("");
   }
@@ -143,7 +143,7 @@ export const validateConfirmPassword = (
   }
   else{
   { if (inputValue !== password) {
-    setConfirmPasswordError("Password and confirm password do not match");
+    setConfirmPasswordError("Password and confirm password do not match.");
   } else {
     setConfirmPasswordError("");
   }
@@ -175,7 +175,7 @@ export const validateRole = (inputValue,setRoleError)=>{
 
 export const validateSkills =  (inputValue,setSkillsError)=>{
   if(inputValue.length===0){
-    setSkillsError("Skills can't be empty")
+    setSkillsError("Skills can't be empty.")
   }
   else{
     setSkillsError("");
@@ -183,7 +183,7 @@ export const validateSkills =  (inputValue,setSkillsError)=>{
 }
 export const validateManagerId = (inputValue, setManagerIdError) => {
   if (inputValue.trim() === "") {
-    setManagerIdError("Manager ID is required");
+    setManagerIdError("Manager ID is required.");
   } else {
     setManagerIdError("");
   }
@@ -191,7 +191,7 @@ export const validateManagerId = (inputValue, setManagerIdError) => {
 
 export const validateStartDate = (inputValue, setStartDateError) => {
   if(inputValue === ""){
-    setStartDateError("Start Date can't be empty")
+    setStartDateError("Start Date can't be empty.")
   } else {
     setStartDateError("");
   }
@@ -199,7 +199,7 @@ export const validateStartDate = (inputValue, setStartDateError) => {
 
 export const validateDescription = (inputValue, setDescriptionError) => {
   if (inputValue.trim() === "") {
-    setDescriptionError("Description is required");
+    setDescriptionError("Description is required.");
   } else {
     setDescriptionError("");
   }
@@ -210,5 +210,13 @@ export const validateSelectProject = (inputValue, setProjectError) => {
     setProjectError("Please select a project.");
   } else {
     setProjectError("");
+  }
+}
+
+export const validateLoginPassword = (inputValue, setPasswordError) => {
+  if (inputValue === "") {
+    setPasswordError("Password can't be empty.");
+  } else {
+    setPasswordError("");
   }
 }

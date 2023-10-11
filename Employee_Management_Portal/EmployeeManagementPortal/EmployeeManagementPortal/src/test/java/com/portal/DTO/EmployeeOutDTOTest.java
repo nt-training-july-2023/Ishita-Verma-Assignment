@@ -1,6 +1,7 @@
 package com.portal.DTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -62,69 +63,115 @@ public class EmployeeOutDTOTest {
 
         employee.setManagerId(101L);
         assertEquals(101L, employee.getManagerId());
+        
+        employee.setProjectName("Fyndr");
+        assertEquals("Fyndr", employee.getProjectName());
     }
 
     @Test
-    public void testEqualsAndHashCode() {
-        EmployeeOutDTO employee1 = new EmployeeOutDTO();
-        EmployeeOutDTO employee2 = new EmployeeOutDTO();
-        EmployeeOutDTO employee3 = new EmployeeOutDTO();
+    void testHashCodeAndEquals() {
+        List<String> skills = new ArrayList<>();
+        skills.add("React");
+        skills.add("Java");
+        EmployeeOutDTO empDto1 = new EmployeeOutDTO();
+        empDto1.setId(1L);
+        empDto1.setEmpId("N1001");
+        empDto1.setName("Anjali Sharma");
+        empDto1.setEmail("anjali.sharma@nucleusteq.com");
+        empDto1.setDob("1998-08-10");
+        empDto1.setDoj("2019-11-21");
+        empDto1.setLocation(Location.Raipur);
+        empDto1.setDesignation(Designation.Engineer);
+        empDto1.setContactNumber("1234567890");
+        empDto1.setSkills(skills);
+        empDto1.setManager("Ankita Sharma");
+        empDto1.setProjectName("Fyndr");
 
-        // Set properties for employee1
-        employee1.setId(1L);
-        employee1.setEmpId("N1111");
-        employee1.setName("Ankita");
-        employee1.setEmail("ankita.sharma@nucleusteq.com");
-        employee1.setDob("1990-01-01");
-        employee1.setDoj("2020-01-01");
-        employee1.setLocation(Location.Raipur);
-        employee1.setDesignation(Designation.Engineer);
-        employee1.setContactNumber("1234567890");
-        employee1.setRole(Role.ADMIN);
-        employee1.setProjectId(1001L);
-        employee1.setSkills(new ArrayList<>());
-        employee1.setManager("Manager 1");
-        employee1.setManagerId(101L);
+        EmployeeOutDTO empDto2 = new EmployeeOutDTO();
+        empDto2.setId(1L);
+        empDto2.setId(1L);
+        empDto2.setEmpId("N1001");
+        empDto2.setName("Anjali Sharma");
+        empDto2.setEmail("anjali.sharma@nucleusteq.com");
+        empDto2.setDob("1998-08-10");
+        empDto2.setDoj("2019-11-21");
+        empDto2.setLocation(Location.Raipur);
+        empDto2.setDesignation(Designation.Engineer);
+        empDto2.setContactNumber("1234567890");
+        empDto2.setSkills(skills);
+        empDto2.setManager("Ankita Sharma");
+        empDto2.setProjectName("Fyndr");
 
-        // Set properties for employee2 identical to employee1
-        employee2.setId(1L);
-        employee2.setEmpId("N1111");
-        employee2.setName("Ankita");
-        employee2.setEmail("ankita.sharma@nucleusteq.com");
-        employee2.setDob("1990-01-01");
-        employee2.setDoj("2020-01-01");
-        employee2.setLocation(Location.Raipur);
-        employee2.setDesignation(Designation.Engineer);
-        employee2.setContactNumber("1234567890");
-        employee2.setRole(Role.ADMIN);
-        employee2.setProjectId(1001L);
-        employee2.setSkills(new ArrayList<>());
-        employee2.setManager("Manager 1");
-        employee2.setManagerId(101L);
+        assertTrue(empDto1.equals(empDto1));
+        assertFalse(empDto1.equals(null));
+        assertFalse(empDto1.equals(""));
 
-        // Set properties for employee3 different from employee1
-        employee3.setId(2L);
-        employee3.setEmpId("N2222");
-        employee3.setName("Vanshika Sharma");
-        employee3.setEmail("vanshika@nucleusteq.com");
-        employee3.setDob("1995-02-15");
-        employee3.setDoj("2021-03-15");
-        employee3.setLocation(Location.Indore);
-        employee3.setDesignation(Designation.Recruiter);
-        employee3.setContactNumber("9876543210");
-        employee3.setRole(Role.EMPLOYEE);
-        employee3.setProjectId(null);
+        assertTrue(empDto1.equals(empDto2));
+        assertEquals(empDto1.hashCode(), empDto2.hashCode());
+        // Verify that the hash codes for empDto1 and empDto2 are equal
+        assertEquals(empDto1.hashCode(), empDto2.hashCode());
+
+        empDto2.setName("Vanshika Sharma");
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
+        empDto2.setName("Anjali Sharma");
+        empDto2.setEmail("vanshika.sharma@nucleusteq.com");
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
+        empDto2.setEmail("anjali.sharma@nucleusteq.com");
+        empDto2.setEmpId("N1002");
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
+        empDto2.setEmpId("N1001");
+        empDto2.setDesignation(Designation.Architect);
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
+        empDto2.setDesignation(Designation.Engineer);
+        empDto2.setDob("2001-09-07");
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
+        empDto2.setDob("1998-08-10");
+        empDto2.setDoj("2022-09-07");
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
+        empDto2.setDoj("2019-11-21");
+        empDto2.setLocation(Location.Indore);
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
+        empDto2.setLocation(Location.Raipur);
+        empDto2.setManager("Anjali Sharma");
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
+        empDto2.setManager("Ankita Sharma");
+        empDto2.setContactNumber("1234556789");
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
+        empDto2.setContactNumber("1234567890");
         List<String> skills3 = new ArrayList<>();
-        skills3.add("Java");
         skills3.add("Python");
-        employee3.setSkills(skills3);
-        employee3.setManager("Manager 2");
-        employee3.setManagerId(102L);
+        empDto2.setSkills(skills3);
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
 
-        assertTrue(employee1.equals(employee2));
-        assertFalse(employee1.equals(employee3));
-        assertTrue(employee1.hashCode() == employee2.hashCode());
-        assertFalse(employee1.hashCode() == employee3.hashCode());
+        empDto2.setSkills(skills);
+        empDto2.setProjectName("AAA");
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
+        empDto2.setProjectName("Fyndr");
+        empDto2.setId(0L);
+        assertNotEquals(empDto1.hashCode(), empDto2.hashCode());
+        assertFalse(empDto1.equals(empDto2));
+
     }
 
     @Test

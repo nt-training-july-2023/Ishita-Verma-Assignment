@@ -75,7 +75,7 @@ function UpdateSkills() {
          <div className='assign'>
              <div className='assign_form'> 
             <h1 className='assignHeading'>Update Skills</h1>
-            <h3> {employeeDetails.name}</h3>
+            <h3 className='update_name'> {employeeDetails.name}</h3>
             {fetchData && <MultiSelectDropdown
                 options={Skills.map((skill) => ({
                     value: skill,

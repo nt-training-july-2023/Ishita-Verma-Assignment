@@ -10,3 +10,7 @@ height: 2.1rem ;
 border: none;
 margin-top: 1rem ;
 }
+.update_name{
+    font-weight: 500;
+    color:rgb(0, 41, 82);
+}

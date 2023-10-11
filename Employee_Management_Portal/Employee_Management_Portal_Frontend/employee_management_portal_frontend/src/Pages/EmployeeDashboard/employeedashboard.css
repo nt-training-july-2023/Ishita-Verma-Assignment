@@ -15,7 +15,10 @@
     .details-container,.grid-container{
         height: 25rem;
     }
-    .details_container{
-        margin-left: 5rem !important;
+    .grid-container{
+        margin-left: 3rem ;
+    }
+    .empId_profile{
+        margin-left: 3rem !important;
     }
 }

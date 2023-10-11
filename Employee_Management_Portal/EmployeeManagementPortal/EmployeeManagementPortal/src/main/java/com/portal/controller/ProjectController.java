@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.ProjectInDTO;
 import com.portal.DTO.ProjectOutDTO;
-import com.portal.entities.Employee;
 import com.portal.service.ProjectService;
 import com.portal.validation.Validation;
 
@@ -58,7 +57,6 @@ public class ProjectController {
         validate.checkProject(projectDTO);
         return projectService.addProject(projectDTO);
     }
-
     /**
      * Endpoint for retrieving all projects.
      * @return A list of Project entities.
@@ -97,16 +95,4 @@ public class ProjectController {
         List<String> list = projectService.getSkillsForProject(name);
         return list;
     }
-
-    /**
-     * Retrieves a list of unassigned employees.
-     * @return A list of unassigned employees represented as ProjectOutDTOs.
-     */
-//    @GetMapping("/unassigned")
-//    public final List<Employee> getUnassignedEmployees() {
-//        LOGGER.info("Getting unassigned employees.");
-//        List<Employee> unassignedEmployees = projectService
-//                .getEmployeesWithUnassignedProjects();
-//        return unassignedEmployees;
-//    }
 }
