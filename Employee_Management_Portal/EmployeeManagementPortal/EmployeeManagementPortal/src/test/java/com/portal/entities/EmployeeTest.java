@@ -53,30 +53,6 @@ class EmployeeTest {
 	        assertEquals("Spring Boot", employee.getSkills().get(1));
 	        assertEquals(201L, employee.getManagerId());
 	    }
-//	    @Test
-//	    void testToString() {
-//	        Employee empDto = new Employee();
-//	        empDto.setId(1L);
-//	        empDto.setEmpId("N0001");
-//	        empDto.setName("Ankita Sharma");
-//	        empDto.setEmail("ankita.sharma@nucleusteq.com");
-//	        empDto.setDob("1998-08-10");
-//	        empDto.setDoj("2019-11-21");
-//	        empDto.setLocation(Location.Raipur);
-//	        empDto.setDesignation(Designation.Recruiter);
-//	        empDto.setContactNumber("1234567890");
-//	        empDto.setPassword("admin123");
-//	        empDto.setRole(Role.ADMIN);
-//	        empDto.setProjectId(0L);
-//	        empDto.setSkills(Arrays.asList("React", "Java"));
-//	        empDto.setManagerId(1L);
-//
-//	        String expectedToString = "Employee [id=1, empId=N0001, name=Ankita Sharma, email=ankita.sharma@nucleusteq.com, dob=1998-08-10, doj=2019-11-21, location=Raipur, designation=Recruiter, contactNumber=1234567890, role=ADMIN, projectId=0, skills=[React, Java], password=admin123, managerId=1]";
-//
-//	        String resultString = empDto.toString();
-//	        assertEquals(expectedToString, resultString);
-//	    }
-
 	    
 	    @Test
 	    public void testEqualsAndHashCode() {

@@ -3,6 +3,11 @@ import "./addproject.css";
 import Skills from "../Data/Skills";
 import MultiSelectDropdown from "../MultiSelectDropdown/MultiSelectDropdown";
 import SubmitPopup from "../SubmitPopup/SubmitPopup";
+import ProjectService from "../../service/ProjectService";
+import EmployeeService from "../../service/EmployeeService";
+import InputField from "../InputField/InputField";
+import Button from '../Button/Button'
+import Popup from "../Popup/Popup";
 import {
   validateName,
   validateManagerId,
@@ -10,10 +15,6 @@ import {
   validateDescription,
   validateSkills
 } from "../../components/HandleBlur/HandleBlur"; 
-import ProjectService from "../../service/ProjectService";
-import EmployeeService from "../../service/EmployeeService";
-import InputField from "../InputField/InputField";
-import Button from '../Button/Button'
 
 const AddProject = () => {
   const [name, setName] = useState("");
@@ -23,6 +24,9 @@ const AddProject = () => {
   const [description, setDescription] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [managerList, setManagerList] = useState([]);
+
+  const [showErrorPopUp, setShowErrorPopUp]= useState(false);
+  const [popUpText, setPopUpText] = useState("");
 
   const [nameError, setNameError] = useState("");
   const [managerIdError, setManagerIdError] = useState("");
@@ -83,11 +87,13 @@ const AddProject = () => {
     })
      .catch((error) => {
           console.log(error);
-          setSuccessMessage(error.response.data.message)
+          setPopUpText(error.response.data.message)
+          setShowErrorPopUp(true);
         });
   };
   
   return (
+    <>
     <div className="add_project">
       <form autoComplete="off" onSubmit={handleSubmit}>
         <h2 style={{ marginLeft: "0.3rem", color: "white" }}>Add Project</h2>
@@ -172,7 +178,7 @@ const AddProject = () => {
             <div className="error-message employee_errors">{descriptionError}</div>
           )}
           {errorMessage && <div className="error-message employee_errors"> {errorMessage}</div>}
-          {successMessage}
+          {successMessage }
         </div>
 
         <Button className="btn_submit" type="submit" text="Add Project"/>
@@ -184,8 +190,16 @@ const AddProject = () => {
     onConfirm={() => setShowSubmitPopup(false)} 
   />
 )}
-
     </div>
+ {showErrorPopUp && (
+            <Popup
+            description={popUpText}
+            onClose={() => {
+              setShowErrorPopUp(false);
+            }}
+            />
+          )}
+          </>
   );
 };
 

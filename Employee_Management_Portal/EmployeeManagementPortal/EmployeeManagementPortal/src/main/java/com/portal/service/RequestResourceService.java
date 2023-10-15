@@ -52,7 +52,6 @@ public class RequestResourceService {
             outList.setEmpId(resource.getEmployeeId());
             outList.setId(resource.getResourceId());
             outList.setManagerId(resource.getManagerId());
-            //System.out.println(resource.getEmpId());
             Employee emp = userRepository
                     .findById(resource.getEmployeeId()).get();
             outList.setEmployeeName(emp.getName());
@@ -86,9 +85,6 @@ public class RequestResourceService {
          rejectRequest(id);
          List<RequestResource> employeeRequests =
                  requestRepository.findByEmployeeId(employee.getId());
-//         if(employee.getProjectId()!=0L) {
-//         System.out.println("Already has project");
-//         }
          for (RequestResource req : employeeRequests) {
              rejectRequest(req.getResourceId());
          }

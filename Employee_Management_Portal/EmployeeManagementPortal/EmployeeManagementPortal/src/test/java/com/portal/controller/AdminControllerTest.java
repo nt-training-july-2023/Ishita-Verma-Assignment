@@ -58,6 +58,7 @@ class AdminControllerTest {
     }
 	
     List<String> skills = new ArrayList<>();
+    
     @Test
     public void testLogin() throws Exception {
         LoginInDTO loginDto = new LoginInDTO();
@@ -71,7 +72,7 @@ class AdminControllerTest {
         response.setRole(Role.ADMIN);
         response.setId(1L);
         doNothing().when(validate).checkLogin(loginDto);
-        when(adminService.login(Mockito.any())).thenReturn(response);
+        when(adminService.login(loginDto)).thenReturn(response);
 
         MvcResult mvcResult = this.mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON).content(inputJSON))
@@ -191,7 +192,7 @@ class AdminControllerTest {
     
     @Test
     public void testGetAllAdmin() throws Exception {
-        // Mock the adminService.getAllAdmin() method to return a list of EmployeeOutDTO objects
+       
         List<EmployeeOutDTO> adminList = new ArrayList<>();
         EmployeeOutDTO admin1 = new EmployeeOutDTO();
         admin1.setEmpId("N1111");
@@ -218,7 +219,6 @@ class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
-        // Verify the HTTP status code is 200 (OK)
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
     }

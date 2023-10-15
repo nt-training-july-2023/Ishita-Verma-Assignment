@@ -4,10 +4,15 @@ import './requestresourcetable.css';
 import Button from '../Button/Button';
 import EmployeeService from '../../service/EmployeeService';
 import SubmitPopup from '../SubmitPopup/SubmitPopup';
+import RequestStatusPopup from '../RequestPopup/RequestStatusPopup'; 
+import accept_request from "../../Assests/Images/accept_request.gif"
+import reject_request from '../../Assests/Images/reject_request.gif'
 
 const RequestResourceTable = () => {
   const [requestList, setRequestList] = useState([]);
   const [showNoRequestsPopup, setShowNoRequestsPopup] = useState(false);
+  const [showRequestStatusPopup, setShowRequestStatusPopup] = useState(false);
+  const [requestStatusMessage, setRequestStatusMessage] = useState('');
 
   useEffect(() => {
     getResourceList();
@@ -23,16 +28,24 @@ const RequestResourceTable = () => {
     }).catch((error) => {});
   };
 
-  const accept = async (id) => {
-    EmployeeService.acceptRequest(`${id}`).then((response) => {
-      window.location.reload();
-    }).catch((error) => {});
+  const accept = async (id, employeeName) => {
+    EmployeeService.acceptRequest(`${id}`)
+      .then((response) => {
+        setRequestStatusMessage(`Request accepted for ${employeeName}`);
+        setShowRequestStatusPopup(true);
+        getResourceList(); 
+      })
+      .catch((error) => {});
   };
 
-  const reject = async (id) => {
-    EmployeeService.rejectRequest(`${id}`).then((response) => {
-      window.location.reload();
-    }).catch((error) => {});
+  const reject = async (id, employeeName) => {
+    EmployeeService.rejectRequest(`${id}`)
+      .then((response) => {
+        setRequestStatusMessage(`Request rejected for ${employeeName}`);
+        setShowRequestStatusPopup(true);
+        getResourceList(); 
+      })
+      .catch((error) => {});
   };
 
   return (
@@ -70,14 +83,14 @@ const RequestResourceTable = () => {
                   <Button
                     className="custom-button green-button"
                     onClick={() => {
-                      accept(request.id);
+                      accept(request.id,request.employeeName);
                     }}
                     text="✔ Accept"
                   ></Button>
                   <Button
                     className="custom-button red-button"
                     onClick={() => {
-                      reject(request.id);
+                      reject(request.id,request.employeeName);
                     }}
                     text="✘ Reject"
                   ></Button>
@@ -91,6 +104,17 @@ const RequestResourceTable = () => {
       <Link to="/admindashboard">
         <button className="admin_dashboard_button">&#8592; Back to Admin Dashboard</button>
       </Link>
+      {showRequestStatusPopup && (
+        <RequestStatusPopup
+          message={requestStatusMessage}
+          onClose={() => {
+            setShowRequestStatusPopup(false);
+            setRequestStatusMessage('');
+          }}
+          img={requestStatusMessage.startsWith("Request accepted") ? accept_request : reject_request}
+          
+          />
+      )}
      {showNoRequestsPopup && (
        <SubmitPopup
        description="No pending requests"

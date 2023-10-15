@@ -113,7 +113,5 @@ class RequestResourceTest {
         // Test for inequality when comparing to null
         assertFalse(request1.equals(null));
 
-        // Test for inequality when comparing to an object of a different class
-//        assertFalse(request1.equals("Not a RequestResource"));
     }
 }

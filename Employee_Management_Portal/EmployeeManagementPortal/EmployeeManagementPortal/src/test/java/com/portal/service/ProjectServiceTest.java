@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
+
 
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.EmployeeOutDTO;
@@ -39,8 +39,7 @@ class ProjectServiceTest {
     private ProjectRepository projectRepository;
     @Mock
     private AdminRepository userRepository;
-    @Mock
-    private ModelMapper modelMapper;
+  
 
     @BeforeEach
     public void setUp() {
@@ -74,8 +73,7 @@ class ProjectServiceTest {
 
         when(projectRepository.findByName(project.getName()))
                 .thenReturn(project);
-        when(modelMapper.map(project, ProjectInDTO.class))
-                .thenReturn(projectDto);
+       
         when(projectRepository.save(project)).thenReturn(project);
 
         ApiResponseDTO result = projectService.addProject(projectDto);

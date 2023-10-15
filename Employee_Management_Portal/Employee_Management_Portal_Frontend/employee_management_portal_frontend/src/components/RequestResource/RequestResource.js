@@ -17,6 +17,7 @@ const RequestResource = () => {
   const [message, setMessage] = useState();
   const [projectError, setProjectError] = useState();
   const [descriptionError, setDescriptionError]= useState();
+  const [successMessage, setSuccessMessage] = useState("");
 
   const {id} =useParams();
   const navigate = useNavigate();
@@ -40,7 +41,12 @@ const RequestResource = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+if(projectId=== 0 || comment=== ""){
+  validateDescription(comment,setDescriptionError);
+  validateSelectProject(projectId,setProjectError);
+  console.log(projectError);
+}
+else{
     const requestData = {
       employeeId: id,
       projectId,
@@ -49,6 +55,7 @@ const RequestResource = () => {
     };
 
     EmployeeService.requestResource(requestData).then((response)=>{
+      setSuccessMessage("Request added successfully.");
       setTimeout(() => {
         navigate("/managerdashboard");
       }, 2000)
@@ -56,7 +63,7 @@ const RequestResource = () => {
 
     })
   };
-
+  }
   const handleSelectChange = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const selectedProjectId = e.target.value;
@@ -117,6 +124,7 @@ const RequestResource = () => {
             />
           </div>
           {descriptionError && <div className="error-message assign_error">{descriptionError}</div>}
+      <div>{successMessage }</div>  
           <Button type="submit" className="assign_btn request_btn" text="Request"/>
            
         </form>

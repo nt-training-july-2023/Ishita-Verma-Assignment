@@ -56,7 +56,7 @@ const Card= ({employee}) => {
             </div>
             <div className="column2">
               <p>
-                <span className="employee_titles">Employee Id :</span> {employee.id}
+                <span className="employee_titles">Employee Id :</span> {employee.empId}
               </p>
               <p className="employee_dob">
                 <span className="employee_titles">DOB :</span>{" "}

@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import "./registration.css";
 import { useNavigate, Link } from "react-router-dom";
 import bcrypt from "bcryptjs";
-import AdminService from "../../service/AdminService";
 import reg_plant_img from "../../Assests/Images/reg_plant_img.png";
 import reg_side_img from "../../Assests/Images/reg_side_img.png";
 import Location from "../../components/Data/Location";
 import Designation from "../../components/Data/Designation";
 import LoginRegisterService from "../../service/LoginRegisterService";
 import InputField from "../../components/InputField/InputField";
+import errorGif from '../../Assests/Images/errorsGif.gif'
+import RequestStatusPopup from "../../components/RequestPopup/RequestStatusPopup";
+import Popup from "../../components/Popup/Popup";
 import {
   validateName,
   validateEmail,
@@ -35,7 +37,12 @@ const Registration = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Validation error state
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [popUpMessage, setPopUpMessage] = useState("");
+
+  const [showErrorPopUp, setShowErrorPopUp]= useState(false);
+  const [popUpText, setPopUpText] = useState("");
+
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [empIdError, setEmpIdError] = useState("");
@@ -128,22 +135,32 @@ const Registration = () => {
           setConfirmPassword("");
         })
         .catch((error) => {
-          console.log(error);
-
+          console.log(error)
+          if(error.response){
           if (
             error.response &&
             error.response.data &&
             error.response.data.message
           ) {
-            setErrorMessage(error.response.data.message);
+            setPopUpText(error.response.data.message);
+            setShowErrorPopUp(true);
           } else {
-            setErrorMessage("An error occurred while registering.");
+            setPopUpMessage("An error occurred while registering.");
           }
-        });
+        }
+      
+          else{
+            setPopUpMessage("Oops!! The Server is not responding");
+            setShowPopUp(true);
+          }
+        
+        }
+        );
     }
   };
 
   return (
+    <>
     <div className="container">
       <div className="reg_heading">
         <div>
@@ -341,6 +358,23 @@ const Registration = () => {
         </div>
       </div>
     </div>
+    {showPopUp && (
+          <RequestStatusPopup
+          img={errorGif}
+          message={popUpMessage}
+            onClose={() => {
+              setShowPopUp(false);
+            }}
+          />
+        )}
+         {showErrorPopUp && (
+            <Popup
+            description={popUpText}
+            onClose={() => {
+              setShowErrorPopUp(false);
+            }}
+            />
+          )}</>
   );
 };
 

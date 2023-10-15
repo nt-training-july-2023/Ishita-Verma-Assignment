@@ -108,7 +108,6 @@ public class EmployeeOutDTOTest {
 
         assertTrue(empDto1.equals(empDto2));
         assertEquals(empDto1.hashCode(), empDto2.hashCode());
-        // Verify that the hash codes for empDto1 and empDto2 are equal
         assertEquals(empDto1.hashCode(), empDto2.hashCode());
 
         empDto2.setName("Vanshika Sharma");

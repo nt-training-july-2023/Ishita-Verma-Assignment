@@ -51,9 +51,7 @@ class RequestResourceControllerTest {
  
     @Test
     public void testGetAllRequests() throws Exception {
-        // Prepare a list of RequestResourceOutDTO for testing
         List<RequestResourceOutDTO> requestList = new ArrayList<>();
-        // Add request resource data to the list (you can add as many as needed for testing)
         RequestResourceOutDTO request1 = new RequestResourceOutDTO();
         request1.setId(1L);
         request1.setComment("Request 1");
@@ -67,29 +65,26 @@ class RequestResourceControllerTest {
         request1.setProjectName("Fyndr");
         requestList.add(request1);
 
-        // Mock the behavior of the requestService to return the list
         when(requestService.getAllRequests()).thenReturn(requestList);
 
-        // Perform a GET request to the /requests endpoint
+
         MvcResult mvcResult = this.mockMvc.perform(get("/requests")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
-        // Verify the HTTP status code (200 OK)
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
 
-        // Verify the response content (JSON array containing request resource data)
+      
         String content = mvcResult.getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();
         List<RequestResourceOutDTO> responseList = objectMapper.readValue(content, new TypeReference<List<RequestResourceOutDTO>>() {});
         assertEquals(requestList.size(), responseList.size());
-        // You can further validate individual request resource details if needed.
+      
     }
 
     @Test
     public void testAddRequestResource() throws Exception {
-        // Prepare a RequestResourceInDTO for testing
         RequestResourceInDTO requestDTO = new RequestResourceInDTO();
         requestDTO.setManagerId(1L);
         requestDTO.setComment("New Request");
@@ -99,21 +94,17 @@ class RequestResourceControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String inputJSON = objectMapper.writeValueAsString(requestDTO);
 
-        // Mock the behavior of the requestService to return a response DTO
         ApiResponseDTO responseDTO = new ApiResponseDTO();
         responseDTO.setMessage("Request added successfully");
         when(requestService.addRequestResource(requestDTO)).thenReturn(responseDTO);
 
-        // Perform a POST request to the /request/resource endpoint
         MvcResult mvcResult = this.mockMvc.perform(post("/request/resource")
                 .contentType(MediaType.APPLICATION_JSON).content(inputJSON))
                 .andReturn();
 
-        // Verify the HTTP status code (200 OK)
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
 
-        // Verify the response content (API response DTO)
         String content = mvcResult.getResponse().getContentAsString();
         ApiResponseDTO response = objectMapper.readValue(content, ApiResponseDTO.class);
         assertEquals("Request added successfully", response.getMessage());
@@ -160,14 +151,10 @@ class RequestResourceControllerTest {
     }
     @Test
     public void testIsRequested() throws Exception {
-        // Prepare input data
         Long empId = 1L;
         Long managerId = 2L;
-
-        // Mock the service method
+        
         when(requestService.isRequested(empId, managerId)).thenReturn(true);
-
-        // Perform the POST request
         mockMvc.perform(get("/employee/isRequested")
                 .param("empId", empId.toString())
                 .param("managerId", managerId.toString())

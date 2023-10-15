@@ -163,7 +163,7 @@ public class EmployeeService {
 
     /**
      * update project to employee.
-     * @param id        employee primary key id
+     * @param id employee primary key id
      * @param projectId project id
      * @param managerId manager id
      * @return general response dto
@@ -239,25 +239,6 @@ public class EmployeeService {
         requestResource.setProjectId(requestResourceDto.getProjectId());
         return requestResource;
     }
-
-//    /**
-//     * Retrieves all request resources from the
-//     * repository and converts them into a
-//     * list of RequestResourceOutDTO.
-//     * @return A list of RequestResourceOutDTO.
-//     */
-//    public final List<RequestResourceOutDTO> getAllRequests() {
-//        List<RequestResource> requestResourceList = requestResourceRepository
-//                .findAll();
-//        List<RequestResourceOutDTO> returnedList = new ArrayList<>();
-//        for (RequestResource request : requestResourceList) {
-//            RequestResourceOutDTO requestResourceOutDto = requestToOutDto(
-//                    request);
-//            returnedList.add(requestResourceOutDto);
-//        }
-//        return returnedList;
-//    }
-
     /**
      * Converts a entity to a OutDTO.
      * @param requestResource entity to convert.
@@ -316,7 +297,6 @@ public class EmployeeService {
      */
     public final List<EmployeeOutDTO> skillsAndUnassign(
            final List<String> skills, final boolean isCheck) {
-//          List<Employee> employees = empRepository.findBySkillsIn(skills);
         List<Employee> allEmployees = userRepository
                 .findByRole(Role.EMPLOYEE);
         List<Employee> returnedList = new ArrayList<>();

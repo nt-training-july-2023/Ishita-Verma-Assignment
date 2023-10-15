@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
+
 
 import com.portal.DTO.ApiResponseDTO;
 import com.portal.DTO.EmployeeInDTO;
@@ -53,8 +53,6 @@ class EmployeeServiceTest {
     private ProjectRepository projectRepository;
     @Mock
     private RequestResourceRepository requestRepository;
-    @Mock
-    private ModelMapper modelMapper;
     @Mock
     private RequestResourceService requestService;
     @Mock
@@ -230,7 +228,7 @@ class EmployeeServiceTest {
         empDTO.setProjectId(0L);
         
         when(userRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
-        when(modelMapper.map(employee, EmployeeOutDTO.class)).thenReturn(empDTO);
+      
         
         Employee manager= new Employee();
         manager.setId(2L);

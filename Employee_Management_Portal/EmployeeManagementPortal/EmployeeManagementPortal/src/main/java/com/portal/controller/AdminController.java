@@ -46,7 +46,7 @@ public class AdminController {
             .getLogger(EmployeeController.class);
 
     /**
-     * Registers a new admin.
+     * Register a new admin.
      * @return A success message with the admin's ID.
      * @throws DuplicateEntryException If the admin already exists.
      * @param adminDTO admin
@@ -59,19 +59,6 @@ public class AdminController {
         ApiResponseDTO responseDto = adminService.registerAdmin(adminDTO);
         return responseDto;
     }
-
-    /**
-     * Retrieves a list of all admins.
-     *
-     * @return A ResponseEntity containing a list of admins.
-     */
-    @GetMapping("/getall")
-    public final List<EmployeeOutDTO> getAllAdmin() {
-        LOGGER.info("Get all list of employees.");
-        List<EmployeeOutDTO> admins = adminService.getAllAdmin();
-        return admins;
-    }
-
     /**
      * Handles admin login.
      *
@@ -86,5 +73,16 @@ public class AdminController {
         LOGGER.info("Valid login dto: " + loginDto.toString());
         LoginOutDTO loginResponse = adminService.login(loginDto);
         return loginResponse;
+    }
+    /**
+     * Retrieves a list of all employees.
+     *
+     * @return A ResponseEntity containing a list of employees.
+     */
+    @GetMapping("/getall")
+    public final List<EmployeeOutDTO> getAllAdmin() {
+        LOGGER.info("Get all list of employees.");
+        List<EmployeeOutDTO> admins = adminService.getAllAdmin();
+        return admins;
     }
 }

@@ -90,19 +90,19 @@ public class EmployeeControllerTest {
       skills.add("Skill2");
       employeeDTO.setSkills(skills);
        
-        // Create a mock response from the service
+       
         ApiResponseDTO response = new ApiResponseDTO();
         response.setMessage("Employee added successfully");
 
-        // Mock the service behavior
+        
         doNothing().when(validate).checkEmployee(employeeDTO);
         when(employeeService.addEmployee(employeeDTO)).thenReturn(response);
 
-        // Perform the HTTP request and validate the response
+       
         mockMvc.perform(post("/addEmployee")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(employeeDTO)))
-                .andExpect(status().isOk()); // Expect HTTP status 200
+                .andExpect(status().isOk()); 
     }
     @Test
     void testGetEmployeesByRole() throws Exception {
@@ -160,7 +160,7 @@ public class EmployeeControllerTest {
        
         ObjectMapper objectMapper = new ObjectMapper();
         String inputJSON = objectMapper.writeValueAsString(empDto);        
-        when(employeeService.getEmployeeById(Mockito.any())).thenReturn(empDto);
+        when(employeeService.getEmployeeById((empDto.getId()))).thenReturn(empDto);
         
         MvcResult mvcResult = this.mockMvc.perform(get("/all/employee/1")
                 .contentType(MediaType.APPLICATION_JSON).content(inputJSON))
@@ -170,21 +170,18 @@ public class EmployeeControllerTest {
     }
     @Test
     public void testUpdateDetails() throws Exception {
-        // Mocked input data
+        
         Map<String, Long> updatedDetails = new HashMap<>();
         updatedDetails.put("projectId", 123L);
         updatedDetails.put("managerId", 456L);
 
-        // Mock the service method
         ApiResponseDTO apiResponse = new ApiResponseDTO();
         apiResponse.setMessage("Updated successfully");
         when(employeeService.updatedProject(1L, 123L, 456L)).thenReturn(apiResponse);
 
-        // Convert the input data to JSON
         ObjectMapper objectMapper = new ObjectMapper();
         String inputJSON = objectMapper.writeValueAsString(updatedDetails);
 
-        // Perform the PUT request
         mockMvc.perform(put("/employee/assignProject/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(inputJSON))
@@ -192,30 +189,10 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk());
                
     }
-//    @Test
-//    public void testGetAllRequests() throws Exception {
-//        // Mocked request resources
-//        List<RequestResourceOutDTO> requestResources = new ArrayList<>();
-//        // Add some mock request resources to the list
-//
-//        // Mock the service method
-//        when(employeeService.getAllRequests()).thenReturn(requestResources);
-//
-//        // Perform the GET request
-//        mockMvc.perform(get("/all/request"))
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk());
-//                
-//    }
     @Test
     public void testUnassignEmployee() throws Exception {
-        // Employee ID for testing
         Long employeeId = 1L;
 
-        // Mock the service method
-//        doNothing().when(employeeService).unassignEmployee(employeeId);
-
-        // Perform the POST request
         mockMvc.perform(post("/unassign/1", employeeId))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Employee unassigned successfully."));
@@ -271,24 +248,9 @@ public class EmployeeControllerTest {
 
         when(employeeService.skillsAndUnassign(skills, isCheck)).thenReturn(sampleEmployeeList);
         
-        
         List<EmployeeOutDTO> result = employeeController.empOutList(skills, isCheck);
-        
-        
+       
         verify(employeeService).skillsAndUnassign(skills, isCheck);
         assertEquals(sampleEmployeeList, result);
     }
-
-//    @Test
-//    public void testEmpOutListWithSkillsAndCheckTrue() {
-//       
-//        List<String> skills = Arrays.asList("Java", "Python");
-//        boolean isCheck = true;
-//       
-//        when(employeeService.skillsAndUnassign(skills, isCheck)).thenReturn(someListOfEmployeeOutDTOs);
-//        
-//        List<EmployeeOutDTO> result = employeeController.empOutList(skills, isCheck);
-//        assertEquals(someListOfEmployeeOutDTOs, result);
-//    }
-
 }

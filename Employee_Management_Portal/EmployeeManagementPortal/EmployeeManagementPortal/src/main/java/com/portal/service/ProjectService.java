@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,24 +35,12 @@ public class ProjectService {
     private AdminRepository adminRepository;
 
     /**
-     * ModelMapper for mapping between DTOs and entities.
-     */
-    @Autowired
-    private ModelMapper modelMapper;
-    /**
      * Adds a new project based on the provided projectDTO.
      *
      * @param projectDTO The projectDTO containing project information.
      * @return The name of the added project.
      */
     public ApiResponseDTO addProject(final ProjectInDTO projectDTO) {
-
-        projectDTO.setName(projectDTO.getName());
-        projectDTO.setProjectId(projectDTO.getProjectId());
-        projectDTO.setManagerId(projectDTO.getManagerId());
-        projectDTO.setStartDate(projectDTO.getStartDate());
-        projectDTO.setSkills(projectDTO.getSkills());
-        projectDTO.setDescription(projectDTO.getDescription());
         Project project = this.dtotoEntity(projectDTO);
         this.projectRepository.save(project);
         ApiResponseDTO response = new ApiResponseDTO();
@@ -62,7 +50,6 @@ public class ProjectService {
 
     /**
      * Retrieves the skills associated with a project by its name.
-     *
      * @param name The name of the project.
      * @return list of skills with the project,
      * or empty list if the project is not
@@ -78,7 +65,7 @@ public class ProjectService {
     }
 
     /**
-     * @param managerId manager id of employee
+     * @param managerId manager id of employee.
      * @return list of projects
      */
     public final List<ProjectOutDTO> getProjectByManagerId(
@@ -123,7 +110,6 @@ public class ProjectService {
     public final List<ProjectOutDTO> getProjects() {
         List<Project> projectList = projectRepository.findAll();
         List<ProjectOutDTO> projectOutList = new ArrayList<>();
-//System.out.println(projectList);
         for (Project project : projectList) {
             ProjectOutDTO projectOutDto = new ProjectOutDTO();
             projectOutDto.setProjectId(project.getProjectId());
@@ -139,7 +125,6 @@ public class ProjectService {
             List<Employee> empList = adminRepository
                     .findAllByProjectId(project.getProjectId());
             List<String> teams = new ArrayList<String>();
-
             if (empList.size() != 0) {
                 for (Employee emp : empList) {
                     teams.add(emp.getName());

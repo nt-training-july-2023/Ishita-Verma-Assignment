@@ -43,6 +43,9 @@ const AddEmployee = () => {
   const [popupMessage, setPopupMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  const [showErrorPopUp, setShowErrorPopUp]= useState(false);
+  const [popUpText, setPopUpText] = useState("");
+
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [empIdError, setEmpIdError] = useState("");
@@ -116,17 +119,20 @@ const AddEmployee = () => {
         .catch((error) => {
           console.log(error);
           if (error.response && error.response.data) {
-            if (error.response.data.message === "Email id already exists") {
-              setErrorMessage(
-                "Email is already in use. Please use a different email."
+            if (error.response.data.message === "User with this email already exists.") {
+              setPopUpText(
+                "Email already in use. Please use a different email."
               );
+              setShowErrorPopUp(true);
             } else if (
-              error.response.data.message === "Employee id already exists"
+              error.response.data.message === "Employee id already exists."
             ) {
-              setErrorMessage("Employee Id already exists");
+              setPopUpText("Employee Id already in use.");
+              setShowErrorPopUp(true);
             }
           } else {
-            setErrorMessage("Error occurred while adding.");
+            setPopUpText("Error occurred while adding.");
+            setShowErrorPopUp(true);
           }
         });
     }
@@ -145,6 +151,7 @@ const AddEmployee = () => {
   };
 
   return (
+    <>
     <div className="add_employee_container">
       <div className="add_employee">
         <form autoComplete="off" onSubmit={handleSubmit}>
@@ -319,7 +326,16 @@ const AddEmployee = () => {
     onConfirm={() => setShowSubmitPopup(false)} 
   />
 )}
+ {showErrorPopUp && (
+            <Popup
+            description={popUpText}
+            onClose={() => {
+              setShowErrorPopUp(false);
+            }}
+            />
+          )}
     </div>
+    </>
   );
 };
 

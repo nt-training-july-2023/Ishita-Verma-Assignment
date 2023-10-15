@@ -1,6 +1,5 @@
 package com.portal;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -21,16 +20,6 @@ public class EmployeeManagementPortalApplication {
      */
     public static void main(final String[] args) {
         SpringApplication.run(EmployeeManagementPortalApplication.class, args);
-    }
-
-    /**
-     * Provides a ModelMapper instance.
-     *
-     * @return An instance of ModelMapper for mapping between DTOs and entities.
-     */
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
     }
 
     /**

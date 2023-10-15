@@ -126,19 +126,6 @@ public class EmployeeController {
         ApiResponseDTO response = employeeService.updateSkills(id, skills);
         return response;
     }
-
-//    /**
-//     * Retrieves a list of all requests.
-//     * @return A list of RequestResourceOutDTO representing all requests.
-//     */
-//    @GetMapping(path = "/all/request")
-//    public final List<RequestResourceOutDTO> getAllRequests() {
-//        LOGGER.info("Getting all requests");
-//        List<RequestResourceOutDTO> list = employeeService
-//                .getAllRequests();
-//        return list;
-//    }
-
     /**
      * Unassigns a project from an employee.
      * @param employeeId The ID of the employee to unassign a project from.

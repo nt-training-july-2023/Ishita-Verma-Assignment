@@ -25,24 +25,25 @@ public final class ErrorConstants {
     /**
      * Error message for an email ID that already exists.
      */
-    public static final String EMAIL_EXISTS = "Email id already exists";
+    public static final String EMAIL_EXISTS
+    = "User with this email already exists.";
     /**
      * Error message for an employee ID that already exists.
      */
-    public static final String ID_EXISTS = "Employee id already exists";
+    public static final String ID_EXISTS = "Employee id already exists.";
     /**
      * Error message indicating that same name already exists.
      */
     public static final String NAME_EXISTS
-    = "Project with this name already exists";
+    = "Project with this name already exists.";
     /**
      * Error message for an invalid user.
      */
-    public static final String INAVALID_USER = "Invalid user";
+    public static final String INAVALID_USER = "Please enter a valid email.";
     /**
      * Error message for wrong login credentials.
      */
-    public static final String WRONG_CREDENTIALS = "Wrong Credentials";
+    public static final String WRONG_CREDENTIALS = "Wrong Credentials.";
     /**
      * Error message indicating that an employee was not found.
      */
@@ -62,16 +63,16 @@ public final class ErrorConstants {
      * Error message indicating that a project with a specific ID was not found.
      */
     public static final String PROJECT_NOT_FOUND
-    = "Project with this ID not found";
+    = "Project with this ID not found.";
     /**
      * Error message indicating that a manager with a specific ID was not found.
      */
     public static final String MANAGER_NOT_FOUND
-    = "Manager with this ID not found";
+    = "Manager with this ID not found.";
     /**
      * Error message indicating that skills are required.
      */
-    public static final String SKILLS_REQUIRED = "Skills Required";
+    public static final String SKILLS_REQUIRED = "Skills Required.";
     /**
      * Constructor using superclass.
      */

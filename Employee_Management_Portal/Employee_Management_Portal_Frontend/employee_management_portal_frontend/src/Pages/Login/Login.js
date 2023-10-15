@@ -6,10 +6,12 @@ import { Base64 } from "js-base64";
 import AdminDashboard from "../AdminDashboard/AdminDashboard";
 import EmployeeDashboard from "../EmployeeDashboard/EmployeeDashboard";
 import { useEffect } from "react";
-import Popup from "../../components/Popup/Popup";
+import RequestStatusPopup from "../../components/RequestPopup/RequestStatusPopup";
 import LoginRegisterService from "../../service/LoginRegisterService";
 import InputField from "../../components/InputField/InputField";
 import { validateEmployeeEmail,validateLoginPassword } from "../../components/HandleBlur/HandleBlur";
+import errorGif from '../../Assests/Images/errorsGif.gif'
+import Popup from "../../components/Popup/Popup";
 
 const Login = ({ setIsLoggedIn, login }) => {
   const [email, setEmail] = useState("");
@@ -19,6 +21,8 @@ const Login = ({ setIsLoggedIn, login }) => {
   const [message, setMessage] = useState("");
   const [role, setRole] = useState(localStorage.getItem("userRole"));
   const [showErrorPopup, setShowErrorPopup] = useState(false);
+  const [popUpMessage, setPopUpMessage] = useState("");
+  const [showPopUp, setShowPopUp] = useState(false);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -55,9 +59,16 @@ const Login = ({ setIsLoggedIn, login }) => {
 
         })
         .catch((error) => {
-          console.log(error);
-          setMessage(error.response.data.message);
-          setShowErrorPopup(true);
+          console.log(error)
+          if(error.response){
+            console.log(error);
+            setMessage(error.response.data.message);
+            setShowErrorPopup(true);
+          }
+          else{
+            setPopUpMessage("Oops!! The Server is not responding");
+            setShowPopUp(true);
+          }
         });
     }
   };
@@ -128,10 +139,21 @@ const Login = ({ setIsLoggedIn, login }) => {
               </div>
             </div>
           </div>
-        )}  {showErrorPopup && (
+        )} 
+         {showErrorPopup && (
           <Popup
             description={message}
             onClose={() => setShowErrorPopup(false)}
+          />
+        )}
+
+         {showPopUp && (
+          <RequestStatusPopup
+          img={errorGif}
+          message={popUpMessage}
+            onClose={() => {
+              setShowPopUp(false);
+            }}
           />
         )}</>
   );
